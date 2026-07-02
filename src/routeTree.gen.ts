@@ -13,6 +13,7 @@ import { Route as ParentRouteImport } from './routes/parent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
+import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
 import { Route as ParentCareRouteImport } from './routes/parent.care'
 
@@ -36,6 +37,11 @@ const ParentReportRoute = ParentReportRouteImport.update({
   path: '/report',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentMeRoute = ParentMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentCommRoute = ParentCommRouteImport.update({
   id: '/comm',
   path: '/comm',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/parent': typeof ParentRouteWithChildren
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
   '/parent': typeof ParentIndexRoute
 }
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/parent': typeof ParentRouteWithChildren
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
@@ -78,16 +87,24 @@ export interface FileRouteTypes {
     | '/parent'
     | '/parent/care'
     | '/parent/comm'
+    | '/parent/me'
     | '/parent/report'
     | '/parent/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/parent/care' | '/parent/comm' | '/parent/report' | '/parent'
+  to:
+    | '/'
+    | '/parent/care'
+    | '/parent/comm'
+    | '/parent/me'
+    | '/parent/report'
+    | '/parent'
   id:
     | '__root__'
     | '/'
     | '/parent'
     | '/parent/care'
     | '/parent/comm'
+    | '/parent/me'
     | '/parent/report'
     | '/parent/'
   fileRoutesById: FileRoutesById
@@ -127,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentReportRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/me': {
+      id: '/parent/me'
+      path: '/me'
+      fullPath: '/parent/me'
+      preLoaderRoute: typeof ParentMeRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/comm': {
       id: '/parent/comm'
       path: '/comm'
@@ -147,6 +171,7 @@ declare module '@tanstack/react-router' {
 interface ParentRouteChildren {
   ParentCareRoute: typeof ParentCareRoute
   ParentCommRoute: typeof ParentCommRoute
+  ParentMeRoute: typeof ParentMeRoute
   ParentReportRoute: typeof ParentReportRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
@@ -154,6 +179,7 @@ interface ParentRouteChildren {
 const ParentRouteChildren: ParentRouteChildren = {
   ParentCareRoute: ParentCareRoute,
   ParentCommRoute: ParentCommRoute,
+  ParentMeRoute: ParentMeRoute,
   ParentReportRoute: ParentReportRoute,
   ParentIndexRoute: ParentIndexRoute,
 }

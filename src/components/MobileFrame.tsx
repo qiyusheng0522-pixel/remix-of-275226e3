@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { RoleSwitcher } from "./RoleSwitcher";
 
 export function MobileFrame({
   children,
@@ -11,6 +12,7 @@ export function MobileFrame({
     <div className="min-h-screen w-full bg-gradient-to-b from-warm/10 via-surface-2 to-teal/10">
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col">
         <div className={`flex min-h-screen flex-1 flex-col ${bg}`}>{children}</div>
+        <RoleSwitcher />
       </div>
     </div>
   );

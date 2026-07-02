@@ -24,6 +24,7 @@ import { Route as ParentReportRouteImport } from './routes/parent.report'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
 import { Route as ParentCareRouteImport } from './routes/parent.care'
+import { Route as DoctorReviewRouteImport } from './routes/doctor.review'
 import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 
 const SchoolRoute = SchoolRouteImport.update({
@@ -101,6 +102,11 @@ const ParentCareRoute = ParentCareRouteImport.update({
   path: '/care',
   getParentRoute: () => ParentRoute,
 } as any)
+const DoctorReviewRoute = DoctorReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => DoctorRoute,
+} as any)
 const DoctorExamRoute = DoctorExamRouteImport.update({
   id: '/exam',
   path: '/exam',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
   '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/review': typeof DoctorReviewRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/review': typeof DoctorReviewRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
   '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/review': typeof DoctorReviewRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/parent'
     | '/school'
     | '/doctor/exam'
+    | '/doctor/review'
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/doctor/exam'
+    | '/doctor/review'
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/parent'
     | '/school'
     | '/doctor/exam'
+    | '/doctor/review'
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
@@ -327,6 +339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentCareRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/doctor/review': {
+      id: '/doctor/review'
+      path: '/review'
+      fullPath: '/doctor/review'
+      preLoaderRoute: typeof DoctorReviewRouteImport
+      parentRoute: typeof DoctorRoute
+    }
     '/doctor/exam': {
       id: '/doctor/exam'
       path: '/exam'
@@ -339,11 +358,13 @@ declare module '@tanstack/react-router' {
 
 interface DoctorRouteChildren {
   DoctorExamRoute: typeof DoctorExamRoute
+  DoctorReviewRoute: typeof DoctorReviewRoute
   DoctorIndexRoute: typeof DoctorIndexRoute
 }
 
 const DoctorRouteChildren: DoctorRouteChildren = {
   DoctorExamRoute: DoctorExamRoute,
+  DoctorReviewRoute: DoctorReviewRoute,
   DoctorIndexRoute: DoctorIndexRoute,
 }
 

@@ -13,6 +13,7 @@ import { Route as ParentRouteImport } from './routes/parent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
+import { Route as ParentCareRouteImport } from './routes/parent.care'
 
 const ParentRoute = ParentRouteImport.update({
   id: '/parent',
@@ -34,15 +35,22 @@ const ParentReportRoute = ParentReportRouteImport.update({
   path: '/report',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentCareRoute = ParentCareRouteImport.update({
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => ParentRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/parent': typeof ParentRouteWithChildren
+  '/parent/care': typeof ParentCareRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/parent/care': typeof ParentCareRoute
   '/parent/report': typeof ParentReportRoute
   '/parent': typeof ParentIndexRoute
 }
@@ -50,15 +58,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/parent': typeof ParentRouteWithChildren
+  '/parent/care': typeof ParentCareRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/parent' | '/parent/report' | '/parent/'
+  fullPaths: '/' | '/parent' | '/parent/care' | '/parent/report' | '/parent/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/parent/report' | '/parent'
-  id: '__root__' | '/' | '/parent' | '/parent/report' | '/parent/'
+  to: '/' | '/parent/care' | '/parent/report' | '/parent'
+  id:
+    | '__root__'
+    | '/'
+    | '/parent'
+    | '/parent/care'
+    | '/parent/report'
+    | '/parent/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,15 +111,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentReportRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/care': {
+      id: '/parent/care'
+      path: '/care'
+      fullPath: '/parent/care'
+      preLoaderRoute: typeof ParentCareRouteImport
+      parentRoute: typeof ParentRoute
+    }
   }
 }
 
 interface ParentRouteChildren {
+  ParentCareRoute: typeof ParentCareRoute
   ParentReportRoute: typeof ParentReportRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
 
 const ParentRouteChildren: ParentRouteChildren = {
+  ParentCareRoute: ParentCareRoute,
   ParentReportRoute: ParentReportRoute,
   ParentIndexRoute: ParentIndexRoute,
 }

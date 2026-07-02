@@ -12,7 +12,7 @@ type Row = {
   bind: boolean;
   auth: "已授权" | "未授权" | "已放弃";
   quest: boolean;
-  exam: "已完成" | "待检" | "缺检";
+  exam: "已完成" | "待检" | "缺检" | "-";
   report: "已读" | "未读" | "-";
 };
 

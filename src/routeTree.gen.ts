@@ -14,6 +14,7 @@ import { Route as ParentRouteImport } from './routes/parent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolIndexRouteImport } from './routes/school.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
+import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
@@ -44,6 +45,11 @@ const ParentIndexRoute = ParentIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ParentRoute,
 } as any)
+const SchoolTasksRoute = SchoolTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => SchoolRoute,
+} as any)
 const ParentReportRoute = ParentReportRouteImport.update({
   id: '/report',
   path: '/report',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
+  '/school/tasks': typeof SchoolTasksRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
 }
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
+  '/school/tasks': typeof SchoolTasksRoute
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
 }
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
   '/parent/report': typeof ParentReportRoute
+  '/school/tasks': typeof SchoolTasksRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
 }
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/me'
     | '/parent/report'
+    | '/school/tasks'
     | '/parent/'
     | '/school/'
   fileRoutesByTo: FileRoutesByTo
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/me'
     | '/parent/report'
+    | '/school/tasks'
     | '/parent'
     | '/school'
   id:
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/me'
     | '/parent/report'
+    | '/school/tasks'
     | '/parent/'
     | '/school/'
   fileRoutesById: FileRoutesById
@@ -173,6 +185,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/parent/'
       preLoaderRoute: typeof ParentIndexRouteImport
       parentRoute: typeof ParentRoute
+    }
+    '/school/tasks': {
+      id: '/school/tasks'
+      path: '/tasks'
+      fullPath: '/school/tasks'
+      preLoaderRoute: typeof SchoolTasksRouteImport
+      parentRoute: typeof SchoolRoute
     }
     '/parent/report': {
       id: '/parent/report'
@@ -225,10 +244,12 @@ const ParentRouteWithChildren =
   ParentRoute._addFileChildren(ParentRouteChildren)
 
 interface SchoolRouteChildren {
+  SchoolTasksRoute: typeof SchoolTasksRoute
   SchoolIndexRoute: typeof SchoolIndexRoute
 }
 
 const SchoolRouteChildren: SchoolRouteChildren = {
+  SchoolTasksRoute: SchoolTasksRoute,
   SchoolIndexRoute: SchoolIndexRoute,
 }
 

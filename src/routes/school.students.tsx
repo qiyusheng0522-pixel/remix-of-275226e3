@@ -23,7 +23,7 @@ const rows: Row[] = [
   { name: "陈小美", class: "4年2班", bind: true, auth: "未授权", quest: false, exam: "待检", report: "-" },
   { name: "刘小强", class: "5年1班", bind: true, auth: "已授权", quest: true, exam: "缺检", report: "-" },
   { name: "赵小欣", class: "2年1班", bind: false, auth: "未授权", quest: false, exam: "待检", report: "-" },
-  { name: "钱小可", class: "6年2班", bind: true, auth: "已放弃", quest: false, exam: "-" as any, report: "-" },
+  { name: "钱小可", class: "6年2班", bind: true, auth: "已放弃", quest: false, exam: "-", report: "-" },
 ];
 
 const filters = ["全部", "未授权", "未问卷", "缺检", "报告未读"];

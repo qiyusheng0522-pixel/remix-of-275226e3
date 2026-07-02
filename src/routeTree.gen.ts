@@ -9,38 +9,276 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SchoolRouteImport } from './routes/school'
+import { Route as ParentRouteImport } from './routes/parent'
+import { Route as DoctorRouteImport } from './routes/doctor'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SchoolIndexRouteImport } from './routes/school.index'
+import { Route as ParentIndexRouteImport } from './routes/parent.index'
+import { Route as DoctorIndexRouteImport } from './routes/doctor.index'
+import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
+import { Route as SchoolStudentsRouteImport } from './routes/school.students'
+import { Route as SchoolMeRouteImport } from './routes/school.me'
+import { Route as SchoolFocusRouteImport } from './routes/school.focus'
+import { Route as ParentReportRouteImport } from './routes/parent.report'
+import { Route as ParentMeRouteImport } from './routes/parent.me'
+import { Route as ParentCommRouteImport } from './routes/parent.comm'
+import { Route as ParentCareRouteImport } from './routes/parent.care'
+import { Route as DoctorReviewRouteImport } from './routes/doctor.review'
+import { Route as DoctorMeRouteImport } from './routes/doctor.me'
+import { Route as DoctorFocusRouteImport } from './routes/doctor.focus'
+import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 
+const SchoolRoute = SchoolRouteImport.update({
+  id: '/school',
+  path: '/school',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParentRoute = ParentRouteImport.update({
+  id: '/parent',
+  path: '/parent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorRoute = DoctorRouteImport.update({
+  id: '/doctor',
+  path: '/doctor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SchoolIndexRoute = SchoolIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const ParentIndexRoute = ParentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ParentRoute,
+} as any)
+const DoctorIndexRoute = DoctorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DoctorRoute,
+} as any)
+const SchoolTasksRoute = SchoolTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolStudentsRoute = SchoolStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolMeRoute = SchoolMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolFocusRoute = SchoolFocusRouteImport.update({
+  id: '/focus',
+  path: '/focus',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const ParentReportRoute = ParentReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentMeRoute = ParentMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentCommRoute = ParentCommRouteImport.update({
+  id: '/comm',
+  path: '/comm',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentCareRoute = ParentCareRouteImport.update({
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => ParentRoute,
+} as any)
+const DoctorReviewRoute = DoctorReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => DoctorRoute,
+} as any)
+const DoctorMeRoute = DoctorMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => DoctorRoute,
+} as any)
+const DoctorFocusRoute = DoctorFocusRouteImport.update({
+  id: '/focus',
+  path: '/focus',
+  getParentRoute: () => DoctorRoute,
+} as any)
+const DoctorExamRoute = DoctorExamRouteImport.update({
+  id: '/exam',
+  path: '/exam',
+  getParentRoute: () => DoctorRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/doctor': typeof DoctorRouteWithChildren
+  '/parent': typeof ParentRouteWithChildren
+  '/school': typeof SchoolRouteWithChildren
+  '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/focus': typeof DoctorFocusRoute
+  '/doctor/me': typeof DoctorMeRoute
+  '/doctor/review': typeof DoctorReviewRoute
+  '/parent/care': typeof ParentCareRoute
+  '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
+  '/parent/report': typeof ParentReportRoute
+  '/school/focus': typeof SchoolFocusRoute
+  '/school/me': typeof SchoolMeRoute
+  '/school/students': typeof SchoolStudentsRoute
+  '/school/tasks': typeof SchoolTasksRoute
+  '/doctor/': typeof DoctorIndexRoute
+  '/parent/': typeof ParentIndexRoute
+  '/school/': typeof SchoolIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/focus': typeof DoctorFocusRoute
+  '/doctor/me': typeof DoctorMeRoute
+  '/doctor/review': typeof DoctorReviewRoute
+  '/parent/care': typeof ParentCareRoute
+  '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
+  '/parent/report': typeof ParentReportRoute
+  '/school/focus': typeof SchoolFocusRoute
+  '/school/me': typeof SchoolMeRoute
+  '/school/students': typeof SchoolStudentsRoute
+  '/school/tasks': typeof SchoolTasksRoute
+  '/doctor': typeof DoctorIndexRoute
+  '/parent': typeof ParentIndexRoute
+  '/school': typeof SchoolIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/doctor': typeof DoctorRouteWithChildren
+  '/parent': typeof ParentRouteWithChildren
+  '/school': typeof SchoolRouteWithChildren
+  '/doctor/exam': typeof DoctorExamRoute
+  '/doctor/focus': typeof DoctorFocusRoute
+  '/doctor/me': typeof DoctorMeRoute
+  '/doctor/review': typeof DoctorReviewRoute
+  '/parent/care': typeof ParentCareRoute
+  '/parent/comm': typeof ParentCommRoute
+  '/parent/me': typeof ParentMeRoute
+  '/parent/report': typeof ParentReportRoute
+  '/school/focus': typeof SchoolFocusRoute
+  '/school/me': typeof SchoolMeRoute
+  '/school/students': typeof SchoolStudentsRoute
+  '/school/tasks': typeof SchoolTasksRoute
+  '/doctor/': typeof DoctorIndexRoute
+  '/parent/': typeof ParentIndexRoute
+  '/school/': typeof SchoolIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/doctor'
+    | '/parent'
+    | '/school'
+    | '/doctor/exam'
+    | '/doctor/focus'
+    | '/doctor/me'
+    | '/doctor/review'
+    | '/parent/care'
+    | '/parent/comm'
+    | '/parent/me'
+    | '/parent/report'
+    | '/school/focus'
+    | '/school/me'
+    | '/school/students'
+    | '/school/tasks'
+    | '/doctor/'
+    | '/parent/'
+    | '/school/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/doctor/exam'
+    | '/doctor/focus'
+    | '/doctor/me'
+    | '/doctor/review'
+    | '/parent/care'
+    | '/parent/comm'
+    | '/parent/me'
+    | '/parent/report'
+    | '/school/focus'
+    | '/school/me'
+    | '/school/students'
+    | '/school/tasks'
+    | '/doctor'
+    | '/parent'
+    | '/school'
+  id:
+    | '__root__'
+    | '/'
+    | '/doctor'
+    | '/parent'
+    | '/school'
+    | '/doctor/exam'
+    | '/doctor/focus'
+    | '/doctor/me'
+    | '/doctor/review'
+    | '/parent/care'
+    | '/parent/comm'
+    | '/parent/me'
+    | '/parent/report'
+    | '/school/focus'
+    | '/school/me'
+    | '/school/students'
+    | '/school/tasks'
+    | '/doctor/'
+    | '/parent/'
+    | '/school/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DoctorRoute: typeof DoctorRouteWithChildren
+  ParentRoute: typeof ParentRouteWithChildren
+  SchoolRoute: typeof SchoolRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/school': {
+      id: '/school'
+      path: '/school'
+      fullPath: '/school'
+      preLoaderRoute: typeof SchoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parent': {
+      id: '/parent'
+      path: '/parent'
+      fullPath: '/parent'
+      preLoaderRoute: typeof ParentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor': {
+      id: '/doctor'
+      path: '/doctor'
+      fullPath: '/doctor'
+      preLoaderRoute: typeof DoctorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +286,177 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/school/': {
+      id: '/school/'
+      path: '/'
+      fullPath: '/school/'
+      preLoaderRoute: typeof SchoolIndexRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/parent/': {
+      id: '/parent/'
+      path: '/'
+      fullPath: '/parent/'
+      preLoaderRoute: typeof ParentIndexRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/doctor/': {
+      id: '/doctor/'
+      path: '/'
+      fullPath: '/doctor/'
+      preLoaderRoute: typeof DoctorIndexRouteImport
+      parentRoute: typeof DoctorRoute
+    }
+    '/school/tasks': {
+      id: '/school/tasks'
+      path: '/tasks'
+      fullPath: '/school/tasks'
+      preLoaderRoute: typeof SchoolTasksRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/students': {
+      id: '/school/students'
+      path: '/students'
+      fullPath: '/school/students'
+      preLoaderRoute: typeof SchoolStudentsRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/me': {
+      id: '/school/me'
+      path: '/me'
+      fullPath: '/school/me'
+      preLoaderRoute: typeof SchoolMeRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/focus': {
+      id: '/school/focus'
+      path: '/focus'
+      fullPath: '/school/focus'
+      preLoaderRoute: typeof SchoolFocusRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/parent/report': {
+      id: '/parent/report'
+      path: '/report'
+      fullPath: '/parent/report'
+      preLoaderRoute: typeof ParentReportRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/me': {
+      id: '/parent/me'
+      path: '/me'
+      fullPath: '/parent/me'
+      preLoaderRoute: typeof ParentMeRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/comm': {
+      id: '/parent/comm'
+      path: '/comm'
+      fullPath: '/parent/comm'
+      preLoaderRoute: typeof ParentCommRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/care': {
+      id: '/parent/care'
+      path: '/care'
+      fullPath: '/parent/care'
+      preLoaderRoute: typeof ParentCareRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/doctor/review': {
+      id: '/doctor/review'
+      path: '/review'
+      fullPath: '/doctor/review'
+      preLoaderRoute: typeof DoctorReviewRouteImport
+      parentRoute: typeof DoctorRoute
+    }
+    '/doctor/me': {
+      id: '/doctor/me'
+      path: '/me'
+      fullPath: '/doctor/me'
+      preLoaderRoute: typeof DoctorMeRouteImport
+      parentRoute: typeof DoctorRoute
+    }
+    '/doctor/focus': {
+      id: '/doctor/focus'
+      path: '/focus'
+      fullPath: '/doctor/focus'
+      preLoaderRoute: typeof DoctorFocusRouteImport
+      parentRoute: typeof DoctorRoute
+    }
+    '/doctor/exam': {
+      id: '/doctor/exam'
+      path: '/exam'
+      fullPath: '/doctor/exam'
+      preLoaderRoute: typeof DoctorExamRouteImport
+      parentRoute: typeof DoctorRoute
+    }
   }
 }
 
+interface DoctorRouteChildren {
+  DoctorExamRoute: typeof DoctorExamRoute
+  DoctorFocusRoute: typeof DoctorFocusRoute
+  DoctorMeRoute: typeof DoctorMeRoute
+  DoctorReviewRoute: typeof DoctorReviewRoute
+  DoctorIndexRoute: typeof DoctorIndexRoute
+}
+
+const DoctorRouteChildren: DoctorRouteChildren = {
+  DoctorExamRoute: DoctorExamRoute,
+  DoctorFocusRoute: DoctorFocusRoute,
+  DoctorMeRoute: DoctorMeRoute,
+  DoctorReviewRoute: DoctorReviewRoute,
+  DoctorIndexRoute: DoctorIndexRoute,
+}
+
+const DoctorRouteWithChildren =
+  DoctorRoute._addFileChildren(DoctorRouteChildren)
+
+interface ParentRouteChildren {
+  ParentCareRoute: typeof ParentCareRoute
+  ParentCommRoute: typeof ParentCommRoute
+  ParentMeRoute: typeof ParentMeRoute
+  ParentReportRoute: typeof ParentReportRoute
+  ParentIndexRoute: typeof ParentIndexRoute
+}
+
+const ParentRouteChildren: ParentRouteChildren = {
+  ParentCareRoute: ParentCareRoute,
+  ParentCommRoute: ParentCommRoute,
+  ParentMeRoute: ParentMeRoute,
+  ParentReportRoute: ParentReportRoute,
+  ParentIndexRoute: ParentIndexRoute,
+}
+
+const ParentRouteWithChildren =
+  ParentRoute._addFileChildren(ParentRouteChildren)
+
+interface SchoolRouteChildren {
+  SchoolFocusRoute: typeof SchoolFocusRoute
+  SchoolMeRoute: typeof SchoolMeRoute
+  SchoolStudentsRoute: typeof SchoolStudentsRoute
+  SchoolTasksRoute: typeof SchoolTasksRoute
+  SchoolIndexRoute: typeof SchoolIndexRoute
+}
+
+const SchoolRouteChildren: SchoolRouteChildren = {
+  SchoolFocusRoute: SchoolFocusRoute,
+  SchoolMeRoute: SchoolMeRoute,
+  SchoolStudentsRoute: SchoolStudentsRoute,
+  SchoolTasksRoute: SchoolTasksRoute,
+  SchoolIndexRoute: SchoolIndexRoute,
+}
+
+const SchoolRouteWithChildren =
+  SchoolRoute._addFileChildren(SchoolRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DoctorRoute: DoctorRouteWithChildren,
+  ParentRoute: ParentRouteWithChildren,
+  SchoolRoute: SchoolRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

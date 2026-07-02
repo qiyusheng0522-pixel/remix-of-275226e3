@@ -15,6 +15,7 @@ import { Route as DoctorRouteImport } from './routes/doctor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolIndexRouteImport } from './routes/school.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
+import { Route as DoctorIndexRouteImport } from './routes/doctor.index'
 import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
@@ -53,6 +54,11 @@ const ParentIndexRoute = ParentIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ParentRoute,
+} as any)
+const DoctorIndexRoute = DoctorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DoctorRoute,
 } as any)
 const SchoolTasksRoute = SchoolTasksRouteImport.update({
   id: '/tasks',
@@ -97,7 +103,7 @@ const ParentCareRoute = ParentCareRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/doctor': typeof DoctorRoute
+  '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
   '/parent/care': typeof ParentCareRoute
@@ -108,12 +114,12 @@ export interface FileRoutesByFullPath {
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/tasks': typeof SchoolTasksRoute
+  '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/doctor': typeof DoctorRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
@@ -122,13 +128,14 @@ export interface FileRoutesByTo {
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/tasks': typeof SchoolTasksRoute
+  '/doctor': typeof DoctorIndexRoute
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/doctor': typeof DoctorRoute
+  '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
   '/parent/care': typeof ParentCareRoute
@@ -139,6 +146,7 @@ export interface FileRoutesById {
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/tasks': typeof SchoolTasksRoute
+  '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
 }
@@ -157,12 +165,12 @@ export interface FileRouteTypes {
     | '/school/me'
     | '/school/students'
     | '/school/tasks'
+    | '/doctor/'
     | '/parent/'
     | '/school/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/doctor'
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
@@ -171,6 +179,7 @@ export interface FileRouteTypes {
     | '/school/me'
     | '/school/students'
     | '/school/tasks'
+    | '/doctor'
     | '/parent'
     | '/school'
   id:
@@ -187,13 +196,14 @@ export interface FileRouteTypes {
     | '/school/me'
     | '/school/students'
     | '/school/tasks'
+    | '/doctor/'
     | '/parent/'
     | '/school/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DoctorRoute: typeof DoctorRoute
+  DoctorRoute: typeof DoctorRouteWithChildren
   ParentRoute: typeof ParentRouteWithChildren
   SchoolRoute: typeof SchoolRouteWithChildren
 }
@@ -241,6 +251,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/parent/'
       preLoaderRoute: typeof ParentIndexRouteImport
       parentRoute: typeof ParentRoute
+    }
+    '/doctor/': {
+      id: '/doctor/'
+      path: '/'
+      fullPath: '/doctor/'
+      preLoaderRoute: typeof DoctorIndexRouteImport
+      parentRoute: typeof DoctorRoute
     }
     '/school/tasks': {
       id: '/school/tasks'
@@ -301,6 +318,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DoctorRouteChildren {
+  DoctorIndexRoute: typeof DoctorIndexRoute
+}
+
+const DoctorRouteChildren: DoctorRouteChildren = {
+  DoctorIndexRoute: DoctorIndexRoute,
+}
+
+const DoctorRouteWithChildren =
+  DoctorRoute._addFileChildren(DoctorRouteChildren)
+
 interface ParentRouteChildren {
   ParentCareRoute: typeof ParentCareRoute
   ParentCommRoute: typeof ParentCommRoute
@@ -341,7 +369,7 @@ const SchoolRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DoctorRoute: DoctorRoute,
+  DoctorRoute: DoctorRouteWithChildren,
   ParentRoute: ParentRouteWithChildren,
   SchoolRoute: SchoolRouteWithChildren,
 }

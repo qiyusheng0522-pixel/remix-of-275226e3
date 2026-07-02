@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
+import { Route as ParentReportRouteImport } from './routes/parent.report'
 
 const ParentRoute = ParentRouteImport.update({
   id: '/parent',
@@ -28,28 +29,36 @@ const ParentIndexRoute = ParentIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentReportRoute = ParentReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => ParentRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/parent': typeof ParentRouteWithChildren
+  '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/parent/report': typeof ParentReportRoute
   '/parent': typeof ParentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/parent': typeof ParentRouteWithChildren
+  '/parent/report': typeof ParentReportRoute
   '/parent/': typeof ParentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/parent' | '/parent/'
+  fullPaths: '/' | '/parent' | '/parent/report' | '/parent/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/parent'
-  id: '__root__' | '/' | '/parent' | '/parent/'
+  to: '/' | '/parent/report' | '/parent'
+  id: '__root__' | '/' | '/parent' | '/parent/report' | '/parent/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentIndexRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/report': {
+      id: '/parent/report'
+      path: '/report'
+      fullPath: '/parent/report'
+      preLoaderRoute: typeof ParentReportRouteImport
+      parentRoute: typeof ParentRoute
+    }
   }
 }
 
 interface ParentRouteChildren {
+  ParentReportRoute: typeof ParentReportRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
 
 const ParentRouteChildren: ParentRouteChildren = {
+  ParentReportRoute: ParentReportRoute,
   ParentIndexRoute: ParentIndexRoute,
 }
 

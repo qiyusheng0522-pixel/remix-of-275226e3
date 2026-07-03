@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 import { useState } from "react";
 
@@ -103,12 +104,32 @@ function NoticePage() {
           </section>
         )}
 
-        <button
-          disabled={!choice || !signed}
-          className="w-full rounded-2xl bg-warm py-3 text-sm font-semibold text-warm-foreground shadow-lg shadow-warm/20 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:shadow-none"
+        <ActionSheet
+          trigger={
+            <button
+              disabled={!choice || !signed}
+              className="w-full rounded-2xl bg-warm py-3 text-sm font-semibold text-warm-foreground shadow-lg shadow-warm/20 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:shadow-none"
+            >
+              {choice === "skip" ? "提交放弃申请" : "提交同意与授权"}
+            </button>
+          }
+          title={choice === "skip" ? "确认放弃本次体检？" : "确认授权本次体检？"}
+          description={
+            choice === "skip"
+              ? "本次不参加不影响后续入学与保险，你也可以稍后在通知里改回同意。"
+              : "授权后学校将采集本次体检数据用于生成健康报告，健康管理师将根据报告为孩子安排家庭呵护计划。"
+          }
+          confirmText={choice === "skip" ? "确认放弃" : "确认授权"}
+          danger={choice === "skip"}
+          toastMessage={choice === "skip" ? "已提交放弃申请" : "授权成功 · 已同步学校"}
+          toastDescription={`签名人：李妈妈 · ${child.name}`}
         >
-          {choice === "skip" ? "提交放弃申请" : "提交同意与授权"}
-        </button>
+          <div className="rounded-xl bg-surface-2 p-3 text-xs leading-relaxed text-muted-foreground">
+            <p>孩子：<span className="font-medium text-foreground">{child.name}</span></p>
+            <p className="mt-1">签名：✍ 李妈妈 · 2026-04-08 20:14</p>
+            <p className="mt-1">生效范围：本次春季体检 + 后续 12 个月家庭呵护</p>
+          </div>
+        </ActionSheet>
 
         <Link
           to="/parent/me"

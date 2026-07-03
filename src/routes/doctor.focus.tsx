@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { focusPool, riskColorMap } from "@/lib/mock-data";
 import { useState } from "react";
 

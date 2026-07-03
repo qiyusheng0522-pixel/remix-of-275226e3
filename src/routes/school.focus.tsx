@@ -34,9 +34,9 @@ function FocusPage() {
               <span className="text-lg">🚨</span>
               <span className="text-sm font-semibold">现场异常上报</span>
             </div>
-            <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
+            <Link to="/school/abnormal" className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
               一键上报
-            </button>
+            </Link>
           </div>
           <ul className="space-y-1.5 text-xs">
             {anomalies.map((a) => (

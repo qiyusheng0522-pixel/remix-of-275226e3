@@ -67,14 +67,15 @@ function CarePage() {
         <h2 className="mb-2 text-sm font-semibold">呵护模块</h2>
         <div className="mb-5 grid grid-cols-3 gap-3">
           {modules.map((m) => (
-            <button
+            <Link
+              to={m.to}
               key={m.key}
               className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${m.tint} p-3 text-left text-white shadow-sm`}
             >
               <div className="text-2xl">{m.icon}</div>
               <div className="mt-2 text-sm font-bold">{m.key}</div>
               <div className="mt-0.5 text-[10px] leading-tight opacity-90">{m.tips}</div>
-            </button>
+            </Link>
           ))}
         </div>
 

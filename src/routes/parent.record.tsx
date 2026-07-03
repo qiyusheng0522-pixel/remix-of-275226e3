@@ -152,7 +152,13 @@ function DietForm() {
           <Chip>吃了</Chip>
         </div>
       </Row>
-      <button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日饮食</button>
+      <ActionSheet
+        trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日饮食</button>}
+        title="保存今日饮食"
+        confirmText="保存"
+        toastMessage="今日饮食已记录 ✓"
+        toastDescription="含糖饮料：0 · 早餐正常 · 蔬菜达标"
+      />
     </Card>
   );
 }
@@ -185,7 +191,13 @@ function SportForm() {
           <Chip>膝盖痛</Chip>
         </div>
       </Row>
-      <button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日运动</button>
+      <ActionSheet
+        trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日运动</button>}
+        title="保存今日运动"
+        confirmText="保存"
+        toastMessage="运动记录已保存 ✓"
+        toastDescription="户外玩耍 · 30—60 分钟 · 无不适"
+      />
     </Card>
   );
 }
@@ -212,7 +224,13 @@ function SleepForm() {
           <Chip>打鼾</Chip>
         </div>
       </Row>
-      <button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日睡眠</button>
+      <ActionSheet
+        trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日睡眠</button>}
+        title="保存今日睡眠"
+        confirmText="保存"
+        toastMessage="今日睡眠已记录 ✓"
+        toastDescription="睡眠 9 小时 · 符合学龄建议"
+      />
     </Card>
   );
 }
@@ -246,7 +264,13 @@ function SymptomForm() {
         rows={3}
       />
       <div className="flex gap-2">
-        <button className="flex-1 rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存记录</button>
+        <ActionSheet
+          trigger={<button className="flex-1 rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存记录</button>}
+          title="保存症状记录"
+          description="健管师会在下次随访时查看这条记录。若持续或加重，我们会主动联系你。"
+          confirmText="保存"
+          toastMessage="症状已记录 · 健管师将查看"
+        />
         <Link to="/parent/comm" className="rounded-xl bg-surface-2 px-4 py-2.5 text-sm font-medium">
           问健管师
         </Link>

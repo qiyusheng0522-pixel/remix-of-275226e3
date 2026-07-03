@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/plan")({
@@ -108,9 +109,18 @@ function PlanPage() {
         <div className="mt-4 grid grid-cols-3 gap-2">
           <button className="rounded-xl bg-surface-2 py-3 text-xs">保存草稿</button>
           <button className="rounded-xl bg-warm/15 py-3 text-xs text-warm">同步学校</button>
-          <button className="rounded-xl bg-deep py-3 text-xs font-medium text-deep-foreground">
-            发布给家长
-          </button>
+          <ActionSheet
+            trigger={
+              <button className="rounded-xl bg-deep py-3 text-xs font-medium text-deep-foreground">
+                发布给家长
+              </button>
+            }
+            title="确认发布方案给家长？"
+            description="发布后家长将收到方案通知，健康管理师同步跟进。历史方案将进入版本管理，可随时更新或失效。"
+            confirmText="确认发布 v0.3"
+            toastMessage="方案已发布给家长"
+            toastDescription="李小雨 · v0.3 · 健管师已同步"
+          />
         </div>
 
         <p className="mt-3 text-center text-[11px] text-muted-foreground">

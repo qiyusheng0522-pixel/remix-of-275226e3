@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 export const Route = createFileRoute("/doctor/referral")({
   component: ReferralPage,
@@ -64,9 +65,37 @@ function ReferralPage() {
           ))}
         </ul>
 
-        <button className="mt-4 w-full rounded-2xl border-2 border-dashed border-deep/40 py-3 text-sm text-deep">
-          + 新建转诊
-        </button>
+        <ActionSheet
+          trigger={
+            <button className="mt-4 w-full rounded-2xl border-2 border-dashed border-deep/40 py-3 text-sm text-deep">
+              + 新建转诊
+            </button>
+          }
+          title="新建转诊"
+          description="健康管理师将协助家长完成挂号，医嘱回流后自动同步随访计划。"
+          confirmText="创建转诊"
+          toastMessage="转诊已创建 · 健管师协助中"
+        >
+          <div className="space-y-2 text-xs">
+            <label className="block">
+              <span className="text-muted-foreground">学生</span>
+              <input placeholder="输入学生姓名或学号" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+            </label>
+            <label className="block">
+              <span className="text-muted-foreground">转诊科室</span>
+              <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                <option>肥胖 / 代谢门诊</option>
+                <option>变态反应科</option>
+                <option>呼吸科</option>
+                <option>心血管科（绿色通道）</option>
+              </select>
+            </label>
+            <label className="block">
+              <span className="text-muted-foreground">转诊原因</span>
+              <textarea rows={3} className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+            </label>
+          </div>
+        </ActionSheet>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/parent/bind")({
@@ -55,7 +56,27 @@ function BindPage() {
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold">监护人</h2>
-            <button className="text-xs text-warm">+ 邀请另一位监护人</button>
+            <ActionSheet
+              trigger={<button className="text-xs text-warm">+ 邀请另一位监护人</button>}
+              title="邀请另一位监护人"
+              description="邀请码有效期 24 小时，对方通过微信扫码或输入邀请码即可绑定同一名孩子。"
+              confirmText="发送邀请"
+              toastMessage="邀请已发送"
+              toastDescription="邀请码 8F2K-91 · 24 小时内有效"
+            >
+              <div className="space-y-2 text-xs">
+                <label className="block">
+                  <span className="text-muted-foreground">关系</span>
+                  <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                    <option>父亲</option><option>母亲</option><option>祖辈</option><option>其他</option>
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="text-muted-foreground">手机号</span>
+                  <input placeholder="接收邀请短信" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+                </label>
+              </div>
+            </ActionSheet>
           </div>
           <ul className="space-y-2">
             {guardians.map((g) => (

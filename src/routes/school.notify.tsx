@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/school/notify")({
@@ -53,7 +54,14 @@ function NotifyPage() {
           <p className="text-sm font-semibold">📣 一键发送体检通知</p>
           <p className="mt-1 text-[11px] text-muted-foreground">通过微信 / 短信推送体检时间、地点、注意事项</p>
           <div className="mt-3 flex gap-2">
-            <button className="flex-1 rounded-xl bg-teal py-2 text-xs font-medium text-teal-foreground">发送体检通知</button>
+            <ActionSheet
+              trigger={<button className="flex-1 rounded-xl bg-teal py-2 text-xs font-medium text-teal-foreground">发送体检通知</button>}
+              title="向全体家长发送体检通知？"
+              description="将通过微信 / 短信推送体检时间、地点与注意事项。已终止家庭不会再收到通知。"
+              confirmText="确认发送 442 位"
+              toastMessage="通知已发送 442 位家长"
+              toastType="success"
+            />
             <button className="rounded-xl bg-surface px-3 py-2 text-xs ring-1 ring-border/60">查看已通知 442</button>
           </div>
         </div>
@@ -74,9 +82,18 @@ function NotifyPage() {
         </div>
 
         {t !== "已终止" && (
-          <button className="mb-3 w-full rounded-xl bg-warm py-2 text-xs font-medium text-warm-foreground">
-            一键提醒 {list.length} 位{t}家长
-          </button>
+          <ActionSheet
+            trigger={
+              <button className="mb-3 w-full rounded-xl bg-warm py-2 text-xs font-medium text-warm-foreground">
+                一键提醒 {list.length} 位{t}家长
+              </button>
+            }
+            title={`提醒 ${list.length} 位${t}家长`}
+            description="将通过微信服务通知 + 短信双通道提醒，24 小时内不重复发送。"
+            confirmText="确认提醒"
+            toastMessage={`已提醒 ${list.length} 位家长`}
+            toastDescription="预计 5 分钟内送达"
+          />
         )}
       </div>
 
@@ -96,7 +113,14 @@ function NotifyPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <button className="rounded-full bg-teal/15 px-3 py-1 text-[10px] text-teal">提醒</button>
+                <ActionSheet
+                  trigger={<button className="rounded-full bg-teal/15 px-3 py-1 text-[10px] text-teal">提醒</button>}
+                  title={`单独提醒 ${p.name}`}
+                  description={`${p.class} · ${p.phone}\n通过微信 + 短信发送定制化提醒文案。`}
+                  confirmText="发送提醒"
+                  toastMessage={`已提醒 ${p.name}`}
+                />
+
                 <button className="rounded-full bg-surface-2 px-3 py-1 text-[10px] text-muted-foreground">已联系</button>
               </div>
             </div>

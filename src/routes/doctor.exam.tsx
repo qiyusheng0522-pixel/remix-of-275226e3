@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, examSubNav } from "@/components/DoctorSubNav";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/exam")({
@@ -105,13 +106,31 @@ function ExamPage() {
 
           {/* Actions */}
           <div className="mt-4 grid grid-cols-3 gap-2">
-            <button className="rounded-xl bg-warning/20 py-2 text-xs font-medium text-warning-foreground">
-              标记复测
-            </button>
-            <button className="rounded-xl bg-surface-2 py-2 text-xs">标记缺检</button>
-            <button className="rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-              提交数据
-            </button>
+            <ActionSheet
+              trigger={<button className="rounded-xl bg-warning/20 py-2 text-xs font-medium text-warning-foreground">标记复测</button>}
+              title="标记为待复测？"
+              description="将该学生加入本班复测队列，体检结束后统一复测。"
+              confirmText="标记复测"
+              toastMessage="已标记复测"
+              toastDescription="李小雨 · 三年级 3班"
+            />
+            <ActionSheet
+              trigger={<button className="rounded-xl bg-surface-2 py-2 text-xs">标记缺检</button>}
+              title="标记为缺检？"
+              description="将学生移入缺检名单，可在缺检与补检中安排补检时间。"
+              confirmText="确认缺检"
+              danger
+              toastMessage="已标记缺检 · 待补检"
+              toastType="warning"
+            />
+            <ActionSheet
+              trigger={<button className="rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">提交数据</button>}
+              title="提交本次体检数据？"
+              description="提交后数据进入质控环节，机构与医生均可复核。BMI / 血压等自动带入报告草稿。"
+              confirmText="确认提交"
+              toastMessage="体检数据已提交 ✓"
+              toastDescription="李小雨 · BMI 16.8 · 已进入质控"
+            />
           </div>
         </div>
 

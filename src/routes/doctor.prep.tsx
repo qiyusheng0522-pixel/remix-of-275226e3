@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { SubNav, examSubNav } from "@/components/DoctorSubNav";
 
 export const Route = createFileRoute("/doctor/prep")({
   component: PrepPage,

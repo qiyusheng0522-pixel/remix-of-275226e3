@@ -109,7 +109,15 @@ function WeightForm() {
       <Row label="腰围 cm（选填）">
         <input placeholder="选填" className="w-full rounded-xl bg-surface-2 px-3 py-2.5 outline-none" />
       </Row>
-      <button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存本周体重</button>
+      <ActionSheet
+        trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存本周体重</button>}
+        title="保存本周体重"
+        description="体重会加入孩子的成长曲线，用于评估是否偏轻/超重。"
+        confirmText="保存"
+        toastMessage="本周体重已记录 ✓"
+        toastDescription="27.5 kg · BMI 已同步更新"
+      />
+      
       <p className="text-[11px] text-muted-foreground">💡 建议每周固定时间称一次，比如周日早晨起床后。</p>
     </Card>
   );

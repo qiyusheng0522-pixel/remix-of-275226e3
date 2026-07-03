@@ -113,7 +113,14 @@ function NotifyPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <button className="rounded-full bg-teal/15 px-3 py-1 text-[10px] text-teal">提醒</button>
+                <ActionSheet
+                  trigger={<button className="rounded-full bg-teal/15 px-3 py-1 text-[10px] text-teal">提醒</button>}
+                  title={`单独提醒 ${p.name}`}
+                  description={`${p.class} · ${p.phone}\n通过微信 + 短信发送定制化提醒文案。`}
+                  confirmText="发送提醒"
+                  toastMessage={`已提醒 ${p.name}`}
+                />
+
                 <button className="rounded-full bg-surface-2 px-3 py-1 text-[10px] text-muted-foreground">已联系</button>
               </div>
             </div>

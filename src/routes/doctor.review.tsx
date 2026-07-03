@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/review")({
@@ -28,7 +29,11 @@ function ReviewPage() {
   return (
     <div>
       <StatusBar title="报告审核" />
-      <div className="px-5 pt-2">
+      <SubNav items={reviewSubNav} />
+      <div className="mx-5 mt-2 rounded-xl bg-warm/10 p-3 text-[11px] leading-relaxed text-warm ring-1 ring-warm/20">
+        高风险报告 100% 人工复核 · 语言不吓人、不空泛、有下一步 · 医生对医学判断负责
+      </div>
+      <div className="px-5 pt-3">
         <h1 className="text-xl font-bold">报告审核</h1>
         <p className="mb-3 text-xs text-muted-foreground">
           待审核 47 · 高风险 3 · 已发布 165

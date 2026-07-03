@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { todayTasks } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";

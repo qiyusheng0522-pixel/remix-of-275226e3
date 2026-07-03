@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, examSubNav } from "@/components/DoctorSubNav";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/qc")({
@@ -65,11 +66,32 @@ function QCPage() {
                 </div>
               </div>
               <div className="mt-3 flex gap-2">
-                <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">退回补录</button>
-                <button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs text-warm">标记复测</button>
-                <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-                  确认通过
-                </button>
+                <ActionSheet
+                  trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">退回补录</button>}
+                  title="退回体检机构补录？"
+                  description={`${r.name} · ${r.detail}`}
+                  confirmText="退回"
+                  toastMessage="已退回补录"
+                  toastType="info"
+                />
+                <ActionSheet
+                  trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs text-warm">标记复测</button>}
+                  title="标记待复测？"
+                  confirmText="标记"
+                  toastMessage="已加入复测队列"
+                  toastType="warning"
+                />
+                <ActionSheet
+                  trigger={
+                    <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                      确认通过
+                    </button>
+                  }
+                  title="确认质控通过？"
+                  description="该条数据将进入报告生成阶段。"
+                  confirmText="通过"
+                  toastMessage="质控已通过 ✓"
+                />
               </div>
             </li>
           ))}

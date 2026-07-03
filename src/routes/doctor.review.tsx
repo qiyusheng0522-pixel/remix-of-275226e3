@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/review")({
@@ -96,13 +97,40 @@ function ReviewPage() {
             </div>
 
             <div className="mt-3 flex gap-2">
-              <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">驳回补录</button>
-              <button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs font-medium text-warm">
-                修改建议
-              </button>
-              <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-                审核发布
-              </button>
+              <ActionSheet
+                trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">驳回补录</button>}
+                title={`驳回 ${d.name} 的报告？`}
+                description="将退回体检机构补录/复核，家长暂不会收到该报告。"
+                confirmText="确认驳回"
+                danger
+                toastMessage="已驳回 · 待机构补录"
+                toastType="warning"
+              />
+              <ActionSheet
+                trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs font-medium text-warm">修改建议</button>}
+                title="调整医生建议"
+                description="修改后系统建议不变，会额外保留一条医生建议供家长查看。"
+                confirmText="保存修改"
+                toastMessage="医生建议已保存"
+              >
+                <textarea
+                  rows={4}
+                  defaultValue={`${d.name} 建议：家庭进行体重与饮食管理，1 个月复评。`}
+                  className="w-full rounded-xl bg-surface-2 p-3 text-xs outline-none"
+                />
+              </ActionSheet>
+              <ActionSheet
+                trigger={
+                  <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                    审核发布
+                  </button>
+                }
+                title={`确认发布 ${d.name} 的报告？`}
+                description={`风险等级：${d.risk} · 发布后家长立即收到通知，健管师同步接手。`}
+                confirmText="确认发布"
+                toastMessage="报告已发布 ✓"
+                toastDescription={`${d.name} · 家长已收到通知`}
+              />
             </div>
           </li>
         ))}

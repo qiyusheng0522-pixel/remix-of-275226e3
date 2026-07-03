@@ -20,6 +20,7 @@ import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
 import { Route as SchoolFocusRouteImport } from './routes/school.focus'
+import { Route as ParentTerminateRouteImport } from './routes/parent.terminate'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
 import { Route as ParentRecordRouteImport } from './routes/parent.record'
 import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
@@ -85,6 +86,11 @@ const SchoolFocusRoute = SchoolFocusRouteImport.update({
   id: '/focus',
   path: '/focus',
   getParentRoute: () => SchoolRoute,
+} as any)
+const ParentTerminateRoute = ParentTerminateRouteImport.update({
+  id: '/terminate',
+  path: '/terminate',
+  getParentRoute: () => ParentRoute,
 } as any)
 const ParentReportRoute = ParentReportRouteImport.update({
   id: '/report',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -358,6 +370,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/school/focus'
       preLoaderRoute: typeof SchoolFocusRouteImport
       parentRoute: typeof SchoolRoute
+    }
+    '/parent/terminate': {
+      id: '/parent/terminate'
+      path: '/terminate'
+      fullPath: '/parent/terminate'
+      preLoaderRoute: typeof ParentTerminateRouteImport
+      parentRoute: typeof ParentRoute
     }
     '/parent/report': {
       id: '/parent/report'
@@ -458,6 +477,7 @@ interface ParentRouteChildren {
   ParentNoticeRoute: typeof ParentNoticeRoute
   ParentRecordRoute: typeof ParentRecordRoute
   ParentReportRoute: typeof ParentReportRoute
+  ParentTerminateRoute: typeof ParentTerminateRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
 
@@ -468,6 +488,7 @@ const ParentRouteChildren: ParentRouteChildren = {
   ParentNoticeRoute: ParentNoticeRoute,
   ParentRecordRoute: ParentRecordRoute,
   ParentReportRoute: ParentReportRoute,
+  ParentTerminateRoute: ParentTerminateRoute,
   ParentIndexRoute: ParentIndexRoute,
 }
 

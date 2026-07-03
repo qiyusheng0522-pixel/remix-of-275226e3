@@ -21,6 +21,7 @@ import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
 import { Route as SchoolFocusRouteImport } from './routes/school.focus'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
+import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
 import { Route as ParentCareRouteImport } from './routes/parent.care'
@@ -89,6 +90,11 @@ const ParentReportRoute = ParentReportRouteImport.update({
   path: '/report',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentNoticeRoute = ParentNoticeRouteImport.update({
+  id: '/notice',
+  path: '/notice',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentMeRoute = ParentMeRouteImport.update({
   id: '/me',
   path: '/me',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
   '/parent/report': typeof ParentReportRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
   '/parent/report': typeof ParentReportRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
   '/parent/report': typeof ParentReportRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
+    | '/parent/notice'
     | '/parent/report'
     | '/school/focus'
     | '/school/me'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
+    | '/parent/notice'
     | '/parent/report'
     | '/school/focus'
     | '/school/me'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/parent/care'
     | '/parent/comm'
     | '/parent/me'
+    | '/parent/notice'
     | '/parent/report'
     | '/school/focus'
     | '/school/me'
@@ -342,6 +354,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentReportRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/notice': {
+      id: '/parent/notice'
+      path: '/notice'
+      fullPath: '/parent/notice'
+      preLoaderRoute: typeof ParentNoticeRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/me': {
       id: '/parent/me'
       path: '/me'
@@ -417,6 +436,7 @@ interface ParentRouteChildren {
   ParentCareRoute: typeof ParentCareRoute
   ParentCommRoute: typeof ParentCommRoute
   ParentMeRoute: typeof ParentMeRoute
+  ParentNoticeRoute: typeof ParentNoticeRoute
   ParentReportRoute: typeof ParentReportRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
@@ -425,6 +445,7 @@ const ParentRouteChildren: ParentRouteChildren = {
   ParentCareRoute: ParentCareRoute,
   ParentCommRoute: ParentCommRoute,
   ParentMeRoute: ParentMeRoute,
+  ParentNoticeRoute: ParentNoticeRoute,
   ParentReportRoute: ParentReportRoute,
   ParentIndexRoute: ParentIndexRoute,
 }

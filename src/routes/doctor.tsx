@@ -17,8 +17,8 @@ function DoctorLayout() {
         items={[
           { to: "/doctor", label: "工作台", icon: "🩺" },
           { to: "/doctor/exam", label: "校内体检", icon: "🏫" },
-          { to: "/doctor/review", label: "报告审核", icon: "📝" },
           { to: "/doctor/focus", label: "重点儿童", icon: "⭐" },
+          { to: "/doctor/messages", label: "消息", icon: "🔔" },
           { to: "/doctor/me", label: "我的", icon: "👤" },
         ]}
       />

@@ -8,12 +8,12 @@ export const Route = createFileRoute("/parent/care")({
 });
 
 const modules = [
-  { icon: "⚖️", key: "体重", tips: "本周记录 1 次，饮食均衡", tint: "from-warm to-warm/60" },
-  { icon: "🫁", key: "呼吸", tips: "记录夜间咳嗽与诱因", tint: "from-teal to-teal/60" },
-  { icon: "😴", key: "睡眠", tips: "22:00 前上床，屏幕远离", tint: "from-deep to-deep/60" },
-  { icon: "🏃", key: "运动", tips: "户外 60 分钟/日", tint: "from-warning to-warm/60" },
-  { icon: "🍎", key: "饮食", tips: "减少含糖饮料", tint: "from-success to-teal/60" },
-  { icon: "🛏️", key: "环境", tips: "每周除螨、通风", tint: "from-teal to-warm/60" },
+  { icon: "⚖️", key: "体重", tips: "每周记 1 次体重", tint: "from-warm to-warm/60", to: "/parent/record" },
+  { icon: "🫁", key: "呼吸", tips: "记录咳嗽与诱因", tint: "from-teal to-teal/60", to: "/parent/record" },
+  { icon: "😴", key: "睡眠", tips: "22:00 前上床", tint: "from-deep to-deep/60", to: "/parent/record" },
+  { icon: "🏃", key: "运动", tips: "户外 60 分钟/日", tint: "from-warning to-warm/60", to: "/parent/record" },
+  { icon: "🍎", key: "饮食", tips: "减少含糖饮料", tint: "from-success to-teal/60", to: "/parent/record" },
+  { icon: "🛏️", key: "除螨", tips: "每周除螨、通风", tint: "from-teal to-warm/60", to: "/parent/dustmite" },
 ];
 
 function CarePage() {

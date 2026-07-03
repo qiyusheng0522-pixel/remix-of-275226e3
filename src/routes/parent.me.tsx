@@ -10,19 +10,27 @@ const groups = [
   {
     title: "儿童与授权",
     items: [
-      { icon: "👶", label: "儿童档案", right: `${child.name} · ${child.grade}` },
-      { icon: "🔗", label: "绑定儿童 / 多监护人", right: "1 名孩子" },
-      { icon: "✍️", label: "授权与告知书", right: "已授权" },
-      { icon: "🗂️", label: "授权与终止记录", right: "查看" },
+      { icon: "👶", label: "儿童档案", right: `${child.name} · ${child.grade}`, to: "/parent/bind" },
+      { icon: "🔗", label: "绑定儿童 / 多监护人", right: "1 名孩子", to: "/parent/bind" },
+      { icon: "✍️", label: "体检授权与告知书", right: "已授权", to: "/parent/notice" },
+      { icon: "🗂️", label: "授权与终止记录", right: "查看", to: "/parent/me" },
     ],
   },
   {
-    title: "健康与消息",
+    title: "健康与沟通",
     items: [
-      { icon: "📩", label: "消息通知", right: "3 条未读" },
-      { icon: "🏥", label: "联系学校 / 健康管理师", right: "" },
-      { icon: "🔒", label: "数据使用与隐私说明", right: "" },
-      { icon: "❓", label: "帮助中心", right: "" },
+      { icon: "🗓️", label: "复评随访", right: "下次 5/15", to: "/parent/review" },
+      { icon: "💬", label: "健康管理师沟通", right: "2 条新回复", to: "/parent/comm" },
+      { icon: "🛏️", label: "卧室除螨任务", right: "本周", to: "/parent/dustmite" },
+      { icon: "📩", label: "消息通知", right: "3 条未读", to: "/parent/me" },
+    ],
+  },
+  {
+    title: "帮助与说明",
+    items: [
+      { icon: "🏥", label: "联系学校 / 健康管理师", right: "", to: "/parent/comm" },
+      { icon: "🔒", label: "数据使用与隐私说明", right: "", to: "/parent/me" },
+      { icon: "❓", label: "帮助中心", right: "", to: "/parent/me" },
     ],
   },
 ];
@@ -62,19 +70,19 @@ function MePage() {
                 {child.school} · {child.grade}{child.className} · 学号 {child.studentId}
               </p>
             </div>
-            <Link to="/parent/report" className="text-xs text-warm">档案 →</Link>
+            <Link to="/parent/bind" className="text-xs text-warm">档案 →</Link>
           </div>
         </div>
 
-        {/* Groups */}
         <div className="space-y-4">
           {groups.map((g) => (
             <section key={g.title}>
               <p className="mb-2 px-1 text-xs text-muted-foreground">{g.title}</p>
               <ul className="divide-y divide-border/60 overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
                 {g.items.map((it) => (
-                  <li
+                  <Link
                     key={it.label}
+                    to={it.to}
                     className="flex items-center gap-3 px-4 py-3 active:bg-surface-2"
                   >
                     <span className="text-lg">{it.icon}</span>
@@ -83,15 +91,18 @@ function MePage() {
                       <span className="text-[11px] text-muted-foreground">{it.right}</span>
                     )}
                     <span className="text-muted-foreground">›</span>
-                  </li>
+                  </Link>
                 ))}
               </ul>
             </section>
           ))}
 
-          <button className="w-full rounded-2xl bg-surface p-3 text-sm text-danger shadow-sm ring-1 ring-danger/20">
+          <Link
+            to="/parent/terminate"
+            className="block w-full rounded-2xl bg-surface p-3 text-center text-sm text-danger shadow-sm ring-1 ring-danger/20"
+          >
             终止后续健康管理
-          </button>
+          </Link>
           <Link
             to="/"
             className="block w-full rounded-2xl bg-surface p-3 text-center text-sm text-muted-foreground shadow-sm ring-1 ring-border/60"

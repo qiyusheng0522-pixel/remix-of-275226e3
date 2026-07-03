@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { SubNav, examSubNav } from "@/components/DoctorSubNav";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/qc")({

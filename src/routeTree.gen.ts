@@ -36,6 +36,7 @@ import { Route as ParentDustmiteRouteImport } from './routes/parent.dustmite'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
 import { Route as ParentCareRouteImport } from './routes/parent.care'
 import { Route as ParentBindRouteImport } from './routes/parent.bind'
+import { Route as DoctorRiskreviewRouteImport } from './routes/doctor.riskreview'
 import { Route as DoctorReviewRouteImport } from './routes/doctor.review'
 import { Route as DoctorReferralRouteImport } from './routes/doctor.referral'
 import { Route as DoctorQcRouteImport } from './routes/doctor.qc'
@@ -183,6 +184,11 @@ const ParentBindRoute = ParentBindRouteImport.update({
   path: '/bind',
   getParentRoute: () => ParentRoute,
 } as any)
+const DoctorRiskreviewRoute = DoctorRiskreviewRouteImport.update({
+  id: '/riskreview',
+  path: '/riskreview',
+  getParentRoute: () => DoctorRoute,
+} as any)
 const DoctorReviewRoute = DoctorReviewRouteImport.update({
   id: '/review',
   path: '/review',
@@ -255,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/doctor/qc': typeof DoctorQcRoute
   '/doctor/referral': typeof DoctorReferralRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
@@ -292,6 +299,7 @@ export interface FileRoutesByTo {
   '/doctor/qc': typeof DoctorQcRoute
   '/doctor/referral': typeof DoctorReferralRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
@@ -333,6 +341,7 @@ export interface FileRoutesById {
   '/doctor/qc': typeof DoctorQcRoute
   '/doctor/referral': typeof DoctorReferralRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
@@ -375,6 +384,7 @@ export interface FileRouteTypes {
     | '/doctor/qc'
     | '/doctor/referral'
     | '/doctor/review'
+    | '/doctor/riskreview'
     | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
@@ -412,6 +422,7 @@ export interface FileRouteTypes {
     | '/doctor/qc'
     | '/doctor/referral'
     | '/doctor/review'
+    | '/doctor/riskreview'
     | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
@@ -452,6 +463,7 @@ export interface FileRouteTypes {
     | '/doctor/qc'
     | '/doctor/referral'
     | '/doctor/review'
+    | '/doctor/riskreview'
     | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
@@ -675,6 +687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentBindRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/doctor/riskreview': {
+      id: '/doctor/riskreview'
+      path: '/riskreview'
+      fullPath: '/doctor/riskreview'
+      preLoaderRoute: typeof DoctorRiskreviewRouteImport
+      parentRoute: typeof DoctorRoute
+    }
     '/doctor/review': {
       id: '/doctor/review'
       path: '/review'
@@ -767,6 +786,7 @@ interface DoctorRouteChildren {
   DoctorQcRoute: typeof DoctorQcRoute
   DoctorReferralRoute: typeof DoctorReferralRoute
   DoctorReviewRoute: typeof DoctorReviewRoute
+  DoctorRiskreviewRoute: typeof DoctorRiskreviewRoute
   DoctorIndexRoute: typeof DoctorIndexRoute
 }
 
@@ -782,6 +802,7 @@ const DoctorRouteChildren: DoctorRouteChildren = {
   DoctorQcRoute: DoctorQcRoute,
   DoctorReferralRoute: DoctorReferralRoute,
   DoctorReviewRoute: DoctorReviewRoute,
+  DoctorRiskreviewRoute: DoctorRiskreviewRoute,
   DoctorIndexRoute: DoctorIndexRoute,
 }
 
@@ -859,13 +880,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { focusPool, riskColorMap } from "@/lib/mock-data";
 import { useState } from "react";
 
@@ -16,7 +17,8 @@ function FocusPoolPage() {
   return (
     <div>
       <StatusBar title="重点儿童池" />
-      <div className="px-5 pt-2">
+      <SubNav items={reviewSubNav} />
+      <div className="px-5 pt-3">
         <h1 className="text-xl font-bold">重点儿童池</h1>
         <p className="mb-3 text-xs text-muted-foreground">系统筛出 34 名 · 五色分层管理</p>
 

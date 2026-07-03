@@ -19,6 +19,7 @@ import { Route as DoctorIndexRouteImport } from './routes/doctor.index'
 import { Route as SchoolTodayRouteImport } from './routes/school.today'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolReportRouteImport } from './routes/school.report'
+import { Route as SchoolObserveRouteImport } from './routes/school.observe'
 import { Route as SchoolNotifyRouteImport } from './routes/school.notify'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
 import { Route as SchoolIntasksRouteImport } from './routes/school.intasks'
@@ -88,6 +89,11 @@ const SchoolStudentsRoute = SchoolStudentsRouteImport.update({
 const SchoolReportRoute = SchoolReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolObserveRoute = SchoolObserveRouteImport.update({
+  id: '/observe',
+  path: '/observe',
   getParentRoute: () => SchoolRoute,
 } as any)
 const SchoolNotifyRoute = SchoolNotifyRouteImport.update({
@@ -216,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
   '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
   '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
   '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/school/intasks'
     | '/school/me'
     | '/school/notify'
+    | '/school/observe'
     | '/school/report'
     | '/school/students'
     | '/school/today'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/school/intasks'
     | '/school/me'
     | '/school/notify'
+    | '/school/observe'
     | '/school/report'
     | '/school/students'
     | '/school/today'
@@ -373,6 +384,7 @@ export interface FileRouteTypes {
     | '/school/intasks'
     | '/school/me'
     | '/school/notify'
+    | '/school/observe'
     | '/school/report'
     | '/school/students'
     | '/school/today'
@@ -458,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/school/report'
       preLoaderRoute: typeof SchoolReportRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/observe': {
+      id: '/school/observe'
+      path: '/observe'
+      fullPath: '/school/observe'
+      preLoaderRoute: typeof SchoolObserveRouteImport
       parentRoute: typeof SchoolRoute
     }
     '/school/notify': {
@@ -660,6 +679,7 @@ interface SchoolRouteChildren {
   SchoolIntasksRoute: typeof SchoolIntasksRoute
   SchoolMeRoute: typeof SchoolMeRoute
   SchoolNotifyRoute: typeof SchoolNotifyRoute
+  SchoolObserveRoute: typeof SchoolObserveRoute
   SchoolReportRoute: typeof SchoolReportRoute
   SchoolStudentsRoute: typeof SchoolStudentsRoute
   SchoolTodayRoute: typeof SchoolTodayRoute
@@ -673,6 +693,7 @@ const SchoolRouteChildren: SchoolRouteChildren = {
   SchoolIntasksRoute: SchoolIntasksRoute,
   SchoolMeRoute: SchoolMeRoute,
   SchoolNotifyRoute: SchoolNotifyRoute,
+  SchoolObserveRoute: SchoolObserveRoute,
   SchoolReportRoute: SchoolReportRoute,
   SchoolStudentsRoute: SchoolStudentsRoute,
   SchoolTodayRoute: SchoolTodayRoute,

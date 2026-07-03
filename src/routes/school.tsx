@@ -16,9 +16,9 @@ function SchoolLayout() {
         accent="teal"
         items={[
           { to: "/school", label: "工作台", icon: "🏫" },
-          { to: "/school/tasks", label: "体检", icon: "📅" },
+          { to: "/school/today", label: "今日体检", icon: "📅" },
           { to: "/school/students", label: "学生", icon: "👨‍🎓" },
-          { to: "/school/focus", label: "关注", icon: "⭐" },
+          { to: "/school/intasks", label: "任务", icon: "✅" },
           { to: "/school/me", label: "我的", icon: "👤" },
         ]}
       />

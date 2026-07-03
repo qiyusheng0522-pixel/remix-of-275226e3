@@ -20,10 +20,16 @@ import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
 import { Route as SchoolFocusRouteImport } from './routes/school.focus'
+import { Route as ParentTerminateRouteImport } from './routes/parent.terminate'
+import { Route as ParentReviewRouteImport } from './routes/parent.review'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
+import { Route as ParentRecordRouteImport } from './routes/parent.record'
+import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
+import { Route as ParentDustmiteRouteImport } from './routes/parent.dustmite'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
 import { Route as ParentCareRouteImport } from './routes/parent.care'
+import { Route as ParentBindRouteImport } from './routes/parent.bind'
 import { Route as DoctorReviewRouteImport } from './routes/doctor.review'
 import { Route as DoctorMeRouteImport } from './routes/doctor.me'
 import { Route as DoctorFocusRouteImport } from './routes/doctor.focus'
@@ -84,14 +90,39 @@ const SchoolFocusRoute = SchoolFocusRouteImport.update({
   path: '/focus',
   getParentRoute: () => SchoolRoute,
 } as any)
+const ParentTerminateRoute = ParentTerminateRouteImport.update({
+  id: '/terminate',
+  path: '/terminate',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentReviewRoute = ParentReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentReportRoute = ParentReportRouteImport.update({
   id: '/report',
   path: '/report',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentRecordRoute = ParentRecordRouteImport.update({
+  id: '/record',
+  path: '/record',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentNoticeRoute = ParentNoticeRouteImport.update({
+  id: '/notice',
+  path: '/notice',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentMeRoute = ParentMeRouteImport.update({
   id: '/me',
   path: '/me',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentDustmiteRoute = ParentDustmiteRouteImport.update({
+  id: '/dustmite',
+  path: '/dustmite',
   getParentRoute: () => ParentRoute,
 } as any)
 const ParentCommRoute = ParentCommRouteImport.update({
@@ -102,6 +133,11 @@ const ParentCommRoute = ParentCommRouteImport.update({
 const ParentCareRoute = ParentCareRouteImport.update({
   id: '/care',
   path: '/care',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentBindRoute = ParentBindRouteImport.update({
+  id: '/bind',
+  path: '/bind',
   getParentRoute: () => ParentRoute,
 } as any)
 const DoctorReviewRoute = DoctorReviewRouteImport.update({
@@ -134,10 +170,16 @@ export interface FileRoutesByFullPath {
   '/doctor/focus': typeof DoctorFocusRoute
   '/doctor/me': typeof DoctorMeRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
+  '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/review': typeof ParentReviewRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -152,10 +194,16 @@ export interface FileRoutesByTo {
   '/doctor/focus': typeof DoctorFocusRoute
   '/doctor/me': typeof DoctorMeRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
+  '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/review': typeof ParentReviewRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -174,10 +222,16 @@ export interface FileRoutesById {
   '/doctor/focus': typeof DoctorFocusRoute
   '/doctor/me': typeof DoctorMeRoute
   '/doctor/review': typeof DoctorReviewRoute
+  '/parent/bind': typeof ParentBindRoute
   '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
+  '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/notice': typeof ParentNoticeRoute
+  '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
+  '/parent/review': typeof ParentReviewRoute
+  '/parent/terminate': typeof ParentTerminateRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/me': typeof SchoolMeRoute
   '/school/students': typeof SchoolStudentsRoute
@@ -197,10 +251,16 @@ export interface FileRouteTypes {
     | '/doctor/focus'
     | '/doctor/me'
     | '/doctor/review'
+    | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
+    | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/notice'
+    | '/parent/record'
     | '/parent/report'
+    | '/parent/review'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -215,10 +275,16 @@ export interface FileRouteTypes {
     | '/doctor/focus'
     | '/doctor/me'
     | '/doctor/review'
+    | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
+    | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/notice'
+    | '/parent/record'
     | '/parent/report'
+    | '/parent/review'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -236,10 +302,16 @@ export interface FileRouteTypes {
     | '/doctor/focus'
     | '/doctor/me'
     | '/doctor/review'
+    | '/parent/bind'
     | '/parent/care'
     | '/parent/comm'
+    | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/notice'
+    | '/parent/record'
     | '/parent/report'
+    | '/parent/review'
+    | '/parent/terminate'
     | '/school/focus'
     | '/school/me'
     | '/school/students'
@@ -335,6 +407,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchoolFocusRouteImport
       parentRoute: typeof SchoolRoute
     }
+    '/parent/terminate': {
+      id: '/parent/terminate'
+      path: '/terminate'
+      fullPath: '/parent/terminate'
+      preLoaderRoute: typeof ParentTerminateRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/review': {
+      id: '/parent/review'
+      path: '/review'
+      fullPath: '/parent/review'
+      preLoaderRoute: typeof ParentReviewRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/report': {
       id: '/parent/report'
       path: '/report'
@@ -342,11 +428,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentReportRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/record': {
+      id: '/parent/record'
+      path: '/record'
+      fullPath: '/parent/record'
+      preLoaderRoute: typeof ParentRecordRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/notice': {
+      id: '/parent/notice'
+      path: '/notice'
+      fullPath: '/parent/notice'
+      preLoaderRoute: typeof ParentNoticeRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/me': {
       id: '/parent/me'
       path: '/me'
       fullPath: '/parent/me'
       preLoaderRoute: typeof ParentMeRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/dustmite': {
+      id: '/parent/dustmite'
+      path: '/dustmite'
+      fullPath: '/parent/dustmite'
+      preLoaderRoute: typeof ParentDustmiteRouteImport
       parentRoute: typeof ParentRoute
     }
     '/parent/comm': {
@@ -361,6 +468,13 @@ declare module '@tanstack/react-router' {
       path: '/care'
       fullPath: '/parent/care'
       preLoaderRoute: typeof ParentCareRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/bind': {
+      id: '/parent/bind'
+      path: '/bind'
+      fullPath: '/parent/bind'
+      preLoaderRoute: typeof ParentBindRouteImport
       parentRoute: typeof ParentRoute
     }
     '/doctor/review': {
@@ -414,18 +528,30 @@ const DoctorRouteWithChildren =
   DoctorRoute._addFileChildren(DoctorRouteChildren)
 
 interface ParentRouteChildren {
+  ParentBindRoute: typeof ParentBindRoute
   ParentCareRoute: typeof ParentCareRoute
   ParentCommRoute: typeof ParentCommRoute
+  ParentDustmiteRoute: typeof ParentDustmiteRoute
   ParentMeRoute: typeof ParentMeRoute
+  ParentNoticeRoute: typeof ParentNoticeRoute
+  ParentRecordRoute: typeof ParentRecordRoute
   ParentReportRoute: typeof ParentReportRoute
+  ParentReviewRoute: typeof ParentReviewRoute
+  ParentTerminateRoute: typeof ParentTerminateRoute
   ParentIndexRoute: typeof ParentIndexRoute
 }
 
 const ParentRouteChildren: ParentRouteChildren = {
+  ParentBindRoute: ParentBindRoute,
   ParentCareRoute: ParentCareRoute,
   ParentCommRoute: ParentCommRoute,
+  ParentDustmiteRoute: ParentDustmiteRoute,
   ParentMeRoute: ParentMeRoute,
+  ParentNoticeRoute: ParentNoticeRoute,
+  ParentRecordRoute: ParentRecordRoute,
   ParentReportRoute: ParentReportRoute,
+  ParentReviewRoute: ParentReviewRoute,
+  ParentTerminateRoute: ParentTerminateRoute,
   ParentIndexRoute: ParentIndexRoute,
 }
 

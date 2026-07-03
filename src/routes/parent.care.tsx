@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { todayTasks } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
@@ -8,12 +8,12 @@ export const Route = createFileRoute("/parent/care")({
 });
 
 const modules = [
-  { icon: "⚖️", key: "体重", tips: "本周记录 1 次，饮食均衡", tint: "from-warm to-warm/60" },
-  { icon: "🫁", key: "呼吸", tips: "记录夜间咳嗽与诱因", tint: "from-teal to-teal/60" },
-  { icon: "😴", key: "睡眠", tips: "22:00 前上床，屏幕远离", tint: "from-deep to-deep/60" },
-  { icon: "🏃", key: "运动", tips: "户外 60 分钟/日", tint: "from-warning to-warm/60" },
-  { icon: "🍎", key: "饮食", tips: "减少含糖饮料", tint: "from-success to-teal/60" },
-  { icon: "🛏️", key: "环境", tips: "每周除螨、通风", tint: "from-teal to-warm/60" },
+  { icon: "⚖️", key: "体重", tips: "每周记 1 次体重", tint: "from-warm to-warm/60", to: "/parent/record" },
+  { icon: "🫁", key: "呼吸", tips: "记录咳嗽与诱因", tint: "from-teal to-teal/60", to: "/parent/record" },
+  { icon: "😴", key: "睡眠", tips: "22:00 前上床", tint: "from-deep to-deep/60", to: "/parent/record" },
+  { icon: "🏃", key: "运动", tips: "户外 60 分钟/日", tint: "from-warning to-warm/60", to: "/parent/record" },
+  { icon: "🍎", key: "饮食", tips: "减少含糖饮料", tint: "from-success to-teal/60", to: "/parent/record" },
+  { icon: "🛏️", key: "除螨", tips: "每周除螨、通风", tint: "from-teal to-warm/60", to: "/parent/dustmite" },
 ];
 
 function CarePage() {
@@ -67,14 +67,15 @@ function CarePage() {
         <h2 className="mb-2 text-sm font-semibold">呵护模块</h2>
         <div className="mb-5 grid grid-cols-3 gap-3">
           {modules.map((m) => (
-            <button
+            <Link
+              to={m.to}
               key={m.key}
               className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${m.tint} p-3 text-left text-white shadow-sm`}
             >
               <div className="text-2xl">{m.icon}</div>
               <div className="mt-2 text-sm font-bold">{m.key}</div>
               <div className="mt-0.5 text-[10px] leading-tight opacity-90">{m.tips}</div>
-            </button>
+            </Link>
           ))}
         </div>
 

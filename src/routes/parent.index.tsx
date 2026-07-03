@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { child, todayTasks, reviewPlan } from "@/lib/mock-data";
+import { child, todayTasks } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/parent/")({
@@ -9,7 +9,6 @@ export const Route = createFileRoute("/parent/")({
 function ParentHome() {
   const doneCount = todayTasks.filter((t) => t.done).length;
   const pct = Math.round((doneCount / todayTasks.length) * 100);
-  const nextReview = reviewPlan.find((r) => r.pending);
 
   return (
     <div>
@@ -63,6 +62,21 @@ function ParentHome() {
       </div>
 
       <div className="space-y-4 px-5">
+        {/* 体检通知横幅 */}
+        <Link
+          to="/parent/notice"
+          className="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-teal/20 to-warm/10 p-4 ring-1 ring-teal/20"
+        >
+          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-teal text-lg text-teal-foreground">
+            📢
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">春季体检通知已到达</p>
+            <p className="text-[11px] text-muted-foreground">4 月 15 日 · 阳光小学 · 需家长授权</p>
+          </div>
+          <span className="rounded-full bg-warm px-2.5 py-1 text-[11px] text-warm-foreground">去授权</span>
+        </Link>
+
         {/* Latest exam */}
         <Link
           to="/parent/report"
@@ -72,27 +86,32 @@ function ParentHome() {
             <div className="grid h-11 w-11 place-items-center rounded-2xl bg-teal/15 text-xl">📋</div>
             <div>
               <p className="text-sm font-semibold">最近一次体检</p>
-              <p className="text-xs text-muted-foreground">{child.lastExam} · 已生成报告</p>
+              <p className="text-xs text-muted-foreground">{child.lastExam} · 报告已发布</p>
             </div>
           </div>
           <span className="rounded-full bg-warning/20 px-2.5 py-1 text-[11px] font-medium text-warning-foreground">
-            {child.riskLevel}·需关注
+            黄色·需关注
           </span>
         </Link>
 
-        {/* Risk alerts */}
+        {/* 呵护摘要（生活化文案） */}
         <div className="rounded-2xl bg-warm/10 p-4 ring-1 ring-warm/20">
           <div className="mb-2 flex items-center gap-2">
-            <span className="text-base">⚠️</span>
-            <span className="text-sm font-semibold text-warm">风险提醒</span>
+            <span className="text-base">🌱</span>
+            <span className="text-sm font-semibold text-warm">孩子今日呵护</span>
           </div>
-          <ul className="space-y-1.5 text-xs text-foreground/80">
-            {child.focus.map((f) => (
-              <li key={f} className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-warm" />
-                <span>{f}</span>
-              </li>
-            ))}
+          <p className="text-xs leading-relaxed text-foreground/85">
+            小雨这次学校体检后，有 <b>2 项</b> 需要家庭关注：
+          </p>
+          <ul className="mt-1.5 space-y-1 text-xs text-foreground/85">
+            <li>· 体重管理需关注</li>
+            <li>· 呼吸运动需关注</li>
+          </ul>
+          <p className="mt-3 text-xs font-medium">今天先做 3 件小事：</p>
+          <ul className="mt-1 space-y-1 text-xs text-foreground/85">
+            <li>☐ 今天不喝含糖饮料</li>
+            <li>☐ 晚上 21:30 前开始睡前准备</li>
+            <li>☐ 记录运动后是否咳嗽 / 胸闷</li>
           </ul>
         </div>
 
@@ -142,14 +161,12 @@ function ParentHome() {
 
         {/* Review + Health manager */}
         <div className="grid grid-cols-2 gap-3">
-          {nextReview && (
-            <div className="rounded-2xl bg-gradient-to-br from-teal/20 to-teal/5 p-4 ring-1 ring-teal/20">
-              <div className="mb-1 text-lg">🗓️</div>
-              <p className="text-xs text-muted-foreground">复评提醒</p>
-              <p className="mt-1 text-sm font-semibold">{nextReview.type}</p>
-              <p className="text-[11px] text-muted-foreground">{nextReview.date}</p>
-            </div>
-          )}
+          <Link to="/parent/review" className="rounded-2xl bg-gradient-to-br from-teal/20 to-teal/5 p-4 ring-1 ring-teal/20">
+            <div className="mb-1 text-lg">🗓️</div>
+            <p className="text-xs text-muted-foreground">下次复评</p>
+            <p className="mt-1 text-sm font-semibold">1 月复评</p>
+            <p className="text-[11px] text-muted-foreground">5 月 15 日 · 待问卷</p>
+          </Link>
           <Link
             to="/parent/comm"
             className="rounded-2xl bg-gradient-to-br from-warm/20 to-warm/5 p-4 ring-1 ring-warm/20"
@@ -162,11 +179,11 @@ function ParentHome() {
         </div>
 
         {/* Quick actions */}
-        <div className="grid grid-cols-4 gap-2 pb-6">
+        <div className="grid grid-cols-4 gap-2">
           {[
-            { icon: "✍️", label: "授权", to: "/parent/me" },
-            { icon: "👶", label: "绑定", to: "/parent/me" },
-            { icon: "📊", label: "趋势", to: "/parent/report" },
+            { icon: "✍️", label: "授权", to: "/parent/notice" },
+            { icon: "👶", label: "绑定", to: "/parent/bind" },
+            { icon: "🛏️", label: "除螨", to: "/parent/dustmite" },
             { icon: "📄", label: "隐私", to: "/parent/me" },
           ].map((a) => (
             <Link
@@ -179,6 +196,14 @@ function ParentHome() {
             </Link>
           ))}
         </div>
+
+        {/* Terminate soft entry */}
+        <Link
+          to="/parent/terminate"
+          className="mb-6 block rounded-2xl bg-surface p-3 text-center text-xs text-muted-foreground shadow-sm ring-1 ring-border/60"
+        >
+          随时可 <span className="text-danger">终止后续健康管理</span> · 历史报告保留
+        </Link>
       </div>
     </div>
   );

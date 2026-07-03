@@ -1,0 +1,99 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { StatusBar } from "@/components/MobileFrame";
+import { child } from "@/lib/mock-data";
+
+export const Route = createFileRoute("/parent/bind")({
+  component: BindPage,
+});
+
+const guardians = [
+  { name: "李妈妈", relation: "母亲", phone: "138****2201", main: true },
+  { name: "张爸爸", relation: "父亲", phone: "139****0866", main: false },
+];
+
+function BindPage() {
+  return (
+    <div>
+      <StatusBar title="儿童绑定" />
+      <div className="px-5 pb-8 pt-2">
+        <div className="mb-4 overflow-hidden rounded-3xl bg-gradient-to-br from-warm to-warm/70 p-5 text-white shadow-lg shadow-warm/20">
+          <div className="flex items-center gap-3">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/25 text-2xl backdrop-blur">
+              {child.avatar}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-base font-bold">{child.name}</p>
+              <p className="text-xs text-white/85">{child.school} · {child.grade}{child.className}</p>
+              <p className="text-[11px] text-white/70">学号 {child.studentId}</p>
+            </div>
+            <span className="rounded-full bg-white/25 px-2 py-1 text-[11px]">已绑定</span>
+          </div>
+        </div>
+
+        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <h2 className="mb-3 text-sm font-semibold">核对儿童基础信息</h2>
+          <ul className="divide-y divide-border/60 text-xs">
+            {[
+              ["姓名", child.name],
+              ["性别", child.gender],
+              ["年龄", `${child.age} 岁`],
+              ["学校", child.school],
+              ["年级班级", `${child.grade}${child.className}`],
+              ["学号", child.studentId],
+            ].map(([k, v]) => (
+              <li key={k} className="flex justify-between py-2.5">
+                <span className="text-muted-foreground">{k}</span>
+                <span className="font-medium">{v}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            如信息有误，请联系班主任协助更正。
+          </p>
+        </section>
+
+        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold">监护人</h2>
+            <button className="text-xs text-warm">+ 邀请另一位监护人</button>
+          </div>
+          <ul className="space-y-2">
+            {guardians.map((g) => (
+              <li
+                key={g.name}
+                className="flex items-center gap-3 rounded-xl bg-surface-2 p-3"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-warm/15 text-lg">
+                  {g.relation === "母亲" ? "👩" : "👨"}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium">
+                    {g.name}
+                    {g.main && (
+                      <span className="ml-2 rounded-full bg-warm/15 px-2 py-0.5 text-[10px] text-warm">
+                        主监护人
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">{g.relation} · {g.phone}</p>
+                </div>
+                <button className="text-xs text-muted-foreground">修改</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
+          ➕ 绑定另一个孩子
+        </button>
+
+        <Link
+          to="/parent/me"
+          className="mt-3 block text-center text-xs text-muted-foreground"
+        >
+          返回我的
+        </Link>
+      </div>
+    </div>
+  );
+}

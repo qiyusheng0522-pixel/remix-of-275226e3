@@ -108,7 +108,9 @@ function ReportPage() {
         </section>
 
         <div className="rounded-2xl bg-teal/10 p-4 text-xs leading-relaxed text-deep ring-1 ring-teal/20">
-          💡 建议 4 周内在家完成体重记录与饮食追踪。如出现运动后持续咳嗽 &gt; 3 天，请联系健康管理师。
+          🌱 今天先做这 3 件小事：不喝含糖饮料 · 21:30 前开始睡前准备 · 记录运动后是否咳嗽。
+          <br />
+          若出现运动后持续咳嗽 &gt; 3 天，可以在"记录"里保存并<a className="underline">联系健康管理师</a>。
         </div>
       </div>
     </div>

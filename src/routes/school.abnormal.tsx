@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/school/abnormal")({
@@ -149,13 +150,22 @@ function AbnormalPage() {
                 </button>
               ))}
             </div>
-            <button
-              disabled={!flow}
-              onClick={() => nav({ to: "/school" })}
-              className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground disabled:opacity-40"
-            >
-              提交上报
-            </button>
+            <ActionSheet
+              trigger={
+                <button
+                  disabled={!flow}
+                  className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground disabled:opacity-40"
+                >
+                  提交上报
+                </button>
+              }
+              title="确认提交上报？"
+              description={`将按「${flow || "—"}」流转，并同步通知相关角色。提交后可在异常池追踪处理状态。`}
+              confirmText="确认提交"
+              toastMessage="上报已提交 ✓"
+              toastDescription={`${who} · ${cls} · 已通知${flow || "校医"}`}
+              onConfirm={() => nav({ to: "/school" })}
+            />
             <Link to="/school/focus" className="block text-center text-[11px] text-muted-foreground">
               查看处理状态 →
             </Link>

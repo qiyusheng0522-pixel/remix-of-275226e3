@@ -16,10 +16,16 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolIndexRouteImport } from './routes/school.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
 import { Route as DoctorIndexRouteImport } from './routes/doctor.index'
-import { Route as SchoolTasksRouteImport } from './routes/school.tasks'
+import { Route as SchoolTodayRouteImport } from './routes/school.today'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
+import { Route as SchoolReportRouteImport } from './routes/school.report'
+import { Route as SchoolObserveRouteImport } from './routes/school.observe'
+import { Route as SchoolNotifyRouteImport } from './routes/school.notify'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
+import { Route as SchoolIntasksRouteImport } from './routes/school.intasks'
 import { Route as SchoolFocusRouteImport } from './routes/school.focus'
+import { Route as SchoolAbsentRouteImport } from './routes/school.absent'
+import { Route as SchoolAbnormalRouteImport } from './routes/school.abnormal'
 import { Route as ParentTerminateRouteImport } from './routes/parent.terminate'
 import { Route as ParentReviewRouteImport } from './routes/parent.review'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
@@ -70,9 +76,9 @@ const DoctorIndexRoute = DoctorIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DoctorRoute,
 } as any)
-const SchoolTasksRoute = SchoolTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
+const SchoolTodayRoute = SchoolTodayRouteImport.update({
+  id: '/today',
+  path: '/today',
   getParentRoute: () => SchoolRoute,
 } as any)
 const SchoolStudentsRoute = SchoolStudentsRouteImport.update({
@@ -80,14 +86,44 @@ const SchoolStudentsRoute = SchoolStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => SchoolRoute,
 } as any)
+const SchoolReportRoute = SchoolReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolObserveRoute = SchoolObserveRouteImport.update({
+  id: '/observe',
+  path: '/observe',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolNotifyRoute = SchoolNotifyRouteImport.update({
+  id: '/notify',
+  path: '/notify',
+  getParentRoute: () => SchoolRoute,
+} as any)
 const SchoolMeRoute = SchoolMeRouteImport.update({
   id: '/me',
   path: '/me',
   getParentRoute: () => SchoolRoute,
 } as any)
+const SchoolIntasksRoute = SchoolIntasksRouteImport.update({
+  id: '/intasks',
+  path: '/intasks',
+  getParentRoute: () => SchoolRoute,
+} as any)
 const SchoolFocusRoute = SchoolFocusRouteImport.update({
   id: '/focus',
   path: '/focus',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolAbsentRoute = SchoolAbsentRouteImport.update({
+  id: '/absent',
+  path: '/absent',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolAbnormalRoute = SchoolAbnormalRouteImport.update({
+  id: '/abnormal',
+  path: '/abnormal',
   getParentRoute: () => SchoolRoute,
 } as any)
 const ParentTerminateRoute = ParentTerminateRouteImport.update({
@@ -180,10 +216,16 @@ export interface FileRoutesByFullPath {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/school/abnormal': typeof SchoolAbnormalRoute
+  '/school/absent': typeof SchoolAbsentRoute
   '/school/focus': typeof SchoolFocusRoute
+  '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
+  '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
+  '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
-  '/school/tasks': typeof SchoolTasksRoute
+  '/school/today': typeof SchoolTodayRoute
   '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
@@ -204,10 +246,16 @@ export interface FileRoutesByTo {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/school/abnormal': typeof SchoolAbnormalRoute
+  '/school/absent': typeof SchoolAbsentRoute
   '/school/focus': typeof SchoolFocusRoute
+  '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
+  '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
+  '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
-  '/school/tasks': typeof SchoolTasksRoute
+  '/school/today': typeof SchoolTodayRoute
   '/doctor': typeof DoctorIndexRoute
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
@@ -232,10 +280,16 @@ export interface FileRoutesById {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/school/abnormal': typeof SchoolAbnormalRoute
+  '/school/absent': typeof SchoolAbsentRoute
   '/school/focus': typeof SchoolFocusRoute
+  '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
+  '/school/notify': typeof SchoolNotifyRoute
+  '/school/observe': typeof SchoolObserveRoute
+  '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
-  '/school/tasks': typeof SchoolTasksRoute
+  '/school/today': typeof SchoolTodayRoute
   '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
@@ -261,10 +315,16 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/school/abnormal'
+    | '/school/absent'
     | '/school/focus'
+    | '/school/intasks'
     | '/school/me'
+    | '/school/notify'
+    | '/school/observe'
+    | '/school/report'
     | '/school/students'
-    | '/school/tasks'
+    | '/school/today'
     | '/doctor/'
     | '/parent/'
     | '/school/'
@@ -285,10 +345,16 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/school/abnormal'
+    | '/school/absent'
     | '/school/focus'
+    | '/school/intasks'
     | '/school/me'
+    | '/school/notify'
+    | '/school/observe'
+    | '/school/report'
     | '/school/students'
-    | '/school/tasks'
+    | '/school/today'
     | '/doctor'
     | '/parent'
     | '/school'
@@ -312,10 +378,16 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/school/abnormal'
+    | '/school/absent'
     | '/school/focus'
+    | '/school/intasks'
     | '/school/me'
+    | '/school/notify'
+    | '/school/observe'
+    | '/school/report'
     | '/school/students'
-    | '/school/tasks'
+    | '/school/today'
     | '/doctor/'
     | '/parent/'
     | '/school/'
@@ -379,11 +451,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorIndexRouteImport
       parentRoute: typeof DoctorRoute
     }
-    '/school/tasks': {
-      id: '/school/tasks'
-      path: '/tasks'
-      fullPath: '/school/tasks'
-      preLoaderRoute: typeof SchoolTasksRouteImport
+    '/school/today': {
+      id: '/school/today'
+      path: '/today'
+      fullPath: '/school/today'
+      preLoaderRoute: typeof SchoolTodayRouteImport
       parentRoute: typeof SchoolRoute
     }
     '/school/students': {
@@ -393,6 +465,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchoolStudentsRouteImport
       parentRoute: typeof SchoolRoute
     }
+    '/school/report': {
+      id: '/school/report'
+      path: '/report'
+      fullPath: '/school/report'
+      preLoaderRoute: typeof SchoolReportRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/observe': {
+      id: '/school/observe'
+      path: '/observe'
+      fullPath: '/school/observe'
+      preLoaderRoute: typeof SchoolObserveRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/notify': {
+      id: '/school/notify'
+      path: '/notify'
+      fullPath: '/school/notify'
+      preLoaderRoute: typeof SchoolNotifyRouteImport
+      parentRoute: typeof SchoolRoute
+    }
     '/school/me': {
       id: '/school/me'
       path: '/me'
@@ -400,11 +493,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchoolMeRouteImport
       parentRoute: typeof SchoolRoute
     }
+    '/school/intasks': {
+      id: '/school/intasks'
+      path: '/intasks'
+      fullPath: '/school/intasks'
+      preLoaderRoute: typeof SchoolIntasksRouteImport
+      parentRoute: typeof SchoolRoute
+    }
     '/school/focus': {
       id: '/school/focus'
       path: '/focus'
       fullPath: '/school/focus'
       preLoaderRoute: typeof SchoolFocusRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/absent': {
+      id: '/school/absent'
+      path: '/absent'
+      fullPath: '/school/absent'
+      preLoaderRoute: typeof SchoolAbsentRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/abnormal': {
+      id: '/school/abnormal'
+      path: '/abnormal'
+      fullPath: '/school/abnormal'
+      preLoaderRoute: typeof SchoolAbnormalRouteImport
       parentRoute: typeof SchoolRoute
     }
     '/parent/terminate': {
@@ -559,18 +673,30 @@ const ParentRouteWithChildren =
   ParentRoute._addFileChildren(ParentRouteChildren)
 
 interface SchoolRouteChildren {
+  SchoolAbnormalRoute: typeof SchoolAbnormalRoute
+  SchoolAbsentRoute: typeof SchoolAbsentRoute
   SchoolFocusRoute: typeof SchoolFocusRoute
+  SchoolIntasksRoute: typeof SchoolIntasksRoute
   SchoolMeRoute: typeof SchoolMeRoute
+  SchoolNotifyRoute: typeof SchoolNotifyRoute
+  SchoolObserveRoute: typeof SchoolObserveRoute
+  SchoolReportRoute: typeof SchoolReportRoute
   SchoolStudentsRoute: typeof SchoolStudentsRoute
-  SchoolTasksRoute: typeof SchoolTasksRoute
+  SchoolTodayRoute: typeof SchoolTodayRoute
   SchoolIndexRoute: typeof SchoolIndexRoute
 }
 
 const SchoolRouteChildren: SchoolRouteChildren = {
+  SchoolAbnormalRoute: SchoolAbnormalRoute,
+  SchoolAbsentRoute: SchoolAbsentRoute,
   SchoolFocusRoute: SchoolFocusRoute,
+  SchoolIntasksRoute: SchoolIntasksRoute,
   SchoolMeRoute: SchoolMeRoute,
+  SchoolNotifyRoute: SchoolNotifyRoute,
+  SchoolObserveRoute: SchoolObserveRoute,
+  SchoolReportRoute: SchoolReportRoute,
   SchoolStudentsRoute: SchoolStudentsRoute,
-  SchoolTasksRoute: SchoolTasksRoute,
+  SchoolTodayRoute: SchoolTodayRoute,
   SchoolIndexRoute: SchoolIndexRoute,
 }
 

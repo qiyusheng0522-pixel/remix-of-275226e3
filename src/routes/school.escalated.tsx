@@ -153,9 +153,55 @@ function EscalatedPage() {
               <p className="mt-0.5">{i.latest}</p>
             </div>
 
-            <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>学校端为只读视图</span>
-              <button className="rounded-full bg-surface-2 px-3 py-1">查看完整时间线 →</button>
+            <div className="mt-3 flex items-center justify-between gap-2 text-[11px]">
+              <span className="text-muted-foreground">学校端为只读视图</span>
+              <div className="flex gap-2">
+                <ActionSheet
+                  trigger={
+                    <button className="rounded-full bg-surface-2 px-3 py-1 text-muted-foreground">联系健管师</button>
+                  }
+                  title={`联系 ${i.manager}`}
+                  description={<>关于 · {i.title}<br />{i.who}</>}
+                  confirmText="发送消息"
+                  toastMessage="消息已送达健管师"
+                  toastDescription="通常 30 分钟内回复"
+                  toastType="info"
+                >
+                  <div className="mb-2 flex gap-2 text-[11px]">
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">📞 电话</button>
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">💬 站内消息</button>
+                  </div>
+                  <label className="block text-xs">
+                    <span className="text-muted-foreground">留言内容</span>
+                    <textarea
+                      rows={3}
+                      placeholder="如：家长今日已到校，请同步处置结果"
+                      className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                    />
+                  </label>
+                </ActionSheet>
+                <ActionSheet
+                  trigger={
+                    <button className="rounded-full bg-teal/15 px-3 py-1 text-teal">查看完整时间线 →</button>
+                  }
+                  title="完整处理时间线"
+                  description={<>{i.title} · {i.who}<br />接管：{i.manager}</>}
+                  confirmText="我已了解"
+                  cancelText="关闭"
+                  toastMessage="已同步查看进展"
+                  toastType="info"
+                >
+                  <ol className="relative space-y-3 border-l border-border pl-4 text-xs">
+                    {i.timeline.map((s, idx) => (
+                      <li key={idx} className="relative">
+                        <span className="absolute -left-[21px] top-1 grid h-3 w-3 place-items-center rounded-full bg-teal ring-2 ring-background" />
+                        <p className="text-[11px] text-muted-foreground">{s.time} · {s.by}</p>
+                        <p className="mt-0.5">{s.text}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </ActionSheet>
+              </div>
             </div>
           </li>
         ))}

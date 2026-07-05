@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/school/intasks")({
@@ -115,8 +116,46 @@ function InTasksPage() {
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[t.status]}`}>{t.status}</span>
-                  <button className="ml-auto rounded-full bg-success/15 px-3 py-1 text-[11px] text-success">完成</button>
-                  <button className="rounded-full bg-warning/20 px-3 py-1 text-[11px] text-warning-foreground">升级</button>
+                  <ActionSheet
+                    trigger={
+                      <button className="ml-auto rounded-full bg-success/15 px-3 py-1 text-[11px] text-success">完成</button>
+                    }
+                    title="标记任务已完成？"
+                    description={<>{t.title}<br />{t.role} · {t.who}</>}
+                    confirmText="标记完成"
+                    toastMessage="任务已完成 ✓"
+                    toastDescription="可在已完成中查看"
+                  >
+                    <label className="block text-xs">
+                      <span className="text-muted-foreground">完成说明（选填）</span>
+                      <textarea
+                        rows={3}
+                        placeholder="补充执行情况、遗留问题等"
+                        className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                      />
+                    </label>
+                  </ActionSheet>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-warning/20 px-3 py-1 text-[11px] text-warning-foreground">升级</button>
+                    }
+                    title="升级至健康管理师？"
+                    description={<>{t.title}<br />升级后由校外健管师接手处理，学校端仅保留查看权限。</>}
+                    confirmText="确认升级"
+                    danger
+                    toastMessage="已升级至健管师"
+                    toastType="warning"
+                    toastDescription="将在协同工作台同步"
+                  >
+                    <label className="block text-xs">
+                      <span className="text-muted-foreground">升级原因（必填）</span>
+                      <textarea
+                        rows={3}
+                        placeholder="如：现场情况超出校内处置能力"
+                        className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                      />
+                    </label>
+                  </ActionSheet>
                 </div>
               </div>
             </div>

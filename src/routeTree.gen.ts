@@ -24,6 +24,7 @@ import { Route as SchoolNotifyRouteImport } from './routes/school.notify'
 import { Route as SchoolMeRouteImport } from './routes/school.me'
 import { Route as SchoolIntasksRouteImport } from './routes/school.intasks'
 import { Route as SchoolFocusRouteImport } from './routes/school.focus'
+import { Route as SchoolEscalatedRouteImport } from './routes/school.escalated'
 import { Route as SchoolAbsentRouteImport } from './routes/school.absent'
 import { Route as SchoolAbnormalRouteImport } from './routes/school.abnormal'
 import { Route as ParentTerminateRouteImport } from './routes/parent.terminate'
@@ -122,6 +123,11 @@ const SchoolIntasksRoute = SchoolIntasksRouteImport.update({
 const SchoolFocusRoute = SchoolFocusRouteImport.update({
   id: '/focus',
   path: '/focus',
+  getParentRoute: () => SchoolRoute,
+} as any)
+const SchoolEscalatedRoute = SchoolEscalatedRouteImport.update({
+  id: '/escalated',
+  path: '/escalated',
   getParentRoute: () => SchoolRoute,
 } as any)
 const SchoolAbsentRoute = SchoolAbsentRouteImport.update({
@@ -274,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/parent/terminate': typeof ParentTerminateRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
+  '/school/escalated': typeof SchoolEscalatedRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
@@ -312,6 +319,7 @@ export interface FileRoutesByTo {
   '/parent/terminate': typeof ParentTerminateRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
+  '/school/escalated': typeof SchoolEscalatedRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
@@ -354,6 +362,7 @@ export interface FileRoutesById {
   '/parent/terminate': typeof ParentTerminateRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
+  '/school/escalated': typeof SchoolEscalatedRoute
   '/school/focus': typeof SchoolFocusRoute
   '/school/intasks': typeof SchoolIntasksRoute
   '/school/me': typeof SchoolMeRoute
@@ -397,6 +406,7 @@ export interface FileRouteTypes {
     | '/parent/terminate'
     | '/school/abnormal'
     | '/school/absent'
+    | '/school/escalated'
     | '/school/focus'
     | '/school/intasks'
     | '/school/me'
@@ -435,6 +445,7 @@ export interface FileRouteTypes {
     | '/parent/terminate'
     | '/school/abnormal'
     | '/school/absent'
+    | '/school/escalated'
     | '/school/focus'
     | '/school/intasks'
     | '/school/me'
@@ -476,6 +487,7 @@ export interface FileRouteTypes {
     | '/parent/terminate'
     | '/school/abnormal'
     | '/school/absent'
+    | '/school/escalated'
     | '/school/focus'
     | '/school/intasks'
     | '/school/me'
@@ -601,6 +613,13 @@ declare module '@tanstack/react-router' {
       path: '/focus'
       fullPath: '/school/focus'
       preLoaderRoute: typeof SchoolFocusRouteImport
+      parentRoute: typeof SchoolRoute
+    }
+    '/school/escalated': {
+      id: '/school/escalated'
+      path: '/escalated'
+      fullPath: '/school/escalated'
+      preLoaderRoute: typeof SchoolEscalatedRouteImport
       parentRoute: typeof SchoolRoute
     }
     '/school/absent': {
@@ -843,6 +862,7 @@ const ParentRouteWithChildren =
 interface SchoolRouteChildren {
   SchoolAbnormalRoute: typeof SchoolAbnormalRoute
   SchoolAbsentRoute: typeof SchoolAbsentRoute
+  SchoolEscalatedRoute: typeof SchoolEscalatedRoute
   SchoolFocusRoute: typeof SchoolFocusRoute
   SchoolIntasksRoute: typeof SchoolIntasksRoute
   SchoolMeRoute: typeof SchoolMeRoute
@@ -857,6 +877,7 @@ interface SchoolRouteChildren {
 const SchoolRouteChildren: SchoolRouteChildren = {
   SchoolAbnormalRoute: SchoolAbnormalRoute,
   SchoolAbsentRoute: SchoolAbsentRoute,
+  SchoolEscalatedRoute: SchoolEscalatedRoute,
   SchoolFocusRoute: SchoolFocusRoute,
   SchoolIntasksRoute: SchoolIntasksRoute,
   SchoolMeRoute: SchoolMeRoute,

@@ -8,13 +8,12 @@ export const Route = createFileRoute("/school/abnormal")({
 });
 
 const types = [
+  { key: "体检重大异常", icon: "⚠️", tint: "warning" },
   { key: "运动后胸闷/喘息", icon: "🏃", tint: "warm" },
   { key: "呼吸不适", icon: "🌬️", tint: "teal" },
   { key: "疑似过敏反应", icon: "🤧", tint: "danger" },
   { key: "头晕/晕厥", icon: "💫", tint: "deep" },
-  { key: "体检重大异常", icon: "⚠️", tint: "warning" },
-  { key: "学生长期缺勤", icon: "📅", tint: "muted-foreground" },
-  { key: "家长沟通异常", icon: "📞", tint: "warm" },
+  { key: "复检未到场", icon: "📋", tint: "muted-foreground" },
 ] as const;
 
 const flows = [

@@ -104,7 +104,7 @@ function InTasksPage() {
           <li key={t.id} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-teal/15 text-lg">
-                {t.role === "班主任" ? "👨‍🏫" : t.role === "校医" ? "🏥" : t.role === "体育老师" ? "⚽" : "🍱"}
+                {t.role === "体检负责老师" ? "👨‍🏫" : t.role === "校医" ? "🏥" : "🏫"}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">

@@ -20,7 +20,7 @@ const tasks: Task[] = [
   { id: "t2", role: "班主任", title: "提醒未读报告家长查看", who: "3年3班", due: "今日", status: "处理中" },
   { id: "t3", role: "校医", title: "观察运动后胸闷学生 王小明", who: "2年2班", due: "本周", status: "处理中" },
   { id: "t4", role: "校医", title: "疑似过敏反应现场记录", who: "1年1班", due: "已超期", status: "已超期" },
-  { id: "t5", role: "体育老师", title: "调整体育课强度：呼吸关注学生", who: "5年1班", due: "本周", status: "待处理" },
+  { id: "t5", role: "校医", title: "调整体育活动强度：呼吸关注学生", who: "5年1班", due: "本周", status: "待处理" },
   { id: "t6", role: "体育老师", title: "记录运动后不适反馈", who: "4年2班", due: "本周", status: "已完成" },
   { id: "t7", role: "食堂", title: "过敏原提示（P1）", who: "全校", due: "计划中", status: "待处理" },
 ];

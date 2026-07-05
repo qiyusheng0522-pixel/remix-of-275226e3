@@ -13,7 +13,7 @@ const types = [
   { key: "疑似过敏反应", icon: "🤧", tint: "danger" },
   { key: "头晕/晕厥", icon: "💫", tint: "deep" },
   { key: "体检重大异常", icon: "⚠️", tint: "warning" },
-  { key: "学生长期缺课", icon: "📅", tint: "muted-foreground" },
+  { key: "学生长期缺勤", icon: "📅", tint: "muted-foreground" },
   { key: "家长沟通异常", icon: "📞", tint: "warm" },
 ] as const;
 

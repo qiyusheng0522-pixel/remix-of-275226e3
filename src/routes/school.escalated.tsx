@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/school/escalated")({
@@ -16,6 +17,7 @@ type Item = {
   phase: "已受理" | "沟通家长" | "外部转诊" | "已闭环";
   latest: string;
   eta: string;
+  timeline: { time: string; text: string; by: string }[];
 };
 
 const items: Item[] = [
@@ -29,6 +31,12 @@ const items: Item[] = [
     phase: "沟通家长",
     latest: "已联系家长，安排今日下午到院复查",
     eta: "今日 18:00 前反馈",
+    timeline: [
+      { time: "04-02 10:12", text: "校医现场处置后发起升级", by: "校医 张老师" },
+      { time: "04-02 10:20", text: "王健管师接管，开始核查病史", by: "王健管师" },
+      { time: "04-02 11:05", text: "已电话联系家长，同步现场情况", by: "王健管师" },
+      { time: "04-02 12:30", text: "预约下午 15:30 到院复查", by: "王健管师" },
+    ],
   },
   {
     id: "e2",
@@ -40,6 +48,12 @@ const items: Item[] = [
     phase: "外部转诊",
     latest: "已开具绿色通道转诊单，家长确认中",
     eta: "明日 12:00 前反馈",
+    timeline: [
+      { time: "04-02 09:30", text: "校管理者审核后发起升级", by: "校管理者 李主任" },
+      { time: "04-02 09:55", text: "刘健管师受理，评估转诊科室", by: "刘健管师" },
+      { time: "04-02 11:40", text: "开具心血管科绿色通道转诊单", by: "刘健管师" },
+      { time: "04-02 12:10", text: "已发送家长确认，等待回执", by: "刘健管师" },
+    ],
   },
   {
     id: "e3",
@@ -51,6 +65,12 @@ const items: Item[] = [
     phase: "已闭环",
     latest: "家长已完成补检预约，报告将同步至学校",
     eta: "已完成",
+    timeline: [
+      { time: "04-01 14:20", text: "体检负责老师发起升级", by: "体检老师 陈老师" },
+      { time: "04-01 15:00", text: "王健管师联系家长排查原因", by: "王健管师" },
+      { time: "04-01 17:30", text: "家长确认 04-05 到院补检", by: "王健管师" },
+      { time: "04-02 09:00", text: "任务闭环，报告将回流学校端", by: "王健管师" },
+    ],
   },
 ];
 
@@ -133,9 +153,55 @@ function EscalatedPage() {
               <p className="mt-0.5">{i.latest}</p>
             </div>
 
-            <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>学校端为只读视图</span>
-              <button className="rounded-full bg-surface-2 px-3 py-1">查看完整时间线 →</button>
+            <div className="mt-3 flex items-center justify-between gap-2 text-[11px]">
+              <span className="text-muted-foreground">学校端为只读视图</span>
+              <div className="flex gap-2">
+                <ActionSheet
+                  trigger={
+                    <button className="rounded-full bg-surface-2 px-3 py-1 text-muted-foreground">联系健管师</button>
+                  }
+                  title={`联系 ${i.manager}`}
+                  description={<>关于 · {i.title}<br />{i.who}</>}
+                  confirmText="发送消息"
+                  toastMessage="消息已送达健管师"
+                  toastDescription="通常 30 分钟内回复"
+                  toastType="info"
+                >
+                  <div className="mb-2 flex gap-2 text-[11px]">
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">📞 电话</button>
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">💬 站内消息</button>
+                  </div>
+                  <label className="block text-xs">
+                    <span className="text-muted-foreground">留言内容</span>
+                    <textarea
+                      rows={3}
+                      placeholder="如：家长今日已到校，请同步处置结果"
+                      className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                    />
+                  </label>
+                </ActionSheet>
+                <ActionSheet
+                  trigger={
+                    <button className="rounded-full bg-teal/15 px-3 py-1 text-teal">查看完整时间线 →</button>
+                  }
+                  title="完整处理时间线"
+                  description={<>{i.title} · {i.who}<br />接管：{i.manager}</>}
+                  confirmText="我已了解"
+                  cancelText="关闭"
+                  toastMessage="已同步查看进展"
+                  toastType="info"
+                >
+                  <ol className="relative space-y-3 border-l border-border pl-4 text-xs">
+                    {i.timeline.map((s, idx) => (
+                      <li key={idx} className="relative">
+                        <span className="absolute -left-[21px] top-1 grid h-3 w-3 place-items-center rounded-full bg-teal ring-2 ring-background" />
+                        <p className="text-[11px] text-muted-foreground">{s.time} · {s.by}</p>
+                        <p className="mt-0.5">{s.text}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </ActionSheet>
+              </div>
             </div>
           </li>
         ))}

@@ -55,7 +55,18 @@ function InTasksPage() {
       <StatusBar title="校内任务" />
       <div className="px-5 pt-2">
         <h1 className="text-xl font-bold">校内任务</h1>
-        <p className="mb-4 text-xs text-muted-foreground">按角色分派 · 完成后可一键升级健管师</p>
+        <p className="mb-3 text-xs text-muted-foreground">按角色分派 · 完成后可一键升级健管师</p>
+
+        <Link
+          to="/school/escalated"
+          className="mb-4 flex items-center justify-between rounded-2xl bg-gradient-to-br from-warning/15 to-warm/10 p-3 ring-1 ring-warning/20"
+        >
+          <div>
+            <p className="text-xs font-semibold">健管师已接管 · 查看进展</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">升级后的任务在此处跟踪（只读）</p>
+          </div>
+          <span className="text-warm">→</span>
+        </Link>
 
         {/* Role tabs */}
         <div className="mb-2 flex gap-2 overflow-x-auto pb-1">

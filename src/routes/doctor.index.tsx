@@ -190,6 +190,50 @@ function DoctorHome() {
         </div>
       </section>
 
+      {/* 入校体检 · 前置准备 */}
+      <section className="px-5 pt-5">
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="flex items-center gap-1.5 text-sm font-bold">
+            <span className="text-teal">🚌</span> 入校体检准备
+          </h3>
+          <span className="rounded-full bg-warm/15 px-2.5 py-0.5 text-[11px] text-warm">
+            明日 08:30 出发
+          </span>
+        </div>
+        <Link
+          to="/doctor/prep"
+          className="block rounded-2xl bg-gradient-to-br from-deep to-deep/85 p-4 text-deep-foreground shadow-lg shadow-deep/25"
+        >
+          <div className="flex items-start justify-between">
+            <div className="min-w-0">
+              <p className="text-[15px] font-bold">阳光小学 · 春季体检</p>
+              <p className="mt-1 text-[12px] text-white/85">
+                214 人 · 9 个班 · 教学楼一层体检车 A/B
+              </p>
+            </div>
+            <span className="rounded-full bg-white/15 px-2 py-0.5 text-[10px]">未就绪</span>
+          </div>
+          <div className="mt-3 grid grid-cols-4 gap-2 text-center text-[11px]">
+            {[
+              { k: "基础信息", v: "✓" },
+              { k: "团队", v: "4 人" },
+              { k: "设备", v: "5/5" },
+              { k: "注意事项", v: "4 条" },
+            ].map((it) => (
+              <div key={it.k} className="rounded-xl bg-white/10 py-2">
+                <p className="text-sm font-bold">{it.v}</p>
+                <p className="mt-0.5 text-white/80">{it.k}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[11px] text-white/80">
+            点击查看：基础信息 / 体检团队 / 项目 / 设备清单 / 复测规则 ›
+          </p>
+        </Link>
+      </section>
+
+
+
       {/* 今日待办清单 */}
       <section className="px-5 pt-5">
         <div className="mb-3 flex items-center justify-between">

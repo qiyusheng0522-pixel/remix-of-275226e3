@@ -18,16 +18,6 @@ type Stat = {
 
 const stats: Stat[] = [
   {
-    icon: "🔄",
-    iconBg: "bg-danger/10 text-danger",
-    label: "待转诊",
-    sub: "健管师升级 / 上转",
-    value: 6,
-    unit: "单待处理",
-    valueColor: "text-danger",
-    to: "/doctor/referral",
-  },
-  {
 
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
@@ -65,20 +55,10 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/referral" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
+  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
 };
 
 const todos: Todo[] = [
-  {
-    id: "0617",
-    name: "王小豆",
-    tags: [
-      { text: "转诊", cls: "bg-danger/10 text-danger" },
-      { text: "紧急", cls: "bg-danger text-danger-foreground" },
-    ],
-    desc: "内分泌科转诊复核（健管师升级）· SLA 2h",
-    to: "/doctor/referral",
-  },
   {
     id: "0423",
     name: "阳光小学",

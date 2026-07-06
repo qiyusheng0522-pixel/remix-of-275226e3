@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
@@ -205,20 +205,27 @@ function ReportReviewPage() {
                 : "bg-success/15 text-success";
             return (
               <li key={key} className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
-                <button
-                  onClick={() => setOpenKey(isOpen ? null : key)}
-                  className="flex w-full items-start justify-between gap-2 p-4 text-left"
-                >
-                  <div className="min-w-0">
+                <div className="flex w-full items-start justify-between gap-2 p-4">
+                  <Link
+                    to="/doctor/plan"
+                    className="min-w-0 flex-1 text-left"
+                  >
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${catStyle[r.category]}`}>
                         {r.category}
                       </span>
-                      <p className="text-sm font-semibold">{r.name} · {r.class}</p>
+                      <p className="text-sm font-semibold">
+                        {r.name} · {r.class}
+                        <span className="ml-1 text-[10px] text-deep">查看体检数据 ›</span>
+                      </p>
                     </div>
                     <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-2">
+                  </Link>
+                  <button
+                    onClick={() => setOpenKey(isOpen ? null : key)}
+                    className="flex shrink-0 items-center gap-2"
+                    aria-label="展开详情"
+                  >
                     <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${riskCls}`}>
                       {r.risk}
                     </span>
@@ -227,8 +234,8 @@ function ReportReviewPage() {
                     >
                       ⌄
                     </span>
-                  </div>
-                </button>
+                  </button>
+                </div>
                 {isOpen && (
                   <div className="border-t border-border/60 px-4 pb-4 pt-3">
                     <p className="text-[11px] text-muted-foreground">{r.detail}</p>

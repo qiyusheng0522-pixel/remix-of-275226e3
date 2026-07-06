@@ -14,7 +14,7 @@ export function BottomNav({ items, accent = "warm" }: { items: NavItem[]; accent
 
   return (
     <nav className="sticky bottom-0 z-20 mt-auto border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
-      <ul className="grid grid-cols-5">
+      <ul className="grid" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
         {items.map((it) => {
           const active = pathname === it.to;
           return (

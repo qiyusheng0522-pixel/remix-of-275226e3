@@ -25,7 +25,7 @@ type Draft = {
 
 const drafts: Draft[] = [
   {
-    name: "陈前",
+    name: "周子航",
     hospital: "鼓楼医院",
     dept: "内分泌科",
     evalTime: "2026-04-02 18:44:18",

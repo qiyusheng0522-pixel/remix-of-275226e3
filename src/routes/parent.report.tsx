@@ -118,58 +118,58 @@ function ReportPage() {
         </header>
 
         {/* Summary card */}
-        <div className="mb-4 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 p-5 ring-1 ring-warning/30">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-warning-foreground/80">整体风险等级</p>
-              <p className="mt-1 text-2xl font-extrabold text-warning-foreground">
-                {child.riskLevel} · 需关注
-              </p>
-            </div>
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-warning/40 text-2xl">
-              🟡
-            </div>
-          </div>
-          <div className="mt-4 space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
-            <p className="text-[11px] font-semibold text-warm">🤖 AI 解读</p>
-            <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
-              <li>• <b>体重/BMI 偏高（肥胖倾向）</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
-              <li>• <b>尘螨过敏 (++) · 运动后偶发咳嗽</b>：警惕哮喘倾向，做好家庭除螨与运动前热身。</li>
-              <li>• 其他项目均在正常范围，继续保持。</li>
-            </ul>
-          </div>
-
-          {/* 需就诊事项 · 快速预约 */}
-          <div className="mt-3 space-y-2">
-            <p className="text-[11px] font-semibold text-danger">⚠️ 建议尽快就诊</p>
-            {[
-              { dept: "儿童保健科", reason: "体重管理评估与营养指导", hospital: "市儿童医院" },
-              { dept: "呼吸/过敏科", reason: "尘螨过敏 + 运动后咳嗽评估", hospital: "市儿童医院" },
-            ].map((v) => (
-              <div
-                key={v.dept}
-                className="flex items-center justify-between rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-danger/20"
-              >
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold">
-                    {v.dept}
-                    <span className="ml-2 text-[11px] font-normal text-muted-foreground">
-                      {v.hospital}
-                    </span>
-                  </p>
-                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                    {v.reason}
-                  </p>
-                </div>
-                <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
-                  预约挂号
-                </button>
+        <details className="group mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 ring-1 ring-warning/30">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4">
+            <div className="flex items-center gap-2">
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">🟡</span>
+              <div>
+                <p className="text-[11px] text-warning-foreground/80">整体风险等级</p>
+                <p className="text-sm font-bold text-warning-foreground">{child.riskLevel} · 需关注</p>
               </div>
-            ))}
+            </div>
+            <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <div className="space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
+              <p className="text-[11px] font-semibold text-warm">🤖 AI 解读</p>
+              <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
+                <li>• <b>体重/BMI 偏高（肥胖倾向）</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
+                <li>• <b>尘螨过敏 (++) · 运动后偶发咳嗽</b>：警惕哮喘倾向，做好家庭除螨与运动前热身。</li>
+                <li>• 其他项目均在正常范围，继续保持。</li>
+              </ul>
+            </div>
+
+            {/* 需就诊事项 · 快速预约 */}
+            <div className="mt-3 space-y-2">
+              <p className="text-[11px] font-semibold text-danger">⚠️ 建议尽快就诊</p>
+              {[
+                { dept: "儿童保健科", reason: "体重管理评估与营养指导", hospital: "市儿童医院" },
+                { dept: "呼吸/过敏科", reason: "尘螨过敏 + 运动后咳嗽评估", hospital: "市儿童医院" },
+              ].map((v) => (
+                <div
+                  key={v.dept}
+                  className="flex items-center justify-between rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-danger/20"
+                >
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold">
+                      {v.dept}
+                      <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+                        {v.hospital}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+                      {v.reason}
+                    </p>
+                  </div>
+                  <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
+                    预约挂号
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
+        </details>
 
-
-        </div>
 
 
 

@@ -68,6 +68,7 @@ function CommPage() {
   const [threads, setThreads] = useState(initial);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [aiOn, setAiOn] = useState(true);
+  const [autoAi, setAutoAi] = useState(false);
   const [input, setInput] = useState("");
 
   const active = useMemo(() => threads.find((t) => t.id === activeId), [threads, activeId]);
@@ -144,55 +145,63 @@ function CommPage() {
           ))}
         </div>
 
-        {/* AI 建议条 */}
-        {aiOn && (
-          <div className="border-t border-border/60 bg-teal/5 px-4 py-2">
-            <div className="flex items-center justify-between">
-              <p className="flex items-center gap-1 text-[11px] text-teal">
-                ✨ AI 助手已就绪 · 按角色/病史生成回复
-              </p>
-              <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                自动
-                <input
-                  type="checkbox"
-                  className="accent-teal"
-                  onChange={() => {}}
-                />
-              </label>
+        {/* 底部输入区（固定在底部导航之上，冻结状态） */}
+        <div className="sticky bottom-0 z-10 border-t border-border/60 bg-surface/95 backdrop-blur">
+          {aiOn && (
+            <div className="border-b border-border/60 bg-teal/5 px-4 py-2">
+              <div className="flex items-center justify-between">
+                <p className="flex items-center gap-1 text-[11px] text-teal">
+                  ✨ AI 助手已就绪 · 按角色/病史生成回复
+                </p>
+                <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                  自动
+                  <button
+                    type="button"
+                    onClick={() => setAutoAi((v) => !v)}
+                    className={`relative h-4 w-7 rounded-full transition ${autoAi ? "bg-teal" : "bg-surface-2 ring-1 ring-border/60"}`}
+                    aria-pressed={autoAi}
+                  >
+                    <span
+                      className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition ${
+                        autoAi ? "left-3.5" : "left-0.5"
+                      }`}
+                    />
+                  </button>
+                </label>
+              </div>
+              <div className="mt-1.5 flex gap-1.5">
+                <button
+                  onClick={aiReply}
+                  className="flex-1 rounded-full bg-teal py-1.5 text-[11px] font-medium text-teal-foreground"
+                >
+                  一键 AI 回复
+                </button>
+                <button
+                  onClick={aiDraft}
+                  className="flex-1 rounded-full bg-surface py-1.5 text-[11px] ring-1 ring-teal/40 text-teal"
+                >
+                  AI 起草 · 待编辑
+                </button>
+              </div>
             </div>
-            <div className="mt-1.5 flex gap-1.5">
-              <button
-                onClick={aiReply}
-                className="flex-1 rounded-full bg-teal py-1.5 text-[11px] font-medium text-teal-foreground"
-              >
-                一键 AI 回复
-              </button>
-              <button
-                onClick={aiDraft}
-                className="flex-1 rounded-full bg-surface py-1.5 text-[11px] ring-1 ring-teal/40 text-teal"
-              >
-                AI 起草 · 待编辑
-              </button>
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* 输入 */}
-        <div className="flex items-end gap-2 border-t border-border/60 bg-surface px-3 py-2">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            rows={1}
-            placeholder="输入回复…"
-            className="flex-1 resize-none rounded-2xl bg-surface-2 px-3 py-2 text-[13px] outline-none"
-          />
-          <button
-            onClick={() => send(input)}
-            disabled={!input.trim()}
-            className="rounded-full bg-deep px-4 py-2 text-[12px] font-medium text-deep-foreground disabled:opacity-40"
-          >
-            发送
-          </button>
+          <div className="flex items-end gap-2 px-3 py-2">
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              rows={1}
+              placeholder="输入回复…"
+              className="flex-1 resize-none rounded-2xl bg-surface-2 px-3 py-2 text-[13px] outline-none"
+            />
+            <button
+              onClick={() => send(input)}
+              disabled={!input.trim()}
+              className="rounded-full bg-deep px-4 py-2 text-[12px] font-medium text-deep-foreground disabled:opacity-40"
+            >
+              发送
+            </button>
+          </div>
         </div>
       </div>
     );

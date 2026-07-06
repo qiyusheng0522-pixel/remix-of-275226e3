@@ -169,22 +169,8 @@ function ReportPage() {
             ))}
           </div>
 
-          {/* 咨询入口 */}
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">👨‍⚕️</span>
-              咨询医生
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">🤖</span>
-              AI 解读
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">📄</span>
-              完整报告
-            </button>
-          </div>
         </div>
+
 
 
         {/* Detailed sections */}

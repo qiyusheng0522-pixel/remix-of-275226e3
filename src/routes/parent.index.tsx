@@ -485,9 +485,12 @@ function ParentHome() {
             <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] backdrop-blur">
               已为 12,488 位小朋友服务
             </span>
-            <button className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-rose">
+            <Link
+              to="/parent/shop"
+              className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-rose"
+            >
               进入商城 ›
-            </button>
+            </Link>
           </div>
         </div>
       </section>

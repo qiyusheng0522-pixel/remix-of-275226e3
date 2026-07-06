@@ -27,7 +27,7 @@ export function SubNav({ items }: { items: { to: string; label: string }[] }) {
 export const examSubNav = [
   { to: "/doctor/prep", label: "体检前准备" },
   { to: "/doctor/exam", label: "校内录检" },
-  { to: "/doctor/qc", label: "数据质控" },
+  { to: "/doctor/qc", label: "报告审核" },
 ];
 
 export const reviewSubNav = [

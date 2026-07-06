@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
@@ -376,19 +376,20 @@ function PlanPage() {
           </div>
         )}
 
-        {/* Patient link */}
-        <div className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <button className="flex w-full items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-deep/10 text-deep">
-              📈
-            </span>
-            <div className="flex-1 text-left">
-              <p className="text-[14px] font-semibold">查看患者详情</p>
-              <p className="text-[11px] text-muted-foreground">{active.name} 的完整档案</p>
-            </div>
-            <span className="text-muted-foreground">›</span>
-          </button>
-        </div>
+        {/* User link - shows same report as parent side */}
+        <Link
+          to="/parent/report"
+          className="flex w-full items-center gap-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
+        >
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-deep/10 text-deep">
+            📈
+          </span>
+          <div className="flex-1 text-left">
+            <p className="text-[14px] font-semibold">查看用户详情</p>
+            <p className="text-[11px] text-muted-foreground">{active.name} 的体检报告 · 与家长端同步</p>
+          </div>
+          <span className="text-muted-foreground">›</span>
+        </Link>
       </div>
     </div>
   );

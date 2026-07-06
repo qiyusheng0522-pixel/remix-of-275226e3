@@ -173,8 +173,9 @@ function ReportPage() {
 
 
 
-        {/* Detailed sections - 风琴样式，默认收起 */}
-        <div className="mb-4 space-y-2">
+        {/* Detailed sections - 各项体检明细，每项风琴，默认收起 */}
+        <p className="mb-2 mt-1 px-1 text-[11px] text-muted-foreground">各项体检明细 · 点击展开</p>
+        <div className="mb-3 space-y-2">
           {sections.map((s) => {
             const abnormal = s.items.filter((it) => it.level !== "ok").length;
             const hasAb = abnormal > 0;

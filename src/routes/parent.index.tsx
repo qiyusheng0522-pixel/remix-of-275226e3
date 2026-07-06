@@ -1,210 +1,392 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { child, todayTasks } from "@/lib/mock-data";
+import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/parent/")({
   component: ParentHome,
 });
 
+type Kid = {
+  id: string;
+  short: string;
+  name: string;
+  age: number;
+  tag: string;
+  tagColor: "warm" | "rose";
+};
+
+const kids: Kid[] = [
+  { id: "yang", short: "阳", name: "小阳", age: 7, tag: "肥胖倾向", tagColor: "warm" },
+  { id: "yu", short: "雨", name: "小雨", age: 9, tag: "哮喘风险", tagColor: "rose" },
+];
+
+const quickAsk = ["饮食建议", "运动咨询", "睡眠咨询", "报告解读"];
+
+const homeCare = [
+  {
+    level: "高",
+    levelClass: "bg-rose text-rose-foreground",
+    icon: "⚖️",
+    text: "起床上完厕所后称一次体重，顺手拍照记录",
+    tag: "体重管理",
+    tagClass: "bg-rose/10 text-rose",
+    reminder: "未设置提醒 · 点此设置（每周 1 次）",
+  },
+  {
+    level: "中",
+    levelClass: "bg-warning text-warning-foreground",
+    icon: "🥤",
+    text: "出门前给小阳装一杯 500ml 白开水，替代含糖饮料",
+    tag: "饮食",
+    tagClass: "bg-warm/15 text-warm",
+    reminder: "未设置提醒 · 点此设置（未设置）",
+  },
+  {
+    level: "常规",
+    levelClass: "bg-muted text-muted-foreground",
+    icon: "🪟",
+    text: "早上开窗通风 15 分钟，顺便叠好被子晾一晾",
+    tag: "通风湿度",
+    tagClass: "bg-teal/15 text-teal",
+    reminder: "未设置提醒 · 点此设置（未设置）",
+  },
+  {
+    level: "常规",
+    levelClass: "bg-muted text-muted-foreground",
+    icon: "🚶",
+    text: "晚饭后陪小阳下楼快走 20 分钟",
+    tag: "运动",
+    tagClass: "bg-success/15 text-success",
+    reminder: "未设置提醒 · 点此设置（未设置）",
+  },
+];
+
+const encyclopedia = [
+  {
+    kind: "视频",
+    kindBg: "from-warm/70 to-warm",
+    title: "孩子近视防控：20-20-20 用眼休息怎么做",
+    meta: "李医生 · 4 分钟 · 1.2 万阅读",
+    badge: "必读",
+    badgeClass: "bg-rose/15 text-rose",
+    points: "+50 积分",
+    pointsClass: "bg-warning/25 text-warning-foreground",
+  },
+  {
+    kind: "图文",
+    kindBg: "from-success/60 to-success/80",
+    title: "学龄儿童均衡膳食：一周营养餐单推荐",
+    meta: "营养师 · 6 分钟 · 8423 阅读",
+    badge: "食谱",
+    badgeClass: "bg-success/15 text-success",
+    points: "+30 积分",
+    pointsClass: "bg-warning/25 text-warning-foreground",
+  },
+  {
+    kind: "直播",
+    kindBg: "from-warm/60 to-rose/70",
+    title: "本周四 · 入学体检常见问题答疑公开课",
+    meta: "主任医师 · 直播预约 · 526 人…",
+    badge: "预约",
+    badgeClass: "bg-warning/20 text-warning-foreground",
+    points: "+80 积分",
+    pointsClass: "bg-warning/25 text-warning-foreground",
+  },
+];
+
 function ParentHome() {
-  const doneCount = todayTasks.filter((t) => t.done).length;
-  const pct = Math.round((doneCount / todayTasks.length) * 100);
+  const [activeKid, setActiveKid] = useState(kids[0].id);
+  const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
+  const [catTab, setCatTab] = useState("全部");
 
   return (
-    <div>
-      <StatusBar title="阳光校园" />
+    <div className="pb-4">
+      <StatusBar title="童护佳 · 南京" />
 
-      {/* Header */}
-      <div className="relative overflow-hidden px-5 pb-6 pt-4">
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-warm/20 blur-3xl" />
-        <div className="absolute -left-10 top-10 h-32 w-32 rounded-full bg-teal/20 blur-3xl" />
-        <div className="relative flex items-center justify-between">
-          <div>
-            <p className="text-xs text-muted-foreground">下午好，李妈妈</p>
-            <h1 className="text-lg font-bold">今天也要照顾好小雨 ☀️</h1>
-          </div>
-          <Link to="/parent/me" className="grid h-10 w-10 place-items-center rounded-full bg-surface text-lg shadow-sm">
-            🔔
-          </Link>
+      {/* Brand row */}
+      <div className="flex items-center justify-between px-5 pb-3 pt-2">
+        <div className="flex items-center gap-2">
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-rose/15 text-rose">♥</span>
+          <span className="text-sm font-bold">童护佳 · 南京</span>
         </div>
+        <Link to="/parent/me" className="relative grid h-8 w-8 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-border">
+          🔔
+          <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-rose" />
+        </Link>
+      </div>
 
-        {/* Child card */}
-        <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-warm to-warm/70 p-5 text-white shadow-lg shadow-warm/30">
-          <div className="flex items-start gap-4">
-            <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-white/25 text-3xl backdrop-blur">
-              {child.avatar}
+      {/* Kid switcher */}
+      <div className="grid grid-cols-2 gap-3 px-5">
+        {kids.map((k) => {
+          const active = k.id === activeKid;
+          const activeStyle =
+            k.tagColor === "warm"
+              ? "bg-gradient-to-r from-warm to-warm/80 text-warm-foreground shadow-lg shadow-warm/30"
+              : "bg-gradient-to-r from-rose to-rose/80 text-rose-foreground shadow-lg shadow-rose/30";
+          return (
+            <button
+              key={k.id}
+              onClick={() => setActiveKid(k.id)}
+              className={`flex items-center gap-3 rounded-2xl p-2.5 text-left ring-1 transition ${
+                active ? `${activeStyle} ring-transparent` : "bg-surface text-foreground ring-border"
+              }`}
+            >
+              <span
+                className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold ${
+                  active
+                    ? "bg-white/25 text-white backdrop-blur"
+                    : k.tagColor === "warm"
+                    ? "bg-warm/15 text-warm"
+                    : "bg-rose/15 text-rose"
+                }`}
+              >
+                {k.short}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-bold">
+                  {k.name} · {k.age}岁
+                </p>
+                <p className={`truncate text-[11px] ${active ? "text-white/85" : "text-muted-foreground"}`}>
+                  {k.tag}
+                </p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* AI Health advisor card */}
+      <div className="mt-3 px-5">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose/90 via-rose to-rose/70 p-4 text-white shadow-xl shadow-rose/30">
+          <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
+          <div className="relative flex items-start gap-3">
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/25 text-3xl backdrop-blur">
+              👩‍⚕️
             </div>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <h2 className="truncate text-lg font-bold">{child.name}</h2>
-                <span className="rounded-full bg-white/25 px-2 py-0.5 text-[11px]">
-                  {child.age}岁 · {child.gender}
-                </span>
-              </div>
-              <p className="mt-0.5 text-xs text-white/80">
-                {child.school} · {child.grade}{child.className}
-              </p>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                {[
-                  { k: "身高", v: `${child.height}cm` },
-                  { k: "体重", v: `${child.weight}kg` },
-                  { k: "BMI", v: child.bmi },
-                ].map((s) => (
-                  <div key={s.k} className="rounded-xl bg-white/20 py-1.5 backdrop-blur">
-                    <div className="text-sm font-bold">{s.v}</div>
-                    <div className="text-[10px] text-white/80">{s.k}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4 px-5">
-        {/* 体检通知横幅 */}
-        <Link
-          to="/parent/notice"
-          className="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-teal/20 to-warm/10 p-4 ring-1 ring-teal/20"
-        >
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-teal text-lg text-teal-foreground">
-            📢
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold">春季体检通知已到达</p>
-            <p className="text-[11px] text-muted-foreground">4 月 15 日 · 阳光小学 · 需家长授权</p>
-          </div>
-          <span className="rounded-full bg-warm px-2.5 py-1 text-[11px] text-warm-foreground">去授权</span>
-        </Link>
-
-        {/* Latest exam */}
-        <Link
-          to="/parent/report"
-          className="flex items-center justify-between rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
-        >
-          <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-teal/15 text-xl">📋</div>
-            <div>
-              <p className="text-sm font-semibold">最近一次体检</p>
-              <p className="text-xs text-muted-foreground">{child.lastExam} · 报告已发布</p>
-            </div>
-          </div>
-          <span className="rounded-full bg-warning/20 px-2.5 py-1 text-[11px] font-medium text-warning-foreground">
-            黄色·需关注
-          </span>
-        </Link>
-
-        {/* 呵护摘要（生活化文案） */}
-        <div className="rounded-2xl bg-warm/10 p-4 ring-1 ring-warm/20">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="text-base">🌱</span>
-            <span className="text-sm font-semibold text-warm">孩子今日呵护</span>
-          </div>
-          <p className="text-xs leading-relaxed text-foreground/85">
-            小雨这次学校体检后，有 <b>2 项</b> 需要家庭关注：
-          </p>
-          <ul className="mt-1.5 space-y-1 text-xs text-foreground/85">
-            <li>· 体重管理需关注</li>
-            <li>· 呼吸运动需关注</li>
-          </ul>
-          <p className="mt-3 text-xs font-medium">今天先做 3 件小事：</p>
-          <ul className="mt-1 space-y-1 text-xs text-foreground/85">
-            <li>☐ 今天不喝含糖饮料</li>
-            <li>☐ 晚上 21:30 前开始睡前准备</li>
-            <li>☐ 记录运动后是否咳嗽 / 胸闷</li>
-          </ul>
-        </div>
-
-        {/* Today tasks */}
-        <div className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-3 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold">今日呵护任务</p>
-              <p className="text-[11px] text-muted-foreground">
-                已完成 {doneCount}/{todayTasks.length}
+              <p className="text-[11px] text-white/80">✨ 童护佳 · AI 健康顾问</p>
+              <p className="mt-0.5 text-base font-bold leading-tight">
+                家长好，{kid.name}的体检数据已为您解读 🌸
               </p>
             </div>
-            <Link to="/parent/care" className="text-xs text-warm">
-              查看全部 →
-            </Link>
           </div>
-          <div className="mb-3 h-2 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-warm to-teal transition-all"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-          <ul className="space-y-2">
-            {todayTasks.slice(0, 3).map((t) => (
-              <li
-                key={t.id}
-                className="flex items-center gap-3 rounded-xl bg-surface-2 px-3 py-2"
-              >
-                <span className="text-lg">{t.icon}</span>
-                <div className="min-w-0 flex-1">
-                  <p className={`truncate text-sm ${t.done ? "text-muted-foreground line-through" : ""}`}>
-                    {t.title}
-                  </p>
-                  <p className="text-[11px] text-muted-foreground">{t.tag} · {t.time}</p>
-                </div>
-                {t.done ? (
-                  <span className="rounded-full bg-success/15 px-2 py-0.5 text-[11px] text-success">已完成</span>
-                ) : (
-                  <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
-                    打卡
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
 
-        {/* Review + Health manager */}
-        <div className="grid grid-cols-2 gap-3">
-          <Link to="/parent/review" className="rounded-2xl bg-gradient-to-br from-teal/20 to-teal/5 p-4 ring-1 ring-teal/20">
-            <div className="mb-1 text-lg">🗓️</div>
-            <p className="text-xs text-muted-foreground">下次复评</p>
-            <p className="mt-1 text-sm font-semibold">1 月复评</p>
-            <p className="text-[11px] text-muted-foreground">5 月 15 日 · 待问卷</p>
+          <Link
+            to="/parent/report"
+            className="relative mt-3 flex items-center justify-between rounded-2xl bg-white/95 px-3 py-2.5 text-foreground"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-rose">发现 2 项需关注</span>
+              <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[11px] text-rose">身高体重</span>
+              <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[11px] text-rose">视力</span>
+            </div>
+            <span className="text-muted-foreground">›</span>
           </Link>
+
           <Link
             to="/parent/comm"
-            className="rounded-2xl bg-gradient-to-br from-warm/20 to-warm/5 p-4 ring-1 ring-warm/20"
+            className="relative mt-2.5 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
           >
-            <div className="mb-1 text-lg">💬</div>
-            <p className="text-xs text-muted-foreground">健康管理师</p>
-            <p className="mt-1 text-sm font-semibold">在线咨询</p>
-            <p className="text-[11px] text-muted-foreground">今日 2 条新回复</p>
+            <span className="text-rose">❓</span>
+            <span className="flex-1 truncate text-[13px] text-muted-foreground">向 AI 健康顾问咨询…</span>
+            <span className="rounded-full bg-rose px-3 py-1 text-[11px] font-medium text-rose-foreground">咨询</span>
+          </Link>
+
+          <div className="relative mt-2 flex flex-wrap gap-1.5">
+            {quickAsk.map((q) => (
+              <Link
+                key={q}
+                to="/parent/comm"
+                className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-foreground"
+              >
+                {q}
+              </Link>
+            ))}
+          </div>
+
+          <div className="relative mt-2.5 grid grid-cols-2 gap-2">
+            <Link
+              to="/parent/record"
+              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
+            >
+              <span className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose" />
+                运动记录
+              </span>
+              <span className="text-muted-foreground">›</span>
+            </Link>
+            <Link
+              to="/parent/record"
+              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
+            >
+              <span className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose" />
+                饮食记录
+              </span>
+              <span className="text-muted-foreground">›</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 入学体检须知 banner */}
+      <Link
+        to="/parent/notice"
+        className="mx-5 mt-3 flex items-center gap-3 rounded-2xl bg-warning/15 px-3 py-3 ring-1 ring-warning/30"
+      >
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-warning text-[11px] font-bold leading-tight text-warning-foreground">
+          检<br />前
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold">本次入学体检 · 家长须知</p>
+        </div>
+        <span className="rounded-full bg-warning/20 px-2 py-1 text-[11px] text-warning-foreground">
+          共 6 项 · <b>2 待办</b> · 1 已完成
+        </span>
+        <span className="text-muted-foreground">›</span>
+      </Link>
+
+      {/* Today tasks */}
+      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="text-sm font-bold">今天给 {kid.name} 做 2 件事</h3>
+          <span className="text-[11px] text-muted-foreground">1/2</span>
+        </div>
+        <ul className="space-y-2">
+          <li className="flex items-center gap-3 rounded-2xl bg-warning/10 p-3 ring-1 ring-warning/25">
+            <span className="text-xl">🤸</span>
+            <p className="min-w-0 flex-1 text-sm">亲子跳绳 · 20 分钟</p>
+            <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
+              打卡
+            </button>
+          </li>
+          <li className="flex items-center gap-3 rounded-2xl bg-success/10 p-3 ring-1 ring-success/25">
+            <span className="text-xl">🥦</span>
+            <p className="min-w-0 flex-1 text-sm text-muted-foreground line-through">
+              晚餐 · 建议摄入 500-600 kcal
+            </p>
+            <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
+              已打卡 ✓
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      {/* 居家健康提醒 */}
+      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+        <div className="mb-1 flex items-start justify-between gap-2">
+          <h3 className="text-sm font-bold">居家健康提醒</h3>
+          <Link to="/parent/care" className="shrink-0 text-[11px] text-muted-foreground">
+            查看全部 ›
           </Link>
         </div>
-
-        {/* Quick actions */}
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { icon: "✍️", label: "授权", to: "/parent/notice" },
-            { icon: "👶", label: "绑定", to: "/parent/bind" },
-            { icon: "🛏️", label: "除螨", to: "/parent/dustmite" },
-            { icon: "📄", label: "隐私", to: "/parent/me" },
-          ].map((a) => (
-            <Link
-              key={a.label}
-              to={a.to}
-              className="flex flex-col items-center gap-1 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60"
-            >
-              <span className="text-xl">{a.icon}</span>
-              <span className="text-[11px] text-muted-foreground">{a.label}</span>
-            </Link>
+        <p className="mb-3 text-[11px] leading-relaxed text-rose">
+          ✨ AI 按呵护标签 · 晨起 · 空气偏差 · 夏季 排序（饮食 / 运动为每日必做，已放入今日呵护）
+        </p>
+        <ul className="space-y-2">
+          {homeCare.map((c) => (
+            <li key={c.text} className="rounded-2xl bg-surface-2 p-3">
+              <div className="flex items-start gap-2.5">
+                <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[11px] font-bold ${c.levelClass}`}>
+                  {c.level}
+                </span>
+                <span className="text-lg">{c.icon}</span>
+                <p className="min-w-0 flex-1 text-[13px] leading-snug">{c.text}</p>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>{c.tag}</span>
+              </div>
+              <div className="mt-2 ml-[46px] inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
+                🔔 {c.reminder}
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
+      </section>
 
-        {/* Terminate soft entry */}
-        <Link
-          to="/parent/terminate"
-          className="mb-6 block rounded-2xl bg-surface p-3 text-center text-xs text-muted-foreground shadow-sm ring-1 ring-border/60"
-        >
-          随时可 <span className="text-danger">终止后续健康管理</span> · 历史报告保留
-        </Link>
-      </div>
+      {/* 健康百科 */}
+      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-bold">健康百科</h3>
+            <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">看完单篇得积分</span>
+          </div>
+          <button className="text-[11px] font-medium text-rose">进入百科 ›</button>
+        </div>
+        <div className="mb-3 flex gap-2 overflow-x-auto">
+          {["全部", "▷ 视频", "🖼 图文", "📻 直播"].map((t) => {
+            const label = t.replace(/^[^\u4e00-\u9fa5]+/, "").trim() || t;
+            const active = catTab === label || (t === "全部" && catTab === "全部");
+            return (
+              <button
+                key={t}
+                onClick={() => setCatTab(label)}
+                className={`shrink-0 rounded-full px-3 py-1 text-[12px] ring-1 transition ${
+                  active
+                    ? "bg-rose text-rose-foreground ring-transparent"
+                    : "bg-surface text-foreground ring-border"
+                }`}
+              >
+                {t}
+              </button>
+            );
+          })}
+        </div>
+        <ul className="space-y-2.5">
+          {encyclopedia.map((a) => (
+            <li key={a.title} className="flex gap-3 rounded-2xl bg-surface-2 p-2.5">
+              <div
+                className={`grid h-20 w-20 shrink-0 place-items-start rounded-xl bg-gradient-to-br ${a.kindBg} p-1.5`}
+              >
+                <span className="rounded-md bg-black/40 px-1.5 py-0.5 text-[10px] text-white backdrop-blur">
+                  {a.kind}
+                </span>
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col justify-between">
+                <p className="text-[13px] font-semibold leading-snug">{a.title}</p>
+                <div className="mt-1 flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ${a.badgeClass}`}>
+                      {a.badge}
+                    </span>
+                    <span className="truncate text-[11px] text-muted-foreground">{a.meta}</span>
+                  </div>
+                  <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium ${a.pointsClass}`}>
+                    {a.points}
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* 服务商城 */}
+      <section className="mx-5 mt-3">
+        <div className="mb-2 flex items-center gap-2">
+          <h3 className="text-sm font-bold">童护佳健康服务商城</h3>
+          <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">医生甄选</span>
+        </div>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose/90 to-rose/70 p-4 text-white shadow-lg shadow-rose/30">
+          <p className="text-[11px] text-white/85">✨ 儿科呼吸科医生 & 营养师联合甄选</p>
+          <p className="mt-0.5 text-base font-bold">童护佳健康服务商城</p>
+          <p className="mt-1 text-[12px] text-white/90">营养餐 · 专病服务包 · 健康商品 · 三大专区</p>
+          <div className="mt-3 flex items-center justify-between">
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] backdrop-blur">
+              已为 12,488 位小朋友服务
+            </span>
+            <button className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-rose">
+              进入商城 ›
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Terminate soft entry */}
+      <Link
+        to="/parent/terminate"
+        className="mx-5 mt-3 block rounded-2xl bg-surface p-3 text-center text-[11px] text-muted-foreground shadow-sm ring-1 ring-border/60"
+      >
+        随时可 <span className="text-danger">终止后续健康管理</span> · 历史报告保留
+      </Link>
     </div>
   );
 }

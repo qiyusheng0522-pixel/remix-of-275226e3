@@ -36,6 +36,76 @@ function NoticePage() {
           </p>
         </div>
 
+        {/* 当前授权状态 · 可随时撤回 */}
+        {authorized && (
+          <section className="mb-4 rounded-2xl bg-success/10 p-4 ring-1 ring-success/25">
+            <div className="flex items-start gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-success text-success-foreground">✓</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold">当前授权已生效</p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">
+                  授权范围：本次春季体检 + 后续 12 个月家庭呵护 · 2026-04-08 签署
+                </p>
+                <p className="mt-2 text-[11px] text-foreground/80">
+                  您可随时撤回本次授权或终止全部健康管理，历史体检记录会按规定保留。
+                </p>
+              </div>
+            </div>
+
+            <ActionSheet
+              trigger={
+                <button className="mt-3 w-full rounded-xl border border-danger/40 bg-white py-2 text-xs font-medium text-danger">
+                  撤回 / 终止授权
+                </button>
+              }
+              title="撤回或终止授权"
+              description="请选择撤回范围。撤回后学校与健管师将立即停止对应数据处理。"
+              confirmText="确认撤回"
+              danger
+              toastMessage={
+                revokeScope === "all" ? "已终止全部健康管理" : "已撤回本次体检授权"
+              }
+              toastDescription={`签名人：李妈妈 · ${child.name}`}
+              onConfirm={() => setAuthorized(false)}
+            >
+              <div className="space-y-2 text-xs">
+                {[
+                  {
+                    key: "this" as const,
+                    title: "仅撤回本次体检授权",
+                    desc: "本次体检数据不再用于生成报告与呵护，已生成的历史报告保留。",
+                  },
+                  {
+                    key: "all" as const,
+                    title: "终止全部健康管理",
+                    desc: "取消 12 个月呵护、随访与复评推送，历史数据按合规要求脱敏保留。",
+                  },
+                ].map((opt) => {
+                  const active = revokeScope === opt.key;
+                  return (
+                    <button
+                      key={opt.key}
+                      type="button"
+                      onClick={() => setRevokeScope(opt.key)}
+                      className={`w-full rounded-xl p-3 text-left ring-1 transition ${
+                        active ? "bg-danger/10 ring-danger/40" : "bg-surface-2 ring-border/60"
+                      }`}
+                    >
+                      <p className={`text-sm font-medium ${active ? "text-danger" : ""}`}>
+                        {opt.title}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">{opt.desc}</p>
+                    </button>
+                  );
+                })}
+                <p className="pt-1 text-[11px] text-muted-foreground">
+                  依据《个人信息保护法》，您有权随时撤回同意。撤回操作不影响撤回前基于同意进行的数据处理效力。
+                </p>
+              </div>
+            </ActionSheet>
+          </section>
+        )}
+
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
           <h2 className="mb-3 text-sm font-semibold">体检安排</h2>
           <ul className="divide-y divide-border/60 text-xs">

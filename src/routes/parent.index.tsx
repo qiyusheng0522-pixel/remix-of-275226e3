@@ -191,8 +191,10 @@ function ParentHome() {
                   <p className="text-[11px] font-semibold text-rose">尘螨过敏</p>
                 </div>
                 <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground">IgE (++) · 需家庭除螨</p>
+              </div>
             </div>
           </Link>
+
 
 
 

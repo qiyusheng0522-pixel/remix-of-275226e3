@@ -119,6 +119,7 @@ function ParentHome() {
   const [activeKid, setActiveKid] = useState(kids[0].id);
   const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
   const [catTab, setCatTab] = useState("全部");
+  const [showAllTasks, setShowAllTasks] = useState(false);
 
   return (
     <div className="pb-4">

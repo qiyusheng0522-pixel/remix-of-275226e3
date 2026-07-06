@@ -173,7 +173,13 @@ function UsersPage() {
                     {content}
                   </Link>
                 ) : (
-                  content
+                  <Link
+                    to="/doctor/entry/$id"
+                    params={{ id: u.id }}
+                    className="block"
+                  >
+                    {content}
+                  </Link>
                 )}
               </li>
             );

@@ -65,7 +65,7 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
+  to: "/doctor/referral" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
 };
 
 const todos: Todo[] = [
@@ -78,16 +78,6 @@ const todos: Todo[] = [
     ],
     desc: "内分泌科转诊复核（健管师升级）· SLA 2h",
     to: "/doctor/referral",
-  },
-  {
-    id: "0508",
-    name: "三年级 3 班",
-    tags: [
-      { text: "报告审核", cls: "bg-teal/15 text-teal" },
-      { text: "紧急", cls: "bg-danger text-danger-foreground" },
-    ],
-    desc: "47 份体检报告审核 · 17:00 前完成",
-    to: "/doctor/review",
   },
   {
     id: "0423",

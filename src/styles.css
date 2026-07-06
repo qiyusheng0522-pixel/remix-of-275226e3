@@ -41,6 +41,9 @@
   --color-teal-foreground: var(--teal-foreground);
   --color-deep: var(--deep);
   --color-deep-foreground: var(--deep-foreground);
+  --color-rose: var(--rose);
+  --color-rose-foreground: var(--rose-foreground);
+  --color-rose-soft: var(--rose-soft);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);

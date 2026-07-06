@@ -144,40 +144,6 @@ function CarePage() {
         </div>
 
 
-        {/* Task list */}
-        <h2 className="mb-2 text-sm font-semibold">任务打卡</h2>
-        <ul className="space-y-2">
-          {todayTasks.map((t) => (
-            <li
-              key={t.id}
-              className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60"
-            >
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-surface-2 text-xl">
-                {t.icon}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className={`truncate text-sm font-medium ${t.done ? "text-muted-foreground line-through" : ""}`}>
-                  {t.title}
-                </p>
-                <p className="text-[11px] text-muted-foreground">
-                  {t.tag} · {t.time}
-                </p>
-              </div>
-              {t.done ? (
-                <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] text-success">✓ 已完成</span>
-              ) : (
-                <div className="flex gap-1">
-                  <button className="rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
-                    稍后
-                  </button>
-                  <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
-                    打卡
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

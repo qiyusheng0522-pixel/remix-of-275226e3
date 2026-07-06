@@ -234,73 +234,79 @@ function ReportPage() {
 
 
         {/* 报告解读 · 风险评估 */}
-        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-sm font-semibold">
+        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+            <div className="flex items-center gap-2">
               <span className="h-4 w-1 rounded-full bg-warm" />
-              报告解读 · 风险评估
-            </h2>
-            <span className="rounded-full bg-warm/10 px-2 py-0.5 text-[10px] text-warm">AI 生成</span>
-          </div>
-          <p className="mb-3 text-[11px] leading-relaxed text-muted-foreground">
-            综合本次体检数据与既往档案，共发现 2 项需关注异常，其余项目均在正常范围。
-          </p>
-          <ul className="space-y-3">
-            {[
-              {
-                title: "肥胖倾向（体重 / BMI 偏高）",
-                level: "中风险",
-                levelClass: "bg-warning/20 text-warning-foreground",
-                barClass: "bg-warning",
-                barWidth: "60%",
-                metrics: ["体重 32.5kg · P85", "BMI 17.1 · 参考 14.5–16.8"],
-                risks: "长期可增加高血压、脂肪肝、性早熟及成年期代谢性疾病风险。",
-                advice: "控糖限脂 + 每周≥3 次中等强度运动 30 分钟，3 个月复评 BMI。",
-              },
-              {
-                title: "过敏性哮喘倾向（尘螨过敏 + 运动后咳嗽）",
-                level: "高风险",
-                levelClass: "bg-danger/15 text-danger",
-                barClass: "bg-danger",
-                barWidth: "80%",
-                metrics: ["尘螨 IgE 阳性 (++)", "运动后偶发咳嗽", "肺功能 FEV1 98%"],
-                risks: "有发展为运动诱发性哮喘的可能，季节交替期或剧烈运动后可能加重。",
-                advice: "家庭除螨（床品高温清洗 / 除螨仪）+ 呼吸科门诊评估，必要时肺功能激发试验。",
-              },
-            ].map((r) => (
-              <li
-                key={r.title}
-                className="rounded-2xl bg-surface-2 p-3 ring-1 ring-border/60"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-sm font-semibold">{r.title}</p>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${r.levelClass}`}>
-                    {r.level}
-                  </span>
-                </div>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
-                  <div className={`h-full rounded-full ${r.barClass}`} style={{ width: r.barWidth }} />
-                </div>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {r.metrics.map((m) => (
-                    <span
-                      key={m}
-                      className="rounded-full bg-white px-2 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border/60"
-                    >
-                      {m}
+              <span className="text-sm font-semibold">报告解读 · 风险评估</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full bg-warm/10 px-2 py-0.5 text-[10px] text-warm">AI 生成</span>
+              <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+            </div>
+          </summary>
+          <div className="px-4 pb-4">
+            <p className="mb-3 text-[11px] leading-relaxed text-muted-foreground">
+              综合本次体检数据与既往档案，共发现 2 项需关注异常，其余项目均在正常范围。
+            </p>
+            <ul className="space-y-3">
+              {[
+                {
+                  title: "肥胖倾向（体重 / BMI 偏高）",
+                  level: "中风险",
+                  levelClass: "bg-warning/20 text-warning-foreground",
+                  barClass: "bg-warning",
+                  barWidth: "60%",
+                  metrics: ["体重 32.5kg · P85", "BMI 17.1 · 参考 14.5–16.8"],
+                  risks: "长期可增加高血压、脂肪肝、性早熟及成年期代谢性疾病风险。",
+                  advice: "控糖限脂 + 每周≥3 次中等强度运动 30 分钟，3 个月复评 BMI。",
+                },
+                {
+                  title: "过敏性哮喘倾向（尘螨过敏 + 运动后咳嗽）",
+                  level: "高风险",
+                  levelClass: "bg-danger/15 text-danger",
+                  barClass: "bg-danger",
+                  barWidth: "80%",
+                  metrics: ["尘螨 IgE 阳性 (++)", "运动后偶发咳嗽", "肺功能 FEV1 98%"],
+                  risks: "有发展为运动诱发性哮喘的可能，季节交替期或剧烈运动后可能加重。",
+                  advice: "家庭除螨（床品高温清洗 / 除螨仪）+ 呼吸科门诊评估，必要时肺功能激发试验。",
+                },
+              ].map((r) => (
+                <li
+                  key={r.title}
+                  className="rounded-2xl bg-surface-2 p-3 ring-1 ring-border/60"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-sm font-semibold">{r.title}</p>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${r.levelClass}`}>
+                      {r.level}
                     </span>
-                  ))}
-                </div>
-                <p className="mt-2 text-[11px] leading-relaxed text-foreground/85">
-                  <b className="text-danger">风险：</b>{r.risks}
-                </p>
-                <p className="mt-1 text-[11px] leading-relaxed text-foreground/85">
-                  <b className="text-teal">建议：</b>{r.advice}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
+                  </div>
+                  <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
+                    <div className={`h-full rounded-full ${r.barClass}`} style={{ width: r.barWidth }} />
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {r.metrics.map((m) => (
+                      <span
+                        key={m}
+                        className="rounded-full bg-white px-2 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border/60"
+                      >
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-[11px] leading-relaxed text-foreground/85">
+                    <b className="text-danger">风险：</b>{r.risks}
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-foreground/85">
+                    <b className="text-teal">建议：</b>{r.advice}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
+
 
 
         {/* 健康管理方案 · 护理 / 运动 / 饮食 */}

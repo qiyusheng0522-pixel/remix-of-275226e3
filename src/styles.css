@@ -2,8 +2,8 @@
 @source "../src";
 @import "tw-animate-css";
 
-@source inline("{bg,text,ring}-{warm,teal,deep,warning,danger,success,warm-foreground,teal-foreground,deep-foreground,warning-foreground,danger-foreground,success-foreground}/{10,15,20,25,40}");
-@source inline("bg-{warm,teal,deep,warning,danger,success} text-{warm,teal,deep,warning,danger,success} text-{warm,teal,deep}-foreground");
+@source inline("{bg,text,ring}-{warm,teal,deep,rose,warning,danger,success,warm-foreground,teal-foreground,deep-foreground,rose-foreground,warning-foreground,danger-foreground,success-foreground}/{10,15,20,25,40}");
+@source inline("bg-{warm,teal,deep,rose,warning,danger,success} text-{warm,teal,deep,rose,warning,danger,success} text-{warm,teal,deep,rose}-foreground");
 
 @custom-variant dark (&:is(.dark *));
 

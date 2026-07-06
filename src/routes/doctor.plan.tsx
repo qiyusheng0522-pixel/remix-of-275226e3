@@ -169,6 +169,12 @@ const cases: Case[] = [
     status: "待生成",
     version: "—",
     updated: "转诊复核后自动生成",
+    dept: "内分泌科",
+    evalTime: "2026-04-30 10:08:59",
+    disease: "肥胖 · 糖尿病风险",
+    evaluation:
+      "根据中国糖尿病风险评分表（CDRS）评估，患儿 BMI 24.6 属肥胖，空腹血糖 6.3 偏高，父亲有 2 型糖尿病史，属高风险人群，建议内分泌科转诊复核后启动干预...",
+    reviewState: "待审核",
     risks: [
       { text: "肥胖", level: "danger" },
       { text: "血糖偏高", level: "danger" },

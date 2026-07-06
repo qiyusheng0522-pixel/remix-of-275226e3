@@ -1,0 +1,174 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { StatusBar } from "@/components/MobileFrame";
+
+export const Route = createFileRoute("/doctor/child")({
+  component: DoctorChildDataPage,
+});
+
+type Level = "ok" | "warn" | "bad";
+type Item = { name: string; value: string; ref: string; level: Level };
+type Section = { title: string; items: Item[] };
+
+const sections: Section[] = [
+  {
+    title: "体格发育",
+    items: [
+      { name: "身高", value: "138 cm", ref: "P75", level: "ok" },
+      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad" },
+      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad" },
+      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok" },
+    ],
+  },
+  {
+    title: "视力与眼健康",
+    items: [
+      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok" },
+      { name: "眼位", value: "正位", ref: "正位", level: "ok" },
+    ],
+  },
+  {
+    title: "口腔",
+    items: [
+      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok" },
+      { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
+    ],
+  },
+  {
+    title: "内科",
+    items: [
+      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok" },
+      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok" },
+      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok" },
+    ],
+  },
+  {
+    title: "过敏与呼吸",
+    items: [
+      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad" },
+      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok" },
+      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn" },
+    ],
+  },
+];
+
+const dot: Record<Level, string> = {
+  ok: "bg-success",
+  warn: "bg-warning",
+  bad: "bg-danger",
+};
+
+const valueColor: Record<Level, string> = {
+  ok: "text-foreground",
+  warn: "text-warning-foreground",
+  bad: "text-danger",
+};
+
+const trend = [125, 126, 126.5, 127, 127.5, 128];
+const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
+
+function DoctorChildDataPage() {
+  return (
+    <div>
+      <StatusBar title="体检数据" />
+      <div className="px-5 pb-8 pt-2">
+        <header className="mb-4">
+          <h1 className="text-xl font-bold">小阳 的体检数据</h1>
+          <p className="text-xs text-muted-foreground">
+            体检日期 2026-09-18 · 阳光小学 · 三年级 3 班
+          </p>
+          <p className="mt-1 text-[11px] text-muted-foreground">仅展示 · 医生查看用</p>
+        </header>
+
+        {/* Detailed exam sections */}
+        <p className="mb-2 mt-1 px-1 text-[11px] text-muted-foreground">各项体检明细 · 点击展开</p>
+        <div className="mb-3 space-y-2">
+          {sections.map((s) => {
+            const abnormal = s.items.filter((it) => it.level !== "ok").length;
+            const hasAb = abnormal > 0;
+            return (
+              <details
+                key={s.title}
+                className="group rounded-2xl bg-surface shadow-sm ring-1 ring-border/60 open:ring-teal/30"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="h-4 w-1 rounded-full bg-teal" />
+                    <span className="text-sm font-semibold">{s.title}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      共 {s.items.length} 项
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {hasAb ? (
+                      <span className="rounded-full bg-danger/10 px-2 py-0.5 text-[11px] font-medium text-danger">
+                        异常 {abnormal} 项
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-success/10 px-2 py-0.5 text-[11px] text-success">
+                        全部正常
+                      </span>
+                    )}
+                    <span className="text-xs text-muted-foreground transition group-open:rotate-180">
+                      ▾
+                    </span>
+                  </div>
+                </summary>
+                <ul className="divide-y divide-border/60 px-4 pb-3">
+                  {s.items.map((it) => (
+                    <li key={it.name} className="flex items-center justify-between gap-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
+                        <span className="text-sm">{it.name}</span>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
+                          {it.value}
+                        </span>
+                        <span className="text-[11px] text-muted-foreground">参考 {it.ref}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            );
+          })}
+        </div>
+
+        {/* Trend */}
+        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+            <span className="text-sm font-semibold">近期身体趋势（近 6 次）</span>
+            <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <div className="grid grid-cols-2 gap-3">
+              <MiniChart label="身高 cm" data={trend} color="teal" />
+              <MiniChart label="体重 kg" data={weightTrend} color="warm" />
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  );
+}
+
+function MiniChart({ label, data, color }: { label: string; data: number[]; color: "warm" | "teal" }) {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const stroke = color === "warm" ? "var(--warm)" : "var(--teal)";
+  const points = data
+    .map((v, i) => `${(i / (data.length - 1)) * 100},${100 - ((v - min) / range) * 80 - 10}`)
+    .join(" ");
+  return (
+    <div className={`rounded-xl p-3 ${color === "warm" ? "bg-warm/10" : "bg-teal/10"}`}>
+      <p className="text-[11px] text-muted-foreground">{label}</p>
+      <p className="text-lg font-bold">{data[data.length - 1]}</p>
+      <svg viewBox="0 0 100 100" className="mt-1 h-14 w-full">
+        <polyline points={points} fill="none" stroke={stroke} strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}

@@ -160,79 +160,60 @@ function ParentHome() {
         })}
       </div>
 
-      {/* AI Health advisor card */}
+      {/* AI Health advisor card — 精简后 */}
       <div className="mt-3 px-5">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose/90 via-rose to-rose/70 p-4 text-white shadow-xl shadow-rose/30">
           <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
+
+          {/* 头像 + 标题 + 内嵌关注提示 */}
           <div className="relative flex items-start gap-3">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/25 text-3xl backdrop-blur">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/25 text-2xl backdrop-blur">
               👩‍⚕️
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[11px] text-white/80">✨ 童护佳 · AI 健康顾问</p>
-              <p className="mt-0.5 text-base font-bold leading-tight">
+              <p className="mt-0.5 text-[15px] font-bold leading-tight">
                 家长好，{kid.name}的体检数据已为您解读 🌸
               </p>
+              <Link
+                to="/parent/report"
+                className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-medium text-rose"
+              >
+                发现 2 项需关注 · 身高体重 / 视力 ›
+              </Link>
             </div>
           </div>
 
-          <Link
-            to="/parent/report"
-            className="relative mt-3 flex items-center justify-between rounded-2xl bg-white/95 px-3 py-2.5 text-foreground"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-rose">发现 2 项需关注</span>
-              <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[11px] text-rose">身高体重</span>
-              <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[11px] text-rose">视力</span>
-            </div>
-            <span className="text-muted-foreground">›</span>
-          </Link>
-
+          {/* 咨询输入框 · 主 CTA */}
           <Link
             to="/parent/comm"
-            className="relative mt-2.5 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
+            className="relative mt-3 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
           >
-            <span className="text-rose">❓</span>
-            <span className="flex-1 truncate text-[13px] text-muted-foreground">向 AI 健康顾问咨询…</span>
-            <span className="rounded-full bg-rose px-3 py-1 text-[11px] font-medium text-rose-foreground">咨询</span>
+            <span className="text-rose">💬</span>
+            <span className="flex-1 truncate text-[13px] text-muted-foreground">
+              向 AI 健康顾问咨询…
+            </span>
+            <span className="rounded-full bg-rose px-3 py-1 text-[11px] font-medium text-rose-foreground">
+              咨询
+            </span>
           </Link>
 
-          <div className="relative mt-2 flex flex-wrap gap-1.5">
+          {/* 4 个统一图标快捷入口 */}
+          <div className="relative mt-2.5 grid grid-cols-4 gap-1.5">
             {quickAsk.map((q) => (
               <Link
-                key={q}
-                to="/parent/comm"
-                className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-foreground"
+                key={q.label}
+                to={q.to}
+                className="flex flex-col items-center gap-0.5 rounded-2xl bg-white/95 py-2 text-foreground"
               >
-                {q}
+                <span className="text-lg leading-none">{q.icon}</span>
+                <span className="text-[11px]">{q.label}</span>
               </Link>
             ))}
           </div>
-
-          <div className="relative mt-2.5 grid grid-cols-2 gap-2">
-            <Link
-              to="/parent/record"
-              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-rose" />
-                运动记录
-              </span>
-              <span className="text-muted-foreground">›</span>
-            </Link>
-            <Link
-              to="/parent/record"
-              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-rose" />
-                饮食记录
-              </span>
-              <span className="text-muted-foreground">›</span>
-            </Link>
-          </div>
         </div>
       </div>
+
 
       {/* 入学体检须知 banner */}
       <Link

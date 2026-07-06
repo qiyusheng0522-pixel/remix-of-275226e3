@@ -20,7 +20,12 @@ const kids: Kid[] = [
   { id: "yu", short: "雨", name: "小雨", age: 9, tag: "哮喘风险", tagColor: "rose" },
 ];
 
-const quickAsk = ["饮食建议", "运动咨询", "睡眠咨询", "报告解读"];
+const quickAsk = [
+  { icon: "🥗", label: "饮食建议", to: "/parent/comm" },
+  { icon: "🏃", label: "运动咨询", to: "/parent/comm" },
+  { icon: "😴", label: "睡眠咨询", to: "/parent/comm" },
+  { icon: "📋", label: "报告解读", to: "/parent/report" },
+] as const;
 
 const homeCare = [
   {

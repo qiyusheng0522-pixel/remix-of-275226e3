@@ -15,7 +15,7 @@ type User = {
   age: number;
   grade: string;
   status: Status;
-  note: string;
+  note?: string;
   tags?: string[];
   to?: "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/riskreview";
 };

@@ -27,52 +27,23 @@ const quickAsk = [
   { icon: "📋", label: "报告解读", to: "/parent/report" },
 ] as const;
 
+// 与 /parent/care 保持一致的示例数据
+const TODAY = "2026-04-08";
+const daysAgo = (n: number) => {
+  const d = new Date(TODAY);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+};
+const dayDiff = (a: string, b: string) =>
+  Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
+
 const homeCare = [
-  {
-    icon: "🛏️",
-    title: "床品除螨清洗提醒",
-    cycle: "每 2 周 · 下次 04-12",
-    tag: "过敏防护",
-    tagClass: "bg-rose/10 text-rose",
-    progress: 65,
-    daysLeft: 5,
-  },
-  {
-    icon: "⚖️",
-    title: "晨起体重记录",
-    cycle: "每周 1 次 · 下次 周日",
-    tag: "体重管理",
-    tagClass: "bg-warm/15 text-warm",
-    progress: 40,
-    daysLeft: 3,
-  },
-  {
-    icon: "🪟",
-    title: "开窗通风换气",
-    cycle: "每日 15 分钟 · 今日待完成",
-    tag: "通风湿度",
-    tagClass: "bg-teal/15 text-teal",
-    progress: 0,
-    daysLeft: 0,
-  },
-  {
-    icon: "💧",
-    title: "空气加湿器换水",
-    cycle: "每 3 天 · 下次 04-08",
-    tag: "呼吸道",
-    tagClass: "bg-teal/15 text-teal",
-    progress: 30,
-    daysLeft: 2,
-  },
-  {
-    icon: "🦷",
-    title: "儿童牙刷更换",
-    cycle: "每 3 个月 · 下次 05-20",
-    tag: "口腔",
-    tagClass: "bg-success/15 text-success",
-    progress: 55,
-    daysLeft: 44,
-  },
+  { id: "weight", icon: "⚖️", title: "晨起体重记录", tag: "体重管理", tagClass: "bg-warm/15 text-warm", cycleDays: 7, lastDone: daysAgo(7) },
+  { id: "bed", icon: "🛏️", title: "床品除螨清洗", tag: "过敏防护", tagClass: "bg-rose/10 text-rose", cycleDays: 14, lastDone: daysAgo(9) },
+  { id: "vent", icon: "🪟", title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "humid", icon: "💧", title: "空气加湿器换水", tag: "呼吸道", tagClass: "bg-teal/15 text-teal", cycleDays: 3, lastDone: daysAgo(1) },
+  { id: "brush", icon: "🦷", title: "儿童牙刷更换", tag: "口腔", tagClass: "bg-success/15 text-success", cycleDays: 90, lastDone: daysAgo(46) },
+  { id: "vitd", icon: "☀️", title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
 const todayTasks = [
@@ -316,42 +287,45 @@ function ParentHome() {
         </div>
         <ul className="space-y-2">
           {homeCare.map((c) => {
-            const dueSoon = c.daysLeft <= 2;
+            const daysSince = dayDiff(c.lastDone, TODAY);
+            const daysLeft = c.cycleDays - daysSince;
+            const isDue = daysLeft <= 0;
             return (
-              <li key={c.title} className="rounded-2xl bg-surface-2 p-3">
-                <div className="flex items-start gap-2.5">
+              <li
+                key={c.id}
+                className={`rounded-xl p-2.5 ring-1 ${
+                  isDue ? "bg-warm/10 ring-warm/30" : "bg-surface-2 ring-border/60"
+                }`}
+              >
+                <div className="flex items-center gap-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
                     {c.icon}
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
-                      <p className="min-w-0 flex-1 truncate text-[13px] font-semibold">
-                        {c.title}
-                      </p>
-                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>
+                      <p className="truncate text-[13px] font-semibold">{c.title}</p>
+                      <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ${c.tagClass}`}>
                         {c.tag}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{c.cycle}</p>
-                    {/* progress bar */}
-                    <div className="mt-2 flex items-center gap-2">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className={`h-full rounded-full ${
-                            dueSoon ? "bg-rose" : "bg-teal"
-                          }`}
-                          style={{ width: `${c.progress}%` }}
-                        />
-                      </div>
-                      <span
-                        className={`shrink-0 text-[10px] ${
-                          dueSoon ? "text-rose" : "text-muted-foreground"
-                        }`}
-                      >
-                        {c.daysLeft === 0 ? "今日到期" : `${c.daysLeft} 天后`}
-                      </span>
-                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">
+                      每 {c.cycleDays} 天 · 上次 {c.lastDone}
+                      {isDue ? (
+                        <span className="ml-1 font-medium text-warm">· 今日到期</span>
+                      ) : (
+                        <span className="ml-1">· {daysLeft} 天后</span>
+                      )}
+                    </p>
                   </div>
+                  <span
+                    className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] ${
+                      isDue
+                        ? "bg-warm text-warm-foreground"
+                        : "bg-surface text-muted-foreground ring-1 ring-border"
+                    }`}
+                  >
+                    {isDue ? "去完成" : "已完成"}
+                  </span>
                 </div>
               </li>
             );

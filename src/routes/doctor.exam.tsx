@@ -1,191 +1,185 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
-import { SubNav, examSubNav } from "@/components/DoctorSubNav";
-import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
 export const Route = createFileRoute("/doctor/exam")({
-  component: ExamPage,
+  component: UsersPage,
 });
 
-function ExamPage() {
-  const [height, setHeight] = useState("128");
-  const [weight, setWeight] = useState("27.5");
-  const bmi = weight && height ? (+weight / (+height / 100) ** 2).toFixed(1) : "-";
+type Status = "待检" | "已检-正常" | "已检-异常" | "需复核" | "方案确认";
+
+type User = {
+  id: string;
+  name: string;
+  gender: "男" | "女";
+  age: number;
+  grade: string;
+  status: Status;
+  note: string;
+  tags?: string[];
+  to?: "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/riskreview";
+};
+
+const users: User[] = [
+  { id: "20230617", name: "王小豆", gender: "男", age: 10, grade: "四年级 2 班", status: "需复核", note: "BMI 24.6 · 空腹血糖 6.3", tags: ["肥胖", "血糖偏高"], to: "/doctor/riskreview" },
+  { id: "20230318", name: "李小雨", gender: "女", age: 9, grade: "三年级 3 班", status: "方案确认", note: "AI 方案 v0.3 · 健管师已同步", tags: ["BMI 偏轻", "夜间咳嗽"], to: "/doctor/plan" },
+  { id: "20230412", name: "陈静雅", gender: "女", age: 9, grade: "三年级 3 班", status: "已检-异常", note: "视力 4.6 / 4.7 · 临界", tags: ["视力"], to: "/doctor/review" },
+  { id: "20230508", name: "李娜", gender: "女", age: 9, grade: "三年级 3 班", status: "已检-正常", note: "各项指标正常 · 3 个月复查" },
+  { id: "20230521", name: "王晨曦", gender: "男", age: 9, grade: "三年级 3 班", status: "已检-正常", note: "各项指标正常" },
+  { id: "20230604", name: "刘思远", gender: "男", age: 9, grade: "三年级 3 班", status: "已检-异常", note: "龋齿 2 颗 · 建议就诊", tags: ["口腔"], to: "/doctor/review" },
+  { id: "20230711", name: "赵一鸣", gender: "男", age: 9, grade: "三年级 3 班", status: "待检" },
+  { id: "20230725", name: "钱佳琪", gender: "女", age: 9, grade: "三年级 3 班", status: "待检" },
+  { id: "20230802", name: "孙欣然", gender: "女", age: 9, grade: "三年级 3 班", status: "待检" },
+  { id: "20230819", name: "周乐言", gender: "男", age: 9, grade: "三年级 3 班", status: "待检" },
+];
+
+const statusStyle: Record<Status, string> = {
+  待检: "bg-muted text-muted-foreground",
+  "已检-正常": "bg-success/15 text-success",
+  "已检-异常": "bg-warm/15 text-warm",
+  需复核: "bg-danger/10 text-danger",
+  方案确认: "bg-deep/10 text-deep",
+};
+
+const filters: (Status | "全部")[] = ["全部", "待检", "已检-正常", "已检-异常", "需复核", "方案确认"];
+
+function UsersPage() {
+  const [filter, setFilter] = useState<Status | "全部">("全部");
+  const [q, setQ] = useState("");
+
+  const counts = users.reduce<Record<string, number>>((acc, u) => {
+    acc[u.status] = (acc[u.status] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  const list = users.filter((u) => {
+    if (filter !== "全部" && u.status !== filter) return false;
+    if (q && !(`${u.id}${u.name}`.includes(q))) return false;
+    return true;
+  });
+
+  const stats = [
+    { label: "待检", value: counts["待检"] ?? 0, cls: "text-muted-foreground" },
+    { label: "已检-正常", value: counts["已检-正常"] ?? 0, cls: "text-success" },
+    { label: "已检-异常", value: counts["已检-异常"] ?? 0, cls: "text-warm" },
+    { label: "需复核", value: counts["需复核"] ?? 0, cls: "text-danger" },
+    { label: "方案确认", value: counts["方案确认"] ?? 0, cls: "text-deep" },
+  ];
 
   return (
     <div>
-      <StatusBar title="校内录检" />
+      <StatusBar title="用户" />
       <div className="px-5 pb-8 pt-2">
-        {/* Class progress */}
-        <div className="mb-4 rounded-2xl bg-gradient-to-br from-deep to-teal p-4 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] opacity-80">当前班级</p>
-              <p className="text-base font-bold">阳光小学 · 三年级 3班</p>
-            </div>
-            <button className="rounded-full bg-white/25 px-2.5 py-1 text-[11px] backdrop-blur">
-              📷 扫码
-            </button>
-          </div>
-          <div className="mt-3 flex items-center gap-3">
-            <div className="flex-1">
-              <div className="mb-1 flex justify-between text-[11px]">
-                <span>已检 28</span>
-                <span>共 43 人</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-white/25">
-                <div className="h-full rounded-full bg-white" style={{ width: "65%" }} />
-              </div>
-            </div>
-          </div>
+        <div className="mb-3">
+          <h1 className="text-xl font-bold">用户</h1>
+          <p className="text-xs text-muted-foreground">
+            阳光小学 · 三年级 3 班 · 共 {users.length} 人
+          </p>
         </div>
 
-        {/* Search */}
+        {/* 状态概览 */}
+        <div className="mb-3 grid grid-cols-5 gap-2 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+          {stats.map((s) => (
+            <button
+              key={s.label}
+              onClick={() => setFilter(s.label as Status)}
+              className="text-center"
+            >
+              <p className={`text-lg font-bold ${s.cls}`}>{s.value}</p>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">{s.label}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* 搜索 */}
         <div className="mb-3 flex items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-sm ring-1 ring-border/60">
           <span className="text-muted-foreground">🔍</span>
           <input
-            placeholder="搜索学生 · 学号"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="搜索姓名 / 学号"
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
 
-        {/* Current student */}
-        <div className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-warm/15 text-2xl">
-              🌸
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold">李小雨 · 学号 20230318</p>
-              <p className="text-[11px] text-muted-foreground">女 · 8 岁 · 三年级 3班</p>
-            </div>
-            <span className="rounded-full bg-warning/25 px-2 py-0.5 text-[10px] text-warning-foreground">
-              历史需关注
-            </span>
-          </div>
+        {/* 筛选 tab */}
+        <div className="mb-3 -mx-1 flex gap-1.5 overflow-x-auto px-1">
+          {filters.map((f) => {
+            const on = f === filter;
+            return (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`shrink-0 rounded-full px-3 py-1 text-[12px] ${
+                  on
+                    ? "bg-deep text-deep-foreground"
+                    : "bg-surface text-muted-foreground ring-1 ring-border/60"
+                }`}
+              >
+                {f}
+                {f !== "全部" && (
+                  <span className="ml-1 opacity-70">{counts[f] ?? 0}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Input grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="身高 cm" value={height} onChange={setHeight} />
-            <Field label="体重 kg" value={weight} onChange={setWeight} />
-            <Field label="腰围 cm" value="" onChange={() => {}} placeholder="选填" />
-            <div className="rounded-xl bg-teal/10 p-3">
-              <p className="text-[11px] text-muted-foreground">BMI 自动</p>
-              <p className="mt-1 text-lg font-extrabold text-teal">{bmi}</p>
-              <p className="text-[10px] text-muted-foreground">偏轻</p>
-            </div>
-            <Field label="收缩压" value="102" onChange={() => {}} />
-            <Field label="舒张压" value="66" onChange={() => {}} />
-          </div>
-
-          {/* Extra items */}
-          <div className="mt-3 space-y-2">
-            {[
-              { k: "视力 左/右", v: "5.0 / 4.8", flag: "warning" },
-              { k: "呼吸/过敏问卷", v: "存在夜间咳嗽", flag: "warning" },
-              { k: "口腔", v: "龋齿 2 颗", flag: "warm" },
-            ].map((r) => (
-              <div key={r.k} className="flex items-center justify-between rounded-xl bg-surface-2 px-3 py-2">
-                <div>
-                  <p className="text-[11px] text-muted-foreground">{r.k}</p>
-                  <p className="text-sm">{r.v}</p>
-                </div>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] ${
-                    r.flag === "warning"
-                      ? "bg-warning/25 text-warning-foreground"
-                      : "bg-warm/15 text-warm"
-                  }`}
-                >
-                  需关注
+        {/* 用户列表 */}
+        <ul className="space-y-2">
+          {list.length === 0 && (
+            <li className="rounded-xl bg-surface-2 p-6 text-center text-xs text-muted-foreground">
+              暂无用户
+            </li>
+          )}
+          {list.map((u) => {
+            const content = (
+              <div className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/10 text-sm font-bold text-deep">
+                  {u.name.slice(-1)}
                 </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold">
+                    {u.name}
+                    <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+                      {u.grade} · {u.age}岁{u.gender}
+                    </span>
+                  </p>
+                  {u.tags && u.tags.length > 0 && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {u.tags.map((t) => (
+                        <span key={t} className="rounded bg-surface-2 px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <p className="mt-1 truncate text-[11px] text-muted-foreground">
+                    {u.note || `学号 ${u.id}`}
+                  </p>
+                </div>
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[u.status]}`}>
+                    {u.status}
+                  </span>
+                  {u.to && <span className="text-xs text-muted-foreground">›</span>}
+                </div>
               </div>
-            ))}
-          </div>
-
-          {/* Actions */}
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            <ActionSheet
-              trigger={<button className="rounded-xl bg-warning/20 py-2 text-xs font-medium text-warning-foreground">标记复测</button>}
-              title="标记为待复测？"
-              description="将该学生加入本班复测队列，体检结束后统一复测。"
-              confirmText="标记复测"
-              toastMessage="已标记复测"
-              toastDescription="李小雨 · 三年级 3班"
-            />
-            <ActionSheet
-              trigger={<button className="rounded-xl bg-surface-2 py-2 text-xs">标记缺检</button>}
-              title="标记为缺检？"
-              description="将学生移入缺检名单，可在缺检与补检中安排补检时间。"
-              confirmText="确认缺检"
-              danger
-              toastMessage="已标记缺检 · 待补检"
-              toastType="warning"
-            />
-            <ActionSheet
-              trigger={<button className="rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">提交数据</button>}
-              title="提交本次体检数据？"
-              description="提交后数据进入质控环节，机构与医生均可复核。BMI / 血压等自动带入报告草稿。"
-              confirmText="确认提交"
-              toastMessage="体检数据已提交 ✓"
-              toastDescription="李小雨 · BMI 16.8 · 已进入质控"
-            />
-          </div>
-        </div>
-
-        {/* Class queue */}
-        <h2 className="mb-2 text-sm font-semibold">班级队列</h2>
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { n: "李小雨", s: "current" },
-            { n: "王晨曦", s: "done" },
-            { n: "刘思远", s: "done" },
-            { n: "陈静雅", s: "wait" },
-            { n: "赵一鸣", s: "wait" },
-            { n: "钱佳琪", s: "wait" },
-            { n: "孙欣然", s: "wait" },
-            { n: "周乐言", s: "wait" },
-          ].map((s) => (
-            <div
-              key={s.n}
-              className={`rounded-xl p-2 text-center text-[11px] ${
-                s.s === "current"
-                  ? "bg-deep text-deep-foreground"
-                  : s.s === "done"
-                  ? "bg-success/15 text-success"
-                  : "bg-surface text-muted-foreground ring-1 ring-border/60"
-              }`}
-            >
-              {s.n}
-            </div>
-          ))}
-        </div>
+            );
+            return (
+              <li key={u.id}>
+                {u.to ? (
+                  <Link to={u.to} className="block">
+                    {content}
+                  </Link>
+                ) : (
+                  content
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <label className="rounded-xl bg-surface-2 p-3">
-      <span className="block text-[11px] text-muted-foreground">{label}</span>
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="mt-1 w-full bg-transparent text-lg font-bold outline-none placeholder:text-sm placeholder:font-normal placeholder:text-muted-foreground/60"
-      />
-    </label>
   );
 }

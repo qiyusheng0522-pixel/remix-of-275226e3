@@ -7,10 +7,10 @@ export type NavItem = {
   icon: ReactNode;
 };
 
-export function BottomNav({ items, accent = "warm" }: { items: NavItem[]; accent?: "warm" | "teal" | "deep" }) {
+export function BottomNav({ items, accent = "warm" }: { items: NavItem[]; accent?: "warm" | "teal" | "deep" | "rose" }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const accentText = accent === "teal" ? "text-teal" : accent === "deep" ? "text-deep" : "text-warm";
-  const accentBg = accent === "teal" ? "bg-teal/15" : accent === "deep" ? "bg-deep/15" : "bg-warm/15";
+  const accentText = accent === "teal" ? "text-teal" : accent === "deep" ? "text-deep" : accent === "rose" ? "text-rose" : "text-warm";
+  const accentBg = accent === "teal" ? "bg-teal/15" : accent === "deep" ? "bg-deep/15" : accent === "rose" ? "bg-rose/15" : "bg-warm/15";
 
   return (
     <nav className="sticky bottom-0 z-20 mt-auto border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">

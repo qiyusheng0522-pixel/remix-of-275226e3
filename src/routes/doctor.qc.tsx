@@ -172,8 +172,11 @@ function ReportReviewPage() {
       <StatusBar title="报告审核" />
       <div className="px-5 pb-8 pt-2">
         <h1 className="text-xl font-bold">报告审核</h1>
-        <p className="mb-3 text-xs text-muted-foreground">
-          高风险体检数据须医生人工二次审核后方可签发 · 待审核 {data["待审核"].length} 项（含高危 {highCount}）
+        <p className="mb-2 text-xs text-muted-foreground">
+          校园儿童体检报告 · 医生四步核心工作：数据质控 → 指标研判 → 文案把关 → 合规兜底
+        </p>
+        <p className="mb-3 text-[11px] text-muted-foreground">
+          待审核 {data["待审核"].length} 项（含高危 {highCount} · 所有报告须医生确认后方对家长生效）
         </p>
 
         <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
@@ -194,6 +197,12 @@ function ReportReviewPage() {
           {list.map((r) => {
             const key = r.name + r.issue;
             const isOpen = openKey === key;
+            const riskCls =
+              r.risk === "高危"
+                ? "bg-danger/15 text-danger"
+                : r.risk === "中危"
+                ? "bg-warm/15 text-warm"
+                : "bg-success/15 text-success";
             return (
               <li key={key} className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
                 <button
@@ -201,15 +210,16 @@ function ReportReviewPage() {
                   className="flex w-full items-start justify-between gap-2 p-4 text-left"
                 >
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold">{r.name} · {r.class}</p>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${catStyle[r.category]}`}>
+                        {r.category}
+                      </span>
+                      <p className="text-sm font-semibold">{r.name} · {r.class}</p>
+                    </div>
                     <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                        r.risk === "高危" ? "bg-danger/15 text-danger" : "bg-warm/15 text-warm"
-                      }`}
-                    >
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${riskCls}`}>
                       {r.risk}
                     </span>
                     <span

@@ -145,11 +145,120 @@ function ReferralPage() {
                 </span>
               </div>
               <div className="mt-3 flex gap-2">
-                <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">查看医嘱回流</button>
-                <button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">就诊状态</button>
-                <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-                  后续随访
-                </button>
+                <ActionSheet
+                  trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">查看医嘱回流</button>}
+                  title={`${c.name} · 医嘱回流`}
+                  description={`${c.dept} · ${c.source}`}
+                  confirmText="同步至档案"
+                  toastMessage="医嘱已同步档案"
+                  toastType="success"
+                >
+                  <div className="space-y-2 text-xs">
+                    <div className="rounded-xl bg-surface-2 p-3">
+                      <p className="text-[11px] text-muted-foreground">就诊时间</p>
+                      <p className="mt-0.5 font-medium">2026-04-05 09:20 · 门诊三楼</p>
+                    </div>
+                    <div className="rounded-xl bg-surface-2 p-3">
+                      <p className="text-[11px] text-muted-foreground">诊断</p>
+                      <p className="mt-0.5 font-medium">{c.reason}（初步）</p>
+                    </div>
+                    <div className="rounded-xl bg-surface-2 p-3">
+                      <p className="text-[11px] text-muted-foreground">医嘱</p>
+                      <ul className="mt-1 list-disc space-y-1 pl-4">
+                        <li>1 个月内复查相关指标</li>
+                        <li>饮食 / 运动干预方案已生成</li>
+                        <li>如加重立即返院复诊</li>
+                      </ul>
+                    </div>
+                    <div className="rounded-xl bg-surface-2 p-3">
+                      <p className="text-[11px] text-muted-foreground">附件</p>
+                      <p className="mt-0.5">📎 门诊病历.pdf · 📎 化验单.pdf</p>
+                    </div>
+                  </div>
+                </ActionSheet>
+                <ActionSheet
+                  trigger={<button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">就诊状态</button>}
+                  title={`${c.name} · 就诊进度`}
+                  description={c.status}
+                  confirmText="催办健管师"
+                  toastMessage="已通知健管师跟进"
+                  toastType="info"
+                >
+                  <ol className="relative space-y-3 border-l border-border/60 pl-4 text-xs">
+                    {[
+                      { t: "发起转诊", d: c.source, done: true },
+                      { t: "健管师协助预约", d: "04-03 已联系家长", done: true },
+                      { t: "家长确认时段", d: c.channel === "绿色通道" ? "待家长确认" : "已确认 04-05 09:20", done: c.channel !== "绿色通道" },
+                      { t: "到院就诊", d: "待就诊", done: false },
+                      { t: "医嘱回流 / 随访", d: "待回流", done: false },
+                    ].map((s, i) => (
+                      <li key={i} className="relative">
+                        <span
+                          className={`absolute -left-[22px] top-1 h-2.5 w-2.5 rounded-full ${
+                            s.done ? "bg-teal" : "bg-border"
+                          }`}
+                        />
+                        <p className={`font-medium ${s.done ? "" : "text-muted-foreground"}`}>{s.t}</p>
+                        <p className="text-[11px] text-muted-foreground">{s.d}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </ActionSheet>
+                <ActionSheet
+                  trigger={
+                    <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                      后续随访
+                    </button>
+                  }
+                  title={`${c.name} · 安排随访`}
+                  description="根据医嘱与家长授权自动同步随访计划"
+                  confirmText="创建随访计划"
+                  toastMessage="随访计划已创建"
+                >
+                  <div className="space-y-2 text-xs">
+                    <label className="block">
+                      <span className="text-muted-foreground">随访方式</span>
+                      <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                        <option>电话随访</option>
+                        <option>企业微信随访</option>
+                        <option>到院复查</option>
+                        <option>上门随访</option>
+                      </select>
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">首次随访时间</span>
+                      <input
+                        type="date"
+                        defaultValue="2026-04-19"
+                        className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">周期</span>
+                      <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                        <option>1 次（单次回访）</option>
+                        <option>每 2 周 · 共 3 次</option>
+                        <option>每月 · 共 3 次</option>
+                      </select>
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">责任健管师</span>
+                      <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                        <option>刘健管师</option>
+                        <option>王健管师</option>
+                        <option>系统自动分配</option>
+                      </select>
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">重点关注</span>
+                      <textarea
+                        rows={2}
+                        defaultValue={c.reason}
+                        className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                      />
+                    </label>
+                  </div>
+                </ActionSheet>
               </div>
             </li>
           ))}

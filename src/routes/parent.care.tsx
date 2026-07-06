@@ -77,9 +77,84 @@ function CarePage() {
           </div>
         </div>
 
+        {/* 居家健康提醒管理 */}
+        <div className="mb-5 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="mb-2 flex items-start justify-between gap-2">
+            <div>
+              <h2 className="text-sm font-semibold">居家健康提醒</h2>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                AI 依据{"{"}儿童{"}"}健康标签生成 · 已开启 {activeCount}/{defaultReminders.length} 项
+              </p>
+            </div>
+            <button
+              onClick={() => setManage((v) => !v)}
+              className={`shrink-0 rounded-full px-3 py-1 text-[11px] ring-1 ${
+                manage ? "bg-warm/15 text-warm ring-warm/30" : "bg-surface text-muted-foreground ring-border"
+              }`}
+            >
+              {manage ? "完成" : "管理"}
+            </button>
+          </div>
+          <ul className="space-y-2">
+            {defaultReminders.map((r) => {
+              const on = enabled[r.id];
+              return (
+                <li
+                  key={r.id}
+                  className={`flex items-center gap-3 rounded-xl p-2.5 ring-1 ${
+                    on ? "bg-surface-2 ring-border/60" : "bg-muted/40 ring-border/40 opacity-60"
+                  }`}
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
+                    {r.icon}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <p className="truncate text-[13px] font-semibold">{r.title}</p>
+                      <span className="shrink-0 rounded-full bg-warm/10 px-1.5 py-0.5 text-[10px] text-warm">
+                        {r.tag}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{r.cycle}</p>
+                  </div>
+                  {manage ? (
+                    <button
+                      onClick={() => setEnabled((s) => ({ ...s, [r.id]: !on }))}
+                      className={`relative h-6 w-11 shrink-0 rounded-full transition ${
+                        on ? "bg-warm" : "bg-muted"
+                      }`}
+                      aria-label={on ? "关闭提醒" : "开启提醒"}
+                    >
+                      <span
+                        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+                          on ? "left-[22px]" : "left-0.5"
+                        }`}
+                      />
+                    </button>
+                  ) : (
+                    <span
+                      className={`shrink-0 text-[11px] ${
+                        on ? "text-teal" : "text-muted-foreground"
+                      }`}
+                    >
+                      {on ? "已开启" : "已关闭"}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {manage && (
+            <p className="mt-3 text-center text-[11px] text-muted-foreground">
+              关闭后首页不再展示该项提醒 · 可随时重新开启
+            </p>
+          )}
+        </div>
+
         {/* Modules */}
         <h2 className="mb-2 text-sm font-semibold">呵护模块</h2>
         <div className="mb-5 grid grid-cols-3 gap-3">
+
           {modules.map((m) => (
             <Link
               to={m.to}

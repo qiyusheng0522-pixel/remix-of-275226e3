@@ -82,8 +82,8 @@ const todos: Todo[] = [
   {
     id: "0423",
     name: "阳光小学",
-    tags: [{ text: "数据质控", cls: "bg-warm/15 text-warm" }],
-    desc: "校内录检 12 条数据 · BMI 异常 3 条待复核",
+    tags: [{ text: "报告审核", cls: "bg-warm/15 text-warm" }],
+    desc: "校内录检 12 条数据 · 高危 3 条需医生二次审核",
     to: "/doctor/qc",
   },
   {

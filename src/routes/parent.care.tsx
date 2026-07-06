@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { todayTasks } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
@@ -7,14 +7,6 @@ export const Route = createFileRoute("/parent/care")({
   component: CarePage,
 });
 
-const modules = [
-  { icon: "⚖️", key: "体重", tips: "每周记 1 次体重", tint: "from-warm to-warm/60", to: "/parent/record" },
-  { icon: "🫁", key: "呼吸", tips: "记录咳嗽与诱因", tint: "from-teal to-teal/60", to: "/parent/record" },
-  { icon: "😴", key: "睡眠", tips: "22:00 前上床", tint: "from-deep to-deep/60", to: "/parent/record" },
-  { icon: "🏃", key: "运动", tips: "户外 60 分钟/日", tint: "from-warning to-warm/60", to: "/parent/record" },
-  { icon: "🍎", key: "饮食", tips: "减少含糖饮料", tint: "from-success to-teal/60", to: "/parent/record" },
-  { icon: "🛏️", key: "除螨", tips: "每周除螨、通风", tint: "from-teal to-warm/60", to: "/parent/dustmite" },
-];
 
 const defaultReminders = [
   { id: "bed", icon: "🛏️", title: "床品除螨清洗提醒", cycle: "每 2 周 · 下次 04-12", tag: "过敏防护" },

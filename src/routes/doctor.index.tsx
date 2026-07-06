@@ -172,46 +172,29 @@ function DoctorHome() {
       </section>
 
       {/* 入校体检 · 前置准备 */}
-      <section className="px-5 pt-5">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-teal">🚌</span> 入校体检准备
-          </h3>
-          <span className="rounded-full bg-warm/15 px-2.5 py-0.5 text-[11px] text-warm">
-            明日 08:30 出发
-          </span>
-        </div>
+      <section className="px-5 pt-4">
         <Link
           to="/doctor/prep"
-          className="block rounded-2xl bg-gradient-to-br from-deep to-deep/85 p-4 text-deep-foreground shadow-lg shadow-deep/25"
+          className="flex items-start gap-3 rounded-2xl bg-warm/10 p-3 ring-1 ring-warm/30"
         >
-          <div className="flex items-start justify-between">
-            <div className="min-w-0">
-              <p className="text-[15px] font-bold">阳光小学 · 春季体检</p>
-              <p className="mt-1 text-[12px] text-white/85">
-                214 人 · 9 个班 · 教学楼一层体检车 A/B
-              </p>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-warm/20 text-lg">
+            🔔
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="rounded bg-warm px-1.5 py-0.5 text-[10px] font-medium text-warm-foreground">
+                提醒
+              </span>
+              <p className="truncate text-[13px] font-semibold">入校体检准备 · 明日 08:30</p>
             </div>
-            <span className="rounded-full bg-white/15 px-2 py-0.5 text-[10px]">未就绪</span>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              阳光小学 · 214 人 · 请确认团队 / 设备 / 复测规则已就绪
+            </p>
           </div>
-          <div className="mt-3 grid grid-cols-4 gap-2 text-center text-[11px]">
-            {[
-              { k: "基础信息", v: "✓" },
-              { k: "团队", v: "4 人" },
-              { k: "设备", v: "5/5" },
-              { k: "注意事项", v: "4 条" },
-            ].map((it) => (
-              <div key={it.k} className="rounded-xl bg-white/10 py-2">
-                <p className="text-sm font-bold">{it.v}</p>
-                <p className="mt-0.5 text-white/80">{it.k}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-3 text-[11px] text-white/80">
-            点击查看：基础信息 / 体检团队 / 项目 / 设备清单 / 复测规则 ›
-          </p>
+          <span className="text-muted-foreground">›</span>
         </Link>
       </section>
+
 
 
 

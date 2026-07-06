@@ -30,7 +30,7 @@ type Case = {
 const cases: Case[] = [
   {
     id: "0315",
-    name: "陈前",
+    name: "周子航",
     hospital: "鼓楼医院",
     dept: "内分泌科",
     evalTime: "2026-04-30 10:08:59",

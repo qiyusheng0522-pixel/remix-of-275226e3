@@ -8,6 +8,7 @@ export const Route = createFileRoute("/doctor/plan")({
 });
 
 type Status = "待生成" | "待确认" | "已发布";
+type Category = "饮食" | "运动" | "睡眠" | "心理" | "环境" | "用药" | "复诊";
 type Case = {
   id: string;
   name: string;
@@ -17,6 +18,8 @@ type Case = {
   status: Status;
   version: string;
   updated: string;
+  // 健康风险标签（只有有健康问题的儿童才建方案）
+  risks: { text: string; level: "warn" | "danger" }[];
   // 基础信息
   allergy: string;
   family: string;
@@ -25,14 +28,24 @@ type Case = {
   exam: { label: string; value: string; flag?: "normal" | "warn" | "danger" }[];
   // AI 摘要
   summary: string;
-  // 方案模块
+  // 方案模块（饮食 / 运动 / 睡眠 / 心理 / 环境 / 用药 / 复诊）
   sections: {
+    category: Category;
     title: string;
-    color: "warm" | "teal" | "deep";
     basis: string;
     items: string[];
     extra: string[];
   }[];
+};
+
+const categoryStyle: Record<Category, { icon: string; cls: string }> = {
+  饮食: { icon: "🍚", cls: "bg-warm/15 text-warm" },
+  运动: { icon: "🏃", cls: "bg-teal/15 text-teal" },
+  睡眠: { icon: "🌙", cls: "bg-deep/15 text-deep" },
+  心理: { icon: "🧠", cls: "bg-success/15 text-success" },
+  环境: { icon: "🌿", cls: "bg-teal/15 text-teal" },
+  用药: { icon: "💊", cls: "bg-danger/10 text-danger" },
+  复诊: { icon: "📅", cls: "bg-muted text-muted-foreground" },
 };
 
 const cases: Case[] = [
@@ -45,6 +58,11 @@ const cases: Case[] = [
     status: "待确认",
     version: "v0.3",
     updated: "健管师 10:12 更新",
+    risks: [
+      { text: "BMI 偏轻", level: "warn" },
+      { text: "夜间咳嗽", level: "warn" },
+      { text: "过敏体质", level: "warn" },
+    ],
     allergy: "尘螨 · 花粉",
     family: "母亲过敏性鼻炎",
     history: "布地奈德鼻喷 · 每日 1 次",
@@ -60,40 +78,71 @@ const cases: Case[] = [
       "基于本次体检 BMI 16.8 偏轻 + 夜间咳嗽 + 过敏史，建议以家庭呵护为主，1 个月复评，暂不转诊。",
     sections: [
       {
-        title: "体重管理",
-        color: "warm",
+        category: "饮食",
+        title: "饮食营养",
         basis: "依据：BMI 16.8 偏轻 · 早餐不规律记录",
         items: [
+          "三餐规律，早餐必吃，蛋白质 ≥ 1 份",
           "主食粗细搭配、蔬菜 ≥ 300g/日",
-          "含糖饮料 ≤ 1 次/周",
-          "每日早餐规律、避免夜宵",
-          "中高强度运动 60 分钟/日",
-          "睡眠 ≥ 9 小时，22:00 前上床",
+          "含糖饮料 ≤ 1 次/周，避免夜宵",
           "每周记录体重，1 个月复评 BMI",
         ],
         extra: ["3 个月营养专科复评", "暂不建议代谢检查"],
       },
       {
-        title: "呼吸 / 哮喘 / 过敏",
-        color: "teal",
-        basis: "依据：夜间咳嗽 3 次 + 尘螨/花粉过敏史",
+        category: "运动",
+        title: "运动方案",
+        basis: "依据：BMI 偏轻 + 过敏，需增肌但避免过敏诱发",
         items: [
-          "记录咳嗽、喘息、夜间症状",
-          "记录诱因：尘螨 / 花粉 / 冷空气",
-          "每周床品换洗、除螨",
-          "运动前后观察呼吸与胸闷",
+          "中等强度运动 60 分钟/日（跳绳、球类）",
+          "每周 2 次力量训练（自重深蹲、俯卧撑）",
+          "运动前后观察呼吸与胸闷，随身备药",
+          "花粉高峰期改为室内运动",
         ],
-        extra: ["呼吸/过敏专科复核", "体育课注意强度调整", "校医现场观察 2 周"],
+        extra: ["体育课强度分级：中等", "校医现场观察 2 周"],
       },
       {
-        title: "既往用药提醒",
-        color: "deep",
+        category: "睡眠",
+        title: "睡眠作息",
+        basis: "依据：夜间咳嗽影响睡眠质量",
+        items: [
+          "22:00 前上床，睡眠 ≥ 9 小时",
+          "卧室湿度 40-60%，每周除螨",
+          "睡前 1 小时不用电子屏幕",
+        ],
+        extra: ["家长记录夜间症状 2 周"],
+      },
+      {
+        category: "环境",
+        title: "环境与过敏管理",
+        basis: "依据：尘螨/花粉过敏史",
+        items: [
+          "每周床品换洗 60℃ 热水",
+          "记录诱因：尘螨 / 花粉 / 冷空气",
+          "外出佩戴口罩，回家更衣洗手",
+        ],
+        extra: ["呼吸/过敏专科复核"],
+      },
+      {
+        category: "用药",
+        title: "既往用药",
         basis: "依据：家长已上传用药记录",
         items: [
           "布地奈德鼻喷 · 每日 1 次，遵医嘱使用",
-          "不自动开药，症状加重及时就医",
+          "症状加重及时就医，不自行加药",
         ],
         extra: ["用药提醒 · 已开启"],
+      },
+      {
+        category: "复诊",
+        title: "复诊随访",
+        basis: "依据：短期观察 + 中期复评",
+        items: [
+          "2 周后校医现场复核症状",
+          "1 个月家长上传体重 + 症状记录",
+          "3 个月营养专科复评 BMI",
+        ],
+        extra: [],
       },
     ],
   },
@@ -106,6 +155,11 @@ const cases: Case[] = [
     status: "待生成",
     version: "—",
     updated: "转诊复核后自动生成",
+    risks: [
+      { text: "肥胖", level: "danger" },
+      { text: "血糖偏高", level: "danger" },
+      { text: "糖尿病家族史", level: "warn" },
+    ],
     allergy: "无",
     family: "父亲 2 型糖尿病",
     history: "无",
@@ -115,27 +169,7 @@ const cases: Case[] = [
       { label: "空腹血糖", value: "6.3", flag: "warn" },
       { label: "血压", value: "118/74", flag: "warn" },
     ],
-    summary: "内分泌科转诊复核通过后，将基于本次体检自动生成专属方案。",
-    sections: [],
-  },
-  {
-    id: "0508",
-    name: "李娜",
-    grade: "三年级 3 班",
-    age: 9,
-    gender: "女",
-    status: "已发布",
-    version: "v1.2",
-    updated: "2 天前 · 家长已签收",
-    allergy: "无",
-    family: "无",
-    history: "无",
-    exam: [
-      { label: "身高", value: "134 cm", flag: "normal" },
-      { label: "BMI", value: "17.9 正常", flag: "normal" },
-      { label: "视力", value: "4.6 / 4.7", flag: "warn" },
-    ],
-    summary: "整体健康，视力临界，重点视觉行为干预，3 个月复查。",
+    summary: "内分泌科转诊复核通过后，将基于本次体检自动生成饮食+运动为主的减重方案。",
     sections: [],
   },
 ];
@@ -152,6 +186,11 @@ const flagStyle = {
   danger: "text-danger",
 } as const;
 
+const riskStyle = {
+  warn: "bg-warm/15 text-warm",
+  danger: "bg-danger/10 text-danger",
+} as const;
+
 function PlanPage() {
   const [activeId, setActiveId] = useState(cases[0].id);
   const active = cases.find((c) => c.id === activeId) ?? cases[0];
@@ -160,9 +199,9 @@ function PlanPage() {
     <div>
       <StatusBar title="健康方案" />
       <div className="px-5 pb-8 pt-2">
-        <h1 className="text-xl font-bold">儿童健康方案 · 专案</h1>
+        <h1 className="text-xl font-bold">儿童健康方案 · 一儿一案</h1>
         <p className="mb-3 text-xs text-muted-foreground">
-          每位儿童一个专案，基于体检数据 + 基础信息生成
+          仅为有健康风险的儿童建案，围绕饮食 / 运动 / 睡眠 / 环境 / 用药 / 复诊生成专属方案
         </p>
 
         {/* Case list */}

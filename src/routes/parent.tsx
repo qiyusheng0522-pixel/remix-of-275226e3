@@ -16,6 +16,7 @@ function ParentLayout() {
         accent="rose"
         items={[
           { to: "/parent", label: "首页", icon: "🏠" },
+          { to: "/parent/health-plan", label: "健康方案", icon: "📋" },
           { to: "/parent/comm", label: "健康咨询", icon: "💬" },
           { to: "/parent/me", label: "我的", icon: "👤" },
         ]}

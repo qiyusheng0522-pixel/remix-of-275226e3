@@ -460,26 +460,31 @@ function ReportPage() {
 
 
         {/* Review plan */}
-        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <h2 className="mb-3 text-sm font-semibold">复评计划</h2>
-          <ol className="relative space-y-4 border-l-2 border-dashed border-teal/40 pl-4">
-            {reviewPlan.map((r, i) => (
-              <li key={r.type} className="relative">
-                <span
-                  className={`absolute -left-[22px] top-1 grid h-4 w-4 place-items-center rounded-full text-[10px] ring-2 ring-surface ${
-                    i === 0 ? "bg-warm text-warm-foreground" : "bg-muted text-muted-foreground"
-                  }`}
-                >
-                  {i + 1}
-                </span>
-                <p className="text-sm font-medium">{r.type}</p>
-                <p className="text-[11px] text-muted-foreground">
-                  {r.when} · {r.date}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </section>
+        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+            <span className="text-sm font-semibold">复评计划</span>
+            <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <ol className="relative space-y-4 border-l-2 border-dashed border-teal/40 pl-4">
+              {reviewPlan.map((r, i) => (
+                <li key={r.type} className="relative">
+                  <span
+                    className={`absolute -left-[22px] top-1 grid h-4 w-4 place-items-center rounded-full text-[10px] ring-2 ring-surface ${
+                      i === 0 ? "bg-warm text-warm-foreground" : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  <p className="text-sm font-medium">{r.type}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {r.when} · {r.date}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </details>
 
         {/* Report archive */}
         <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">

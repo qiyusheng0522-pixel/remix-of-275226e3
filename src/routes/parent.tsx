@@ -13,12 +13,10 @@ function ParentLayout() {
         <Outlet />
       </div>
       <BottomNav
-        accent="warm"
+        accent="rose"
         items={[
           { to: "/parent", label: "首页", icon: "🏠" },
-          { to: "/parent/report", label: "报告", icon: "📋" },
-          { to: "/parent/care", label: "呵护", icon: "💗" },
-          { to: "/parent/record", label: "记录", icon: "✏️" },
+          { to: "/parent/comm", label: "健康咨询", icon: "💬" },
           { to: "/parent/me", label: "我的", icon: "👤" },
         ]}
       />

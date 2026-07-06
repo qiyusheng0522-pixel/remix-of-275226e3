@@ -173,41 +173,65 @@ function ReportPage() {
 
 
 
-        {/* Detailed sections */}
-        <div className="mb-4 space-y-3">
-          {sections.map((s) => (
-            <section
-              key={s.title}
-              className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
-            >
-              <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold">
-                <span className="h-4 w-1 rounded-full bg-teal" />
-                {s.title}
-              </h2>
-              <ul className="divide-y divide-border/60">
-                {s.items.map((it) => (
-                  <li
-                    key={it.name}
-                    className="flex items-center justify-between gap-3 py-2.5"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
-                      <span className="text-sm">{it.name}</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
-                        {it.value}
+        {/* Detailed sections - 风琴样式，默认收起 */}
+        <div className="mb-4 space-y-2">
+          {sections.map((s) => {
+            const abnormal = s.items.filter((it) => it.level !== "ok").length;
+            const hasAb = abnormal > 0;
+            return (
+              <details
+                key={s.title}
+                className="group rounded-2xl bg-surface shadow-sm ring-1 ring-border/60 open:ring-teal/30"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="h-4 w-1 rounded-full bg-teal" />
+                    <span className="text-sm font-semibold">{s.title}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      共 {s.items.length} 项
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {hasAb ? (
+                      <span className="rounded-full bg-danger/10 px-2 py-0.5 text-[11px] font-medium text-danger">
+                        异常 {abnormal} 项
                       </span>
-                      <span className="text-[11px] text-muted-foreground">
-                        参考 {it.ref}
+                    ) : (
+                      <span className="rounded-full bg-success/10 px-2 py-0.5 text-[11px] text-success">
+                        全部正常
                       </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
+                    )}
+                    <span className="text-xs text-muted-foreground transition group-open:rotate-180">
+                      ▾
+                    </span>
+                  </div>
+                </summary>
+                <ul className="divide-y divide-border/60 px-4 pb-3">
+                  {s.items.map((it) => (
+                    <li
+                      key={it.name}
+                      className="flex items-center justify-between gap-3 py-2.5"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
+                        <span className="text-sm">{it.name}</span>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
+                          {it.value}
+                        </span>
+                        <span className="text-[11px] text-muted-foreground">
+                          参考 {it.ref}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            );
+          })}
         </div>
+
 
         {/* 报告解读 · 风险评估 */}
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">

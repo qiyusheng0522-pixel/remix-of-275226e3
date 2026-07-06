@@ -31,10 +31,10 @@ const stats: Stat[] = [
 
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
-    label: "数据质控",
-    sub: "BMI 异常 3 条",
+    label: "报告审核",
+    sub: "高危 3 条 · 需人工二审",
     value: 12,
-    unit: "条待核",
+    unit: "条待审",
     valueColor: "text-warm",
     to: "/doctor/qc",
   },
@@ -82,8 +82,8 @@ const todos: Todo[] = [
   {
     id: "0423",
     name: "阳光小学",
-    tags: [{ text: "数据质控", cls: "bg-warm/15 text-warm" }],
-    desc: "校内录检 12 条数据 · BMI 异常 3 条待复核",
+    tags: [{ text: "报告审核", cls: "bg-warm/15 text-warm" }],
+    desc: "校内录检 12 条数据 · 高危 3 条需医生二次审核",
     to: "/doctor/qc",
   },
   {

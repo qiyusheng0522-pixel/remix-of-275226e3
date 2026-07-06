@@ -19,6 +19,7 @@ const groups = [
   {
     title: "健康与沟通",
     items: [
+      { icon: "📊", label: "我的数据", right: "手动 & 智能设备", to: "/parent/mydata" },
       { icon: "🗓️", label: "复评随访", right: "下次 5/15", to: "/parent/review" },
       { icon: "💬", label: "健康管理师沟通", right: "2 条新回复", to: "/parent/comm" },
       { icon: "🛏️", label: "卧室除螨任务", right: "本周", to: "/parent/dustmite" },

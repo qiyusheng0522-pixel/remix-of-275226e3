@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 export const Route = createFileRoute("/parent/")({
   component: ParentHome,
@@ -317,15 +318,94 @@ function ParentHome() {
                       )}
                     </p>
                   </div>
-                  <span
-                    className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] ${
-                      isDue
-                        ? "bg-warm text-warm-foreground"
-                        : "bg-surface text-muted-foreground ring-1 ring-border"
-                    }`}
-                  >
-                    {isDue ? "去完成" : "已完成"}
-                  </span>
+                  {isDue ? (
+                    <ActionSheet
+                      trigger={
+                        <button className="shrink-0 rounded-full bg-warm px-2.5 py-1 text-[11px] text-warm-foreground">
+                          去记录
+                        </button>
+                      }
+                      title={c.id === "weight" ? "记录晨起体重" : `记录：${c.title}`}
+                      description={c.id === "weight" ? "建议每周同一时间空腹测量，连续记录曲线更直观" : c.tag}
+                      confirmText="保存记录"
+                      toastMessage="已保存记录 ✓"
+                    >
+                      {c.id === "weight" ? (
+                        <div className="space-y-2 text-xs">
+                          <label className="block">
+                            <span className="text-muted-foreground">测量日期</span>
+                            <input
+                              type="date"
+                              defaultValue={TODAY}
+                              className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                            />
+                          </label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <label className="block">
+                              <span className="text-muted-foreground">体重 (kg)</span>
+                              <input
+                                type="number"
+                                step="0.1"
+                                placeholder="如 28.6"
+                                className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                              />
+                            </label>
+                            <label className="block">
+                              <span className="text-muted-foreground">身高 (cm)</span>
+                              <input
+                                type="number"
+                                step="0.1"
+                                placeholder="如 128"
+                                className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                              />
+                            </label>
+                          </div>
+                          <label className="block">
+                            <span className="text-muted-foreground">测量方式</span>
+                            <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                              <option>手动录入</option>
+                              <option>智能体脂秤同步</option>
+                              <option>体检机构录入</option>
+                            </select>
+                          </label>
+                          <label className="block">
+                            <span className="text-muted-foreground">备注（可选）</span>
+                            <textarea
+                              rows={2}
+                              placeholder="如：晨起空腹 / 运动后"
+                              className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                            />
+                          </label>
+                          <p className="rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
+                            💡 已连接的智能秤会自动同步，无需手动录入。
+                            <Link to="/parent/me" className="ml-1 text-warm">前往「我的数据」管理</Link>
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-2 text-xs">
+                          <label className="block">
+                            <span className="text-muted-foreground">完成日期</span>
+                            <input
+                              type="date"
+                              defaultValue={TODAY}
+                              className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                            />
+                          </label>
+                          <label className="block">
+                            <span className="text-muted-foreground">备注（可选）</span>
+                            <textarea
+                              rows={2}
+                              className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                            />
+                          </label>
+                        </div>
+                      )}
+                    </ActionSheet>
+                  ) : (
+                    <span className="shrink-0 rounded-full bg-surface px-2.5 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
+                      已完成
+                    </span>
+                  )}
                 </div>
               </li>
             );

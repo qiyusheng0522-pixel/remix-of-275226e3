@@ -32,6 +32,7 @@ import { Route as ParentReviewRouteImport } from './routes/parent.review'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
 import { Route as ParentRecordRouteImport } from './routes/parent.record'
 import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
+import { Route as ParentMydataRouteImport } from './routes/parent.mydata'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentDustmiteRouteImport } from './routes/parent.dustmite'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
@@ -166,6 +167,11 @@ const ParentNoticeRoute = ParentNoticeRouteImport.update({
   path: '/notice',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentMydataRoute = ParentMydataRouteImport.update({
+  id: '/mydata',
+  path: '/mydata',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentMeRoute = ParentMeRouteImport.update({
   id: '/me',
   path: '/me',
@@ -280,6 +286,7 @@ export interface FileRoutesByFullPath {
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
@@ -320,6 +327,7 @@ export interface FileRoutesByTo {
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
@@ -364,6 +372,7 @@ export interface FileRoutesById {
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
+  '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
@@ -409,6 +418,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/mydata'
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
@@ -449,6 +459,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/mydata'
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
@@ -492,6 +503,7 @@ export interface FileRouteTypes {
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
+    | '/parent/mydata'
     | '/parent/notice'
     | '/parent/record'
     | '/parent/report'
@@ -683,6 +695,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentNoticeRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/mydata': {
+      id: '/parent/mydata'
+      path: '/mydata'
+      fullPath: '/parent/mydata'
+      preLoaderRoute: typeof ParentMydataRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/me': {
       id: '/parent/me'
       path: '/me'
@@ -855,6 +874,7 @@ interface ParentRouteChildren {
   ParentCommRoute: typeof ParentCommRoute
   ParentDustmiteRoute: typeof ParentDustmiteRoute
   ParentMeRoute: typeof ParentMeRoute
+  ParentMydataRoute: typeof ParentMydataRoute
   ParentNoticeRoute: typeof ParentNoticeRoute
   ParentRecordRoute: typeof ParentRecordRoute
   ParentReportRoute: typeof ParentReportRoute
@@ -869,6 +889,7 @@ const ParentRouteChildren: ParentRouteChildren = {
   ParentCommRoute: ParentCommRoute,
   ParentDustmiteRoute: ParentDustmiteRoute,
   ParentMeRoute: ParentMeRoute,
+  ParentMydataRoute: ParentMydataRoute,
   ParentNoticeRoute: ParentNoticeRoute,
   ParentRecordRoute: ParentRecordRoute,
   ParentReportRoute: ParentReportRoute,

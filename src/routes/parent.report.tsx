@@ -310,116 +310,6 @@ function ReportPage() {
 
 
 
-        {/* 健康管理方案 · 护理 / 运动 / 饮食 */}
-        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
-            <div className="flex items-center gap-2">
-              <span className="h-4 w-1 rounded-full bg-teal" />
-              <span className="text-sm font-semibold">健康管理方案</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">医生 + 营养师</span>
-              <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
-            </div>
-          </summary>
-          <div className="px-4 pb-4">
-          <p className="mb-3 text-[11px] leading-relaxed text-muted-foreground">
-            结合本次报告异常项，为{child.name}生成 12 周家庭管理方案，可按周执行并同步随访。
-          </p>
-
-          <div className="space-y-3">
-            {[
-              {
-                icon: "🏠",
-                title: "健康护理",
-                tint: "rose",
-                summary: "尘螨过敏 · 家庭防护为主",
-                items: [
-                  "床品每周 60℃ 以上高温清洗，晾晒 2 小时以上",
-                  "使用防螨床罩、枕套，每 3 个月更换一次",
-                  "每周使用除螨仪 2 次，重点清理床垫、沙发、地毯",
-                  "室内湿度控制在 40–50%，减少尘螨繁殖",
-                  "季节交替期备好家庭雾化设备与应急药品",
-                ],
-              },
-              {
-                icon: "🏃",
-                title: "运动方案",
-                tint: "teal",
-                summary: "每周 ≥ 150 分钟中等强度 · 逐步减重",
-                items: [
-                  "周一 / 三 / 五：亲子跳绳 20 分钟（分 2 组，每组 500 下）",
-                  "周二 / 四：户外骑行或快走 30 分钟",
-                  "周六：游泳 45 分钟（对哮喘倾向友好）",
-                  "运动前 5 分钟热身，随身携带温水与应急吸入器",
-                  "运动强度：心率 130–150 bpm，能说话但不能唱歌",
-                ],
-              },
-              {
-                icon: "🥗",
-                title: "饮食方案",
-                tint: "warm",
-                summary: "控糖限脂 · 每日 1400–1600 kcal",
-                items: [
-                  "早餐：全麦面包 + 鸡蛋 + 牛奶 250ml（约 400 kcal）",
-                  "午餐：杂粮饭 100g + 瘦肉 / 鱼 80g + 蔬菜 200g（约 550 kcal）",
-                  "晚餐：粗粮 80g + 豆制品 + 深色蔬菜（约 500 kcal）",
-                  "加餐：低糖水果 1 份（苹果 / 蓝莓），避免含糖饮料与油炸零食",
-                  "每日饮水 ≥ 1200 ml，少量多次",
-                  "推荐可直接订购『肥胖 / 代谢管理餐』，营养师已按上述方案配比",
-                ],
-                cta: { label: "去商城订餐", to: "/parent/shop" as const },
-              },
-            ].map((p) => (
-              <details
-                key={p.title}
-                className={`group overflow-hidden rounded-2xl bg-${p.tint}/5 ring-1 ring-${p.tint}/20`}
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3">
-                  <div className="flex items-center gap-2">
-                    <span className={`grid h-8 w-8 place-items-center rounded-xl bg-${p.tint}/15 text-base`}>
-                      {p.icon}
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold">{p.title}</p>
-                      <p className="text-[11px] text-muted-foreground">{p.summary}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
-                </summary>
-                <ul className="space-y-1.5 border-t border-border/40 bg-surface/70 px-4 py-3 text-[12px] leading-relaxed">
-                  {p.items.map((it, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-${p.tint}`} />
-                      <span className="text-foreground/85">{it}</span>
-                    </li>
-                  ))}
-                  {p.cta && (
-                    <li className="pt-2">
-                      <Link
-                        to={p.cta.to}
-                        className={`inline-flex items-center gap-1 rounded-full bg-${p.tint} px-3 py-1.5 text-[11px] font-medium text-${p.tint}-foreground`}
-                      >
-                        {p.cta.label} ›
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </details>
-            ))}
-          </div>
-
-          <div className="mt-3 flex gap-2">
-            <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">导出 PDF</button>
-            <Link
-              to="/parent/comm"
-              className="flex-1 rounded-xl bg-teal py-2 text-center text-xs font-medium text-teal-foreground"
-            >
-              咨询健管师
-            </Link>
-          </div>
-          </div>
-        </details>
 
 
 
@@ -550,21 +440,27 @@ function ReportPage() {
       </div>
 
       {/* 冻结咨询栏 */}
-      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-4 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
-        <div className="grid grid-cols-2 gap-2">
+      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
+        <div className="grid grid-cols-3 gap-1.5">
           <Link
             to="/parent/comm"
             search={{ topic: "report", from: "report" }}
-            className="flex items-center justify-center gap-1.5 rounded-full bg-surface-2 py-2.5 text-xs font-semibold text-foreground ring-1 ring-border/60"
+            className="flex items-center justify-center gap-1 rounded-full bg-surface-2 py-2.5 text-[11px] font-semibold text-foreground ring-1 ring-border/60"
           >
-            <span className="text-base">👨‍⚕️</span> 咨询医生
+            <span className="text-sm">👨‍⚕️</span> 咨询医生
           </Link>
           <Link
             to="/parent/comm"
             search={{ topic: "ai-report", from: "report", auto: "1" }}
-            className="flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-xs font-semibold text-white shadow-sm"
+            className="flex items-center justify-center gap-1 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-[11px] font-semibold text-white shadow-sm"
           >
-            <span className="text-base">🤖</span> AI 解读报告
+            <span className="text-sm">🤖</span> AI 解读
+          </Link>
+          <Link
+            to="/parent/health-plan"
+            className="flex items-center justify-center gap-1 rounded-full bg-teal py-2.5 text-[11px] font-semibold text-teal-foreground shadow-sm"
+          >
+            <span className="text-sm">📋</span> 健康方案
           </Link>
         </div>
       </div>

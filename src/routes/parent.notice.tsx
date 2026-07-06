@@ -31,15 +31,8 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         status: "待办",
         cta: "去填写",
       },
-      {
-        id: "fast",
-        icon: "🍚",
-        title: "确认早餐安排",
-        desc: "血糖不查，正常早餐即可；勿剧烈运动",
-        status: "待办",
-        cta: "标为已知悉",
-      },
     ],
+
   },
   info: {
     label: "须知悉事项",

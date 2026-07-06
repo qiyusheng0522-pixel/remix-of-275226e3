@@ -6,147 +6,351 @@ export const Route = createFileRoute("/parent/health-plan")({
   component: HealthPlanPage,
 });
 
-const plans = [
+const days = ["06/11", "06/12", "06/13", "06/14", "06/15"];
+
+const meals = [
   {
-    icon: "🏠",
-    title: "健康护理",
-    tint: "rose",
-    summary: "尘螨过敏 · 家庭防护为主",
-    items: [
-      "床品每周 60℃ 以上高温清洗，晾晒 2 小时以上",
-      "使用防螨床罩、枕套，每 3 个月更换一次",
-      "每周使用除螨仪 2 次，重点清理床垫、沙发、地毯",
-      "室内湿度控制在 40–50%，减少尘螨繁殖",
-      "季节交替期备好家庭雾化设备与应急药品",
+    name: "早餐",
+    kcal: 430,
+    groups: [
+      { title: "粗细搭配主食", amount: "50–75 克(生重)", tips: "粗粮占 1/3 以上", tags: ["燕麦片", "玉米面", "全麦面包", "杂粮馒头"] },
+      { title: "优质蛋白", amount: "1 份", tags: ["鸡蛋 1 个", "牛奶 250ml", "无糖豆浆 300ml"] },
+      { title: "蔬菜或低糖水果", amount: "100–150 克", tags: ["黄瓜", "番茄", "蓝莓", "苹果"] },
     ],
   },
+  { name: "午餐", kcal: 560 },
+  { name: "晚餐", kcal: 440 },
+];
+
+const exercises = [
   {
-    icon: "🏃",
-    title: "运动方案",
-    tint: "teal",
-    summary: "每周 ≥ 150 分钟中等强度 · 逐步减重",
-    items: [
-      "周一 / 三 / 五：亲子跳绳 20 分钟（分 2 组，每组 500 下）",
-      "周二 / 四：户外骑行或快走 30 分钟",
-      "周六：游泳 45 分钟（对哮喘倾向友好）",
-      "运动前 5 分钟热身，随身携带温水与应急吸入器",
-      "运动强度：心率 130–150 bpm，能说话但不能唱歌",
-    ],
+    tag: "亲子共练",
+    status: "已完成",
+    title: "餐后控糖快走",
+    level: "入门",
+    tags: ["#体重管理", "#餐后代谢", "#亲子运动"],
+    time: "午餐后 13:00",
+    hr: "8–10 分钟",
+    coach: "社区健身指导员 · 06:00",
   },
   {
-    icon: "🥗",
-    title: "饮食方案",
-    tint: "warm",
-    summary: "控糖限脂 · 每日 1400–1600 kcal",
-    items: [
-      "早餐：全麦面包 + 鸡蛋 + 牛奶 250ml（约 400 kcal）",
-      "午餐：杂粮饭 100g + 瘦肉 / 鱼 80g + 蔬菜 200g（约 550 kcal）",
-      "晚餐：粗粮 80g + 豆制品 + 深色蔬菜（约 500 kcal）",
-      "加餐：低糖水果 1 份（苹果 / 蓝莓），避免含糖饮料与油炸零食",
-      "每日饮水 ≥ 1200 ml，少量多次",
-      "推荐可直接订购『肥胖 / 代谢管理餐』，营养师已按上述方案配比",
-    ],
-    cta: { label: "去商城订餐", to: "/parent/shop" as const },
+    tag: "通用教学",
+    status: "待打卡",
+    title: "跳绳燃脂 20 分钟",
+    level: "进阶",
+    tags: ["#减脂", "#心肺提升"],
+    time: "傍晚 17:30",
+    hr: "心率 130–150",
+    coach: "国家二级运动员 · 08:20",
   },
 ];
 
 function HealthPlanPage() {
   return (
-    <div>
+    <div className="bg-surface-2">
       <StatusBar title="健康管理方案" />
-      <div className="px-5 pb-28 pt-2">
-        <header className="mb-4">
-          <h1 className="text-xl font-bold">{child.name} 的 12 周健康方案</h1>
+      <div className="px-4 pb-28 pt-2">
+        <header className="mb-3 px-1">
+          <h1 className="text-xl font-bold">{child.name} 的健康方案</h1>
           <p className="text-xs text-muted-foreground">
             基于本次体检报告 · 医生 + AI 营养师联合生成
           </p>
         </header>
 
-        <div className="mb-4 rounded-3xl bg-gradient-to-br from-teal/15 to-warm/10 p-4 ring-1 ring-teal/20">
+        {/* 报告详细解读 */}
+        <section className="mb-4 rounded-3xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] text-muted-foreground">方案编号</p>
-              <p className="text-sm font-semibold">HP-2026-0918-{child.name.slice(-1)}01</p>
+            <div className="flex items-center gap-2">
+              <span className="h-4 w-1 rounded-full bg-warm" />
+              <h2 className="text-sm font-bold">报告详细解读</h2>
             </div>
-            <span className="rounded-full bg-teal px-2.5 py-1 text-[11px] font-semibold text-teal-foreground">
-              进行中 · 第 1 周
-            </span>
+            <span className="rounded-full bg-warm/10 px-2 py-0.5 text-[10px] text-warm">AI 医师</span>
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-xl bg-surface/80 p-2">
-              <p className="text-[10px] text-muted-foreground">周期</p>
-              <p className="text-sm font-bold">12 周</p>
-            </div>
-            <div className="rounded-xl bg-surface/80 p-2">
-              <p className="text-[10px] text-muted-foreground">目标</p>
-              <p className="text-sm font-bold">BMI ↓ 0.8</p>
-            </div>
-            <div className="rounded-xl bg-surface/80 p-2">
-              <p className="text-[10px] text-muted-foreground">复评</p>
-              <p className="text-sm font-bold">12 周后</p>
-            </div>
-          </div>
-        </div>
 
-        <p className="mb-2 px-1 text-[11px] text-muted-foreground">分项方案 · 点击展开</p>
-        <div className="space-y-2">
-          {plans.map((p) => (
-            <details
-              key={p.title}
-              className={`group overflow-hidden rounded-2xl bg-${p.tint}/5 ring-1 ring-${p.tint}/20`}
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3">
-                <div className="flex items-center gap-2">
-                  <span className={`grid h-9 w-9 place-items-center rounded-xl bg-${p.tint}/15 text-base`}>
-                    {p.icon}
-                  </span>
+          <div className="mt-3 rounded-2xl bg-gradient-to-br from-warning/15 to-warm/10 p-3 ring-1 ring-warning/20">
+            <p className="text-[11px] font-semibold text-warning-foreground">🟡 整体评估</p>
+            <p className="mt-1 text-[12px] leading-relaxed text-foreground/85">
+              {child.name}本次体检整体发育良好，身高处于 P75，各项内科与视力指标正常。
+              主要异常集中在 <b>体重/BMI 偏高</b> 及 <b>尘螨过敏合并运动后咳嗽</b> 两方面，
+              属于需干预的中高风险，若长期忽视可能发展为儿童肥胖症或运动诱发性哮喘。
+            </p>
+          </div>
+
+          <ul className="mt-3 space-y-2">
+            {[
+              {
+                dot: "bg-danger",
+                title: "① 肥胖倾向（BMI 17.1 · P85）",
+                desc: "近半年体重增长 5kg 而身高仅增长 3cm，呈体重追赶型。需在 12 周内通过饮食+运动干预将 BMI 降至 16.5 以下。",
+              },
+              {
+                dot: "bg-warning",
+                title: "② 过敏性哮喘倾向",
+                desc: "尘螨 IgE (++) 阳性合并运动后偶发咳嗽，肺功能虽正常但存在气道高反应可能，需家庭除螨 + 呼吸科评估。",
+              },
+              {
+                dot: "bg-success",
+                title: "③ 其他项目",
+                desc: "视力 5.0、口腔无龋、血压心率均在正常范围，继续保持现有作息与用眼习惯。",
+              },
+            ].map((r) => (
+              <li key={r.title} className="rounded-2xl bg-surface-2 p-3">
+                <div className="flex items-start gap-2">
+                  <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${r.dot}`} />
                   <div>
-                    <p className="text-sm font-semibold">{p.title}</p>
-                    <p className="text-[11px] text-muted-foreground">{p.summary}</p>
+                    <p className="text-[13px] font-semibold">{r.title}</p>
+                    <p className="mt-1 text-[11px] leading-relaxed text-foreground/80">{r.desc}</p>
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
-              </summary>
-              <ul className="space-y-1.5 border-t border-border/40 bg-surface/70 px-4 py-3 text-[12px] leading-relaxed">
-                {p.items.map((it, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-${p.tint}`} />
-                    <span className="text-foreground/85">{it}</span>
-                  </li>
-                ))}
-                {p.cta && (
-                  <li className="pt-2">
-                    <Link
-                      to={p.cta.to}
-                      className={`inline-flex items-center gap-1 rounded-full bg-${p.tint} px-3 py-1.5 text-[11px] font-medium text-${p.tint}-foreground`}
-                    >
-                      {p.cta.label} ›
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </details>
-          ))}
-        </div>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-        <div className="mt-4 flex gap-2">
-          <button className="flex-1 rounded-xl bg-surface-2 py-2.5 text-xs">导出 PDF</button>
+        {/* 饮食方案 - 图片同款样式 */}
+        <section className="mb-4 overflow-hidden rounded-3xl bg-teal/10 shadow-sm">
+          <div className="px-4 pt-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-lg font-bold">通用饮食方案</h2>
+                <p className="text-[11px] text-muted-foreground">基于国家儿童营养指南 · 控糖限脂建议</p>
+              </div>
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">🥗</span>
+            </div>
+
+            <div className="mt-3 flex gap-6 border-b border-teal/20">
+              <button className="relative pb-2 text-[13px] font-semibold text-teal">
+                营养方案
+                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded bg-teal" />
+              </button>
+              <button className="pb-2 text-[13px] text-muted-foreground">药食同源</button>
+            </div>
+          </div>
+
+          <div className="mx-4 mt-3 rounded-2xl bg-surface p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-[12px]">当前您执行的是 <span className="font-semibold text-warm">营养方案</span></p>
+            </div>
+            <div className="mt-2 flex items-center justify-between">
+              <p className="text-[12px] text-muted-foreground">用餐时间：<span className="font-semibold text-foreground">07:30–18:00</span></p>
+              <span className="rounded-full bg-teal/15 px-2.5 py-1 text-[11px] font-medium text-teal">已选择该方案</span>
+            </div>
+
+            <div className="mt-4 flex items-center gap-4">
+              <div className="relative grid h-32 w-32 place-items-center">
+                <svg viewBox="0 0 36 36" className="h-32 w-32 -rotate-90">
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--surface-2)" strokeWidth="3.5" />
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#F5A524" strokeWidth="3.5" strokeDasharray="50 100" strokeLinecap="round" />
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1E90FF" strokeWidth="3.5" strokeDasharray="25 100" strokeDashoffset="-50" strokeLinecap="round" />
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#5AC8FA" strokeWidth="3.5" strokeDasharray="25 100" strokeDashoffset="-75" strokeLinecap="round" />
+                </svg>
+                <div className="absolute text-center">
+                  <p className="text-lg font-bold leading-none">1434</p>
+                  <p className="text-[10px] text-muted-foreground">Kcal</p>
+                </div>
+              </div>
+              <ul className="flex-1 space-y-2 text-[12px]">
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><i className="h-2 w-2 rounded-full bg-[#F5A524]" />碳水化合物</span>
+                  <span className="text-muted-foreground">177.3g</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><i className="h-2 w-2 rounded-full bg-[#1E90FF]" />脂肪</span>
+                  <span className="text-muted-foreground">43.4g</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><i className="h-2 w-2 rounded-full bg-[#5AC8FA]" />蛋白质</span>
+                  <span className="text-muted-foreground">84.3g</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-4 flex gap-3 border-b border-border/50 pb-2 text-[13px]">
+              {days.map((d, i) => (
+                <button
+                  key={d}
+                  className={`relative pb-1 ${i === 0 ? "font-semibold text-teal" : "text-muted-foreground"}`}
+                >
+                  {d}
+                  {i === 0 && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded bg-teal" />}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 rounded-xl bg-teal/10 py-2.5 text-[12px] font-medium text-teal">
+                ↻ 不想吃全部换
+              </button>
+              <Link to="/parent/shop" className="flex-1 rounded-xl bg-warm/15 py-2.5 text-center text-[12px] font-semibold text-warm">
+                去买菜 ›
+              </Link>
+            </div>
+
+            <p className="mt-3 text-[11px] text-muted-foreground">
+              带 <span className="text-danger">ⓘ</span> 食谱包含卫健委公布的药食同源药材，点击查看功效
+            </p>
+
+            <div className="mt-3 space-y-2">
+              {meals.map((m, i) => (
+                <div key={m.name} className="rounded-2xl bg-surface-2 p-3">
+                  <div className="flex items-center gap-2 text-[13px]">
+                    <span className="text-teal">{i === 0 ? "⌄" : "›"}</span>
+                    <b>{m.name}</b>
+                    <span className="text-muted-foreground">约 {m.kcal} 千卡</span>
+                    <span className="text-[11px] text-muted-foreground">· 推荐结构</span>
+                  </div>
+
+                  {m.groups && (
+                    <div className="mt-2 space-y-2">
+                      <p className="text-[11px] text-muted-foreground">
+                        推荐结构：粗细搭配主食 + 优质蛋白 + 蔬菜/水果
+                      </p>
+                      {m.groups.map((g) => (
+                        <div key={g.title} className="rounded-xl bg-surface p-3">
+                          <div className="flex items-center justify-between">
+                            <p className="text-[13px] font-semibold">{g.title}</p>
+                            <span className="text-[12px] font-semibold text-teal">{g.amount}</span>
+                          </div>
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {g.tags.map((t) => (
+                              <span key={t} className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] text-foreground/80 ring-1 ring-border/60">
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                          {g.tips && (
+                            <p className="mt-1.5 text-[11px] text-muted-foreground">提示：{g.tips}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="h-4" />
+        </section>
+
+        {/* 运动方案 - 图片同款样式 */}
+        <section className="mb-4 overflow-hidden rounded-3xl bg-teal/10 p-4 shadow-sm">
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                今日运动 <span className="rounded-md bg-surface px-2 py-0.5 text-[11px] font-normal text-muted-foreground">通用方案 · 免费</span>
+              </h2>
+              <p className="mt-1 text-[11px] text-muted-foreground">通用指南建议：每周 ≥150 分钟中等强度有氧</p>
+            </div>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">💗</span>
+          </div>
+
+          <div className="mt-3 rounded-2xl bg-surface p-4">
+            <div className="flex items-center justify-between text-[12px]">
+              <span>今日打卡进度</span>
+              <span className="text-muted-foreground">完成度</span>
+            </div>
+            <div className="mt-1 flex items-baseline justify-between">
+              <p className="text-lg font-bold">1 <span className="text-[12px] font-normal text-muted-foreground">/ 2 项</span></p>
+              <p className="text-lg font-bold text-teal">50%</p>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
+              <div className="h-full w-1/2 rounded-full bg-teal" />
+            </div>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between rounded-2xl bg-rose/10 px-3 py-2.5 ring-1 ring-rose/20">
+            <p className="text-[12px]"><span className="mr-1 text-danger">⚠</span><b>运动风险提示</b> 胸闷/头晕请立即停止，血糖 &lt;5.6…</p>
+            <span className="text-muted-foreground">▾</span>
+          </div>
+
+          <div className="mt-3 flex items-center gap-3 rounded-2xl bg-surface p-3">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal/15 text-lg">👣</span>
+            <div className="flex-1">
+              <p className="text-[13px] font-semibold">授权微信步数</p>
+              <p className="text-[11px] text-muted-foreground">同步每日步数，自动计入运动量</p>
+            </div>
+            <button className="rounded-full bg-teal px-3 py-1.5 text-[11px] font-semibold text-teal-foreground">立即授权</button>
+          </div>
+
+          <div className="mt-4 flex items-center justify-between">
+            <p className="text-[13px] font-semibold text-teal">〰 今日运动清单 <span className="ml-1 rounded-md bg-teal/15 px-1.5 py-0.5 text-[11px]">{exercises.length} 项</span></p>
+            <button className="text-[11px] text-muted-foreground">打卡记录 ›</button>
+          </div>
+
+          <div className="mt-2 space-y-3">
+            {exercises.map((e) => (
+              <div key={e.title} className="overflow-hidden rounded-2xl bg-surface">
+                <div className="flex">
+                  <div className="relative grid w-32 shrink-0 place-items-center bg-gradient-to-br from-warm/70 to-warm p-3 text-white">
+                    <span className="absolute left-2 top-2 rounded-md bg-white/90 px-1.5 py-0.5 text-[10px] font-medium text-warm">{e.tag}</span>
+                    <span className="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-warm">▶</span>
+                    <p className="absolute inset-x-0 bottom-2 truncate px-2 text-center text-[10px]">{e.coach}</p>
+                  </div>
+                  <div className="flex-1 p-3">
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-md bg-success/15 px-1.5 py-0.5 text-[10px] font-medium text-success">✓ {e.status}</span>
+                    </div>
+                    <p className="mt-1 text-[13px] font-bold">{e.title} <span className="ml-1 rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] font-normal text-teal">{e.level}</span></p>
+                    <div className="mt-1.5 flex flex-wrap gap-1">
+                      {e.tags.map((t) => (
+                        <span key={t} className="rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] text-teal">{t}</span>
+                      ))}
+                    </div>
+                    <p className="mt-1.5 text-[11px] text-muted-foreground">🕐 {e.time} · 〰 {e.hr}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 border-t border-border/50 bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
+                  🔒 开通专属方案解锁 <b className="text-foreground">奥运冠军 1:1 陪练</b> 与个性化强度调整
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 家庭护理 */}
+        <section className="mb-4 rounded-3xl bg-rose/10 p-4 shadow-sm">
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                家庭护理 <span className="rounded-md bg-surface px-2 py-0.5 text-[11px] font-normal text-muted-foreground">尘螨过敏 · 每周</span>
+              </h2>
+              <p className="mt-1 text-[11px] text-muted-foreground">改善家庭环境，减少过敏原暴露</p>
+            </div>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">🏠</span>
+          </div>
+
+          <div className="mt-3 space-y-2">
+            {[
+              { title: "床品高温清洗", desc: "≥60℃ 每周 1 次，晾晒 2h 以上", freq: "周日", done: true },
+              { title: "除螨仪深度清理", desc: "床垫 / 沙发 / 地毯重点区域", freq: "周三 / 六", done: false },
+              { title: "更换防螨床罩", desc: "枕套、被套每 3 个月更换", freq: "季度", done: false },
+              { title: "室内湿度监测", desc: "维持 40–50%，超标启动除湿", freq: "每日", done: true },
+            ].map((c) => (
+              <div key={c.title} className="flex items-center gap-3 rounded-2xl bg-surface p-3">
+                <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] ${c.done ? "bg-success text-success-foreground" : "border border-border bg-surface-2 text-muted-foreground"}`}>
+                  {c.done ? "✓" : ""}
+                </span>
+                <div className="flex-1">
+                  <p className="text-[13px] font-semibold">{c.title}</p>
+                  <p className="text-[11px] text-muted-foreground">{c.desc}</p>
+                </div>
+                <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[11px] text-rose">{c.freq}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-4 py-3 backdrop-blur">
+        <div className="grid grid-cols-2 gap-2">
+          <button className="rounded-full bg-surface-2 py-2.5 text-xs font-semibold ring-1 ring-border/60">导出 PDF</button>
           <Link
             to="/parent/comm"
-            className="flex-1 rounded-xl bg-teal py-2.5 text-center text-xs font-medium text-teal-foreground"
+            className="rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-center text-xs font-semibold text-white"
           >
             咨询健管师
           </Link>
         </div>
-      </div>
-
-      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-4 py-3 backdrop-blur">
-        <Link
-          to="/parent/report"
-          className="flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-xs font-semibold text-white"
-        >
-          返回体检报告
-        </Link>
       </div>
     </div>
   );

@@ -482,55 +482,61 @@ function ReportPage() {
         </section>
 
         {/* Report archive */}
-        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-sm font-semibold">报告档案</h2>
-            <button className="text-xs font-medium text-teal">+ 添加报告</button>
+        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+            <span className="text-sm font-semibold">报告档案</span>
+            <div className="flex items-center gap-2">
+              <button className="text-xs font-medium text-teal">+ 添加</button>
+              <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+            </div>
+          </summary>
+          <div className="px-4 pb-4">
+            <p className="mb-3 text-[11px] text-muted-foreground">
+              可上传医院复查报告、既往体检单，同步至学校健康档案
+            </p>
+            <div className="space-y-5">
+              {archives.map((a) => (
+                <div key={a.year}>
+                  <p className="mb-2 text-base font-bold">{a.year}</p>
+                  <ol className="relative space-y-4 border-l-2 border-dashed border-teal/40 pl-4">
+                    {a.entries.map((e) => {
+                      const k = kindStyle[e.kind];
+                      return (
+                        <li key={e.date} className="relative">
+                          <span
+                            className={`absolute -left-[22px] top-1 h-2.5 w-2.5 rounded-full ring-2 ring-surface ${k.dot}`}
+                          />
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-xs font-medium text-muted-foreground">{e.date}</p>
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] ${k.badge}`}>
+                              {k.label}
+                            </span>
+                          </div>
+                          {e.note && (
+                            <p className="mt-1 text-xs leading-relaxed text-foreground/80">
+                              {e.note}
+                            </p>
+                          )}
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {e.tags.map((t) => (
+                              <button
+                                key={t}
+                                className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] text-foreground ring-1 ring-border/60"
+                              >
+                                {t}
+                              </button>
+                            ))}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="mb-3 text-[11px] text-muted-foreground">
-            可上传医院复查报告、既往体检单，同步至学校健康档案
-          </p>
-          <div className="space-y-5">
-            {archives.map((a) => (
-              <div key={a.year}>
-                <p className="mb-2 text-base font-bold">{a.year}</p>
-                <ol className="relative space-y-4 border-l-2 border-dashed border-teal/40 pl-4">
-                  {a.entries.map((e) => {
-                    const k = kindStyle[e.kind];
-                    return (
-                      <li key={e.date} className="relative">
-                        <span
-                          className={`absolute -left-[22px] top-1 h-2.5 w-2.5 rounded-full ring-2 ring-surface ${k.dot}`}
-                        />
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-xs font-medium text-muted-foreground">{e.date}</p>
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] ${k.badge}`}>
-                            {k.label}
-                          </span>
-                        </div>
-                        {e.note && (
-                          <p className="mt-1 text-xs leading-relaxed text-foreground/80">
-                            {e.note}
-                          </p>
-                        )}
-                        <div className="mt-1.5 flex flex-wrap gap-1.5">
-                          {e.tags.map((t) => (
-                            <button
-                              key={t}
-                              className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] text-foreground ring-1 ring-border/60"
-                            >
-                              {t}
-                            </button>
-                          ))}
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </div>
-            ))}
-          </div>
-        </section>
+        </details>
+
 
       </div>
 

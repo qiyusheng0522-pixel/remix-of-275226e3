@@ -25,14 +25,12 @@ const groups = [
     items: [{ t: "李小雨 健康方案 v0.3 待确认", time: "昨日", to: "/doctor/plan" }],
   },
   {
-    title: "健管师升级",
-    tint: "teal",
-    items: [{ t: "刘老师升级 2 例儿童", time: "12 分钟前", to: "/doctor/coord" }],
-  },
-  {
     title: "转诊处理提醒",
     tint: "warm",
-    items: [{ t: "张小乐 变态反应科 已预约", time: "昨日", to: "/doctor/referral" }],
+    items: [
+      { t: "健管师升级 · 王小豆 转内分泌科（渠道：健管师）", time: "12 分钟前", to: "/doctor/referral" },
+      { t: "张小乐 变态反应科 已预约", time: "昨日", to: "/doctor/referral" },
+    ],
   },
 ];
 

@@ -19,6 +19,8 @@ const items = [
 function NoticePage() {
   const [choice, setChoice] = useState<"agree" | "skip" | null>(null);
   const [signed, setSigned] = useState(false);
+  const [authorized, setAuthorized] = useState(true); // 假设家长此前已授权
+  const [revokeScope, setRevokeScope] = useState<"this" | "all">("this");
 
   return (
     <div>

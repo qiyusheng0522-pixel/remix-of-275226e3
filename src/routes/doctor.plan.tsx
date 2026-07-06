@@ -219,106 +219,100 @@ function PlanPage() {
 
   // ============ List view ============
   if (!active) {
-    const pending = cases.filter((c) => c.status === "待确认");
-    const others = cases.filter((c) => c.status !== "待确认");
+    const tabs = ["全部", "待审核", "审核中"] as const;
+    const filtered =
+      tab === "全部" ? cases : cases.filter((c) => c.reviewState === tab);
     return (
-      <div>
-        <StatusBar title="方案确认" />
-        <div className="px-5 pb-8 pt-2">
-          <div className="mb-3 flex items-end justify-between">
-            <div>
-              <h1 className="text-xl font-bold">方案确认</h1>
-              <p className="text-xs text-muted-foreground">
-                有健康风险的儿童 · AI 生成方案后由医生确认，确认后自动同步家长
-              </p>
-            </div>
-            <span className="shrink-0 rounded-full bg-warm/15 px-2.5 py-1 text-[11px] font-medium text-warm">
-              {pendingCount} 待确认
-            </span>
-          </div>
-
-          <p className="mb-2 mt-2 text-[11px] font-medium text-muted-foreground">
-            待确认
-          </p>
-          <div className="mb-4 space-y-2">
-            {pending.length === 0 && (
-              <p className="rounded-xl bg-surface-2 p-4 text-center text-xs text-muted-foreground">
-                暂无待确认方案
-              </p>
-            )}
-            {pending.map((c) => (
+      <div className="min-h-full bg-muted/40">
+        <StatusBar title="方案审核" />
+        <div className="px-4 pb-8 pt-3">
+          {/* Tabs */}
+          <div className="mb-3 flex gap-2">
+            {tabs.map((t) => (
               <button
-                key={c.id}
-                onClick={() => setActiveId(c.id)}
-                className="flex w-full items-center gap-3 rounded-2xl bg-surface p-3 text-left shadow-sm ring-1 ring-warm/30"
+                key={t}
+                onClick={() => setTab(t)}
+                className={`rounded-full px-4 py-1.5 text-xs font-medium ring-1 transition ${
+                  tab === t
+                    ? "bg-deep text-deep-foreground ring-deep"
+                    : "bg-surface text-foreground ring-border/60"
+                }`}
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-sm font-bold text-warm">
-                  {c.name.slice(-1)}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold">
-                    {c.id} {c.name}
-                    <span className="ml-2 text-[11px] font-normal text-muted-foreground">
-                      {c.grade} · {c.age}岁{c.gender}
-                    </span>
-                  </p>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {c.risks.slice(0, 3).map((r) => (
-                      <span
-                        key={r.text}
-                        className={`rounded px-1.5 py-0.5 text-[10px] ${riskStyle[r.level]}`}
-                      >
-                        {r.text}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="mt-1 truncate text-[11px] text-muted-foreground">
-                    {c.version} · {c.updated}
-                  </p>
-                </div>
-                <span className="shrink-0 text-muted-foreground">›</span>
+                {t}
               </button>
             ))}
           </div>
 
-          {others.length > 0 && (
-            <>
-              <p className="mb-2 text-[11px] font-medium text-muted-foreground">
-                其他方案
-              </p>
-              <div className="space-y-2">
-                {others.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => setActiveId(c.id)}
-                    className="flex w-full items-center gap-3 rounded-2xl bg-surface p-3 text-left ring-1 ring-border/60"
-                  >
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/10 text-sm font-bold text-deep">
-                      {c.name.slice(-1)}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold">
-                        {c.id} {c.name}
-                        <span className="ml-2 text-[11px] font-normal text-muted-foreground">
-                          {c.grade} · {c.age}岁{c.gender}
+          <ul className="space-y-3">
+            {filtered.map((c) => {
+              const isPending = c.status === "待生成";
+              return (
+                <li
+                  key={c.id}
+                  className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
+                >
+                  <div className="p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <p className="text-[15px] font-bold">{c.name}</p>
+                        <span className="rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] text-teal">
+                          {c.reviewState}
                         </span>
-                      </p>
-                      <p className="truncate text-[11px] text-muted-foreground">
-                        {c.version} · {c.updated}
-                      </p>
+                      </div>
+                      {c.needVisit && (
+                        <span className="rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                          需就诊
+                        </span>
+                      )}
                     </div>
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${statusStyle[c.status]}`}>
-                      {c.status}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+                    <p className="mt-1 text-[12px] text-muted-foreground">
+                      {c.dept} · {c.evalTime}
+                    </p>
+                    <p className="mt-1 text-[13px] font-medium text-teal">
+                      {c.disease}
+                    </p>
+                    <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-foreground/85">
+                      <span className="font-semibold text-foreground">普通评估: </span>
+                      {c.evaluation}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 border-t border-border/60 px-4 py-3">
+                    <button
+                      onClick={() => setActiveId(c.id)}
+                      className="rounded-xl bg-deep/10 py-2.5 text-[13px] font-medium text-deep"
+                    >
+                      👁 查看方案
+                    </button>
+                    {isPending ? (
+                      <button
+                        onClick={() => setActiveId(c.id)}
+                        className="rounded-xl bg-success/15 py-2.5 text-[13px] font-medium text-success"
+                      >
+                        ✓ 一键通过
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setActiveId(c.id)}
+                        className="rounded-xl bg-warm/15 py-2.5 text-[13px] font-medium text-warm"
+                      >
+                        💬 写建议
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+            {filtered.length === 0 && (
+              <li className="rounded-xl bg-surface p-6 text-center text-xs text-muted-foreground ring-1 ring-border/60">
+                暂无{tab}方案
+              </li>
+            )}
+          </ul>
         </div>
       </div>
     );
   }
+
 
   // ============ Detail view ============
   return (

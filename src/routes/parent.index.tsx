@@ -287,42 +287,45 @@ function ParentHome() {
         </div>
         <ul className="space-y-2">
           {homeCare.map((c) => {
-            const dueSoon = c.daysLeft <= 2;
+            const daysSince = dayDiff(c.lastDone, TODAY);
+            const daysLeft = c.cycleDays - daysSince;
+            const isDue = daysLeft <= 0;
             return (
-              <li key={c.title} className="rounded-2xl bg-surface-2 p-3">
-                <div className="flex items-start gap-2.5">
+              <li
+                key={c.id}
+                className={`rounded-xl p-2.5 ring-1 ${
+                  isDue ? "bg-warm/10 ring-warm/30" : "bg-surface-2 ring-border/60"
+                }`}
+              >
+                <div className="flex items-center gap-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
                     {c.icon}
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
-                      <p className="min-w-0 flex-1 truncate text-[13px] font-semibold">
-                        {c.title}
-                      </p>
-                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>
+                      <p className="truncate text-[13px] font-semibold">{c.title}</p>
+                      <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ${c.tagClass}`}>
                         {c.tag}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{c.cycle}</p>
-                    {/* progress bar */}
-                    <div className="mt-2 flex items-center gap-2">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className={`h-full rounded-full ${
-                            dueSoon ? "bg-rose" : "bg-teal"
-                          }`}
-                          style={{ width: `${c.progress}%` }}
-                        />
-                      </div>
-                      <span
-                        className={`shrink-0 text-[10px] ${
-                          dueSoon ? "text-rose" : "text-muted-foreground"
-                        }`}
-                      >
-                        {c.daysLeft === 0 ? "今日到期" : `${c.daysLeft} 天后`}
-                      </span>
-                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">
+                      每 {c.cycleDays} 天 · 上次 {c.lastDone}
+                      {isDue ? (
+                        <span className="ml-1 font-medium text-warm">· 今日到期</span>
+                      ) : (
+                        <span className="ml-1">· {daysLeft} 天后</span>
+                      )}
+                    </p>
                   </div>
+                  <span
+                    className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] ${
+                      isDue
+                        ? "bg-warm text-warm-foreground"
+                        : "bg-surface text-muted-foreground ring-1 ring-border"
+                    }`}
+                  >
+                    {isDue ? "去完成" : "已完成"}
+                  </span>
                 </div>
               </li>
             );

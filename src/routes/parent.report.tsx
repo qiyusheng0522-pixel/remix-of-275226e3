@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { child, abnormalItems, reviewPlan } from "@/lib/mock-data";
+import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/parent/report")({
@@ -9,6 +9,72 @@ export const Route = createFileRoute("/parent/report")({
 const trend = [125, 126, 126.5, 127, 127.5, 128];
 const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
 
+type Level = "ok" | "warn" | "bad";
+type Item = { name: string; value: string; ref: string; level: Level };
+type Section = { title: string; items: Item[] };
+
+const sections: Section[] = [
+  {
+    title: "体格发育",
+    items: [
+      { name: "身高", value: "138 cm", ref: "P75", level: "ok" },
+      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad" },
+      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad" },
+      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok" },
+    ],
+  },
+  {
+    title: "视力与眼健康",
+    items: [
+      { name: "裸眼视力 (左)", value: "4.9", ref: "≥ 5.0", level: "bad" },
+      { name: "裸眼视力 (右)", value: "4.8", ref: "≥ 5.0", level: "bad" },
+      { name: "屈光度 (左)", value: "-0.75D", ref: "±0.50D", level: "bad" },
+      { name: "眼位", value: "正位", ref: "正位", level: "ok" },
+    ],
+  },
+  {
+    title: "口腔",
+    items: [
+      { name: "龋齿", value: "2 颗", ref: "0 颗", level: "bad" },
+      { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
+    ],
+  },
+  {
+    title: "内科",
+    items: [
+      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok" },
+      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok" },
+      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok" },
+    ],
+  },
+  {
+    title: "过敏与呼吸",
+    items: [
+      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad" },
+      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok" },
+      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn" },
+    ],
+  },
+];
+
+const archives = [
+  { year: "26年", date: "9月18日", tags: ["检查报告", "新生入校备案报告"] },
+  { year: "25年", date: "3月18日", tags: ["校内体检"] },
+  { year: "24年", date: "9月10日", tags: ["复查·眼科"] },
+];
+
+const dot: Record<Level, string> = {
+  ok: "bg-success",
+  warn: "bg-warning",
+  bad: "bg-danger",
+};
+
+const valueColor: Record<Level, string> = {
+  ok: "text-foreground",
+  warn: "text-warning-foreground",
+  bad: "text-danger",
+};
+
 function ReportPage() {
   return (
     <div>
@@ -17,11 +83,11 @@ function ReportPage() {
         <header className="mb-4">
           <h1 className="text-xl font-bold">{child.name} 的体检报告</h1>
           <p className="text-xs text-muted-foreground">
-            体检日期 {child.lastExam} · 报告已发布
+            体检日期 {child.lastExam} · 阳光小学 · 三年级 3 班
           </p>
         </header>
 
-        {/* Summary */}
+        {/* Summary card */}
         <div className="mb-4 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 p-5 ring-1 ring-warning/30">
           <div className="flex items-center justify-between">
             <div>
@@ -35,7 +101,7 @@ function ReportPage() {
             </div>
           </div>
           <p className="mt-3 text-xs leading-relaxed text-foreground/80">
-            医生解读：小雨整体健康状况良好，BMI 略偏轻，建议加强饮食营养密度并观察运动后呼吸情况。
+            医生解读：BMI 略偏高，视力临界近视，建议控糖减重 & 用眼间歇休息，观察运动后咳嗽。
           </p>
           <div className="mt-3 flex gap-2">
             <button className="flex-1 rounded-xl bg-surface/60 py-2 text-xs font-medium backdrop-blur">
@@ -47,34 +113,41 @@ function ReportPage() {
           </div>
         </div>
 
-        {/* Abnormal items */}
-        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold">异常/需关注项目</h2>
-            <span className="text-[11px] text-muted-foreground">共 {abnormalItems.length} 项</span>
-          </div>
-          <ul className="divide-y divide-border/60">
-            {abnormalItems.map((it) => (
-              <li key={it.name} className="flex items-center justify-between py-2.5">
-                <div>
-                  <p className="text-sm">{it.name}</p>
-                  <p className="text-[11px] text-muted-foreground">值：{it.value}</p>
-                </div>
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-[11px] ${
-                    it.level === "success"
-                      ? "bg-success/15 text-success"
-                      : it.level === "warning"
-                      ? "bg-warning/25 text-warning-foreground"
-                      : "bg-danger/15 text-danger"
-                  }`}
-                >
-                  {it.status}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* Detailed sections */}
+        <div className="mb-4 space-y-3">
+          {sections.map((s) => (
+            <section
+              key={s.title}
+              className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
+            >
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold">
+                <span className="h-4 w-1 rounded-full bg-teal" />
+                {s.title}
+              </h2>
+              <ul className="divide-y divide-border/60">
+                {s.items.map((it) => (
+                  <li
+                    key={it.name}
+                    className="flex items-center justify-between gap-3 py-2.5"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
+                      <span className="text-sm">{it.name}</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
+                        {it.value}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">
+                        参考 {it.ref}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
 
         {/* Trend */}
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
@@ -107,10 +180,46 @@ function ReportPage() {
           </ol>
         </section>
 
+        {/* Report archive */}
+        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-sm font-semibold">报告档案</h2>
+            <button className="text-xs font-medium text-teal">+ 添加报告</button>
+          </div>
+          <p className="mb-3 text-[11px] text-muted-foreground">
+            可上传医院复查报告、既往体检单，同步至学校健康档案
+          </p>
+          <div className="space-y-4">
+            {archives.map((a) => (
+              <div key={a.year}>
+                <p className="text-base font-bold">{a.year}</p>
+                <div className="mt-2 flex gap-3 border-l-2 border-dashed border-teal/40 pl-4">
+                  <span className="-ml-[22px] mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-teal ring-2 ring-surface" />
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground">{a.date}</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {a.tags.map((t, i) => (
+                        <button
+                          key={t}
+                          className={`rounded-full px-3 py-1 text-[11px] ${
+                            i === a.tags.length - 1
+                              ? "bg-teal text-teal-foreground"
+                              : "bg-surface-2 text-foreground ring-1 ring-border/60"
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <div className="rounded-2xl bg-teal/10 p-4 text-xs leading-relaxed text-deep ring-1 ring-teal/20">
           🌱 今天先做这 3 件小事：不喝含糖饮料 · 21:30 前开始睡前准备 · 记录运动后是否咳嗽。
-          <br />
-          若出现运动后持续咳嗽 &gt; 3 天，可以在"记录"里保存并<a className="underline">联系健康管理师</a>。
         </div>
       </div>
     </div>

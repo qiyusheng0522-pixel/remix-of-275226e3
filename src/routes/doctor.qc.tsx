@@ -207,7 +207,7 @@ function ReportReviewPage() {
               <li key={key} className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
                 <div className="flex w-full items-start justify-between gap-2 p-4">
                   <Link
-                    to="/doctor/plan"
+                    to="/doctor/child"
                     className="min-w-0 flex-1 text-left"
                   >
                     <div className="flex flex-wrap items-center gap-1.5">

@@ -310,7 +310,18 @@ function ReportPage() {
 
 
         {/* 健康管理方案 · 护理 / 运动 / 饮食 */}
-        <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+        <details className="group mb-3 rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
+            <div className="flex items-center gap-2">
+              <span className="h-4 w-1 rounded-full bg-teal" />
+              <span className="text-sm font-semibold">健康管理方案</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">医生 + 营养师</span>
+              <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
+            </div>
+          </summary>
+          <div className="px-4 pb-4">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="flex items-center gap-2 text-sm font-semibold">
               <span className="h-4 w-1 rounded-full bg-teal" />

@@ -13,7 +13,7 @@ type Stat = {
   value: number;
   unit: string;
   valueColor: string;
-  to: "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan";
+  to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan";
 };
 
 const stats: Stat[] = [
@@ -28,16 +28,7 @@ const stats: Stat[] = [
     to: "/doctor/referral",
   },
   {
-    icon: "📝",
-    iconBg: "bg-teal/15 text-teal",
-    label: "报告审核",
-    sub: "三年级 3 班",
-    value: 47,
-    unit: "份待审",
-    valueColor: "text-teal",
-    to: "/doctor/review",
-  },
-  {
+
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
     label: "数据质控",
@@ -74,7 +65,7 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
+  to: "/doctor/referral" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
 };
 
 const todos: Todo[] = [
@@ -87,16 +78,6 @@ const todos: Todo[] = [
     ],
     desc: "内分泌科转诊复核（健管师升级）· SLA 2h",
     to: "/doctor/referral",
-  },
-  {
-    id: "0508",
-    name: "三年级 3 班",
-    tags: [
-      { text: "报告审核", cls: "bg-teal/15 text-teal" },
-      { text: "紧急", cls: "bg-danger text-danger-foreground" },
-    ],
-    desc: "47 份体检报告审核 · 17:00 前完成",
-    to: "/doctor/review",
   },
   {
     id: "0423",

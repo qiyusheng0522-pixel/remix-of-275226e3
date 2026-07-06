@@ -28,16 +28,7 @@ const stats: Stat[] = [
     to: "/doctor/referral",
   },
   {
-    icon: "📝",
-    iconBg: "bg-teal/15 text-teal",
-    label: "报告审核",
-    sub: "三年级 3 班",
-    value: 47,
-    unit: "份待审",
-    valueColor: "text-teal",
-    to: "/doctor/review",
-  },
-  {
+
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
     label: "数据质控",

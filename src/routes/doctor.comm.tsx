@@ -68,6 +68,7 @@ function CommPage() {
   const [threads, setThreads] = useState(initial);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [aiOn, setAiOn] = useState(true);
+  const [autoAi, setAutoAi] = useState(false);
   const [input, setInput] = useState("");
 
   const active = useMemo(() => threads.find((t) => t.id === activeId), [threads, activeId]);

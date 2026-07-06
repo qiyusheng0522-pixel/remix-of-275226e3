@@ -27,6 +27,11 @@ const defaultReminders = [
 
 function CarePage() {
   const [tab, setTab] = useState<"今日" | "本周">("今日");
+  const [enabled, setEnabled] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(defaultReminders.map((r) => [r.id, true])),
+  );
+  const [manage, setManage] = useState(false);
+  const activeCount = Object.values(enabled).filter(Boolean).length;
   const done = todayTasks.filter((t) => t.done).length;
   return (
     <div>

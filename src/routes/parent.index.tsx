@@ -312,9 +312,6 @@ function ParentHome() {
               周期性事项 · 可调整提醒日期，进度显示下次到期
             </p>
           </div>
-          <Link to="/parent/care" className="shrink-0 text-[11px] text-muted-foreground">
-            查看全部 ›
-          </Link>
         </div>
         <ul className="space-y-2">
           {homeCare.map((c) => {

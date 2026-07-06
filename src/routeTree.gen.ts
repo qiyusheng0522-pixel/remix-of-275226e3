@@ -35,7 +35,6 @@ import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
 import { Route as ParentDustmiteRouteImport } from './routes/parent.dustmite'
 import { Route as ParentCommRouteImport } from './routes/parent.comm'
-import { Route as ParentCareRouteImport } from './routes/parent.care'
 import { Route as ParentBindRouteImport } from './routes/parent.bind'
 import { Route as DoctorRiskreviewRouteImport } from './routes/doctor.riskreview'
 import { Route as DoctorReviewRouteImport } from './routes/doctor.review'
@@ -180,11 +179,6 @@ const ParentCommRoute = ParentCommRouteImport.update({
   path: '/comm',
   getParentRoute: () => ParentRoute,
 } as any)
-const ParentCareRoute = ParentCareRouteImport.update({
-  id: '/care',
-  path: '/care',
-  getParentRoute: () => ParentRoute,
-} as any)
 const ParentBindRoute = ParentBindRouteImport.update({
   id: '/bind',
   path: '/bind',
@@ -269,7 +263,6 @@ export interface FileRoutesByFullPath {
   '/doctor/review': typeof DoctorReviewRoute
   '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
-  '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
@@ -308,7 +301,6 @@ export interface FileRoutesByTo {
   '/doctor/review': typeof DoctorReviewRoute
   '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
-  '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
@@ -351,7 +343,6 @@ export interface FileRoutesById {
   '/doctor/review': typeof DoctorReviewRoute
   '/doctor/riskreview': typeof DoctorRiskreviewRoute
   '/parent/bind': typeof ParentBindRoute
-  '/parent/care': typeof ParentCareRoute
   '/parent/comm': typeof ParentCommRoute
   '/parent/dustmite': typeof ParentDustmiteRoute
   '/parent/me': typeof ParentMeRoute
@@ -395,7 +386,6 @@ export interface FileRouteTypes {
     | '/doctor/review'
     | '/doctor/riskreview'
     | '/parent/bind'
-    | '/parent/care'
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
@@ -434,7 +424,6 @@ export interface FileRouteTypes {
     | '/doctor/review'
     | '/doctor/riskreview'
     | '/parent/bind'
-    | '/parent/care'
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
@@ -476,7 +465,6 @@ export interface FileRouteTypes {
     | '/doctor/review'
     | '/doctor/riskreview'
     | '/parent/bind'
-    | '/parent/care'
     | '/parent/comm'
     | '/parent/dustmite'
     | '/parent/me'
@@ -692,13 +680,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentCommRouteImport
       parentRoute: typeof ParentRoute
     }
-    '/parent/care': {
-      id: '/parent/care'
-      path: '/care'
-      fullPath: '/parent/care'
-      preLoaderRoute: typeof ParentCareRouteImport
-      parentRoute: typeof ParentRoute
-    }
     '/parent/bind': {
       id: '/parent/bind'
       path: '/bind'
@@ -830,7 +811,6 @@ const DoctorRouteWithChildren =
 
 interface ParentRouteChildren {
   ParentBindRoute: typeof ParentBindRoute
-  ParentCareRoute: typeof ParentCareRoute
   ParentCommRoute: typeof ParentCommRoute
   ParentDustmiteRoute: typeof ParentDustmiteRoute
   ParentMeRoute: typeof ParentMeRoute
@@ -844,7 +824,6 @@ interface ParentRouteChildren {
 
 const ParentRouteChildren: ParentRouteChildren = {
   ParentBindRoute: ParentBindRoute,
-  ParentCareRoute: ParentCareRoute,
   ParentCommRoute: ParentCommRoute,
   ParentDustmiteRoute: ParentDustmiteRoute,
   ParentMeRoute: ParentMeRoute,

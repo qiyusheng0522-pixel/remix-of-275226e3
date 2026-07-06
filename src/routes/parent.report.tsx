@@ -27,16 +27,16 @@ const sections: Section[] = [
   {
     title: "视力与眼健康",
     items: [
-      { name: "裸眼视力 (左)", value: "4.9", ref: "≥ 5.0", level: "bad" },
-      { name: "裸眼视力 (右)", value: "4.8", ref: "≥ 5.0", level: "bad" },
-      { name: "屈光度 (左)", value: "-0.75D", ref: "±0.50D", level: "bad" },
+      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok" },
       { name: "眼位", value: "正位", ref: "正位", level: "ok" },
     ],
   },
   {
     title: "口腔",
     items: [
-      { name: "龋齿", value: "2 颗", ref: "0 颗", level: "bad" },
+      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok" },
       { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
     ],
   },

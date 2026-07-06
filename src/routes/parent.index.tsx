@@ -27,52 +27,23 @@ const quickAsk = [
   { icon: "📋", label: "报告解读", to: "/parent/report" },
 ] as const;
 
+// 与 /parent/care 保持一致的示例数据
+const TODAY = "2026-04-08";
+const daysAgo = (n: number) => {
+  const d = new Date(TODAY);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+};
+const dayDiff = (a: string, b: string) =>
+  Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
+
 const homeCare = [
-  {
-    icon: "🛏️",
-    title: "床品除螨清洗提醒",
-    cycle: "每 2 周 · 下次 04-12",
-    tag: "过敏防护",
-    tagClass: "bg-rose/10 text-rose",
-    progress: 65,
-    daysLeft: 5,
-  },
-  {
-    icon: "⚖️",
-    title: "晨起体重记录",
-    cycle: "每周 1 次 · 下次 周日",
-    tag: "体重管理",
-    tagClass: "bg-warm/15 text-warm",
-    progress: 40,
-    daysLeft: 3,
-  },
-  {
-    icon: "🪟",
-    title: "开窗通风换气",
-    cycle: "每日 15 分钟 · 今日待完成",
-    tag: "通风湿度",
-    tagClass: "bg-teal/15 text-teal",
-    progress: 0,
-    daysLeft: 0,
-  },
-  {
-    icon: "💧",
-    title: "空气加湿器换水",
-    cycle: "每 3 天 · 下次 04-08",
-    tag: "呼吸道",
-    tagClass: "bg-teal/15 text-teal",
-    progress: 30,
-    daysLeft: 2,
-  },
-  {
-    icon: "🦷",
-    title: "儿童牙刷更换",
-    cycle: "每 3 个月 · 下次 05-20",
-    tag: "口腔",
-    tagClass: "bg-success/15 text-success",
-    progress: 55,
-    daysLeft: 44,
-  },
+  { id: "weight", icon: "⚖️", title: "晨起体重记录", tag: "体重管理", tagClass: "bg-warm/15 text-warm", cycleDays: 7, lastDone: daysAgo(7) },
+  { id: "bed", icon: "🛏️", title: "床品除螨清洗", tag: "过敏防护", tagClass: "bg-rose/10 text-rose", cycleDays: 14, lastDone: daysAgo(9) },
+  { id: "vent", icon: "🪟", title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "humid", icon: "💧", title: "空气加湿器换水", tag: "呼吸道", tagClass: "bg-teal/15 text-teal", cycleDays: 3, lastDone: daysAgo(1) },
+  { id: "brush", icon: "🦷", title: "儿童牙刷更换", tag: "口腔", tagClass: "bg-success/15 text-success", cycleDays: 90, lastDone: daysAgo(46) },
+  { id: "vitd", icon: "☀️", title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
 const todayTasks = [

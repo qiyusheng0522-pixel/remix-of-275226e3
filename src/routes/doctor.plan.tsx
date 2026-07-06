@@ -7,227 +7,148 @@ export const Route = createFileRoute("/doctor/plan")({
   component: PlanPage,
 });
 
-type Status = "待生成" | "待确认" | "已发布";
-type Category = "饮食" | "运动" | "睡眠" | "心理" | "环境" | "用药" | "复诊";
+type ReviewState = "待审核" | "已审核";
+type ApprovalRecord = { time: string; doctor: string; note: string; plan: string };
 type Case = {
   id: string;
   name: string;
-  grade: string;
-  age: number;
-  gender: "男" | "女";
-  status: Status;
-  version: string;
-  updated: string;
-  // 列表展示用
+  hospital: string;
   dept: string;
   evalTime: string;
   disease: string;
-  evaluation: string;
-  reviewState: "审核中" | "待审核" | "已通过";
+  planStatus: string;
+  riskStatus: string;
+  reviewState: ReviewState;
   needVisit?: boolean;
-  // 健康风险标签（只有有健康问题的儿童才建方案）
-  risks: { text: string; level: "warn" | "danger" }[];
-  // 基础信息
-  allergy: string;
-  family: string;
-  history: string;
-  // 本次体检关键数据
-  exam: { label: string; value: string; flag?: "normal" | "warn" | "danger" }[];
-  // AI 摘要
-  summary: string;
-  // 方案模块
-  sections: {
-    category: Category;
-    title: string;
-    basis: string;
-    items: string[];
-    extra: string[];
-  }[];
-};
-
-const categoryStyle: Record<Category, { icon: string; cls: string }> = {
-  饮食: { icon: "🍚", cls: "bg-warm/15 text-warm" },
-  运动: { icon: "🏃", cls: "bg-teal/15 text-teal" },
-  睡眠: { icon: "🌙", cls: "bg-deep/15 text-deep" },
-  心理: { icon: "🧠", cls: "bg-success/15 text-success" },
-  环境: { icon: "🌿", cls: "bg-teal/15 text-teal" },
-  用药: { icon: "💊", cls: "bg-danger/10 text-danger" },
-  复诊: { icon: "📅", cls: "bg-muted text-muted-foreground" },
+  evaluation: string;
+  plan: string;
+  approvedAt?: string;
+  approvedBy?: string;
+  history?: ApprovalRecord[];
 };
 
 const cases: Case[] = [
   {
     id: "0315",
-    name: "李小雨",
-    grade: "三年级 3 班",
-    age: 9,
-    gender: "女",
-    status: "待确认",
-    version: "v0.3",
-    updated: "健管师 10:12 更新",
-    dept: "呼吸/过敏科",
-    evalTime: "2026-04-02 18:44:18",
-    disease: "过敏性哮喘 · BMI 偏轻",
-    evaluation:
-      "根据本次体检，患儿 BMI 16.8 偏轻，近两周夜间咳嗽 3 次，伴尘螨与花粉阳性反应，母亲有过敏性鼻炎史。建议以家庭呵护为主，1 个月复评...",
-    reviewState: "审核中",
+    name: "陈前",
+    hospital: "鼓楼医院",
+    dept: "内分泌科",
+    evalTime: "2026-04-30 10:08:59",
+    disease: "糖尿病",
+    planStatus: "已生成",
+    riskStatus: "已评估",
+    reviewState: "待审核",
     needVisit: true,
-    risks: [
-      { text: "BMI 偏轻", level: "warn" },
-      { text: "夜间咳嗽", level: "warn" },
-      { text: "过敏体质", level: "warn" },
-    ],
-    allergy: "尘螨 · 花粉",
-    family: "母亲过敏性鼻炎",
-    history: "布地奈德鼻喷 · 每日 1 次",
-    exam: [
-      { label: "身高", value: "132 cm", flag: "normal" },
-      { label: "体重", value: "29.3 kg", flag: "warn" },
-      { label: "BMI", value: "16.8 偏轻", flag: "warn" },
-      { label: "视力", value: "4.9 / 4.9", flag: "normal" },
-      { label: "夜间咳嗽", value: "近 2 周 3 次", flag: "warn" },
-      { label: "血压", value: "98/62", flag: "normal" },
-    ],
-    summary:
-      "基于本次体检 BMI 16.8 偏轻 + 夜间咳嗽 + 过敏史，建议以家庭呵护为主，1 个月复评，暂不转诊。",
-    sections: [
-      {
-        category: "饮食",
-        title: "饮食营养",
-        basis: "依据：BMI 16.8 偏轻 · 早餐不规律记录",
-        items: [
-          "三餐规律，早餐必吃，蛋白质 ≥ 1 份",
-          "主食粗细搭配、蔬菜 ≥ 300g/日",
-          "含糖饮料 ≤ 1 次/周，避免夜宵",
-          "每周记录体重，1 个月复评 BMI",
-        ],
-        extra: ["3 个月营养专科复评", "暂不建议代谢检查"],
-      },
-      {
-        category: "运动",
-        title: "运动方案",
-        basis: "依据：BMI 偏轻 + 过敏，需增肌但避免过敏诱发",
-        items: [
-          "中等强度运动 60 分钟/日（跳绳、球类）",
-          "每周 2 次力量训练（自重深蹲、俯卧撑）",
-          "运动前后观察呼吸与胸闷，随身备药",
-          "花粉高峰期改为室内运动",
-        ],
-        extra: ["体育课强度分级：中等", "校医现场观察 2 周"],
-      },
-      {
-        category: "睡眠",
-        title: "睡眠作息",
-        basis: "依据：夜间咳嗽影响睡眠质量",
-        items: [
-          "22:00 前上床，睡眠 ≥ 9 小时",
-          "卧室湿度 40-60%，每周除螨",
-          "睡前 1 小时不用电子屏幕",
-        ],
-        extra: ["家长记录夜间症状 2 周"],
-      },
-      {
-        category: "环境",
-        title: "环境与过敏管理",
-        basis: "依据：尘螨/花粉过敏史",
-        items: [
-          "每周床品换洗 60℃ 热水",
-          "记录诱因：尘螨 / 花粉 / 冷空气",
-          "外出佩戴口罩，回家更衣洗手",
-        ],
-        extra: ["呼吸/过敏专科复核"],
-      },
-      {
-        category: "用药",
-        title: "既往用药",
-        basis: "依据：家长已上传用药记录",
-        items: [
-          "布地奈德鼻喷 · 每日 1 次，遵医嘱使用",
-          "症状加重及时就医，不自行加药",
-        ],
-        extra: ["用药提醒 · 已开启"],
-      },
-      {
-        category: "复诊",
-        title: "复诊随访",
-        basis: "依据：短期观察 + 中期复评",
-        items: [
-          "2 周后校医现场复核症状",
-          "1 个月家长上传体重 + 症状记录",
-          "3 个月营养专科复评 BMI",
-        ],
-        extra: [],
-      },
-    ],
+    evaluation:
+      "根据中国糖尿病风险评分表（CDRS）评估，您为31岁男性，年龄得1分，体重指数≥30.0得11分，腰围≥95.0cm得10分，收缩压140-149mmHg得7分，无糖尿病家族史得0分，男性额外加2分，总分为31分。该评分已超过25分的高风险阈值，提示您属于糖尿病高风险人群，需警惕胰岛素抵抗和代谢综合征的潜在风险，主要风险来源为超重/肥胖（BMI≥30）、腹部脂肪堆积（腰围超标）及高血压。建议立即前往医院进行口服葡萄糖耐量试验（OGTT）以明确是否已有糖代谢异常，并同步启动生活方式干预，包括减重（目标BMI<24）、控制腰围（<90cm）、低盐低糖饮食和规律运动。",
+    plan:
+      "饮食上，您每日饮水少（<1500ml）、辛辣饮食多、外卖依赖高，建议每日饮水≥2000ml，减少辛辣刺激，规律三餐并保证奶制品每周≥3次，外卖控制在每周1次以内，优先选择全谷物、蔬菜与优质蛋白。运动上，您长期无运动、卧床休息，建议从每日步行20分钟开始，逐步增至每天30分钟中等强度快走（如饭后散步），每周5天，避免久坐。睡眠方面，您入睡慢（16-30分钟）、睡6-7小时、偶有呼吸不畅，建议固定23:30前上床，卧室禁用电子设备，睡前热水泡脚10分钟，改善睡眠质量。同时，必须尽快完成OGTT糖耐量检测，遵医嘱监测空腹血糖，戒烟限酒已达标，继续保持。每周记录饮食与运动日志，3个月后复评。",
   },
   {
     id: "0617",
     name: "王小豆",
-    grade: "四年级 2 班",
-    age: 10,
-    gender: "男",
-    status: "待生成",
-    version: "—",
-    updated: "转诊复核后自动生成",
-    dept: "内分泌科",
-    evalTime: "2026-04-30 10:08:59",
+    hospital: "市儿童医院",
+    dept: "儿童保健科",
+    evalTime: "2026-04-28 15:22:10",
     disease: "肥胖 · 糖尿病风险",
-    evaluation:
-      "根据中国糖尿病风险评分表（CDRS）评估，患儿 BMI 24.6 属肥胖，空腹血糖 6.3 偏高，父亲有 2 型糖尿病史，属高风险人群，建议内分泌科转诊复核后启动干预...",
+    planStatus: "已生成",
+    riskStatus: "已评估",
     reviewState: "待审核",
-    risks: [
-      { text: "肥胖", level: "danger" },
-      { text: "血糖偏高", level: "danger" },
-      { text: "糖尿病家族史", level: "warn" },
+    evaluation:
+      "学龄期男童，BMI 位于 P95 以上，腰围偏大，空腹血糖 6.3 mmol/L 处于高值，父亲有 2 型糖尿病史。综合评估为肥胖相关代谢风险，建议家庭尽快启动体重管理并至内分泌科随访。",
+    plan:
+      "饮食：控糖限脂，每餐蔬菜占 1/2，含糖饮料完全戒除，晚餐 19:00 前完成。运动：亲子跳绳/游泳每周≥3 次，每次 30 分钟，中等强度。睡眠：22:00 前入睡，睡眠 ≥9 小时。每月监测身高、体重、腰围与空腹血糖，3 个月复评 BMI 与 OGTT。",
+  },
+  {
+    id: "0812",
+    name: "李小雨",
+    hospital: "鼓楼医院",
+    dept: "呼吸/过敏科",
+    evalTime: "2026-04-02 18:44:18",
+    disease: "过敏性哮喘",
+    planStatus: "已发布",
+    riskStatus: "已评估",
+    reviewState: "已审核",
+    approvedAt: "2026-04-03 09:15",
+    approvedBy: "王医生",
+    evaluation:
+      "患儿 BMI 16.8 偏轻，近两周夜间咳嗽 3 次，尘螨与花粉阳性，母亲有过敏性鼻炎史，属过敏体质。建议以家庭呵护为主，1 个月复评。",
+    plan:
+      "饮食：三餐规律，早餐必吃，蛋白质≥1份，含糖饮料≤1次/周。运动：中等强度 60 分钟/日，花粉高峰期改室内。环境：每周床品 60℃ 除螨，卧室湿度 40-60%。用药：布地奈德鼻喷每日 1 次遵医嘱。复诊：2 周校医复核，1 个月家长上传体重与症状记录。",
+    history: [
+      {
+        time: "2026-04-03 09:15",
+        doctor: "王医生",
+        note: "方案合理，同意发布。建议 1 个月后根据体重与夜咳记录复评。",
+        plan:
+          "饮食：三餐规律，早餐必吃，蛋白质≥1份，含糖饮料≤1次/周。运动：中等强度 60 分钟/日，花粉高峰期改室内。环境：每周床品 60℃ 除螨。用药：布地奈德鼻喷每日 1 次遵医嘱。",
+      },
+      {
+        time: "2026-03-05 14:20",
+        doctor: "王医生",
+        note: "首版方案，重点关注过敏原回避与夜间症状。",
+        plan:
+          "饮食：清淡饮食，避免海鲜与坚果类过敏原。环境：每周床品换洗，减少毛绒玩具。用药：延续原方案。",
+      },
     ],
-    allergy: "无",
-    family: "父亲 2 型糖尿病",
-    history: "无",
-    exam: [
-      { label: "BMI", value: "24.6 肥胖", flag: "danger" },
-      { label: "腰围", value: "72 cm", flag: "danger" },
-      { label: "空腹血糖", value: "6.3", flag: "warn" },
-      { label: "血压", value: "118/74", flag: "warn" },
+  },
+  {
+    id: "0913",
+    name: "赵子墨",
+    hospital: "市儿童医院",
+    dept: "内分泌科",
+    evalTime: "2026-03-28 10:05:00",
+    disease: "生长迟缓",
+    planStatus: "已发布",
+    riskStatus: "已评估",
+    reviewState: "已审核",
+    approvedAt: "2026-03-29 11:40",
+    approvedBy: "李医生",
+    evaluation:
+      "8 岁男童，身高低于同龄 P3，骨龄落后 1.2 年，家族无矮小史，建议内分泌科规律随访。",
+    plan:
+      "饮食：保证每日 500ml 奶制品与优质蛋白 60g。运动：每日跳绳 15 分钟。睡眠：21:30 前入睡。复诊：3 个月内分泌科骨龄复查。",
+    history: [
+      {
+        time: "2026-03-29 11:40",
+        doctor: "李医生",
+        note: "同意发布，建议 3 个月后骨龄复查。",
+        plan:
+          "饮食：保证每日 500ml 奶制品与优质蛋白 60g。运动：每日跳绳 15 分钟。睡眠：21:30 前入睡。",
+      },
     ],
-    summary: "内分泌科转诊复核通过后，将基于本次体检自动生成饮食+运动为主的减重方案。",
-    sections: [],
   },
 ];
 
-const statusStyle: Record<Status, string> = {
-  待生成: "bg-muted text-muted-foreground",
-  待确认: "bg-warm/15 text-warm",
-  已发布: "bg-success/15 text-success",
-};
-
-const flagStyle = {
-  normal: "text-foreground",
-  warn: "text-warm",
-  danger: "text-danger",
-} as const;
-
-const riskStyle = {
-  warn: "bg-warm/15 text-warm",
-  danger: "bg-danger/10 text-danger",
-} as const;
+function TileGrid({ items }: { items: { label: string; value: string; accent?: boolean }[] }) {
+  return (
+    <div className="grid grid-cols-2 gap-2.5">
+      {items.map((it) => (
+        <div key={it.label} className="rounded-xl bg-surface-2 p-3">
+          <p className="text-[11px] text-muted-foreground">{it.label}</p>
+          <p className={`mt-1 text-[14px] font-medium ${it.accent ? "text-teal" : ""}`}>
+            {it.value}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function PlanPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [tab, setTab] = useState<"全部" | "待审核" | "审核中">("全部");
+  const [tab, setTab] = useState<ReviewState>("待审核");
+  const [planText, setPlanText] = useState<string>("");
   const active = activeId ? cases.find((c) => c.id === activeId) ?? null : null;
-  const pendingCount = cases.filter((c) => c.status === "待确认").length;
-
 
   // ============ List view ============
   if (!active) {
-    const tabs = ["全部", "待审核", "审核中"] as const;
-    const filtered =
-      tab === "全部" ? cases : cases.filter((c) => c.reviewState === tab);
+    const tabs: ReviewState[] = ["待审核", "已审核"];
+    const filtered = cases.filter((c) => c.reviewState === tab);
     return (
       <div className="min-h-full bg-muted/40">
         <StatusBar title="方案审核" />
         <div className="px-4 pb-8 pt-3">
-          {/* Tabs */}
           <div className="mb-3 flex gap-2">
             {tabs.map((t) => (
               <button
@@ -240,69 +161,81 @@ function PlanPage() {
                 }`}
               >
                 {t}
+                <span className="ml-1 text-[10px] opacity-70">
+                  {cases.filter((c) => c.reviewState === t).length}
+                </span>
               </button>
             ))}
           </div>
 
           <ul className="space-y-3">
-            {filtered.map((c) => {
-              const isPending = c.status === "待生成";
-              return (
-                <li
-                  key={c.id}
-                  className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
-                >
-                  <div className="p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <p className="text-[15px] font-bold">{c.name}</p>
-                        <span className="rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] text-teal">
-                          {c.reviewState}
-                        </span>
-                      </div>
-                      {c.needVisit && (
-                        <span className="rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                          需就诊
-                        </span>
-                      )}
+            {filtered.map((c) => (
+              <li
+                key={c.id}
+                className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
+              >
+                <div className="p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <p className="text-[15px] font-bold">{c.name}</p>
+                      <span
+                        className={`rounded-md px-1.5 py-0.5 text-[10px] ${
+                          c.reviewState === "待审核"
+                            ? "bg-warm/15 text-warm"
+                            : "bg-success/15 text-success"
+                        }`}
+                      >
+                        {c.reviewState}
+                      </span>
                     </div>
-                    <p className="mt-1 text-[12px] text-muted-foreground">
-                      {c.dept} · {c.evalTime}
-                    </p>
-                    <p className="mt-1 text-[13px] font-medium text-teal">
-                      {c.disease}
-                    </p>
-                    <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-foreground/85">
-                      <span className="font-semibold text-foreground">普通评估: </span>
-                      {c.evaluation}
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3 border-t border-border/60 px-4 py-3">
-                    <button
-                      onClick={() => setActiveId(c.id)}
-                      className="rounded-xl bg-deep/10 py-2.5 text-[13px] font-medium text-deep"
-                    >
-                      👁 查看方案
-                    </button>
-                    {isPending ? (
-                      <button
-                        onClick={() => setActiveId(c.id)}
-                        className="rounded-xl bg-success/15 py-2.5 text-[13px] font-medium text-success"
-                      >
-                        ✓ 一键通过
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => setActiveId(c.id)}
-                        className="rounded-xl bg-warm/15 py-2.5 text-[13px] font-medium text-warm"
-                      >
-                        💬 写建议
-                      </button>
+                    {c.needVisit && (
+                      <span className="rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                        需就诊
+                      </span>
                     )}
                   </div>
-                </li>
-              );
-            })}
+                  <p className="mt-1 text-[12px] text-muted-foreground">
+                    {c.dept} · {c.evalTime}
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-teal">{c.disease}</p>
+                  <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-foreground/85">
+                    <span className="font-semibold text-foreground">普通评估: </span>
+                    {c.evaluation}
+                  </p>
+                  {c.reviewState === "已审核" && (
+                    <p className="mt-2 text-[11px] text-muted-foreground">
+                      ✓ {c.approvedAt} · {c.approvedBy} 审核通过 · 共 {c.history?.length ?? 1} 版
+                    </p>
+                  )}
+                </div>
+                <div
+                  className={`grid gap-3 border-t border-border/60 px-4 py-3 ${
+                    c.reviewState === "待审核" ? "grid-cols-2" : "grid-cols-1"
+                  }`}
+                >
+                  <button
+                    onClick={() => {
+                      setActiveId(c.id);
+                      setPlanText(c.plan);
+                    }}
+                    className="rounded-xl bg-deep/10 py-2.5 text-[13px] font-medium text-deep"
+                  >
+                    {c.reviewState === "待审核" ? "👁 查看方案" : "📄 查看历史方案"}
+                  </button>
+                  {c.reviewState === "待审核" && (
+                    <button
+                      onClick={() => {
+                        setActiveId(c.id);
+                        setPlanText(c.plan);
+                      }}
+                      className="rounded-xl bg-success/15 py-2.5 text-[13px] font-medium text-success"
+                    >
+                      ✓ 一键通过
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
             {filtered.length === 0 && (
               <li className="rounded-xl bg-surface p-6 text-center text-xs text-muted-foreground ring-1 ring-border/60">
                 暂无{tab}方案
@@ -314,160 +247,149 @@ function PlanPage() {
     );
   }
 
-
   // ============ Detail view ============
+  const isApproved = active.reviewState === "已审核";
   return (
-    <div>
+    <div className="min-h-full bg-muted/40">
       <StatusBar title="方案详情" />
-      <div className="px-5 pb-8 pt-2">
-        <button
-          onClick={() => setActiveId(null)}
-          className="mb-3 flex items-center gap-1 text-xs text-muted-foreground"
-        >
-          ‹ 返回方案列表
-        </button>
+      <div className="px-4 pb-8 pt-2">
+        <div className="mb-3 flex items-center justify-between">
+          <button
+            onClick={() => setActiveId(null)}
+            className="flex items-center gap-1 text-sm text-deep"
+          >
+            ‹ 返回
+          </button>
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-[11px] ${
+              isApproved ? "bg-success/15 text-success" : "bg-warm/15 text-warm"
+            }`}
+          >
+            {isApproved ? "已审核" : "审核中"}
+          </span>
+        </div>
 
-        <h1 className="text-xl font-bold">
-          {active.name} · 专案 {active.version}
-        </h1>
-        <p className="mb-3 text-xs text-muted-foreground">
-          AI 基于本次体检 + 基础信息生成，医生确认后同步家长
-        </p>
+        {/* Patient header */}
+        <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+          <p className="mb-3 text-lg font-bold">{active.name}</p>
+          <TileGrid
+            items={[
+              { label: "医院", value: active.hospital },
+              { label: "科室", value: active.dept },
+              { label: "评估时间", value: active.evalTime },
+              { label: "疾病", value: active.disease, accent: true },
+              { label: "方案状态", value: active.planStatus },
+              { label: "风险状态", value: active.riskStatus },
+            ]}
+          />
+        </div>
 
-        {/* Active case header */}
-        <div className="mb-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-bold">基础档案</p>
-            <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[active.status]}`}>
-              {active.status}
-            </span>
+        {/* Evaluation */}
+        <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+          <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
+            <span className="text-deep">📄</span> 评估内容
+          </p>
+          <p className="mb-2 text-[12px] text-muted-foreground">普通评估</p>
+          <div className="rounded-xl bg-surface-2 p-3 text-[13px] leading-relaxed">
+            {active.evaluation}
           </div>
+        </div>
 
-          {/* 健康风险 */}
-          {active.risks.length > 0 && (
-            <div className="mt-3">
-              <p className="mb-1.5 text-[11px] text-muted-foreground">健康风险</p>
-              <div className="flex flex-wrap gap-1.5">
-                {active.risks.map((r) => (
-                  <span key={r.text} className={`rounded-full px-2 py-0.5 text-[10px] ${riskStyle[r.level]}`}>
-                    {r.text}
-                  </span>
-                ))}
-              </div>
+        {/* Plan content */}
+        <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="flex items-center gap-2 text-[15px] font-semibold">
+              <span className="text-deep">📄</span> 方案内容
+            </p>
+            {!isApproved && (
+              <button
+                onClick={() => setPlanText("")}
+                className="flex items-center gap-1 rounded-md bg-danger/10 px-2 py-1 text-[11px] text-danger"
+              >
+                ⌫ 一键清除
+              </button>
+            )}
+          </div>
+          <p className="mb-2 text-[12px] text-muted-foreground">
+            方案内容 <span className="text-danger">*</span>
+          </p>
+          {isApproved ? (
+            <div className="rounded-xl bg-surface-2 p-3 text-[13px] leading-relaxed">
+              {active.plan}
             </div>
+          ) : (
+            <textarea
+              value={planText}
+              onChange={(e) => setPlanText(e.target.value)}
+              rows={10}
+              className="w-full resize-y rounded-xl bg-surface-2 p-3 text-[13px] leading-relaxed outline-none ring-1 ring-transparent focus:ring-deep"
+            />
           )}
 
-          <div className="mt-3 grid grid-cols-3 gap-2 rounded-xl bg-surface-2 p-2.5 text-[11px]">
-            <div>
-              <p className="text-muted-foreground">过敏史</p>
-              <p className="mt-0.5 font-medium">{active.allergy}</p>
+          {!isApproved && (
+            <div className="mt-4">
+              <ActionSheet
+                trigger={
+                  <button className="w-full rounded-xl bg-deep py-3 text-sm font-medium text-deep-foreground">
+                    ✓ 审核通过
+                  </button>
+                }
+                title="确认审核通过该方案？"
+                description="通过后方案将同步至家长端，并进入已审核历史记录。"
+                confirmText="确认通过"
+                toastMessage="方案已审核通过"
+                toastDescription={`${active.name} · 已同步家长端`}
+                onConfirm={() => setActiveId(null)}
+              />
             </div>
-            <div>
-              <p className="text-muted-foreground">家族史</p>
-              <p className="mt-0.5 font-medium">{active.family}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">用药</p>
-              <p className="mt-0.5 font-medium">{active.history}</p>
-            </div>
-          </div>
-
-          {/* 体检数据 */}
-          <p className="mt-3 mb-1.5 text-[11px] text-muted-foreground">本次体检关键数据</p>
-          <div className="grid grid-cols-3 gap-2">
-            {active.exam.map((e) => (
-              <div key={e.label} className="rounded-xl bg-surface-2 p-2">
-                <p className="text-[10px] text-muted-foreground">{e.label}</p>
-                <p className={`mt-0.5 text-[13px] font-semibold ${flagStyle[e.flag ?? "normal"]}`}>
-                  {e.value}
-                </p>
-              </div>
-            ))}
-          </div>
+          )}
         </div>
 
-        {/* AI 摘要 */}
-        <div className="mb-4 rounded-2xl bg-gradient-to-br from-deep/10 to-teal/10 p-4 ring-1 ring-deep/20">
-          <p className="text-[11px] text-muted-foreground">🤖 AI 草案 · 健管师整理</p>
-          <p className="mt-1 text-sm leading-relaxed">{active.summary}</p>
-        </div>
-
-        {active.status === "待生成" ? (
-          <button className="w-full rounded-xl bg-deep py-3 text-sm font-medium text-deep-foreground">
-            基于体检数据生成 v0.1 草案
-          </button>
-        ) : (
-          <>
-            <div className="space-y-3">
-              {active.sections.map((s) => (
-                <details
-                  key={s.title}
-                  open
-                  className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
-                >
-                  <summary className="flex cursor-pointer items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-sm font-semibold">
-                      <span className={`grid h-6 w-6 place-items-center rounded-lg text-[12px] ${categoryStyle[s.category].cls}`}>
-                        {categoryStyle[s.category].icon}
-                      </span>
-                      {s.title}
-                    </span>
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] ${categoryStyle[s.category].cls}`}>
-                      已勾选 {s.items.length}
-                    </span>
-                  </summary>
-                  <p className="mt-2 text-[11px] text-deep">{s.basis}</p>
-                  <ul className="mt-2 space-y-1.5">
-                    {s.items.map((it) => (
-                      <li key={it} className="flex items-start gap-2 text-xs">
-                        <input type="checkbox" defaultChecked className="mt-0.5 accent-deep" />
-                        <span>{it}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {s.extra.length > 0 && (
-                    <div className="mt-3 border-t border-border/60 pt-2">
-                      <p className="mb-1 text-[11px] text-muted-foreground">附加建议</p>
-                      {s.extra.map((e) => (
-                        <label key={e} className="flex items-start gap-2 py-1 text-xs">
-                          <input type="checkbox" className="mt-0.5 accent-deep" />
-                          <span>{e}</span>
-                        </label>
-                      ))}
-                    </div>
-                  )}
-                </details>
+        {/* Approval history (approved only) */}
+        {isApproved && active.history && active.history.length > 0 && (
+          <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+            <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
+              <span className="text-deep">🕘</span> 历史审核记录
+              <span className="text-[11px] font-normal text-muted-foreground">
+                共 {active.history.length} 版
+              </span>
+            </p>
+            <ol className="space-y-3">
+              {active.history.map((h, i) => (
+                <li key={h.time} className="rounded-xl bg-surface-2 p-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[13px] font-medium">
+                      v{active.history!.length - i} · {h.doctor}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">{h.time}</p>
+                  </div>
+                  <p className="mt-1 text-[12px] text-muted-foreground">{h.note}</p>
+                  <details className="mt-2">
+                    <summary className="cursor-pointer text-[12px] text-deep">
+                      查看该版本方案内容
+                    </summary>
+                    <p className="mt-2 text-[12px] leading-relaxed">{h.plan}</p>
+                  </details>
+                </li>
               ))}
-            </div>
-
-            {active.status !== "已发布" && (
-              <>
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  <button className="rounded-xl bg-surface-2 py-3 text-xs">保存草稿</button>
-                  <button className="rounded-xl bg-warm/15 py-3 text-xs text-warm">同步学校</button>
-                  <ActionSheet
-                    trigger={
-                      <button className="rounded-xl bg-deep py-3 text-xs font-medium text-deep-foreground">
-                        确认并同步家长
-                      </button>
-                    }
-                    title="确认该方案并同步家长？"
-                    description="确认后系统将自动同步至家长端，健管师同步跟进；历史版本进入方案版本管理。"
-                    confirmText={`确认 ${active.version}`}
-                    toastMessage="方案已确认并同步家长"
-                    toastDescription={`${active.name} · ${active.version} · 家长端已推送`}
-                    onConfirm={() => setActiveId(null)}
-                  />
-                </div>
-                <p className="mt-3 text-center text-[11px] text-muted-foreground">
-                  一儿一案 · 确认后自动同步家长，可失效或更新
-                </p>
-              </>
-            )}
-          </>
+            </ol>
+          </div>
         )}
+
+        {/* Patient link */}
+        <div className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <button className="flex w-full items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-deep/10 text-deep">
+              📈
+            </span>
+            <div className="flex-1 text-left">
+              <p className="text-[14px] font-semibold">查看患者详情</p>
+              <p className="text-[11px] text-muted-foreground">{active.name} 的完整档案</p>
+            </div>
+            <span className="text-muted-foreground">›</span>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-

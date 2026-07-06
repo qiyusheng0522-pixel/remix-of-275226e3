@@ -249,7 +249,20 @@ function PlanPage() {
             </span>
           </div>
 
-          {/* 基础信息 */}
+          {/* 健康风险 */}
+          {active.risks.length > 0 && (
+            <div className="mt-3">
+              <p className="mb-1.5 text-[11px] text-muted-foreground">健康风险</p>
+              <div className="flex flex-wrap gap-1.5">
+                {active.risks.map((r) => (
+                  <span key={r.text} className={`rounded-full px-2 py-0.5 text-[10px] ${riskStyle[r.level]}`}>
+                    {r.text}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-3 grid grid-cols-3 gap-2 rounded-xl bg-surface-2 p-2.5 text-[11px]">
             <div>
               <p className="text-muted-foreground">过敏史</p>

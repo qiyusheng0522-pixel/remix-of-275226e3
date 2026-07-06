@@ -263,14 +263,6 @@ function HealthPlanPage() {
             <span className="text-muted-foreground">▾</span>
           </div>
 
-          <div className="mt-3 flex items-center gap-3 rounded-2xl bg-surface p-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal/15 text-lg">👣</span>
-            <div className="flex-1">
-              <p className="text-[13px] font-semibold">授权微信步数</p>
-              <p className="text-[11px] text-muted-foreground">同步每日步数，自动计入运动量</p>
-            </div>
-            <button className="rounded-full bg-teal px-3 py-1.5 text-[11px] font-semibold text-teal-foreground">立即授权</button>
-          </div>
 
           <div className="mt-4 flex items-center justify-between">
             <p className="text-[13px] font-semibold text-teal">〰 今日运动清单 <span className="ml-1 rounded-md bg-teal/15 px-1.5 py-0.5 text-[11px]">{exercises.length} 项</span></p>

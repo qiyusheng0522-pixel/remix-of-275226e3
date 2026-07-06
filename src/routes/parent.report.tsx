@@ -291,9 +291,6 @@ function ReportPage() {
           </div>
         </section>
 
-        <div className="rounded-2xl bg-teal/10 p-4 text-xs leading-relaxed text-deep ring-1 ring-teal/20">
-          🌱 今天先做这 3 件小事：不喝含糖饮料 · 21:30 前开始睡前准备 · 记录运动后是否咳嗽。
-        </div>
       </div>
 
       {/* 冻结咨询栏 */}

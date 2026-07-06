@@ -16,7 +16,7 @@ function DoctorLayout() {
         accent="deep"
         items={[
           { to: "/doctor", label: "工作台", icon: "🩺" },
-          { to: "/doctor/exam", label: "体检", icon: "🏫" },
+          { to: "/doctor/exam", label: "用户", icon: "👥" },
           { to: "/doctor/review", label: "复核", icon: "📝" },
           { to: "/doctor/plan", label: "方案", icon: "📋" },
           { to: "/doctor/me", label: "我的", icon: "👤" },

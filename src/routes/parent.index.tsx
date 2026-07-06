@@ -162,14 +162,42 @@ function ParentHome() {
               <p className="mt-0.5 text-[15px] font-bold leading-tight">
                 家长好，{kid.name}的体检数据已为您解读 🌸
               </p>
-              <Link
-                to="/parent/report"
-                className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-medium text-rose"
-              >
-                发现 2 项需关注 · 身高体重 / 视力 ›
-              </Link>
             </div>
           </div>
+
+          {/* 体检关注 · 突出卡片 */}
+          <Link
+            to="/parent/report"
+            className="mt-3 block rounded-2xl bg-white/95 p-3 shadow-sm ring-1 ring-white/60"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-danger/15 text-[12px]">⚠️</span>
+                <span className="text-[12px] font-bold text-rose">本次体检 · 2 项需重点关注</span>
+              </div>
+              <span className="text-[11px] font-medium text-rose">查看报告 ›</span>
+            </div>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <div className="rounded-xl bg-warm/10 p-2">
+                <div className="flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-warning" />
+                  <p className="text-[11px] font-semibold text-warm">体重偏高</p>
+                </div>
+                <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground">BMI 17.1 · P85 · 建议 12 周控重</p>
+              </div>
+              <div className="rounded-xl bg-rose/10 p-2">
+                <div className="flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-danger" />
+                  <p className="text-[11px] font-semibold text-rose">尘螨过敏</p>
+                </div>
+                <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground">IgE (++) · 需家庭除螨</p>
+              </div>
+            </div>
+          </Link>
+
+
+
+
 
           {/* 咨询输入框 · 主 CTA */}
           <Link

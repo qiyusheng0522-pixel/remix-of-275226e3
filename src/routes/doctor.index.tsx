@@ -7,12 +7,12 @@ export const Route = createFileRoute("/doctor/")({
 });
 
 const urgent = [
-  { icon: "🚨", label: "健管师升级", count: 3, tint: "danger", to: "/doctor/coord" },
+  { icon: "🔄", label: "转诊处理", count: 6, tint: "warm", to: "/doctor/referral", hint: "含健管师升级 3" },
   { icon: "📝", label: "待审核报告", count: doctorStats.pendingReview, tint: "warm", to: "/doctor/review" },
   { icon: "🔍", label: "待质控数据", count: doctorStats.pendingQC, tint: "warning", to: "/doctor/qc" },
   { icon: "⭐", label: "重点复核", count: doctorStats.focusPool, tint: "teal", to: "/doctor/focus" },
   { icon: "📋", label: "待确认方案", count: 8, tint: "deep", to: "/doctor/plan" },
-  { icon: "🔄", label: "转诊处理", count: 3, tint: "warm", to: "/doctor/referral" },
+  { icon: "💬", label: "健管师协同", count: 3, tint: "teal", to: "/doctor/coord" },
 ] as const;
 
 const shortcuts = [
@@ -22,7 +22,7 @@ const shortcuts = [
   { icon: "📝", label: "报告审核", to: "/doctor/review" },
   { icon: "⭐", label: "重点儿童", to: "/doctor/focus" },
   { icon: "📋", label: "健康方案", to: "/doctor/plan" },
-  { icon: "🔄", label: "转诊 / 绿通", to: "/doctor/referral" },
+  { icon: "🔄", label: "转诊处理", to: "/doctor/referral" },
   { icon: "📈", label: "复评随访", to: "/doctor/followup" },
   { icon: "💬", label: "健管师协同", to: "/doctor/coord" },
 ];
@@ -81,6 +81,9 @@ function DoctorHome() {
                   <span className={`text-2xl font-extrabold text-${u.tint}`}>{u.count}</span>
                 </div>
                 <p className="text-xs">{u.label}</p>
+                {"hint" in u && u.hint && (
+                  <p className={`mt-0.5 text-[10px] text-${u.tint}/80`}>{u.hint}</p>
+                )}
               </Link>
             ))}
           </div>

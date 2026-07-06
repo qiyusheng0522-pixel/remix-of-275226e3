@@ -69,6 +69,7 @@ const data: Record<(typeof tabs)[number], Item[]> = {
 
 function ReportReviewPage() {
   const [t, setT] = useState<(typeof tabs)[number]>("待审核");
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const list = data[t];
   const highCount = data["待审核"].filter((i) => i.risk === "高危").length;
 
@@ -96,57 +97,75 @@ function ReportReviewPage() {
         </div>
 
         <ul className="space-y-2">
-          {list.map((r) => (
-            <li key={r.name + r.issue} className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold">{r.name} · {r.class}</p>
-                  <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">{r.detail}</p>
-                </div>
-                <span
-                  className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                    r.risk === "高危" ? "bg-danger/15 text-danger" : "bg-warm/15 text-warm"
-                  }`}
+          {list.map((r) => {
+            const key = r.name + r.issue;
+            const isOpen = openKey === key;
+            return (
+              <li key={key} className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+                <button
+                  onClick={() => setOpenKey(isOpen ? null : key)}
+                  className="flex w-full items-start justify-between gap-2 p-4 text-left"
                 >
-                  {r.risk}
-                </span>
-              </div>
-              <p className="mt-2 rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
-                ✨ {r.ai}
-              </p>
-              {t === "待审核" && (
-                <div className="mt-3 flex gap-2">
-                  <ActionSheet
-                    trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">退回补录</button>}
-                    title="退回体检机构补录？"
-                    description={`${r.name} · ${r.detail}`}
-                    confirmText="退回"
-                    toastMessage="已退回补录"
-                    toastType="info"
-                  />
-                  <ActionSheet
-                    trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs text-warm">标记复测</button>}
-                    title="标记待复测？"
-                    confirmText="标记"
-                    toastMessage="已加入复测队列"
-                    toastType="warning"
-                  />
-                  <ActionSheet
-                    trigger={
-                      <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-                        审核签发
-                      </button>
-                    }
-                    title="确认人工二次审核通过？"
-                    description="签发后报告将同步至家长与校方。"
-                    confirmText="签发"
-                    toastMessage="报告已签发 ✓"
-                  />
-                </div>
-              )}
-            </li>
-          ))}
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold">{r.name} · {r.class}</p>
+                    <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                        r.risk === "高危" ? "bg-danger/15 text-danger" : "bg-warm/15 text-warm"
+                      }`}
+                    >
+                      {r.risk}
+                    </span>
+                    <span
+                      className={`text-xs text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    >
+                      ⌄
+                    </span>
+                  </div>
+                </button>
+                {isOpen && (
+                  <div className="border-t border-border/60 px-4 pb-4 pt-3">
+                    <p className="text-[11px] text-muted-foreground">{r.detail}</p>
+                    <p className="mt-2 rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
+                      ✨ {r.ai}
+                    </p>
+                    {t === "待审核" && (
+                      <div className="mt-3 flex gap-2">
+                        <ActionSheet
+                          trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">退回补录</button>}
+                          title="退回体检机构补录？"
+                          description={`${r.name} · ${r.detail}`}
+                          confirmText="退回"
+                          toastMessage="已退回补录"
+                          toastType="info"
+                        />
+                        <ActionSheet
+                          trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs text-warm">标记复测</button>}
+                          title="标记待复测？"
+                          confirmText="标记"
+                          toastMessage="已加入复测队列"
+                          toastType="warning"
+                        />
+                        <ActionSheet
+                          trigger={
+                            <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                              审核签发
+                            </button>
+                          }
+                          title="确认人工二次审核通过？"
+                          description="签发后报告将同步至家长与校方。"
+                          confirmText="签发"
+                          toastMessage="报告已签发 ✓"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
       </div>

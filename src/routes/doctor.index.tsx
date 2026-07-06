@@ -18,16 +18,6 @@ type Stat = {
 
 const stats: Stat[] = [
   {
-    icon: "🔄",
-    iconBg: "bg-danger/10 text-danger",
-    label: "待转诊",
-    sub: "健管师升级 / 上转",
-    value: 6,
-    unit: "单待处理",
-    valueColor: "text-danger",
-    to: "/doctor/referral",
-  },
-  {
 
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",

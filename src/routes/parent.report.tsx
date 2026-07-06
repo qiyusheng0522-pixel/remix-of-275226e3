@@ -27,16 +27,16 @@ const sections: Section[] = [
   {
     title: "视力与眼健康",
     items: [
-      { name: "裸眼视力 (左)", value: "4.9", ref: "≥ 5.0", level: "bad" },
-      { name: "裸眼视力 (右)", value: "4.8", ref: "≥ 5.0", level: "bad" },
-      { name: "屈光度 (左)", value: "-0.75D", ref: "±0.50D", level: "bad" },
+      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok" },
+      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok" },
       { name: "眼位", value: "正位", ref: "正位", level: "ok" },
     ],
   },
   {
     title: "口腔",
     items: [
-      { name: "龋齿", value: "2 颗", ref: "0 颗", level: "bad" },
+      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok" },
       { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
     ],
   },
@@ -133,10 +133,9 @@ function ReportPage() {
           <div className="mt-4 space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
             <p className="text-[11px] font-semibold text-warm">🤖 AI 解读</p>
             <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
-              <li>• <b>体重/BMI 偏高</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
-              <li>• <b>视力 4.8/4.9 · 屈光 -0.75D</b>：临界近视，建议 <span className="text-danger font-semibold">眼科门诊复查</span>。</li>
-              <li>• <b>龋齿 2 颗</b>：建议 1 个月内 <span className="text-danger font-semibold">口腔科就诊</span> 补牙。</li>
-              <li>• <b>运动后偶发咳嗽</b>：观察 2 周，如加重可咨询呼吸科。</li>
+              <li>• <b>体重/BMI 偏高（肥胖倾向）</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
+              <li>• <b>尘螨过敏 (++) · 运动后偶发咳嗽</b>：警惕哮喘倾向，做好家庭除螨与运动前热身。</li>
+              <li>• 其他项目均在正常范围，继续保持。</li>
             </ul>
           </div>
 
@@ -144,8 +143,8 @@ function ReportPage() {
           <div className="mt-3 space-y-2">
             <p className="text-[11px] font-semibold text-danger">⚠️ 建议尽快就诊</p>
             {[
-              { dept: "眼科", reason: "临界近视复查", hospital: "市儿童医院" },
-              { dept: "口腔科", reason: "龋齿补牙 (2 颗)", hospital: "阳光口腔门诊" },
+              { dept: "儿童保健科", reason: "体重管理评估与营养指导", hospital: "市儿童医院" },
+              { dept: "呼吸/过敏科", reason: "尘螨过敏 + 运动后咳嗽评估", hospital: "市儿童医院" },
             ].map((v) => (
               <div
                 key={v.dept}
@@ -168,6 +167,7 @@ function ReportPage() {
               </div>
             ))}
           </div>
+
 
         </div>
 

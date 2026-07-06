@@ -192,31 +192,47 @@ const riskStyle = {
 } as const;
 
 function PlanPage() {
-  const [activeId, setActiveId] = useState(cases[0].id);
-  const active = cases.find((c) => c.id === activeId) ?? cases[0];
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const active = activeId ? cases.find((c) => c.id === activeId) ?? null : null;
+  const pendingCount = cases.filter((c) => c.status === "待确认").length;
 
-  return (
-    <div>
-      <StatusBar title="健康方案" />
-      <div className="px-5 pb-8 pt-2">
-        <h1 className="text-xl font-bold">儿童健康方案 · 一儿一案</h1>
-        <p className="mb-3 text-xs text-muted-foreground">
-          仅为有健康风险的儿童建案，围绕饮食 / 运动 / 睡眠 / 环境 / 用药 / 复诊生成专属方案
-        </p>
 
-        {/* Case list */}
-        <div className="mb-4 space-y-2">
-          {cases.map((c) => {
-            const on = c.id === activeId;
-            return (
+  // ============ List view ============
+  if (!active) {
+    const pending = cases.filter((c) => c.status === "待确认");
+    const others = cases.filter((c) => c.status !== "待确认");
+    return (
+      <div>
+        <StatusBar title="方案确认" />
+        <div className="px-5 pb-8 pt-2">
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <h1 className="text-xl font-bold">方案确认</h1>
+              <p className="text-xs text-muted-foreground">
+                有健康风险的儿童 · AI 生成方案后由医生确认，确认后自动同步家长
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full bg-warm/15 px-2.5 py-1 text-[11px] font-medium text-warm">
+              {pendingCount} 待确认
+            </span>
+          </div>
+
+          <p className="mb-2 mt-2 text-[11px] font-medium text-muted-foreground">
+            待确认
+          </p>
+          <div className="mb-4 space-y-2">
+            {pending.length === 0 && (
+              <p className="rounded-xl bg-surface-2 p-4 text-center text-xs text-muted-foreground">
+                暂无待确认方案
+              </p>
+            )}
+            {pending.map((c) => (
               <button
                 key={c.id}
                 onClick={() => setActiveId(c.id)}
-                className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ring-1 transition ${
-                  on ? "bg-deep/5 ring-deep/40" : "bg-surface ring-border/60"
-                }`}
+                className="flex w-full items-center gap-3 rounded-2xl bg-surface p-3 text-left shadow-sm ring-1 ring-warm/30"
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/10 text-sm font-bold text-deep">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-sm font-bold text-warm">
                   {c.name.slice(-1)}
                 </span>
                 <div className="min-w-0 flex-1">
@@ -226,24 +242,87 @@ function PlanPage() {
                       {c.grade} · {c.age}岁{c.gender}
                     </span>
                   </p>
-                  <p className="truncate text-[11px] text-muted-foreground">
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {c.risks.slice(0, 3).map((r) => (
+                      <span
+                        key={r.text}
+                        className={`rounded px-1.5 py-0.5 text-[10px] ${riskStyle[r.level]}`}
+                      >
+                        {r.text}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-1 truncate text-[11px] text-muted-foreground">
                     {c.version} · {c.updated}
                   </p>
                 </div>
-                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${statusStyle[c.status]}`}>
-                  {c.status}
-                </span>
+                <span className="shrink-0 text-muted-foreground">›</span>
               </button>
-            );
-          })}
+            ))}
+          </div>
+
+          {others.length > 0 && (
+            <>
+              <p className="mb-2 text-[11px] font-medium text-muted-foreground">
+                其他方案
+              </p>
+              <div className="space-y-2">
+                {others.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => setActiveId(c.id)}
+                    className="flex w-full items-center gap-3 rounded-2xl bg-surface p-3 text-left ring-1 ring-border/60"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/10 text-sm font-bold text-deep">
+                      {c.name.slice(-1)}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold">
+                        {c.id} {c.name}
+                        <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+                          {c.grade} · {c.age}岁{c.gender}
+                        </span>
+                      </p>
+                      <p className="truncate text-[11px] text-muted-foreground">
+                        {c.version} · {c.updated}
+                      </p>
+                    </div>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${statusStyle[c.status]}`}>
+                      {c.status}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
+      </div>
+    );
+  }
+
+  // ============ Detail view ============
+  return (
+    <div>
+      <StatusBar title="方案详情" />
+      <div className="px-5 pb-8 pt-2">
+        <button
+          onClick={() => setActiveId(null)}
+          className="mb-3 flex items-center gap-1 text-xs text-muted-foreground"
+        >
+          ‹ 返回方案列表
+        </button>
+
+        <h1 className="text-xl font-bold">
+          {active.name} · 专案 {active.version}
+        </h1>
+        <p className="mb-3 text-xs text-muted-foreground">
+          AI 基于本次体检 + 基础信息生成，医生确认后同步家长
+        </p>
 
         {/* Active case header */}
         <div className="mb-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-bold">
-              {active.name} · 专案 {active.version}
-            </p>
+            <p className="text-sm font-bold">基础档案</p>
             <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[active.status]}`}>
               {active.status}
             </span>
@@ -331,15 +410,17 @@ function PlanPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-3 border-t border-border/60 pt-2">
-                    <p className="mb-1 text-[11px] text-muted-foreground">附加建议</p>
-                    {s.extra.map((e) => (
-                      <label key={e} className="flex items-start gap-2 py-1 text-xs">
-                        <input type="checkbox" className="mt-0.5 accent-deep" />
-                        <span>{e}</span>
-                      </label>
-                    ))}
-                  </div>
+                  {s.extra.length > 0 && (
+                    <div className="mt-3 border-t border-border/60 pt-2">
+                      <p className="mb-1 text-[11px] text-muted-foreground">附加建议</p>
+                      {s.extra.map((e) => (
+                        <label key={e} className="flex items-start gap-2 py-1 text-xs">
+                          <input type="checkbox" className="mt-0.5 accent-deep" />
+                          <span>{e}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
                 </details>
               ))}
             </div>
@@ -352,18 +433,19 @@ function PlanPage() {
                   <ActionSheet
                     trigger={
                       <button className="rounded-xl bg-deep py-3 text-xs font-medium text-deep-foreground">
-                        发布给家长
+                        确认并同步家长
                       </button>
                     }
-                    title="确认发布方案给家长？"
-                    description="发布后家长将收到该儿童专属方案，健管师同步跟进；历史版本进入方案版本管理。"
-                    confirmText={`确认发布 ${active.version}`}
-                    toastMessage="方案已发布给家长"
-                    toastDescription={`${active.name} · ${active.version} · 健管师已同步`}
+                    title="确认该方案并同步家长？"
+                    description="确认后系统将自动同步至家长端，健管师同步跟进；历史版本进入方案版本管理。"
+                    confirmText={`确认 ${active.version}`}
+                    toastMessage="方案已确认并同步家长"
+                    toastDescription={`${active.name} · ${active.version} · 家长端已推送`}
+                    onConfirm={() => setActiveId(null)}
                   />
                 </div>
                 <p className="mt-3 text-center text-[11px] text-muted-foreground">
-                  一儿一案 · 发布后进入版本管理，可失效或更新
+                  一儿一案 · 确认后自动同步家长，可失效或更新
                 </p>
               </>
             )}
@@ -373,3 +455,4 @@ function PlanPage() {
     </div>
   );
 }
+

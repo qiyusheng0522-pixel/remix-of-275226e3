@@ -57,11 +57,40 @@ const sections: Section[] = [
   },
 ];
 
-const archives = [
-  { year: "26年", date: "9月18日", tags: ["检查报告", "新生入校备案报告"] },
-  { year: "25年", date: "3月18日", tags: ["校内体检"] },
-  { year: "24年", date: "9月10日", tags: ["复查·眼科"] },
+type ArchiveKind = "exam" | "review" | "hospital";
+type ArchiveEntry = { date: string; kind: ArchiveKind; tags: string[]; note?: string };
+type ArchiveYear = { year: string; entries: ArchiveEntry[] };
+
+const archives: ArchiveYear[] = [
+  {
+    year: "26年",
+    entries: [
+      { date: "9月18日", kind: "exam", tags: ["校内体检", "新生入校备案"], note: "身高 138 · BMI 17.1 · 视力 4.9/4.8" },
+      { date: "6月05日", kind: "review", tags: ["复查·眼科"], note: "屈光度 -0.75D，建议 3 月后复查" },
+      { date: "3月22日", kind: "hospital", tags: ["医院·呼吸科"], note: "运动后咳嗽评估，肺功能正常" },
+    ],
+  },
+  {
+    year: "25年",
+    entries: [
+      { date: "9月18日", kind: "exam", tags: ["校内体检"], note: "BMI 16.8 · 视力 5.0/4.9" },
+      { date: "3月18日", kind: "review", tags: ["复查·体重"], note: "BMI 16.5，建议加强营养" },
+    ],
+  },
+  {
+    year: "24年",
+    entries: [
+      { date: "9月10日", kind: "exam", tags: ["校内体检"], note: "首次入校体检，各项正常" },
+      { date: "4月02日", kind: "hospital", tags: ["医院·过敏原筛查"], note: "尘螨阳性 (++)" },
+    ],
+  },
 ];
+
+const kindStyle: Record<ArchiveKind, { dot: string; badge: string; label: string }> = {
+  exam: { dot: "bg-teal", badge: "bg-teal text-teal-foreground", label: "体检" },
+  review: { dot: "bg-warm", badge: "bg-warm text-warm-foreground", label: "复查" },
+  hospital: { dot: "bg-deep", badge: "bg-deep text-deep-foreground", label: "就诊" },
+};
 
 const dot: Record<Level, string> = {
   ok: "bg-success",

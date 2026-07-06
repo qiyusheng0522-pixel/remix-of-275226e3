@@ -65,6 +65,13 @@ const cases: Case[] = [
     status: "待确认",
     version: "v0.3",
     updated: "健管师 10:12 更新",
+    dept: "呼吸/过敏科",
+    evalTime: "2026-04-02 18:44:18",
+    disease: "过敏性哮喘 · BMI 偏轻",
+    evaluation:
+      "根据本次体检，患儿 BMI 16.8 偏轻，近两周夜间咳嗽 3 次，伴尘螨与花粉阳性反应，母亲有过敏性鼻炎史。建议以家庭呵护为主，1 个月复评...",
+    reviewState: "审核中",
+    needVisit: true,
     risks: [
       { text: "BMI 偏轻", level: "warn" },
       { text: "夜间咳嗽", level: "warn" },

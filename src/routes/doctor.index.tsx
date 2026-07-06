@@ -31,10 +31,10 @@ const stats: Stat[] = [
 
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
-    label: "数据质控",
-    sub: "BMI 异常 3 条",
+    label: "报告审核",
+    sub: "高危 3 条 · 需人工二审",
     value: 12,
-    unit: "条待核",
+    unit: "条待审",
     valueColor: "text-warm",
     to: "/doctor/qc",
   },

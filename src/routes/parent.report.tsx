@@ -247,9 +247,39 @@ function ReportPage() {
             </div>
           </summary>
           <div className="px-4 pb-4">
+            {/* 叙述式风险评估 - 针对异常项 */}
+            <div className="mb-3 space-y-3 rounded-2xl bg-surface-2/60 p-4 text-[13px] leading-7 text-foreground/85">
+              <p>
+                本次体检发现 <b className="text-danger">{child.name}存在体重超标与尘螨过敏合并气道高反应</b>，
+                这是当前最主要的健康风险来源。
+              </p>
+              <p>
+                根据孩子的年龄（<b>9 岁</b>）和发育阶段，BMI 已达 <b>17.1（P85）</b>，属于
+                <b> 学龄期早发性超重人群</b>，若不干预，成年后面临更高的<b>糖尿病、脂肪肝、
+                心血管疾病、性早熟</b>等代谢并发症风险。
+              </p>
+              <p>
+                同时，尘螨 IgE (++) 阳性且运动后偶发咳嗽，提示<b>存在过敏性哮喘倾向</b>，
+                在季节交替或剧烈运动时可能加重，需家庭环境与呼吸科门诊双重干预。
+              </p>
+              <p>
+                <span className="font-semibold text-warm">建议</span>
+                您立即为孩子开始规范化健康管理，包括
+                <span className="text-muted-foreground">（每日饮水 ≥ 1200ml、控糖限脂、
+                每周 ≥ 150 分钟中等强度运动）</span>、家庭除螨（床品高温清洗、除螨仪、防螨床罩）、
+                并定期进行 <b>身高体重、视力、肺功能</b>复查。
+              </p>
+              <p>
+                若尚未接受专业儿童营养与运动指导，
+                <span className="font-semibold text-warm">建议</span>
+                尽快联系健康管理师制定个性化 12 周方案，避免体重继续追赶、气道反应加重。
+              </p>
+            </div>
+
             <p className="mb-3 text-[11px] leading-relaxed text-muted-foreground">
-              综合本次体检数据与既往档案，共发现 2 项需关注异常，其余项目均在正常范围。
+              以下为按异常项拆分的量化评估：
             </p>
+
             <ul className="space-y-3">
               {[
                 {

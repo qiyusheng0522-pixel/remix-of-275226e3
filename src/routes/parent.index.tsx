@@ -249,59 +249,6 @@ function ParentHome() {
         <span className="text-muted-foreground">›</span>
       </Link>
 
-      {/* Today tasks */}
-      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold">
-            今天给 {kid.name} 做 {todayTasks.length} 件事
-          </h3>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground">
-              {todayTasks.filter((t) => t.done).length}/{todayTasks.length}
-            </span>
-            <button
-              onClick={() => setShowAllTasks((v) => !v)}
-              className="text-[11px] font-medium text-rose"
-            >
-              {showAllTasks ? "收起" : "查看全部"} ›
-            </button>
-          </div>
-        </div>
-        <ul className="space-y-2">
-          {(showAllTasks ? todayTasks : todayTasks.slice(0, 2)).map((t) => {
-            const toneBg = {
-              warning: "bg-warning/10 ring-warning/25",
-              success: "bg-success/10 ring-success/25",
-              teal: "bg-teal/10 ring-teal/25",
-              deep: "bg-deep/10 ring-deep/25",
-            }[t.tone];
-            return (
-              <li
-                key={t.text}
-                className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
-              >
-                <span className="text-xl">{t.icon}</span>
-                <p
-                  className={`min-w-0 flex-1 text-sm ${
-                    t.done ? "text-muted-foreground line-through" : ""
-                  }`}
-                >
-                  {t.text}
-                </p>
-                {t.done ? (
-                  <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
-                    已打卡 ✓
-                  </span>
-                ) : (
-                  <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
-                    打卡
-                  </button>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
 
       {/* 居家健康提醒 */}
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">

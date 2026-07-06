@@ -29,16 +29,6 @@ const stats: Stat[] = [
     to: "/doctor/qc",
   },
   {
-    icon: "💬",
-    iconBg: "bg-deep/15 text-deep",
-    label: "待回复",
-    sub: "家长 / 健管师消息",
-    value: 5,
-    unit: "条未读",
-    valueColor: "text-deep",
-    to: "/doctor/messages",
-  },
-  {
     icon: "📋",
     iconBg: "bg-success/15 text-success",
     label: "方案确认",
@@ -47,6 +37,16 @@ const stats: Stat[] = [
     unit: "份待确认",
     valueColor: "text-success",
     to: "/doctor/plan",
+  },
+  {
+    icon: "💬",
+    iconBg: "bg-deep/15 text-deep",
+    label: "待回复",
+    sub: "家长 / 健管师消息",
+    value: 5,
+    unit: "条未读",
+    valueColor: "text-deep",
+    to: "/doctor/messages",
   },
 ];
 
@@ -67,18 +67,18 @@ const todos: Todo[] = [
     to: "/doctor/qc",
   },
   {
-    id: "0402",
-    name: "陈敏 家长",
-    tags: [{ text: "待回复", cls: "bg-deep/15 text-deep" }],
-    desc: "咨询：孩子夜间咳嗽是否需要复诊 · 已等 2h",
-    to: "/doctor/messages",
-  },
-  {
     id: "0315",
     name: "李小雨",
     tags: [{ text: "方案确认", cls: "bg-success/15 text-success" }],
     desc: "健康方案 v0.3 待确认 · 健管师已同步",
     to: "/doctor/plan",
+  },
+  {
+    id: "0402",
+    name: "陈敏 家长",
+    tags: [{ text: "待回复", cls: "bg-deep/15 text-deep" }],
+    desc: "咨询：孩子夜间咳嗽是否需要复诊 · 已等 2h",
+    to: "/doctor/messages",
   },
 ];
 

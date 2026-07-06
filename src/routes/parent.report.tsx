@@ -418,7 +418,8 @@ function ReportPage() {
               咨询健管师
             </Link>
           </div>
-        </section>
+          </div>
+        </details>
 
 
 

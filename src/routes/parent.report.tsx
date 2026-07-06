@@ -322,15 +322,6 @@ function ReportPage() {
             </div>
           </summary>
           <div className="px-4 pb-4">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-sm font-semibold">
-              <span className="h-4 w-1 rounded-full bg-teal" />
-              健康管理方案
-            </h2>
-            <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">
-              医生 + 营养师联合定制
-            </span>
-          </div>
           <p className="mb-3 text-[11px] leading-relaxed text-muted-foreground">
             结合本次报告异常项，为{child.name}生成 12 周家庭管理方案，可按周执行并同步随访。
           </p>

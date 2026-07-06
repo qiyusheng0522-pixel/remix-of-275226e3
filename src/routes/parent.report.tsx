@@ -109,7 +109,7 @@ function ReportPage() {
   return (
     <div>
       <StatusBar title="体检报告" />
-      <div className="px-5 pb-8 pt-2">
+      <div className="px-5 pb-28 pt-2">
         <header className="mb-4">
           <h1 className="text-xl font-bold">{child.name} 的体检报告</h1>
           <p className="text-xs text-muted-foreground">

@@ -299,8 +299,13 @@ function PlanPage() {
                   className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
                 >
                   <summary className="flex cursor-pointer items-center justify-between">
-                    <span className="text-sm font-semibold">{s.title}</span>
-                    <span className={`rounded-full bg-${s.color}/15 px-2 py-0.5 text-[10px] text-${s.color}`}>
+                    <span className="flex items-center gap-1.5 text-sm font-semibold">
+                      <span className={`grid h-6 w-6 place-items-center rounded-lg text-[12px] ${categoryStyle[s.category].cls}`}>
+                        {categoryStyle[s.category].icon}
+                      </span>
+                      {s.title}
+                    </span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] ${categoryStyle[s.category].cls}`}>
                       已勾选 {s.items.length}
                     </span>
                   </summary>

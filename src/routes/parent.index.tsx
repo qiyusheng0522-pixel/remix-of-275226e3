@@ -355,14 +355,6 @@ function ParentHome() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-2.5 flex gap-2">
-                  <button className="flex-1 rounded-full bg-white px-3 py-1.5 text-[11px] text-foreground ring-1 ring-border">
-                    📅 调整提醒日期
-                  </button>
-                  <button className="rounded-full bg-rose/10 px-3 py-1.5 text-[11px] font-medium text-rose">
-                    完成本次
-                  </button>
-                </div>
               </li>
             );
           })}

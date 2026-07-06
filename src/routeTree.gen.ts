@@ -49,6 +49,7 @@ import { Route as DoctorFollowupRouteImport } from './routes/doctor.followup'
 import { Route as DoctorFocusRouteImport } from './routes/doctor.focus'
 import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 import { Route as DoctorCoordRouteImport } from './routes/doctor.coord'
+import { Route as DoctorCommRouteImport } from './routes/doctor.comm'
 
 const SchoolRoute = SchoolRouteImport.update({
   id: '/school',
@@ -250,12 +251,18 @@ const DoctorCoordRoute = DoctorCoordRouteImport.update({
   path: '/coord',
   getParentRoute: () => DoctorRoute,
 } as any)
+const DoctorCommRoute = DoctorCommRouteImport.update({
+  id: '/comm',
+  path: '/comm',
+  getParentRoute: () => DoctorRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
   '/doctor/focus': typeof DoctorFocusRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
   '/doctor/focus': typeof DoctorFocusRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
   '/doctor/focus': typeof DoctorFocusRoute
@@ -382,6 +391,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
     | '/doctor/focus'
@@ -421,6 +431,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
     | '/doctor/focus'
@@ -463,6 +474,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
     | '/doctor/focus'
@@ -790,10 +802,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorCoordRouteImport
       parentRoute: typeof DoctorRoute
     }
+    '/doctor/comm': {
+      id: '/doctor/comm'
+      path: '/comm'
+      fullPath: '/doctor/comm'
+      preLoaderRoute: typeof DoctorCommRouteImport
+      parentRoute: typeof DoctorRoute
+    }
   }
 }
 
 interface DoctorRouteChildren {
+  DoctorCommRoute: typeof DoctorCommRoute
   DoctorCoordRoute: typeof DoctorCoordRoute
   DoctorExamRoute: typeof DoctorExamRoute
   DoctorFocusRoute: typeof DoctorFocusRoute
@@ -810,6 +830,7 @@ interface DoctorRouteChildren {
 }
 
 const DoctorRouteChildren: DoctorRouteChildren = {
+  DoctorCommRoute: DoctorCommRoute,
   DoctorCoordRoute: DoctorCoordRoute,
   DoctorExamRoute: DoctorExamRoute,
   DoctorFocusRoute: DoctorFocusRoute,

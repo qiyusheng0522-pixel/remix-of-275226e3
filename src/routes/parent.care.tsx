@@ -16,6 +16,15 @@ const modules = [
   { icon: "🛏️", key: "除螨", tips: "每周除螨、通风", tint: "from-teal to-warm/60", to: "/parent/dustmite" },
 ];
 
+const defaultReminders = [
+  { id: "bed", icon: "🛏️", title: "床品除螨清洗提醒", cycle: "每 2 周 · 下次 04-12", tag: "过敏防护" },
+  { id: "weight", icon: "⚖️", title: "晨起体重记录", cycle: "每周 1 次 · 下次 周日", tag: "体重管理" },
+  { id: "vent", icon: "🪟", title: "开窗通风换气", cycle: "每日 15 分钟", tag: "通风湿度" },
+  { id: "humid", icon: "💧", title: "空气加湿器换水", cycle: "每 3 天 · 下次 04-08", tag: "呼吸道" },
+  { id: "brush", icon: "🦷", title: "儿童牙刷更换", cycle: "每 3 个月 · 下次 05-20", tag: "口腔" },
+  { id: "vitd", icon: "☀️", title: "维生素 D 补充", cycle: "每日 1 次", tag: "营养" },
+];
+
 function CarePage() {
   const [tab, setTab] = useState<"今日" | "本周">("今日");
   const done = todayTasks.filter((t) => t.done).length;

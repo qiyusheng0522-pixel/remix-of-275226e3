@@ -192,8 +192,10 @@ const riskStyle = {
 } as const;
 
 function PlanPage() {
-  const [activeId, setActiveId] = useState(cases[0].id);
-  const active = cases.find((c) => c.id === activeId) ?? cases[0];
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const active = activeId ? cases.find((c) => c.id === activeId) ?? null : null;
+  const pendingCount = cases.filter((c) => c.status === "待确认").length;
+
 
   return (
     <div>

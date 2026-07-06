@@ -149,21 +149,6 @@ function ReportReviewPage() {
           ))}
         </ul>
 
-        <div className="mt-6 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <h2 className="mb-2 text-sm font-semibold">审核概览</h2>
-          <div className="grid grid-cols-3 gap-2 text-center">
-            {[
-              { k: "高危待审", v: String(highCount) },
-              { k: "今日签发", v: String(data["已通过"].length) },
-              { k: "退回补录", v: String(data["已退回"].length) },
-            ].map((s) => (
-              <div key={s.k} className="rounded-xl bg-surface-2 py-2">
-                <p className="text-base font-extrabold text-deep">{s.v}</p>
-                <p className="text-[10px] text-muted-foreground">{s.k}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

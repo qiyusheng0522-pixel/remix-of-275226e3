@@ -130,7 +130,7 @@ function ReportPage() {
             </div>
           </div>
           <div className="mt-4 space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
-            <p className="text-[11px] font-semibold text-warm">📝 医生解读</p>
+            <p className="text-[11px] font-semibold text-warm">🤖 AI 解读</p>
             <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
               <li>• <b>体重/BMI 偏高</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
               <li>• <b>视力 4.8/4.9 · 屈光 -0.75D</b>：临界近视，建议 <span className="text-danger font-semibold">眼科门诊复查</span>。</li>

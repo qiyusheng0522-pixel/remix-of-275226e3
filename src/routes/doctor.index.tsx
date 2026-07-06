@@ -1,327 +1,221 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
-import { doctorStats } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/doctor/")({
   component: DoctorHome,
 });
 
-type School = {
-  id: string;
-  short: string;
-  name: string;
-  grade: string;
-  tag: string;
-  tagColor: "deep" | "teal";
+type Stat = {
+  icon: string;
+  iconBg: string;
+  label: string;
+  sub: string;
+  value: number;
+  unit: string;
+  valueColor: string;
+  to: "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan";
 };
 
-const schools: School[] = [
-  { id: "sun", short: "阳", name: "阳光小学", grade: "三年级 · 214 人", tag: "今日进校", tagColor: "deep" },
-  { id: "ming", short: "启", name: "启明中学", grade: "初一 · 272 人", tag: "明日 08:30", tagColor: "teal" },
-];
-
-const quickAsk = ["数据质控", "报告审核", "重点复核", "健管师协同"];
-
-const todoList = [
+const stats: Stat[] = [
   {
-    level: "紧急",
-    levelClass: "bg-danger text-danger-foreground",
     icon: "🔄",
-    text: "王小豆 · 内分泌科转诊单待复核（健管师升级）",
-    tag: "转诊",
-    tagClass: "bg-danger/10 text-danger",
-    hint: "SLA 剩余 2 小时 · 点此处理",
+    iconBg: "bg-danger/10 text-danger",
+    label: "待转诊",
+    sub: "健管师升级 / 上转",
+    value: 6,
+    unit: "单待处理",
+    valueColor: "text-danger",
     to: "/doctor/referral",
   },
   {
-    level: "高",
-    levelClass: "bg-warm text-warm-foreground",
     icon: "📝",
-    text: "三年级 3 班 47 份体检报告待审核",
-    tag: "报告审核",
-    tagClass: "bg-warm/15 text-warm",
-    hint: "今日 17:00 前完成 · 点此处理",
+    iconBg: "bg-teal/15 text-teal",
+    label: "报告审核",
+    sub: "三年级 3 班",
+    value: 47,
+    unit: "份待审",
+    valueColor: "text-teal",
     to: "/doctor/review",
   },
   {
-    level: "高",
-    levelClass: "bg-warm text-warm-foreground",
     icon: "🔍",
-    text: "校内录检 12 条数据待质控（BMI 异常 3 条）",
-    tag: "数据质控",
-    tagClass: "bg-warning/15 text-warning-foreground",
-    hint: "阳光小学 · 点此处理",
+    iconBg: "bg-warm/15 text-warm",
+    label: "数据质控",
+    sub: "BMI 异常 3 条",
+    value: 12,
+    unit: "条待核",
+    valueColor: "text-warm",
     to: "/doctor/qc",
   },
   {
-    level: "常规",
-    levelClass: "bg-muted text-muted-foreground",
+    icon: "💬",
+    iconBg: "bg-deep/15 text-deep",
+    label: "待回复",
+    sub: "家长 / 健管师消息",
+    value: 5,
+    unit: "条未读",
+    valueColor: "text-deep",
+    to: "/doctor/messages",
+  },
+  {
     icon: "📋",
-    text: "李小雨 健康方案 v0.3 待确认",
-    tag: "方案",
-    tagClass: "bg-deep/15 text-deep",
-    hint: "健管师已同步 · 点此确认",
+    iconBg: "bg-success/15 text-success",
+    label: "方案确认",
+    sub: "健管师已同步",
+    value: 4,
+    unit: "份待确认",
+    valueColor: "text-success",
+    to: "/doctor/plan",
+  },
+];
+
+type Todo = {
+  id: string;
+  name: string;
+  tags: { text: string; cls: string }[];
+  desc: string;
+  to: "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
+};
+
+const todos: Todo[] = [
+  {
+    id: "0617",
+    name: "王小豆",
+    tags: [
+      { text: "转诊", cls: "bg-danger/10 text-danger" },
+      { text: "紧急", cls: "bg-danger text-danger-foreground" },
+    ],
+    desc: "内分泌科转诊复核（健管师升级）· SLA 2h",
+    to: "/doctor/referral",
+  },
+  {
+    id: "0508",
+    name: "李娜",
+    tags: [
+      { text: "报告", cls: "bg-teal/15 text-teal" },
+      { text: "紧急", cls: "bg-danger text-danger-foreground" },
+    ],
+    desc: "三年级 3 班体检报告审核 · 17:00 前",
+    to: "/doctor/review",
+  },
+  {
+    id: "0423",
+    name: "陈敏",
+    tags: [{ text: "质控", cls: "bg-warm/15 text-warm" }],
+    desc: "阳光小学校内录检 BMI 异常复核",
+    to: "/doctor/qc",
+  },
+  {
+    id: "0315",
+    name: "李小雨",
+    tags: [{ text: "方案", cls: "bg-deep/15 text-deep" }],
+    desc: "健康方案 v0.3 确认 · 健管师已同步",
     to: "/doctor/plan",
   },
 ];
 
 function DoctorHome() {
-  const [activeSchool, setActiveSchool] = useState(schools[0].id);
-  const school = schools.find((s) => s.id === activeSchool) ?? schools[0];
-  const totalTodo = 6 + doctorStats.pendingReview + doctorStats.pendingQC + 8;
+  const totalTodo = stats.reduce((s, x) => s + x.value, 0);
 
   return (
     <div className="pb-4">
       <StatusBar title="童护佳 · 医生端" />
 
-      {/* Brand row */}
-      <div className="flex items-center justify-between px-5 pb-3 pt-2">
-        <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-deep/15 text-deep">🩺</span>
-          <span className="text-sm font-bold">陈医生 · 儿童保健科</span>
-        </div>
-        <Link
-          to="/doctor/messages"
-          className="relative grid h-8 w-8 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-border"
-        >
-          🔔
-          <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-danger" />
-        </Link>
-      </div>
-
-      {/* School switcher */}
-      <div className="grid grid-cols-2 gap-3 px-5">
-        {schools.map((s) => {
-          const active = s.id === activeSchool;
-          const activeStyle =
-            s.tagColor === "deep"
-              ? "bg-gradient-to-r from-deep to-teal text-deep-foreground shadow-lg shadow-deep/30"
-              : "bg-gradient-to-r from-teal to-teal/70 text-teal-foreground shadow-lg shadow-teal/30";
-          return (
-            <button
-              key={s.id}
-              onClick={() => setActiveSchool(s.id)}
-              className={`flex items-center gap-3 rounded-2xl p-2.5 text-left ring-1 transition ${
-                active ? `${activeStyle} ring-transparent` : "bg-surface text-foreground ring-border"
-              }`}
-            >
-              <span
-                className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold ${
-                  active
-                    ? "bg-white/25 text-white backdrop-blur"
-                    : s.tagColor === "deep"
-                    ? "bg-deep/15 text-deep"
-                    : "bg-teal/15 text-teal"
-                }`}
-              >
-                {s.short}
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-bold">{s.name}</p>
-                <p className={`truncate text-[11px] ${active ? "text-white/85" : "text-muted-foreground"}`}>
-                  {s.tag} · {s.grade}
-                </p>
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Today briefing card */}
-      <div className="mt-3 px-5">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-deep via-deep/95 to-teal p-4 text-white shadow-xl shadow-deep/30">
-          <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
-          <div className="relative flex items-start gap-3">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/25 text-3xl backdrop-blur">
-              🩺
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] text-white/80">✨ 今日工作简报</p>
-              <p className="mt-0.5 text-base font-bold leading-tight">
-                陈医生，{school.name}还有 <span className="underline decoration-white/60">{totalTodo}</span> 件事要您处理 🩺
-              </p>
-            </div>
-          </div>
-
-          <Link
-            to="/doctor/focus"
-            className="relative mt-3 flex items-center justify-between rounded-2xl bg-white/95 px-3 py-2.5 text-foreground"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-danger">高风险 3 名待复核</span>
-              <span className="rounded-full bg-danger/10 px-2 py-0.5 text-[11px] text-danger">肥胖代谢 2</span>
-              <span className="rounded-full bg-danger/10 px-2 py-0.5 text-[11px] text-danger">过敏 1</span>
-            </div>
-            <span className="text-muted-foreground">›</span>
+      {/* Top bar: 工作台 */}
+      <div className="flex items-center justify-between bg-surface px-5 py-3">
+        <span className="text-xl text-muted-foreground">‹</span>
+        <h1 className="text-base font-bold">工作台</h1>
+        <div className="flex items-center gap-3">
+          <Link to="/doctor/messages" className="relative text-lg">
+            🔔
+            <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
           </Link>
-
-          <Link
-            to="/doctor/exam"
-            className="relative mt-2.5 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
-          >
-            <span className="text-deep">▶</span>
-            <span className="flex-1 truncate text-[13px] text-muted-foreground">
-              进入现场录检 · {doctorStats.todayCount} 人 / 已录 168
-            </span>
-            <span className="rounded-full bg-deep px-3 py-1 text-[11px] font-medium text-deep-foreground">开始</span>
-          </Link>
-
-          <div className="relative mt-2 flex flex-wrap gap-1.5">
-            {quickAsk.map((q, i) => (
-              <Link
-                key={q}
-                to={
-                  ["/doctor/qc", "/doctor/review", "/doctor/focus", "/doctor/coord"][i] as
-                    | "/doctor/qc"
-                    | "/doctor/review"
-                    | "/doctor/focus"
-                    | "/doctor/coord"
-                }
-                className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-foreground"
-              >
-                {q}
-              </Link>
-            ))}
-          </div>
-
-          <div className="relative mt-2.5 grid grid-cols-2 gap-2">
-            <Link
-              to="/doctor/referral"
-              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-danger" />
-                转诊处理 · 6
-              </span>
-              <span className="text-muted-foreground">›</span>
-            </Link>
-            <Link
-              to="/doctor/plan"
-              className="flex items-center justify-between rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-medium text-foreground"
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-deep" />
-                方案确认 · 8
-              </span>
-              <span className="text-muted-foreground">›</span>
-            </Link>
-          </div>
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-teal text-sm font-bold text-teal-foreground">
+            陈
+          </span>
         </div>
       </div>
 
-      {/* SLA banner */}
-      <Link
-        to="/doctor/referral"
-        className="mx-5 mt-3 flex items-center gap-3 rounded-2xl bg-danger/10 px-3 py-3 ring-1 ring-danger/25"
-      >
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-danger text-[11px] font-bold leading-tight text-danger-foreground">
-          限时<br />处理
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold">健管师升级 · 王小豆 转诊单待复核</p>
+      {/* Greeting card */}
+      <div className="px-5 pt-3">
+        <div className="rounded-2xl bg-gradient-to-r from-teal to-teal/80 p-5 text-teal-foreground shadow-lg shadow-teal/25">
+          <p className="text-lg font-bold">陈医生，早上好 👋</p>
+          <p className="mt-1 text-[13px] text-white/85">
+            儿童保健科 · 今日 {totalTodo} 项待处理
+          </p>
         </div>
-        <span className="rounded-full bg-danger/15 px-2 py-1 text-[11px] text-danger">
-          SLA · <b>2 小时</b>
-        </span>
-        <span className="text-muted-foreground">›</span>
-      </Link>
+      </div>
 
-      {/* Today do 2 things */}
-      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+      {/* 今日待办 stats */}
+      <section className="px-5 pt-4">
         <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold">今天先做这 2 件事</h3>
-          <span className="text-[11px] text-muted-foreground">0/2</span>
+          <h3 className="flex items-center gap-1.5 text-sm font-bold">
+            <span className="text-teal">〰</span> 今日待办
+          </h3>
+          <span className="rounded-full bg-teal/10 px-2.5 py-0.5 text-[11px] text-teal">
+            共 {totalTodo} 项
+          </span>
         </div>
-        <ul className="space-y-2">
-          <li className="flex items-center gap-3 rounded-2xl bg-danger/10 p-3 ring-1 ring-danger/25">
-            <span className="text-xl">🚨</span>
-            <p className="min-w-0 flex-1 text-sm">复核王小豆转诊单（内分泌科）</p>
+        <div className="grid grid-cols-2 gap-3">
+          {stats.map((s) => (
             <Link
-              to="/doctor/referral"
-              className="rounded-full border border-danger bg-white px-3 py-1 text-[11px] font-medium text-danger"
+              key={s.label}
+              to={s.to}
+              className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
             >
-              去处理
-            </Link>
-          </li>
-          <li className="flex items-center gap-3 rounded-2xl bg-warm/10 p-3 ring-1 ring-warm/25">
-            <span className="text-xl">📝</span>
-            <p className="min-w-0 flex-1 text-sm">审核 三年级 3 班 47 份体检报告</p>
-            <Link
-              to="/doctor/review"
-              className="rounded-full border border-warm bg-white px-3 py-1 text-[11px] font-medium text-warm"
-            >
-              去审核
-            </Link>
-          </li>
-        </ul>
-      </section>
-
-      {/* Full todo list */}
-      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-        <div className="mb-1 flex items-start justify-between gap-2">
-          <h3 className="text-sm font-bold">今日待办清单</h3>
-          <Link to="/doctor/messages" className="shrink-0 text-[11px] text-muted-foreground">
-            全部消息 ›
-          </Link>
-        </div>
-        <p className="mb-3 text-[11px] leading-relaxed text-deep">
-          ✨ 按 SLA · 风险等级 · 家长响应 排序（转诊、审核为每日必做）
-        </p>
-        <ul className="space-y-2">
-          {todoList.map((c) => (
-            <Link
-              key={c.text}
-              to={c.to as "/doctor/referral" | "/doctor/review" | "/doctor/qc" | "/doctor/plan"}
-              className="block rounded-2xl bg-surface-2 p-3"
-            >
-              <div className="flex items-start gap-2.5">
-                <span
-                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[11px] font-bold ${c.levelClass}`}
-                >
-                  {c.level}
+              <div className="flex items-start justify-between">
+                <span className={`grid h-10 w-10 place-items-center rounded-xl text-lg ${s.iconBg}`}>
+                  {s.icon}
                 </span>
-                <span className="text-lg">{c.icon}</span>
-                <p className="min-w-0 flex-1 text-[13px] leading-snug">{c.text}</p>
-                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>
-                  {c.tag}
-                </span>
+                <div className="text-right">
+                  <p className={`text-2xl font-bold leading-none ${s.valueColor}`}>{s.value}</p>
+                </div>
               </div>
-              <div className="mt-2 ml-[46px] inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
-                ⏱ {c.hint}
+              <div className="mt-3 flex items-end justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-[15px] font-semibold">{s.label}</p>
+                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{s.sub}</p>
+                </div>
+                <p className="shrink-0 text-[11px] text-muted-foreground">{s.unit}</p>
               </div>
             </Link>
           ))}
-        </ul>
+        </div>
       </section>
 
-      {/* 进校任务安排 */}
-      <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-        <h3 className="mb-3 text-sm font-bold">进校任务安排</h3>
-        <ul className="space-y-2">
-          {[
-            { school: "阳光小学", date: "今日 08:30", status: "进行中", count: 214 },
-            { school: "阳光小学", date: "明日 08:30", status: "计划中", count: 272 },
-            { school: "启明中学", date: "04-08", status: "待确认", count: 380 },
-          ].map((s, i) => (
-            <li key={i} className="flex items-center gap-3 rounded-xl bg-surface-2 px-3 py-2.5">
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-deep/15 text-lg">
-                🏫
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold">{s.school}</p>
-                <p className="text-[11px] text-muted-foreground">
-                  {s.date} · {s.count} 人
-                </p>
-              </div>
-              <span
-                className={`rounded-full px-2.5 py-0.5 text-[11px] ${
-                  s.status === "进行中" ? "bg-warm/15 text-warm" : "bg-muted text-muted-foreground"
-                }`}
-              >
-                {s.status}
+      {/* 今日待办清单 */}
+      <section className="px-5 pt-5">
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="flex items-center gap-1.5 text-sm font-bold">
+            <span className="text-teal">📋</span> 今日待办清单
+          </h3>
+          <span className="text-[11px] text-muted-foreground">共 {todos.length} 项 · 按优先级</span>
+        </div>
+        <ul className="space-y-2.5">
+          {todos.map((t, i) => (
+            <Link
+              key={t.id}
+              to={t.to}
+              className="flex items-center gap-3 rounded-2xl bg-surface p-3.5 shadow-sm ring-1 ring-border/60"
+            >
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-2 text-[13px] font-bold text-muted-foreground">
+                {i + 1}
               </span>
-            </li>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  {t.tags.map((tag) => (
+                    <span key={tag.text} className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${tag.cls}`}>
+                      {tag.text}
+                    </span>
+                  ))}
+                  <span className="truncate text-[14px] font-semibold">
+                    {t.id} {t.name}
+                  </span>
+                </div>
+                <p className="mt-1 truncate text-[12px] text-muted-foreground">{t.desc}</p>
+              </div>
+              <span className="text-muted-foreground">›</span>
+            </Link>
           ))}
         </ul>
       </section>

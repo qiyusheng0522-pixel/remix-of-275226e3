@@ -69,6 +69,7 @@ const data: Record<(typeof tabs)[number], Item[]> = {
 
 function ReportReviewPage() {
   const [t, setT] = useState<(typeof tabs)[number]>("待审核");
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const list = data[t];
   const highCount = data["待审核"].filter((i) => i.risk === "高危").length;
 

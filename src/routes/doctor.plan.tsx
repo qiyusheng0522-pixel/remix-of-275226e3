@@ -18,6 +18,13 @@ type Case = {
   status: Status;
   version: string;
   updated: string;
+  // 列表展示用
+  dept: string;
+  evalTime: string;
+  disease: string;
+  evaluation: string;
+  reviewState: "审核中" | "待审核" | "已通过";
+  needVisit?: boolean;
   // 健康风险标签（只有有健康问题的儿童才建方案）
   risks: { text: string; level: "warn" | "danger" }[];
   // 基础信息
@@ -28,7 +35,7 @@ type Case = {
   exam: { label: string; value: string; flag?: "normal" | "warn" | "danger" }[];
   // AI 摘要
   summary: string;
-  // 方案模块（饮食 / 运动 / 睡眠 / 心理 / 环境 / 用药 / 复诊）
+  // 方案模块
   sections: {
     category: Category;
     title: string;

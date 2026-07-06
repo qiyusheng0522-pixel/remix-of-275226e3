@@ -53,6 +53,7 @@ import { Route as DoctorFocusRouteImport } from './routes/doctor.focus'
 import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 import { Route as DoctorCoordRouteImport } from './routes/doctor.coord'
 import { Route as DoctorCommRouteImport } from './routes/doctor.comm'
+import { Route as DoctorChildRouteImport } from './routes/doctor.child'
 
 const SchoolRoute = SchoolRouteImport.update({
   id: '/school',
@@ -274,12 +275,18 @@ const DoctorCommRoute = DoctorCommRouteImport.update({
   path: '/comm',
   getParentRoute: () => DoctorRoute,
 } as any)
+const DoctorChildRoute = DoctorChildRouteImport.update({
+  id: '/child',
+  path: '/child',
+  getParentRoute: () => DoctorRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
@@ -323,6 +330,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
@@ -370,6 +378,7 @@ export interface FileRoutesById {
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
   '/doctor/exam': typeof DoctorExamRoute
@@ -418,6 +427,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
@@ -461,6 +471,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
@@ -507,6 +518,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
     | '/doctor/exam'
@@ -866,10 +878,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorCommRouteImport
       parentRoute: typeof DoctorRoute
     }
+    '/doctor/child': {
+      id: '/doctor/child'
+      path: '/child'
+      fullPath: '/doctor/child'
+      preLoaderRoute: typeof DoctorChildRouteImport
+      parentRoute: typeof DoctorRoute
+    }
   }
 }
 
 interface DoctorRouteChildren {
+  DoctorChildRoute: typeof DoctorChildRoute
   DoctorCommRoute: typeof DoctorCommRoute
   DoctorCoordRoute: typeof DoctorCoordRoute
   DoctorExamRoute: typeof DoctorExamRoute
@@ -887,6 +907,7 @@ interface DoctorRouteChildren {
 }
 
 const DoctorRouteChildren: DoctorRouteChildren = {
+  DoctorChildRoute: DoctorChildRoute,
   DoctorCommRoute: DoctorCommRoute,
   DoctorCoordRoute: DoctorCoordRoute,
   DoctorExamRoute: DoctorExamRoute,

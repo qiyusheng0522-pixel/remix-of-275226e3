@@ -129,18 +129,62 @@ function ReportPage() {
               🟡
             </div>
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-foreground/80">
-            医生解读：BMI 略偏高，视力临界近视，建议控糖减重 & 用眼间歇休息，观察运动后咳嗽。
-          </p>
-          <div className="mt-3 flex gap-2">
-            <button className="flex-1 rounded-xl bg-surface/60 py-2 text-xs font-medium backdrop-blur">
-              查看医生完整解读
+          <div className="mt-4 space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
+            <p className="text-[11px] font-semibold text-warm">📝 医生解读</p>
+            <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
+              <li>• <b>体重/BMI 偏高</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
+              <li>• <b>视力 4.8/4.9 · 屈光 -0.75D</b>：临界近视，建议 <span className="text-danger font-semibold">眼科门诊复查</span>。</li>
+              <li>• <b>龋齿 2 颗</b>：建议 1 个月内 <span className="text-danger font-semibold">口腔科就诊</span> 补牙。</li>
+              <li>• <b>运动后偶发咳嗽</b>：观察 2 周，如加重可咨询呼吸科。</li>
+            </ul>
+          </div>
+
+          {/* 需就诊事项 · 快速预约 */}
+          <div className="mt-3 space-y-2">
+            <p className="text-[11px] font-semibold text-danger">⚠️ 建议尽快就诊</p>
+            {[
+              { dept: "眼科", reason: "临界近视复查", hospital: "市儿童医院" },
+              { dept: "口腔科", reason: "龋齿补牙 (2 颗)", hospital: "阳光口腔门诊" },
+            ].map((v) => (
+              <div
+                key={v.dept}
+                className="flex items-center justify-between rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-danger/20"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold">
+                    {v.dept}
+                    <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+                      {v.hospital}
+                    </span>
+                  </p>
+                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+                    {v.reason}
+                  </p>
+                </div>
+                <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
+                  预约挂号
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* 咨询入口 */}
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
+              <span className="text-lg">👨‍⚕️</span>
+              咨询医生
             </button>
-            <button className="rounded-xl bg-warm px-4 py-2 text-xs font-medium text-warm-foreground">
-              已阅
+            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
+              <span className="text-lg">🤖</span>
+              AI 解读
+            </button>
+            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
+              <span className="text-lg">📄</span>
+              完整报告
             </button>
           </div>
         </div>
+
 
         {/* Detailed sections */}
         <div className="mb-4 space-y-3">

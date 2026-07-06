@@ -339,26 +339,34 @@ function HealthPlanPage() {
             ))}
           </div>
         </section>
+
+        {/* 商城 BANNER */}
+        <Link
+          to="/parent/shop"
+          className="mt-4 block overflow-hidden rounded-2xl bg-gradient-to-r from-rose/20 via-warm/15 to-teal/20 p-4 ring-1 ring-rose/25"
+        >
+          <div className="flex items-center gap-3">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-surface/80 text-2xl">
+              🛒
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[13px] font-bold text-foreground">方案配套优选商城</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                除螨床罩 · 低 GI 主食 · 亲子跳绳，方案同款一站备齐
+              </p>
+            </div>
+            <span className="text-rose">›</span>
+          </div>
+        </Link>
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 backdrop-blur">
-        <div className="grid grid-cols-3 gap-1.5">
-          <button className="rounded-full bg-surface-2 py-2.5 text-[11px] font-semibold ring-1 ring-border/60">
-            导出 PDF
-          </button>
-          <Link
-            to="/parent/shop"
-            className="flex items-center justify-center gap-1 rounded-full bg-rose/15 py-2.5 text-[11px] font-semibold text-rose"
-          >
-            <span>🛒</span> 去商城
-          </Link>
-          <Link
-            to="/parent/comm"
-            className="rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-center text-[11px] font-semibold text-white"
-          >
-            咨询健管师
-          </Link>
-        </div>
+        <Link
+          to="/parent/comm"
+          className="block rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-center text-[13px] font-semibold text-white"
+        >
+          咨询健管师
+        </Link>
       </div>
     </div>
   );

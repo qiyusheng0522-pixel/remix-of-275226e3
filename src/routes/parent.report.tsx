@@ -1,10 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/parent/report")({
   component: ReportPage,
 });
+
 
 const trend = [125, 126, 126.5, 127, 127.5, 128];
 const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];

@@ -80,6 +80,9 @@
   --teal-foreground: oklch(0.2 0.03 200);
   --deep: oklch(0.48 0.06 195);                 /* #2C7A7B */
   --deep-foreground: oklch(1 0 0);
+  --rose: oklch(0.68 0.22 5);                   /* vivid rose/pink */
+  --rose-foreground: oklch(1 0 0);
+  --rose-soft: oklch(0.93 0.06 10);             /* soft pink surface */
 
   --secondary: oklch(0.95 0.03 190);
   --secondary-foreground: oklch(0.35 0.05 200);

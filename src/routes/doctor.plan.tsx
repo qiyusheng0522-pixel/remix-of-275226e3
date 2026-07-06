@@ -213,6 +213,7 @@ const riskStyle = {
 
 function PlanPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [tab, setTab] = useState<"全部" | "待审核" | "审核中">("全部");
   const active = activeId ? cases.find((c) => c.id === activeId) ?? null : null;
   const pendingCount = cases.filter((c) => c.status === "待确认").length;
 

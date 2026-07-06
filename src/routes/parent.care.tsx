@@ -1,30 +1,59 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { todayTasks } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
-import { useState } from "react";
+import { ActionSheet } from "@/components/ActionSheet";
+import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/parent/care")({
   component: CarePage,
 });
 
+type Reminder = {
+  id: string;
+  icon: string;
+  title: string;
+  tag: string;
+  cycleDays: number; // 提醒周期（天）
+  lastDone: string; // 上次完成日期 YYYY-MM-DD
+  needsInput?: "weight"; // 到期需要用户输入
+  unit?: string;
+};
 
-const defaultReminders = [
-  { id: "bed", icon: "🛏️", title: "床品除螨清洗提醒", cycle: "每 2 周 · 下次 04-12", tag: "过敏防护" },
-  { id: "weight", icon: "⚖️", title: "晨起体重记录", cycle: "每周 1 次 · 下次 周日", tag: "体重管理" },
-  { id: "vent", icon: "🪟", title: "开窗通风换气", cycle: "每日 15 分钟", tag: "通风湿度" },
-  { id: "humid", icon: "💧", title: "空气加湿器换水", cycle: "每 3 天 · 下次 04-08", tag: "呼吸道" },
-  { id: "brush", icon: "🦷", title: "儿童牙刷更换", cycle: "每 3 个月 · 下次 05-20", tag: "口腔" },
-  { id: "vitd", icon: "☀️", title: "维生素 D 补充", cycle: "每日 1 次", tag: "营养" },
+// 今天固定用一个基准日，示例中"晨起体重记录"恰好当天到期
+const TODAY = "2026-04-08";
+const daysAgo = (n: number) => {
+  const d = new Date(TODAY);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+};
+
+const initialReminders: Reminder[] = [
+  { id: "weight", icon: "⚖️", title: "晨起体重记录", tag: "体重管理", cycleDays: 7, lastDone: daysAgo(7), needsInput: "weight", unit: "kg" },
+  { id: "bed", icon: "🛏️", title: "床品除螨清洗", tag: "过敏防护", cycleDays: 14, lastDone: daysAgo(9) },
+  { id: "vent", icon: "🪟", title: "开窗通风换气", tag: "通风湿度", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "humid", icon: "💧", title: "空气加湿器换水", tag: "呼吸道", cycleDays: 3, lastDone: daysAgo(1) },
+  { id: "brush", icon: "🦷", title: "儿童牙刷更换", tag: "口腔", cycleDays: 90, lastDone: daysAgo(46) },
+  { id: "vitd", icon: "☀️", title: "维生素 D 补充", tag: "营养", cycleDays: 1, lastDone: daysAgo(1) },
 ];
+
+const dayDiff = (a: string, b: string) => {
+  const ms = new Date(b).getTime() - new Date(a).getTime();
+  return Math.round(ms / 86400000);
+};
 
 function CarePage() {
   const [tab, setTab] = useState<"今日" | "本周">("今日");
-  const [enabled, setEnabled] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(defaultReminders.map((r) => [r.id, true])),
-  );
-  const [manage, setManage] = useState(false);
-  const activeCount = Object.values(enabled).filter(Boolean).length;
+  const [reminders, setReminders] = useState(initialReminders);
   const done = todayTasks.filter((t) => t.done).length;
+
+  const dueToday = useMemo(
+    () => reminders.filter((r) => dayDiff(r.lastDone, TODAY) >= r.cycleDays),
+    [reminders],
+  );
+
+  const updateReminder = (id: string, patch: Partial<Reminder>) =>
+    setReminders((s) => s.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+
   return (
     <div>
       <StatusBar title="儿童呵护" />
@@ -69,82 +98,167 @@ function CarePage() {
           </div>
         </div>
 
-        {/* 居家健康提醒管理 */}
+        {/* 居家健康提醒 */}
         <div className="mb-5 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="mb-2 flex items-start justify-between gap-2">
-            <div>
-              <h2 className="text-sm font-semibold">居家健康提醒</h2>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                AI 依据{"{"}儿童{"}"}健康标签生成 · 已开启 {activeCount}/{defaultReminders.length} 项
-              </p>
-            </div>
-            <button
-              onClick={() => setManage((v) => !v)}
-              className={`shrink-0 rounded-full px-3 py-1 text-[11px] ring-1 ${
-                manage ? "bg-warm/15 text-warm ring-warm/30" : "bg-surface text-muted-foreground ring-border"
-              }`}
-            >
-              {manage ? "完成" : "管理"}
-            </button>
+          <div className="mb-2">
+            <h2 className="text-sm font-semibold">居家健康提醒</h2>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">
+              可自定义周期与上次完成时间 · 今日到期 {dueToday.length} 项
+            </p>
           </div>
           <ul className="space-y-2">
-            {defaultReminders.map((r) => {
-              const on = enabled[r.id];
+            {reminders.map((r) => {
+              const daysSince = dayDiff(r.lastDone, TODAY);
+              const daysLeft = r.cycleDays - daysSince;
+              const isDue = daysLeft <= 0;
               return (
                 <li
                   key={r.id}
-                  className={`flex items-center gap-3 rounded-xl p-2.5 ring-1 ${
-                    on ? "bg-surface-2 ring-border/60" : "bg-muted/40 ring-border/40 opacity-60"
+                  className={`rounded-xl p-2.5 ring-1 ${
+                    isDue ? "bg-warm/10 ring-warm/30" : "bg-surface-2 ring-border/60"
                   }`}
                 >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
-                    {r.icon}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <p className="truncate text-[13px] font-semibold">{r.title}</p>
-                      <span className="shrink-0 rounded-full bg-warm/10 px-1.5 py-0.5 text-[10px] text-warm">
-                        {r.tag}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{r.cycle}</p>
-                  </div>
-                  {manage ? (
-                    <button
-                      onClick={() => setEnabled((s) => ({ ...s, [r.id]: !on }))}
-                      className={`relative h-6 w-11 shrink-0 rounded-full transition ${
-                        on ? "bg-warm" : "bg-muted"
-                      }`}
-                      aria-label={on ? "关闭提醒" : "开启提醒"}
-                    >
-                      <span
-                        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
-                          on ? "left-[22px]" : "left-0.5"
-                        }`}
-                      />
-                    </button>
-                  ) : (
-                    <span
-                      className={`shrink-0 text-[11px] ${
-                        on ? "text-teal" : "text-muted-foreground"
-                      }`}
-                    >
-                      {on ? "已开启" : "已关闭"}
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
+                      {r.icon}
                     </span>
-                  )}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <p className="truncate text-[13px] font-semibold">{r.title}</p>
+                        <span className="shrink-0 rounded-full bg-warm/10 px-1.5 py-0.5 text-[10px] text-warm">
+                          {r.tag}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">
+                        每 {r.cycleDays} 天 · 上次 {r.lastDone}
+                        {isDue ? (
+                          <span className="ml-1 font-medium text-warm">· 今日到期</span>
+                        ) : (
+                          <span className="ml-1">· {daysLeft} 天后</span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 flex-col items-end gap-1">
+                      {r.needsInput === "weight" && isDue ? (
+                        <WeightSheet
+                          onSave={(w) => {
+                            updateReminder(r.id, { lastDone: TODAY });
+                            console.log("weight", w);
+                          }}
+                        />
+                      ) : (
+                        <button
+                          onClick={() => updateReminder(r.id, { lastDone: TODAY })}
+                          className={`rounded-full px-2.5 py-1 text-[11px] ${
+                            isDue
+                              ? "bg-warm text-warm-foreground"
+                              : "bg-surface text-muted-foreground ring-1 ring-border"
+                          }`}
+                        >
+                          {isDue ? "标为完成" : "已完成"}
+                        </button>
+                      )}
+                      <EditSheet
+                        reminder={r}
+                        onSave={(patch) => updateReminder(r.id, patch)}
+                      />
+                    </div>
+                  </div>
                 </li>
               );
             })}
           </ul>
-          {manage && (
-            <p className="mt-3 text-center text-[11px] text-muted-foreground">
-              关闭后首页不再展示该项提醒 · 可随时重新开启
-            </p>
-          )}
         </div>
-
-
       </div>
     </div>
+  );
+}
+
+function EditSheet({
+  reminder,
+  onSave,
+}: {
+  reminder: Reminder;
+  onSave: (patch: Partial<Reminder>) => void;
+}) {
+  const [cycle, setCycle] = useState(String(reminder.cycleDays));
+  const [last, setLast] = useState(reminder.lastDone);
+  return (
+    <ActionSheet
+      trigger={
+        <button className="text-[10px] text-muted-foreground underline underline-offset-2">
+          编辑
+        </button>
+      }
+      title={`编辑「${reminder.title}」`}
+      description="调整提醒周期与上次完成时间"
+      confirmText="保存"
+      toastMessage="已更新提醒设置"
+      onConfirm={() => {
+        const n = Math.max(1, parseInt(cycle, 10) || reminder.cycleDays);
+        onSave({ cycleDays: n, lastDone: last });
+      }}
+    >
+      <div className="space-y-3 py-2 text-xs">
+        <label className="block">
+          <span className="text-muted-foreground">提醒周期（天）</span>
+          <input
+            type="number"
+            min={1}
+            value={cycle}
+            onChange={(e) => setCycle(e.target.value)}
+            className="mt-1 w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="block">
+          <span className="text-muted-foreground">上次完成日期</span>
+          <input
+            type="date"
+            value={last}
+            onChange={(e) => setLast(e.target.value)}
+            className="mt-1 w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm"
+          />
+        </label>
+      </div>
+    </ActionSheet>
+  );
+}
+
+function WeightSheet({ onSave }: { onSave: (w: number) => void }) {
+  const [weight, setWeight] = useState("");
+  return (
+    <ActionSheet
+      trigger={
+        <button className="rounded-full bg-warm px-2.5 py-1 text-[11px] font-medium text-warm-foreground">
+          记录体重
+        </button>
+      }
+      title="记录今日体重"
+      description="录入后将同步至成长曲线，用于评估体重管理进度"
+      confirmText="保存"
+      toastMessage="本周体重已记录 ✓"
+      onConfirm={() => {
+        const n = parseFloat(weight);
+        if (!isNaN(n)) onSave(n);
+      }}
+    >
+      <div className="py-2">
+        <label className="block text-xs">
+          <span className="text-muted-foreground">体重 (kg)</span>
+          <input
+            type="number"
+            step="0.1"
+            inputMode="decimal"
+            placeholder="例如 32.5"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            className="mt-1 w-full rounded-xl border border-border bg-surface px-3 py-2 text-base"
+          />
+        </label>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          建议晨起排空后测量，穿轻便衣物。
+        </p>
+      </div>
+    </ActionSheet>
   );
 }

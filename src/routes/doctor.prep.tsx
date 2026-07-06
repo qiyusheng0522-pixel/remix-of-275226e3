@@ -164,9 +164,13 @@ function PrepPage() {
         {stages.map((s) => {
           const stageKeys = s.groups.flatMap((g) => g.items.map((i) => i.k));
           const done = stageKeys.filter((k) => checked[k]).length;
+          const stageOpen = !!open[s.id];
           return (
-            <section key={s.id} className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-              <div className="mb-2 flex items-center justify-between">
+            <section key={s.id} className="mb-3 overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60">
+              <button
+                onClick={() => toggleOpen(s.id)}
+                className="flex w-full items-center justify-between gap-2 p-4 text-left"
+              >
                 <div className="flex items-center gap-2">
                   <span className={`grid h-6 w-6 place-items-center rounded-full bg-${s.tint}/15 text-xs font-bold text-${s.tint}`}>
                     {s.no}
@@ -176,55 +180,62 @@ function PrepPage() {
                     <p className="text-[10px] text-muted-foreground">{s.sub}</p>
                   </div>
                 </div>
-                <span className={`rounded-full bg-${s.tint}/10 px-2 py-0.5 text-[10px] text-${s.tint}`}>
-                  {done}/{stageKeys.length}
-                </span>
-              </div>
-
-              {s.groups.map((g, gi) => (
-                <div key={gi} className="mt-2">
-                  {g.g && <p className="mb-1 text-[11px] font-medium text-muted-foreground">{g.g}</p>}
-                  <ul className="space-y-1.5">
-                    {g.items.map((it) => {
-                      const isOn = !!checked[it.k];
-                      const isOpen = !!open[it.k];
-                      return (
-                        <li key={it.k} className="rounded-xl bg-surface-2 px-3 py-2">
-                          <div className="flex items-start gap-2">
-                            <button
-                              onClick={() => toggle(it.k)}
-                              className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded border ${
-                                isOn ? "border-teal bg-teal text-[10px] text-teal-foreground" : "border-muted-foreground/40"
-                              }`}
-                            >
-                              {isOn ? "✓" : ""}
-                            </button>
-                            <button
-                              onClick={() => toggleOpen(it.k)}
-                              className="min-w-0 flex-1 text-left"
-                            >
-                              <p className={`text-[13px] ${isOn ? "text-muted-foreground line-through" : ""}`}>
-                                {it.t}
-                              </p>
-                              {isOpen && (
-                                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-                                  {it.d}
-                                </p>
-                              )}
-                            </button>
-                            <button
-                              onClick={() => toggleOpen(it.k)}
-                              className="shrink-0 text-[10px] text-muted-foreground"
-                            >
-                              {isOpen ? "收起" : "说明"}
-                            </button>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                <div className="flex items-center gap-2">
+                  <span className={`rounded-full bg-${s.tint}/10 px-2 py-0.5 text-[10px] text-${s.tint}`}>
+                    {done}/{stageKeys.length}
+                  </span>
+                  <span className={`text-xs text-muted-foreground transition-transform ${stageOpen ? "rotate-180" : ""}`}>⌄</span>
                 </div>
-              ))}
+              </button>
+
+              {stageOpen && (
+                <div className="border-t border-border/60 px-4 pb-4 pt-3">
+                  {s.groups.map((g, gi) => (
+                    <div key={gi} className={gi === 0 ? "" : "mt-3"}>
+                      {g.g && <p className="mb-1 text-[11px] font-medium text-muted-foreground">{g.g}</p>}
+                      <ul className="space-y-1.5">
+                        {g.items.map((it) => {
+                          const isOn = !!checked[it.k];
+                          const isOpen = !!open[it.k];
+                          return (
+                            <li key={it.k} className="rounded-xl bg-surface-2 px-3 py-2">
+                              <div className="flex items-start gap-2">
+                                <button
+                                  onClick={() => toggle(it.k)}
+                                  className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded border ${
+                                    isOn ? "border-teal bg-teal text-[10px] text-teal-foreground" : "border-muted-foreground/40"
+                                  }`}
+                                >
+                                  {isOn ? "✓" : ""}
+                                </button>
+                                <button
+                                  onClick={() => toggleOpen(it.k)}
+                                  className="min-w-0 flex-1 text-left"
+                                >
+                                  <p className={`text-[13px] ${isOn ? "text-muted-foreground line-through" : ""}`}>
+                                    {it.t}
+                                  </p>
+                                  {isOpen && (
+                                    <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                                      {it.d}
+                                    </p>
+                                  )}
+                                </button>
+                                <button
+                                  onClick={() => toggleOpen(it.k)}
+                                  className="shrink-0 text-[10px] text-muted-foreground"
+                                >
+                                  {isOpen ? "收起" : "说明"}
+                                </button>
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           );
         })}

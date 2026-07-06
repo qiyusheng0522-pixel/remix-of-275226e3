@@ -127,19 +127,16 @@ function ReviewPage() {
         </div>
       </div>
 
-      <ul className="space-y-4 px-5 pb-8">
+      <ul className="space-y-6 bg-muted/40 px-4 pb-8 pt-1">
         {list.map((d) => {
           const open = openId === d.name;
           return (
-            <li
-              key={d.name}
-              className="overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
-            >
+            <li key={d.name} className="space-y-3">
               {/* 患者信息卡 */}
-              <div className="p-4">
-                <div className="mb-3 flex items-center justify-between">
+              <div className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+                <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <p className="text-lg font-bold">{d.name}</p>
+                    <p className="text-lg font-bold tracking-wide">{d.name}</p>
                     {d.consult && (
                       <span className="flex items-center gap-1 rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">
                         👥 会诊查看
@@ -149,12 +146,12 @@ function ReviewPage() {
                       {d.risk}
                     </span>
                   </div>
-                  <span className="rounded-full bg-teal/10 px-2.5 py-0.5 text-[10px] text-teal">
+                  <span className="rounded-full bg-teal/10 px-2.5 py-0.5 text-[11px] text-teal">
                     审核中
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {[
                     { label: "医院", value: d.hospital },
                     { label: "科室", value: d.dept },
@@ -163,9 +160,9 @@ function ReviewPage() {
                     { label: "方案状态", value: d.planStatus },
                     { label: "风险状态", value: d.riskStatus },
                   ].map((f) => (
-                    <div key={f.label} className="rounded-xl bg-surface-2 px-3 py-2">
-                      <p className="text-[10px] text-muted-foreground">{f.label}</p>
-                      <p className={`mt-0.5 text-xs font-medium ${f.accent ? "text-teal" : "text-foreground"}`}>
+                    <div key={f.label} className="rounded-xl bg-surface-2 px-3 py-2.5">
+                      <p className="text-[11px] text-muted-foreground">{f.label}</p>
+                      <p className={`mt-1 text-[13px] font-medium ${f.accent ? "text-teal" : "text-foreground"}`}>
                         {f.value}
                       </p>
                     </div>
@@ -174,62 +171,44 @@ function ReviewPage() {
               </div>
 
               {/* 评估内容 */}
-              <div className="border-t border-border/60 p-4">
-                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+              <div className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+                <h3 className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
                   <span className="text-teal">📄</span> 评估内容
                 </h3>
-                <p className="mb-2 text-[11px] text-muted-foreground">普通评估</p>
-                <div className="rounded-xl bg-surface-2 p-3">
-                  <p
-                    className={`text-xs leading-relaxed text-foreground/85 ${
-                      open ? "" : "line-clamp-4"
-                    }`}
-                  >
+                <p className="mb-2 text-[12px] text-muted-foreground">普通评估</p>
+                <div className="rounded-xl bg-surface-2 p-4">
+                  <p className={`text-[13px] leading-relaxed text-foreground/85 ${open ? "" : "line-clamp-4"}`}>
                     {d.evaluation}
                   </p>
                 </div>
               </div>
 
               {/* 方案内容 */}
-              <div className="border-t border-border/60 p-4">
-                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+              <div className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
+                <h3 className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
                   <span className="text-teal">📄</span> 方案内容
                 </h3>
-                <div className="rounded-xl bg-surface-2 p-3">
-                  <p
-                    className={`text-xs leading-relaxed text-foreground/85 ${
-                      open ? "" : "line-clamp-4"
-                    }`}
-                  >
+                <div className="rounded-xl bg-surface-2 p-4">
+                  <p className={`text-[13px] leading-relaxed text-foreground/85 ${open ? "" : "line-clamp-4"}`}>
                     {d.plan}
                   </p>
                 </div>
-                {!open && (
-                  <button
-                    onClick={() => setOpenId(d.name)}
-                    className="mt-2 text-[11px] font-medium text-teal"
-                  >
-                    展开全部 ▾
-                  </button>
-                )}
-                {open && (
-                  <button
-                    onClick={() => setOpenId(null)}
-                    className="mt-2 text-[11px] font-medium text-muted-foreground"
-                  >
-                    收起 ▴
-                  </button>
-                )}
+                <button
+                  onClick={() => setOpenId(open ? null : d.name)}
+                  className={`mt-3 text-[12px] font-medium ${open ? "text-muted-foreground" : "text-teal"}`}
+                >
+                  {open ? "收起 ▴" : "展开全部 ▾"}
+                </button>
               </div>
 
               {/* 查看患者详情 */}
-              <button className="flex w-full items-center justify-between gap-3 border-t border-border/60 bg-surface px-4 py-3 text-left">
+              <button className="flex w-full items-center justify-between gap-3 rounded-2xl bg-surface p-4 text-left shadow-sm ring-1 ring-border/60">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-teal/10 text-base text-teal">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal/10 text-base text-teal">
                     📈
                   </span>
                   <div>
-                    <p className="text-sm font-semibold">查看患者详情</p>
+                    <p className="text-[14px] font-semibold">查看患者详情</p>
                     <p className="text-[11px] text-muted-foreground">{d.name} 的完整档案</p>
                   </div>
                 </div>
@@ -237,9 +216,9 @@ function ReviewPage() {
               </button>
 
               {/* 审核动作 */}
-              <div className="flex gap-2 border-t border-border/60 bg-surface-2/50 p-3">
+              <div className="flex gap-2 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
                 <ActionSheet
-                  trigger={<button className="flex-1 rounded-xl bg-surface py-2 text-xs ring-1 ring-border/60">驳回补录</button>}
+                  trigger={<button className="flex-1 rounded-xl bg-surface-2 py-2.5 text-xs">驳回补录</button>}
                   title={`驳回 ${d.name} 的方案？`}
                   description="将退回体检机构补录/复核，家长暂不会收到该报告。"
                   confirmText="确认驳回"
@@ -248,7 +227,7 @@ function ReviewPage() {
                   toastType="warning"
                 />
                 <ActionSheet
-                  trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2 text-xs font-medium text-warm">修改方案</button>}
+                  trigger={<button className="flex-1 rounded-xl bg-warm/15 py-2.5 text-xs font-medium text-warm">修改方案</button>}
                   title="调整方案建议"
                   description="修改后系统建议不变，会额外保留一条医生建议供家长查看。"
                   confirmText="保存修改"
@@ -262,7 +241,7 @@ function ReviewPage() {
                 </ActionSheet>
                 <ActionSheet
                   trigger={
-                    <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                    <button className="flex-1 rounded-xl bg-deep py-2.5 text-xs font-medium text-deep-foreground">
                       审核发布
                     </button>
                   }

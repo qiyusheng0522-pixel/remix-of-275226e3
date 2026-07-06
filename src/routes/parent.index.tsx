@@ -78,8 +78,6 @@ const homeCare = [
 const todayTasks = [
   { icon: "🤸", text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const },
   { icon: "🥦", text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const },
-  { icon: "💧", text: "全天饮水 · 1200ml", done: false, tone: "teal" as const },
-  { icon: "😴", text: "22:00 前上床睡觉", done: false, tone: "deep" as const },
 ];
 
 const encyclopedia = [

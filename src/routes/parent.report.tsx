@@ -281,12 +281,38 @@ function ReportPage() {
 
         {/* Trend */}
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <h2 className="mb-3 text-sm font-semibold">身高体重趋势（近 6 次）</h2>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold">近期身体趋势（近 6 次）</h2>
+            <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">AI 解读</span>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <MiniChart label="身高 cm" data={trend} color="teal" />
             <MiniChart label="体重 kg" data={weightTrend} color="warm" />
           </div>
+
+          {/* 趋势解读 */}
+          <ul className="mt-3 space-y-2 text-[11px] leading-relaxed">
+            <li className="rounded-xl bg-teal/10 p-2.5 ring-1 ring-teal/20">
+              <p className="font-semibold text-teal">📈 身高：138 cm · 半年增长 3 cm</p>
+              <p className="mt-0.5 text-foreground/80">
+                增速处于 P75 参考区间，符合学龄期正常发育曲线。
+              </p>
+            </li>
+            <li className="rounded-xl bg-warm/10 p-2.5 ring-1 ring-warm/25">
+              <p className="font-semibold text-warm">⚠️ 体重：27.5 kg → 32.5 kg · 半年增长 5 kg</p>
+              <p className="mt-0.5 text-foreground/80">
+                增速偏快，BMI 由 16.5 上升至 17.1，已高于同龄参考上限，建议控制增速。
+              </p>
+            </li>
+            <li className="rounded-xl bg-surface-2 p-2.5 ring-1 ring-border/60">
+              <p className="font-semibold">💡 综合结论</p>
+              <p className="mt-0.5 text-foreground/80">
+                身高稳步增长但体重增速超身高增速，呈"体重追赶型"趋势，建议减少高糖零食、增加户外活动，3 个月后复评。
+              </p>
+            </li>
+          </ul>
         </section>
+
 
         {/* Review plan */}
         <section className="mb-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">

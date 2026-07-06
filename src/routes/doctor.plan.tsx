@@ -378,15 +378,15 @@ function PlanPage() {
 
         {/* User link - shows same report as parent side */}
         <Link
-          to="/parent/report"
+          to="/doctor/child"
           className="flex w-full items-center gap-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
         >
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-deep/10 text-deep">
             📈
           </span>
           <div className="flex-1 text-left">
-            <p className="text-[14px] font-semibold">查看用户详情</p>
-            <p className="text-[11px] text-muted-foreground">{active.name} 的体检报告 · 与家长端同步</p>
+            <p className="text-[14px] font-semibold">查看体检数据</p>
+            <p className="text-[11px] text-muted-foreground">{active.name} 的体检明细 · 仅展示</p>
           </div>
           <span className="text-muted-foreground">›</span>
         </Link>

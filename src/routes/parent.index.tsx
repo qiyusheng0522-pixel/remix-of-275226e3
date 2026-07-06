@@ -251,58 +251,123 @@ function ParentHome() {
       {/* Today tasks */}
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
         <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold">今天给 {kid.name} 做 2 件事</h3>
-          <span className="text-[11px] text-muted-foreground">1/2</span>
+          <h3 className="text-sm font-bold">
+            今天给 {kid.name} 做 {todayTasks.length} 件事
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-muted-foreground">
+              {todayTasks.filter((t) => t.done).length}/{todayTasks.length}
+            </span>
+            <button
+              onClick={() => setShowAllTasks((v) => !v)}
+              className="text-[11px] font-medium text-rose"
+            >
+              {showAllTasks ? "收起" : "查看全部"} ›
+            </button>
+          </div>
         </div>
         <ul className="space-y-2">
-          <li className="flex items-center gap-3 rounded-2xl bg-warning/10 p-3 ring-1 ring-warning/25">
-            <span className="text-xl">🤸</span>
-            <p className="min-w-0 flex-1 text-sm">亲子跳绳 · 20 分钟</p>
-            <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
-              打卡
-            </button>
-          </li>
-          <li className="flex items-center gap-3 rounded-2xl bg-success/10 p-3 ring-1 ring-success/25">
-            <span className="text-xl">🥦</span>
-            <p className="min-w-0 flex-1 text-sm text-muted-foreground line-through">
-              晚餐 · 建议摄入 500-600 kcal
-            </p>
-            <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
-              已打卡 ✓
-            </span>
-          </li>
+          {(showAllTasks ? todayTasks : todayTasks.slice(0, 2)).map((t) => {
+            const toneBg = {
+              warning: "bg-warning/10 ring-warning/25",
+              success: "bg-success/10 ring-success/25",
+              teal: "bg-teal/10 ring-teal/25",
+              deep: "bg-deep/10 ring-deep/25",
+            }[t.tone];
+            return (
+              <li
+                key={t.text}
+                className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
+              >
+                <span className="text-xl">{t.icon}</span>
+                <p
+                  className={`min-w-0 flex-1 text-sm ${
+                    t.done ? "text-muted-foreground line-through" : ""
+                  }`}
+                >
+                  {t.text}
+                </p>
+                {t.done ? (
+                  <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
+                    已打卡 ✓
+                  </span>
+                ) : (
+                  <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
+                    打卡
+                  </button>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
 
       {/* 居家健康提醒 */}
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-        <div className="mb-1 flex items-start justify-between gap-2">
-          <h3 className="text-sm font-bold">居家健康提醒</h3>
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <div>
+            <h3 className="text-sm font-bold">居家健康提醒</h3>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">
+              周期性事项 · 可调整提醒日期，进度显示下次到期
+            </p>
+          </div>
           <Link to="/parent/care" className="shrink-0 text-[11px] text-muted-foreground">
             查看全部 ›
           </Link>
         </div>
-        <p className="mb-3 text-[11px] leading-relaxed text-rose">
-          ✨ AI 按呵护标签 · 晨起 · 空气偏差 · 夏季 排序（饮食 / 运动为每日必做，已放入今日呵护）
-        </p>
         <ul className="space-y-2">
-          {homeCare.map((c) => (
-            <li key={c.text} className="rounded-2xl bg-surface-2 p-3">
-              <div className="flex items-start gap-2.5">
-                <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[11px] font-bold ${c.levelClass}`}>
-                  {c.level}
-                </span>
-                <span className="text-lg">{c.icon}</span>
-                <p className="min-w-0 flex-1 text-[13px] leading-snug">{c.text}</p>
-                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>{c.tag}</span>
-              </div>
-              <div className="mt-2 ml-[46px] inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
-                🔔 {c.reminder}
-              </div>
-            </li>
-          ))}
+          {homeCare.map((c) => {
+            const dueSoon = c.daysLeft <= 2;
+            return (
+              <li key={c.title} className="rounded-2xl bg-surface-2 p-3">
+                <div className="flex items-start gap-2.5">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg ring-1 ring-border">
+                    {c.icon}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <p className="min-w-0 flex-1 truncate text-[13px] font-semibold">
+                        {c.title}
+                      </p>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] ${c.tagClass}`}>
+                        {c.tag}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{c.cycle}</p>
+                    {/* progress bar */}
+                    <div className="mt-2 flex items-center gap-2">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                        <div
+                          className={`h-full rounded-full ${
+                            dueSoon ? "bg-rose" : "bg-teal"
+                          }`}
+                          style={{ width: `${c.progress}%` }}
+                        />
+                      </div>
+                      <span
+                        className={`shrink-0 text-[10px] ${
+                          dueSoon ? "text-rose" : "text-muted-foreground"
+                        }`}
+                      >
+                        {c.daysLeft === 0 ? "今日到期" : `${c.daysLeft} 天后`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2.5 flex gap-2">
+                  <button className="flex-1 rounded-full bg-white px-3 py-1.5 text-[11px] text-foreground ring-1 ring-border">
+                    📅 调整提醒日期
+                  </button>
+                  <button className="rounded-full bg-rose/10 px-3 py-1.5 text-[11px] font-medium text-rose">
+                    完成本次
+                  </button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </section>
+
 
       {/* 健康百科 */}
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">

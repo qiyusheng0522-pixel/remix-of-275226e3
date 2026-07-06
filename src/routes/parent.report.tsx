@@ -372,7 +372,6 @@ function ReportPage() {
             ].map((p) => (
               <details
                 key={p.title}
-                open
                 className={`group overflow-hidden rounded-2xl bg-${p.tint}/5 ring-1 ring-${p.tint}/20`}
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3">

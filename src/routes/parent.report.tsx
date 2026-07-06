@@ -1,10 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/parent/report")({
   component: ReportPage,
 });
+
 
 const trend = [125, 126, 126.5, 127, 127.5, 128];
 const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
@@ -108,7 +109,7 @@ function ReportPage() {
   return (
     <div>
       <StatusBar title="体检报告" />
-      <div className="px-5 pb-8 pt-2">
+      <div className="px-5 pb-28 pt-2">
         <header className="mb-4">
           <h1 className="text-xl font-bold">{child.name} 的体检报告</h1>
           <p className="text-xs text-muted-foreground">
@@ -168,22 +169,8 @@ function ReportPage() {
             ))}
           </div>
 
-          {/* 咨询入口 */}
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">👨‍⚕️</span>
-              咨询医生
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">🤖</span>
-              AI 解读
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-2xl bg-surface py-2.5 text-[11px] font-medium shadow-sm ring-1 ring-border/60">
-              <span className="text-lg">📄</span>
-              完整报告
-            </button>
-          </div>
         </div>
+
 
 
         {/* Detailed sections */}
@@ -308,9 +295,30 @@ function ReportPage() {
           🌱 今天先做这 3 件小事：不喝含糖饮料 · 21:30 前开始睡前准备 · 记录运动后是否咳嗽。
         </div>
       </div>
+
+      {/* 冻结咨询栏 */}
+      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-4 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
+        <div className="grid grid-cols-2 gap-2">
+          <Link
+            to="/parent/comm"
+            search={{ topic: "report", from: "report" }}
+            className="flex items-center justify-center gap-1.5 rounded-full bg-surface-2 py-2.5 text-xs font-semibold text-foreground ring-1 ring-border/60"
+          >
+            <span className="text-base">👨‍⚕️</span> 咨询医生
+          </Link>
+          <Link
+            to="/parent/comm"
+            search={{ topic: "ai-report", from: "report", auto: "1" }}
+            className="flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-xs font-semibold text-white shadow-sm"
+          >
+            <span className="text-base">🤖</span> AI 解读报告
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
+
 
 function MiniChart({ label, data, color }: { label: string; data: number[]; color: "warm" | "teal" }) {
   const max = Math.max(...data);

@@ -81,6 +81,9 @@ function DoctorHome() {
                   <span className={`text-2xl font-extrabold text-${u.tint}`}>{u.count}</span>
                 </div>
                 <p className="text-xs">{u.label}</p>
+                {"hint" in u && u.hint && (
+                  <p className={`mt-0.5 text-[10px] text-${u.tint}/80`}>{u.hint}</p>
+                )}
               </Link>
             ))}
           </div>

@@ -489,7 +489,7 @@ function NanjingMapPanel() {
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
 
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex shrink-0 items-center justify-between">
         <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
           ▍江苏省南京市 · 项目辐射覆盖
         </h3>
@@ -501,9 +501,9 @@ function NanjingMapPanel() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr_180px] gap-3">
+      <div className="grid min-h-0 flex-1 grid-cols-[1fr_180px] gap-3">
         {/* Map */}
-        <div className="relative h-[420px] overflow-hidden rounded-md bg-gradient-to-b from-[#061a3a] via-[#04122a] to-[#020814] ring-1 ring-cyan-500/20">
+        <div className="relative min-h-0 overflow-hidden rounded-md bg-gradient-to-b from-[#061a3a] via-[#04122a] to-[#020814] ring-1 ring-cyan-500/20">
           <svg viewBox="0 0 500 560" className="h-full w-full">
             <defs>
               <linearGradient id="dTop" x1="0" x2="0" y1="0" y2="1">

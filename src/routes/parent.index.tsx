@@ -97,10 +97,12 @@ function ParentHome() {
   const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
   const [signed, setSigned] = useState(false);
 
+  // 每次进入家长端首页都需要重新签署授权（演示需求）
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const saved = window.localStorage.getItem(CONSENT_KEY);
-    if (saved === "agreed" || saved === "declined") setConsent(saved);
+    window.localStorage.removeItem(CONSENT_KEY);
+    setConsent("pending");
+    setSigned(false);
   }, []);
 
   const agree = () => {

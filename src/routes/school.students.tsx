@@ -45,7 +45,7 @@ const genders = ["全部", "男", "女"] as const;
 const statusFilters = ["全部", "未授权", "未问卷", "缺检", "报告未读"] as const;
 
 function StudentsPage() {
-  const [pv, setPv] = useState<(typeof perspectives)[number]["key"]>("all");
+  const pv = "all" as (typeof perspectives)[number]["key"];
   const [grade, setGrade] = useState<(typeof grades)[number]>("全部年级");
   const [gender, setGender] = useState<(typeof genders)[number]>("全部");
   const [f, setF] = useState<(typeof statusFilters)[number]>("全部");
@@ -101,23 +101,6 @@ function StudentsPage() {
           toastDescription="共更新 486 名学生 · 新增 3 名"
         />
 
-        {/* 角色视角 */}
-        <p className="mb-1 mt-1 text-[11px] text-muted-foreground">切换角色视角</p>
-        <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-          {perspectives.map((p) => (
-            <button
-              key={p.key}
-              onClick={() => setPv(p.key)}
-              className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] ${
-                pv === p.key
-                  ? "bg-deep text-deep-foreground"
-                  : "bg-surface text-muted-foreground ring-1 ring-border/60"
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
 
         {/* 搜索 */}
         <div className="mb-3 flex items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-sm ring-1 ring-border/60">

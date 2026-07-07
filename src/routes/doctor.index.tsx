@@ -55,7 +55,7 @@ const stats: Stat[] = [
     value: 5,
     unit: "条未读",
     valueColor: "text-deep",
-    to: "/doctor/messages",
+    to: "/doctor/comm",
   },
 ];
 

@@ -45,7 +45,7 @@ const genders = ["全部", "男", "女"] as const;
 const statusFilters = ["全部", "未授权", "未问卷", "缺检", "报告未读"] as const;
 
 function StudentsPage() {
-  const pv: (typeof perspectives)[number]["key"] = "all";
+  const pv = "all" as (typeof perspectives)[number]["key"];
   const [grade, setGrade] = useState<(typeof grades)[number]>("全部年级");
   const [gender, setGender] = useState<(typeof genders)[number]>("全部");
   const [f, setF] = useState<(typeof statusFilters)[number]>("全部");

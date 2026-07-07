@@ -19,6 +19,9 @@ type Item = {
   issue: string;
   detail: string;
   ai: string;
+  history?: { round: string; snapshot: string }[]; // 平台历史体检记录
+  deviation?: string; // 与历史相比的严重偏差，触发二次复核
+  missing?: string[]; // 漏检项，触发漏检复核
 };
 
 const catStyle: Record<Category, string> = {

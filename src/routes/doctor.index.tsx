@@ -210,10 +210,32 @@ function DoctorHome() {
           <h3 className="flex items-center gap-1.5 text-sm font-bold">
             <span className="text-teal">📋</span> 今日待办清单
           </h3>
-          <span className="text-[11px] text-muted-foreground">共 {todos.length} 项 · 按优先级</span>
+          <span className="text-[11px] text-muted-foreground">共 {filtered.length}/{todos.length} 项</span>
+        </div>
+        {/* 快捷筛选 */}
+        <div className="mb-3 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {filters.map((f) => {
+            const count = f.key === "all" ? todos.length : todos.filter(f.match).length;
+            const on = active === f.key;
+            return (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setActive(f.key)}
+                className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-medium ring-1 transition ${
+                  on
+                    ? "bg-teal text-teal-foreground ring-teal"
+                    : "bg-surface text-muted-foreground ring-border/60"
+                }`}
+              >
+                {f.label} <span className={on ? "opacity-80" : "opacity-60"}>{count}</span>
+              </button>
+            );
+          })}
         </div>
         <ul className="space-y-2.5">
-          {todos.map((t, i) => (
+          {filtered.map((t, i) => (
+
             <Link
               key={t.id}
               to={t.to}

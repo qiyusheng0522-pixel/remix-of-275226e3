@@ -15,16 +15,23 @@ type Task = {
   who: string;
   due: string;
   status: "待处理" | "处理中" | "已完成" | "已超期" | "需升级";
+  assignee: string; // AI 自动分派的责任人
 };
 
-const tasks: Task[] = [
-  { id: "t1", role: "体检负责老师", title: "催办 12 位家长完成体检授权", who: "2年2班", due: "今日", status: "待处理" },
-  { id: "t2", role: "体检负责老师", title: "提醒未读体检报告家长查看", who: "3年3班", due: "今日", status: "处理中" },
-  { id: "t3", role: "体检负责老师", title: "组织复检未到场学生补检", who: "全年级 · 6人", due: "本周", status: "待处理" },
-  { id: "t4", role: "校医", title: "记录疑似过敏反应现场情况", who: "1年1班 · 李同学", due: "已超期", status: "已超期" },
-  { id: "t5", role: "校医", title: "跟踪体检异常学生日常状态", who: "2年2班 · 王小明", due: "本周", status: "处理中" },
-  { id: "t6", role: "校管理者", title: "审核本轮体检执行进度汇总", who: "全校", due: "今日", status: "待处理" },
-  { id: "t7", role: "校管理者", title: "确认体检重大异常升级流转", who: "5年1班 · 2人", due: "今日", status: "需升级" },
+const staffByRole: Record<Role, string[]> = {
+  "体检负责老师": ["王老师", "陈老师", "赵老师", "孙老师"],
+  "校医": ["李校医", "刘校医"],
+  "校管理者": ["周主任", "郑校长"],
+};
+
+const initialTasks: Task[] = [
+  { id: "t1", role: "体检负责老师", title: "催办 12 位家长完成体检授权", who: "2年2班", due: "今日", status: "待处理", assignee: "王老师" },
+  { id: "t2", role: "体检负责老师", title: "提醒未读体检报告家长查看", who: "3年3班", due: "今日", status: "处理中", assignee: "陈老师" },
+  { id: "t3", role: "体检负责老师", title: "组织复检未到场学生补检", who: "全年级 · 6人", due: "本周", status: "待处理", assignee: "赵老师" },
+  { id: "t4", role: "校医", title: "记录疑似过敏反应现场情况", who: "1年1班 · 李同学", due: "已超期", status: "已超期", assignee: "李校医" },
+  { id: "t5", role: "校医", title: "跟踪体检异常学生日常状态", who: "2年2班 · 王小明", due: "本周", status: "处理中", assignee: "刘校医" },
+  { id: "t6", role: "校管理者", title: "审核本轮体检执行进度汇总", who: "全校", due: "今日", status: "待处理", assignee: "周主任" },
+  { id: "t7", role: "校管理者", title: "确认体检重大异常升级流转", who: "5年1班 · 2人", due: "今日", status: "需升级", assignee: "郑校长" },
 ];
 
 const roles = ["全部", "体检负责老师", "校医", "校管理者"] as const;

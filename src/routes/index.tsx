@@ -98,6 +98,17 @@ function Landing() {
           ))}
         </div>
 
+        <Link
+          to="/bigscreen"
+          className="mt-6 flex items-center justify-between rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-[#0b1530] to-[#0b2540] p-4 text-cyan-100 shadow-lg shadow-cyan-500/10"
+        >
+          <div>
+            <p className="text-[11px] tracking-widest text-cyan-300/70">PC · 教育局 / 卫健委</p>
+            <p className="mt-0.5 text-sm font-bold">儿童入学体检监测大屏</p>
+          </div>
+          <span className="text-lg">🖥️ →</span>
+        </Link>
+
         <p className="mt-auto pt-8 text-center text-[11px] text-muted-foreground">
           原型演示 · Mock 数据 · v0.1
         </p>

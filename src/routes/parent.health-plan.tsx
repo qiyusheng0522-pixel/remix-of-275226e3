@@ -298,11 +298,11 @@ function HealthPlanPage() {
               <span className="text-muted-foreground">完成度</span>
             </div>
             <div className="mt-1 flex items-baseline justify-between">
-              <p className="text-lg font-bold">1 <span className="text-[12px] font-normal text-muted-foreground">/ 2 项</span></p>
-              <p className="text-lg font-bold text-teal">50%</p>
+              <p className="text-lg font-bold">{doneCount} <span className="text-[12px] font-normal text-muted-foreground">/ {total} 项</span></p>
+              <p className="text-lg font-bold text-teal">{pct}%</p>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
-              <div className="h-full w-1/2 rounded-full bg-teal" />
+              <div className="h-full rounded-full bg-teal transition-all" style={{ width: `${pct}%` }} />
             </div>
           </div>
 
@@ -314,11 +314,13 @@ function HealthPlanPage() {
 
           <div className="mt-4 flex items-center justify-between">
             <p className="text-[13px] font-semibold text-teal">〰 今日运动清单 <span className="ml-1 rounded-md bg-teal/15 px-1.5 py-0.5 text-[11px]">{exercises.length} 项</span></p>
-            <button className="text-[11px] text-muted-foreground">打卡记录 ›</button>
+            <button onClick={() => { setSheet("more"); setTab("ai"); }} className="text-[11px] text-teal">更多运动 ›</button>
           </div>
 
           <div className="mt-2 space-y-3">
-            {exercises.map((e) => (
+            {exercises.map((e) => {
+              const done = !!checked[e.title];
+              return (
               <div key={e.title} className="overflow-hidden rounded-2xl bg-surface">
                 <div className="flex">
                   <div className="relative grid w-32 shrink-0 place-items-center bg-gradient-to-br from-warm/70 to-warm p-3 text-white">
@@ -327,8 +329,14 @@ function HealthPlanPage() {
                     <p className="absolute inset-x-0 bottom-2 truncate px-2 text-center text-[10px]">{e.coach}</p>
                   </div>
                   <div className="flex-1 p-3">
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-md bg-success/15 px-1.5 py-0.5 text-[10px] font-medium text-success">✓ {e.status}</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${done ? "bg-success/15 text-success" : "bg-surface-2 text-muted-foreground"}`}>{done ? "✓ 已打卡" : "待打卡"}</span>
+                      <button
+                        onClick={() => toggle(e.title)}
+                        className={`rounded-full px-3 py-1 text-[11px] font-semibold transition ${done ? "bg-surface-2 text-muted-foreground" : "bg-teal text-white"}`}
+                      >
+                        {done ? "取消打卡" : "快捷打卡"}
+                      </button>
                     </div>
                     <p className="mt-1 text-[13px] font-bold">{e.title} <span className="ml-1 rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] font-normal text-teal">{e.level}</span></p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
@@ -347,9 +355,17 @@ function HealthPlanPage() {
                   <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
                 </div>
               </div>
-            ))}
+            );})}
           </div>
+
+          <button
+            onClick={() => { setSheet("more"); setTab("ai"); }}
+            className="mt-3 flex w-full items-center justify-center gap-1 rounded-2xl border border-dashed border-teal/50 bg-surface py-2.5 text-[12px] font-semibold text-teal"
+          >
+            ➕ 更多运动 / 发布运动 / 参与周边活动
+          </button>
         </section>
+
 
         {/* 家庭护理 */}
         <section className="mb-4 rounded-3xl bg-rose/10 p-4 shadow-sm">

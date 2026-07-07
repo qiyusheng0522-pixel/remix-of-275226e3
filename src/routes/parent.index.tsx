@@ -339,6 +339,37 @@ function ParentHome() {
       </div>
 
 
+      {/* 咨询专科医生 + 消息入口 */}
+      <div className="mx-5 mt-3 flex items-stretch gap-2">
+        <Link
+          to="/parent/comm"
+          className="flex flex-1 items-center gap-3 rounded-2xl bg-surface px-3 py-2.5 shadow-sm ring-1 ring-border/60"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal/15 text-lg text-teal">
+            🎧
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold">咨询儿童呼吸科医生？</p>
+            <p className="truncate text-[11px] text-muted-foreground">
+              选主任 / 主治 1v1 · 24h 内回复
+            </p>
+          </div>
+          <span className="text-muted-foreground">›</span>
+        </Link>
+        <Link
+          to="/parent/comm"
+          className="relative flex w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
+        >
+          <span className="relative text-lg text-rose">
+            🔔
+            <span className="absolute -right-2 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose px-1 text-[10px] font-bold text-rose-foreground">
+              3
+            </span>
+          </span>
+          <span className="mt-0.5 text-[11px] text-muted-foreground">消息</span>
+        </Link>
+      </div>
+
       {/* 入学体检须知 banner */}
       <Link
         to="/parent/notice"

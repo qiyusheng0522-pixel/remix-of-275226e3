@@ -54,6 +54,7 @@ import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 import { Route as DoctorCoordRouteImport } from './routes/doctor.coord'
 import { Route as DoctorCommRouteImport } from './routes/doctor.comm'
 import { Route as DoctorChildRouteImport } from './routes/doctor.child'
+import { Route as SchoolStudentIdRouteImport } from './routes/school.student.$id'
 import { Route as DoctorEntryIdRouteImport } from './routes/doctor.entry.$id'
 
 const SchoolRoute = SchoolRouteImport.update({
@@ -281,6 +282,11 @@ const DoctorChildRoute = DoctorChildRouteImport.update({
   path: '/child',
   getParentRoute: () => DoctorRoute,
 } as any)
+const SchoolStudentIdRoute = SchoolStudentIdRouteImport.update({
+  id: '/student/$id',
+  path: '/student/$id',
+  getParentRoute: () => SchoolRoute,
+} as any)
 const DoctorEntryIdRoute = DoctorEntryIdRouteImport.update({
   id: '/entry/$id',
   path: '/entry/$id',
@@ -334,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
+  '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -379,6 +386,7 @@ export interface FileRoutesByTo {
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
+  '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -428,6 +436,7 @@ export interface FileRoutesById {
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
+  '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -478,6 +487,7 @@ export interface FileRouteTypes {
     | '/parent/'
     | '/school/'
     | '/doctor/entry/$id'
+    | '/school/student/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -523,6 +533,7 @@ export interface FileRouteTypes {
     | '/parent'
     | '/school'
     | '/doctor/entry/$id'
+    | '/school/student/$id'
   id:
     | '__root__'
     | '/'
@@ -571,6 +582,7 @@ export interface FileRouteTypes {
     | '/parent/'
     | '/school/'
     | '/doctor/entry/$id'
+    | '/school/student/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -897,6 +909,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorChildRouteImport
       parentRoute: typeof DoctorRoute
     }
+    '/school/student/$id': {
+      id: '/school/student/$id'
+      path: '/student/$id'
+      fullPath: '/school/student/$id'
+      preLoaderRoute: typeof SchoolStudentIdRouteImport
+      parentRoute: typeof SchoolRoute
+    }
     '/doctor/entry/$id': {
       id: '/doctor/entry/$id'
       path: '/entry/$id'
@@ -998,6 +1017,7 @@ interface SchoolRouteChildren {
   SchoolStudentsRoute: typeof SchoolStudentsRoute
   SchoolTodayRoute: typeof SchoolTodayRoute
   SchoolIndexRoute: typeof SchoolIndexRoute
+  SchoolStudentIdRoute: typeof SchoolStudentIdRoute
 }
 
 const SchoolRouteChildren: SchoolRouteChildren = {
@@ -1013,6 +1033,7 @@ const SchoolRouteChildren: SchoolRouteChildren = {
   SchoolStudentsRoute: SchoolStudentsRoute,
   SchoolTodayRoute: SchoolTodayRoute,
   SchoolIndexRoute: SchoolIndexRoute,
+  SchoolStudentIdRoute: SchoolStudentIdRoute,
 }
 
 const SchoolRouteWithChildren =
@@ -1027,13 +1048,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

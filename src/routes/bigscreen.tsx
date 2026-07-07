@@ -231,13 +231,13 @@ function BigScreen() {
                   { k: "体重管理干预", n: 1256, r: 65, c: "#fbbf24" },
                   { k: "口腔龋齿治疗", n: 986, r: 82, c: "#34d399" },
                   { k: "脊柱侧弯复查", n: 412, r: 71, c: "#a78bfa" },
-                  { k: "血压异常随访", d: 218, r: 88, c: "#38bdf8" },
+                  { k: "血压异常随访", n: 218, r: 88, c: "#38bdf8" },
                 ].map((x) => (
                   <li key={x.k}>
                     <div className="flex items-center justify-between">
                       <span className="text-slate-200">{x.k}</span>
                       <span className="tabular-nums text-slate-300">
-                        <span className="text-cyan-300">{fmt((x.n ?? x.d) as number)}</span>
+                        <span className="text-cyan-300">{fmt(x.n)}</span>
                         <span className="ml-1 text-slate-500">人</span>
                       </span>
                     </div>

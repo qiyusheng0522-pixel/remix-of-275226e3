@@ -224,7 +224,7 @@ function CommPage() {
 
         {/* 角色 tab */}
         <div className="mt-4 flex gap-1.5">
-          {(["全部", "家长", "校方", "健管师"] as const).map((r, i) => (
+          {(["全部", "家长", "健管师"] as const).map((r, i) => (
             <button
               key={r}
               className={`rounded-full px-3 py-1 text-[11px] ${
@@ -246,7 +246,7 @@ function CommPage() {
                 className="flex w-full items-start gap-3 rounded-2xl bg-surface p-3 text-left shadow-sm ring-1 ring-border/60"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal/15 text-sm">
-                  {t.role === "家长" ? "👨‍👩‍👧" : t.role === "校方" ? "🏫" : "🩺"}
+                  {t.role === "家长" ? "👨‍👩‍👧" : "🩺"}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
@@ -279,8 +279,6 @@ function roleTag(r: Role) {
   const cls =
     r === "家长"
       ? "bg-warm/15 text-warm"
-      : r === "校方"
-      ? "bg-teal/15 text-teal"
       : "bg-deep/15 text-deep";
   return `rounded px-1.5 py-0.5 text-[10px] ${cls}`;
 }

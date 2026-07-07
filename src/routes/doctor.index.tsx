@@ -64,7 +64,7 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages";
+  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm";
 };
 
 const todos: Todo[] = [

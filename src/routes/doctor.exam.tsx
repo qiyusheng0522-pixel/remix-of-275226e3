@@ -81,16 +81,25 @@ function UsersPage() {
           </p>
         </div>
 
+        {/* 数据来源说明 */}
+        <div className="mb-3 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
+          <p className="text-[11px] font-semibold text-deep">数据采集方式</p>
+          <div className="mt-1.5 grid grid-cols-2 gap-2 text-[10.5px] text-muted-foreground">
+            <p><span className="mr-1 rounded bg-teal/15 px-1 py-0.5 text-teal">📡 自动</span>身高体重 / 视力 / 血压 / 血糖 / 血红蛋白</p>
+            <p><span className="mr-1 rounded bg-warm/15 px-1 py-0.5 text-warm">✍️ 手动</span>口腔 · 龋齿 / 内科心肺 / 腹部 / 备注</p>
+          </div>
+        </div>
+
         {/* 状态概览 */}
-        <div className="mb-3 grid grid-cols-5 gap-2 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+        <div className="mb-3 grid grid-cols-6 gap-1 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
           {stats.map((s) => (
             <button
               key={s.label}
               onClick={() => setFilter(s.label as Status)}
               className="text-center"
             >
-              <p className={`text-lg font-bold ${s.cls}`}>{s.value}</p>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">{s.label}</p>
+              <p className={`text-base font-bold ${s.cls}`}>{s.value}</p>
+              <p className="mt-0.5 text-[9px] text-muted-foreground">{s.label}</p>
             </button>
           ))}
         </div>

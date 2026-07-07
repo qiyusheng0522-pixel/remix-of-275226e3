@@ -63,6 +63,7 @@ function UsersPage() {
 
   const stats = [
     { label: "待检", value: counts["待检"] ?? 0, cls: "text-muted-foreground" },
+    { label: "进行中", value: counts["进行中"] ?? 0, cls: "text-teal" },
     { label: "已检-正常", value: counts["已检-正常"] ?? 0, cls: "text-success" },
     { label: "已检-异常", value: counts["已检-异常"] ?? 0, cls: "text-warm" },
     { label: "需复核", value: counts["需复核"] ?? 0, cls: "text-danger" },

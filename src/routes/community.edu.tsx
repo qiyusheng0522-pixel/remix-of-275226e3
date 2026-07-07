@@ -1,0 +1,104 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { StatusBar } from "@/components/MobileFrame";
+
+export const Route = createFileRoute("/community/edu")({
+  component: EduPage,
+});
+
+const campaigns = [
+  {
+    title: "春季过敏原防护指南",
+    audience: "过敏体质儿童家长（38 人）",
+    status: "待推送",
+    date: "今日 18:00",
+    tint: "rose",
+  },
+  {
+    title: "儿童体重管理 · 家庭餐桌 10 例",
+    audience: "服务包·体重管理（22 人）",
+    status: "已推送",
+    date: "昨日 09:00 · 阅读率 74%",
+    tint: "warm",
+  },
+  {
+    title: "哮喘儿童雾化操作视频",
+    audience: "哮喘管理人群（11 人）",
+    status: "已推送",
+    date: "3 天前 · 阅读率 91%",
+    tint: "teal",
+  },
+  {
+    title: "近视防控 · 20-20-20 用眼法",
+    audience: "近视防控包（14 人）",
+    status: "草稿",
+    date: "预计本周五",
+    tint: "deep",
+  },
+];
+
+const templates = [
+  { icon: "🥗", label: "营养饮食" },
+  { icon: "🏃", label: "运动方案" },
+  { icon: "😴", label: "睡眠作息" },
+  { icon: "🌸", label: "过敏防护" },
+  { icon: "👁️", label: "近视防控" },
+  { icon: "🫁", label: "呼吸道疾病" },
+];
+
+function EduPage() {
+  return (
+    <div>
+      <StatusBar title="健康宣教" />
+      <div className="px-5 pb-8 pt-2">
+        <h1 className="text-xl font-bold">健康宣教</h1>
+        <p className="mb-3 text-xs text-muted-foreground">
+          按人群精准推送 · 已覆盖 118 户家庭
+        </p>
+
+        <div className="mb-4 rounded-2xl bg-gradient-to-r from-rose/20 to-warm/15 p-4 ring-1 ring-rose/25">
+          <p className="text-[11px] text-muted-foreground">本月宣教目标</p>
+          <p className="mt-0.5 text-lg font-bold">4 篇 · 已完成 2 篇</p>
+          <button className="mt-2 rounded-full bg-rose px-4 py-1.5 text-xs font-medium text-rose-foreground">
+            + 新建宣教
+          </button>
+        </div>
+
+        <h2 className="mb-2 text-sm font-semibold">快速模板</h2>
+        <div className="mb-4 grid grid-cols-3 gap-2">
+          {templates.map((t) => (
+            <button
+              key={t.label}
+              className="rounded-2xl bg-surface p-3 text-center shadow-sm ring-1 ring-border/60"
+            >
+              <p className="text-xl">{t.icon}</p>
+              <p className="mt-0.5 text-[11px]">{t.label}</p>
+            </button>
+          ))}
+        </div>
+
+        <h2 className="mb-2 text-sm font-semibold">最近推送</h2>
+        <ul className="space-y-2">
+          {campaigns.map((c) => (
+            <li
+              key={c.title}
+              className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60"
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold">{c.title}</p>
+                <span
+                  className={`rounded-full bg-${c.tint}/15 px-2 py-0.5 text-[10px] text-${c.tint}`}
+                >
+                  {c.status}
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] text-muted-foreground">
+                👥 {c.audience}
+              </p>
+              <p className="text-[11px] text-muted-foreground">🕒 {c.date}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}

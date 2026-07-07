@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/doctor/")({

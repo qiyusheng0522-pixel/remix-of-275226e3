@@ -132,6 +132,7 @@ function DoctorHome() {
 
   const filters: { key: string; label: string; match: (t: Todo) => boolean }[] = [
     { key: "all", label: "全部", match: () => true },
+    { key: "exam", label: "待检学生", match: (t) => t.tags.some((x) => x.text === "待检学生") },
     { key: "qc", label: "报告审核", match: (t) => t.tags.some((x) => x.text === "报告审核") },
     { key: "plan", label: "方案确认", match: (t) => t.tags.some((x) => x.text === "方案确认") },
     { key: "reply", label: "待回复", match: (t) => t.tags.some((x) => x.text === "待回复") },

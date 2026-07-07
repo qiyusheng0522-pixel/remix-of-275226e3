@@ -428,6 +428,101 @@ function HealthPlanPage() {
           咨询健管师
         </Link>
       </div>
+
+      {sheet && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={() => setSheet(null)}>
+          <div className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-surface p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" />
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-base font-bold">更多运动</h3>
+              <button onClick={() => setSheet(null)} className="text-muted-foreground">✕</button>
+            </div>
+            <div className="mb-3 flex gap-2 rounded-full bg-surface-2 p-1 text-[12px]">
+              {[
+                { k: "ai", l: "AI 推荐" },
+                { k: "custom", l: "自定义发布" },
+                { k: "nearby", l: "周边活动" },
+              ].map((t) => (
+                <button
+                  key={t.k}
+                  onClick={() => setTab(t.k as typeof tab)}
+                  className={`flex-1 rounded-full py-1.5 font-semibold ${tab === t.k ? "bg-teal text-white" : "text-muted-foreground"}`}
+                >{t.l}</button>
+              ))}
+            </div>
+
+            {tab === "ai" && (
+              <div className="space-y-2">
+                {aiExtra.map((a) => (
+                  <div key={a.title} className="rounded-2xl bg-surface-2 p-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[13px] font-bold">{a.title}</p>
+                      <span className="rounded-md bg-teal/15 px-1.5 py-0.5 text-[10px] text-teal">{a.tag}</span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground">{a.level} · 约 {a.kcal} 千卡</p>
+                    <p className="mt-1 text-[11px] text-foreground/80">{a.reason}</p>
+                    <button
+                      onClick={() => { setChecked((s) => ({ ...s, [a.title]: true })); }}
+                      className="mt-2 w-full rounded-full bg-teal py-1.5 text-[12px] font-semibold text-white"
+                    >加入今日清单并打卡</button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {tab === "custom" && (
+              <div className="space-y-3">
+                <p className="text-[11px] text-muted-foreground">自定义家庭运动，发布后可在今日清单直接打卡，也可选择公开邀请周边家长参与。</p>
+                <input
+                  value={customTitle}
+                  onChange={(e) => setCustomTitle(e.target.value)}
+                  placeholder="例如：周末骑行 · 明城墙"
+                  className="w-full rounded-2xl bg-surface-2 px-3 py-2.5 text-[13px] outline-none"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <select className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px]"><option>入门</option><option>进阶</option></select>
+                  <input placeholder="时长 (分钟)" className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px] outline-none" />
+                </div>
+                <label className="flex items-center gap-2 text-[12px] text-muted-foreground">
+                  <input type="checkbox" className="accent-teal" /> 同时公开邀请周边家长参与
+                </label>
+                <button
+                  disabled={!customTitle.trim()}
+                  onClick={() => {
+                    setChecked((s) => ({ ...s, [customTitle]: false }));
+                    setCustomTitle("");
+                    setSheet(null);
+                  }}
+                  className="w-full rounded-full bg-warm py-2 text-[13px] font-semibold text-white disabled:opacity-40"
+                >发布运动</button>
+              </div>
+            )}
+
+            {tab === "nearby" && (
+              <div className="space-y-2">
+                {nearby.map((n) => {
+                  const j = !!joined[n.title];
+                  return (
+                    <div key={n.title} className="rounded-2xl bg-surface-2 p-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[13px] font-bold">{n.title}</p>
+                        <span className="rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">{n.dist}</span>
+                      </div>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">发起人：{n.host}</p>
+                      <p className="mt-1 text-[11px] text-foreground/80">🕐 {n.when} · 👥 {n.joined + (j ? 1 : 0)}/{n.cap}</p>
+                      <button
+                        onClick={() => setJoined((s) => ({ ...s, [n.title]: !s[n.title] }))}
+                        className={`mt-2 w-full rounded-full py-1.5 text-[12px] font-semibold ${j ? "bg-surface text-muted-foreground ring-1 ring-border" : "bg-teal text-white"}`}
+                      >{j ? "已报名 · 取消" : "报名参与"}</button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
+
   );
 }

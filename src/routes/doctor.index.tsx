@@ -65,7 +65,7 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep";
+  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep" | "/doctor/exam";
 };
 
 const todos: Todo[] = [

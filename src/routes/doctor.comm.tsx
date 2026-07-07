@@ -204,7 +204,7 @@ function CommPage() {
           <div>
             <h1 className="text-xl font-bold">沟通</h1>
             <p className="text-xs text-muted-foreground">
-              家长 / 校方 / 健管师 · 共 {unreadTotal} 条未读
+              家长 / 健管师 · 共 {unreadTotal} 条未读
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">

@@ -6,7 +6,7 @@ export const Route = createFileRoute("/doctor/comm")({
   component: CommPage,
 });
 
-type Role = "家长" | "校方" | "健管师";
+type Role = "家长" | "健管师";
 type Msg = { from: "them" | "me"; text: string; time: string; ai?: boolean };
 type Thread = {
   id: string;
@@ -34,16 +34,6 @@ const initial: Thread[] = [
     ],
   },
   {
-    id: "t2",
-    name: "阳光小学 · 王主任",
-    role: "校方",
-    sub: "春季体检 · 明日",
-    unread: 1,
-    last: "明日体检车能否 8:15 到？",
-    time: "09:12",
-    msgs: [{ from: "them", text: "陈医生，明日体检车能否 8:15 到？我们提前腾场地。", time: "09:12" }],
-  },
-  {
     id: "t3",
     name: "刘老师（健管师）",
     role: "健管师",
@@ -58,8 +48,6 @@ const initial: Thread[] = [
 const aiTemplates: Record<Role, (name: string) => string> = {
   家长: (n) =>
     `${n}您好，夜间单纯咳嗽多为气道敏感反应，建议先观察 2–3 天：保持室内湿度 50%–60%、睡前避免冷饮，若出现发热、喘息或持续加重请及时到院复诊。可先在「家庭呵护」查看夜咳呵护清单。`,
-  校方: (n) =>
-    `${n}您好，体检车预计 8:10 抵达，8:20 前完成设备布置，可按 8:30 正常开检。请协助提醒班主任按班级顺序集合，谢谢配合。`,
   健管师: () =>
     `收到，方案 v0.3 继续执行 2 周后复评。请重点关注 BMI 与夜间症状变化，异常随时同步，我这边可安排绿色通道复核。`,
 };
@@ -216,7 +204,7 @@ function CommPage() {
           <div>
             <h1 className="text-xl font-bold">沟通</h1>
             <p className="text-xs text-muted-foreground">
-              家长 / 校方 / 健管师 · 共 {unreadTotal} 条未读
+              家长 / 健管师 · 共 {unreadTotal} 条未读
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">
@@ -236,7 +224,7 @@ function CommPage() {
 
         {/* 角色 tab */}
         <div className="mt-4 flex gap-1.5">
-          {(["全部", "家长", "校方", "健管师"] as const).map((r, i) => (
+          {(["全部", "家长", "健管师"] as const).map((r, i) => (
             <button
               key={r}
               className={`rounded-full px-3 py-1 text-[11px] ${
@@ -258,7 +246,7 @@ function CommPage() {
                 className="flex w-full items-start gap-3 rounded-2xl bg-surface p-3 text-left shadow-sm ring-1 ring-border/60"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal/15 text-sm">
-                  {t.role === "家长" ? "👨‍👩‍👧" : t.role === "校方" ? "🏫" : "🩺"}
+                  {t.role === "家长" ? "👨‍👩‍👧" : "🩺"}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
@@ -291,8 +279,6 @@ function roleTag(r: Role) {
   const cls =
     r === "家长"
       ? "bg-warm/15 text-warm"
-      : r === "校方"
-      ? "bg-teal/15 text-teal"
       : "bg-deep/15 text-deep";
   return `rounded px-1.5 py-0.5 text-[10px] ${cls}`;
 }

@@ -67,7 +67,16 @@ function InTasksPage() {
       <StatusBar title="校内任务" />
       <div className="px-5 pt-2">
         <h1 className="text-xl font-bold">校内任务</h1>
-        <p className="mb-3 text-xs text-muted-foreground">按角色分派 · 完成后可一键升级健管师</p>
+        <p className="mb-3 text-xs text-muted-foreground">AI 自动按角色分派 · 支持手动调整</p>
+
+        <div className="mb-3 flex items-center gap-2 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">🤖</span>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold">AI 已完成本轮任务分派</p>
+            <p className="text-[11px] text-muted-foreground">按角色、班级、历史负荷智能匹配责任人</p>
+          </div>
+          <button className="rounded-full bg-teal px-3 py-1 text-[11px] text-teal-foreground">重新分派</button>
+        </div>
 
         <Link
           to="/school/escalated"

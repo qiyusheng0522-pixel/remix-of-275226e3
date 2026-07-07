@@ -41,15 +41,25 @@ const perspectives = [
 ] as const;
 
 const grades = ["全部年级", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级"] as const;
+const classesByGrade: Record<string, string[]> = {
+  "一年级": ["1年1班", "1年2班", "1年3班"],
+  "二年级": ["2年1班", "2年2班", "2年3班"],
+  "三年级": ["3年1班", "3年2班", "3年3班"],
+  "四年级": ["4年1班", "4年2班", "4年3班"],
+  "五年级": ["5年1班", "5年2班", "5年3班"],
+  "六年级": ["6年1班", "6年2班", "6年3班"],
+};
 const genders = ["全部", "男", "女"] as const;
 const statusFilters = ["全部", "未授权", "未问卷", "缺检", "报告未读"] as const;
 
 function StudentsPage() {
   const pv = "all" as (typeof perspectives)[number]["key"];
   const [grade, setGrade] = useState<(typeof grades)[number]>("全部年级");
+  const [klass, setKlass] = useState<string>("全部班级");
   const [gender, setGender] = useState<(typeof genders)[number]>("全部");
   const [f, setF] = useState<(typeof statusFilters)[number]>("全部");
   const [q, setQ] = useState("");
+  const classOptions = ["全部班级", ...(grade !== "全部年级" ? classesByGrade[grade] ?? [] : Object.values(classesByGrade).flat())];
 
   // 视角自动带出关注状态
   const perspectiveFilter = (r: Row) => {
@@ -63,6 +73,7 @@ function StudentsPage() {
   const filtered = rows.filter((r) => {
     if (!perspectiveFilter(r)) return false;
     if (grade !== "全部年级" && r.grade !== grade) return false;
+    if (klass !== "全部班级" && r.class !== klass) return false;
     if (gender !== "全部" && r.gender !== gender) return false;
     if (q && !r.name.includes(q) && !r.class.includes(q)) return false;
     if (f === "未授权") return r.auth === "未授权";

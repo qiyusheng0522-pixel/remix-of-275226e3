@@ -5,6 +5,7 @@ const roles = [
   { to: "/parent", label: "家长端", icon: "👨‍👩‍👧", color: "bg-warm" },
   { to: "/school", label: "学校端", icon: "🏫", color: "bg-teal" },
   { to: "/doctor", label: "医生端", icon: "🩺", color: "bg-deep" },
+  { to: "/community", label: "社区端", icon: "🏥", color: "bg-rose" },
 ] as const;
 
 export function RoleSwitcher() {

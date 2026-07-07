@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SchoolRouteImport } from './routes/school'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as DoctorRouteImport } from './routes/doctor'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolIndexRouteImport } from './routes/school.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
 import { Route as DoctorIndexRouteImport } from './routes/doctor.index'
+import { Route as CommunityIndexRouteImport } from './routes/community.index'
 import { Route as SchoolTodayRouteImport } from './routes/school.today'
 import { Route as SchoolStudentsRouteImport } from './routes/school.students'
 import { Route as SchoolReportRouteImport } from './routes/school.report'
@@ -54,6 +56,10 @@ import { Route as DoctorExamRouteImport } from './routes/doctor.exam'
 import { Route as DoctorCoordRouteImport } from './routes/doctor.coord'
 import { Route as DoctorCommRouteImport } from './routes/doctor.comm'
 import { Route as DoctorChildRouteImport } from './routes/doctor.child'
+import { Route as CommunityPatientsRouteImport } from './routes/community.patients'
+import { Route as CommunityMeRouteImport } from './routes/community.me'
+import { Route as CommunityEduRouteImport } from './routes/community.edu'
+import { Route as CommunityConsultRouteImport } from './routes/community.consult'
 import { Route as SchoolStudentIdRouteImport } from './routes/school.student.$id'
 import { Route as DoctorEntryIdRouteImport } from './routes/doctor.entry.$id'
 
@@ -70,6 +76,11 @@ const ParentRoute = ParentRouteImport.update({
 const DoctorRoute = DoctorRouteImport.update({
   id: '/doctor',
   path: '/doctor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -91,6 +102,11 @@ const DoctorIndexRoute = DoctorIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DoctorRoute,
+} as any)
+const CommunityIndexRoute = CommunityIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CommunityRoute,
 } as any)
 const SchoolTodayRoute = SchoolTodayRouteImport.update({
   id: '/today',
@@ -282,6 +298,26 @@ const DoctorChildRoute = DoctorChildRouteImport.update({
   path: '/child',
   getParentRoute: () => DoctorRoute,
 } as any)
+const CommunityPatientsRoute = CommunityPatientsRouteImport.update({
+  id: '/patients',
+  path: '/patients',
+  getParentRoute: () => CommunityRoute,
+} as any)
+const CommunityMeRoute = CommunityMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => CommunityRoute,
+} as any)
+const CommunityEduRoute = CommunityEduRouteImport.update({
+  id: '/edu',
+  path: '/edu',
+  getParentRoute: () => CommunityRoute,
+} as any)
+const CommunityConsultRoute = CommunityConsultRouteImport.update({
+  id: '/consult',
+  path: '/consult',
+  getParentRoute: () => CommunityRoute,
+} as any)
 const SchoolStudentIdRoute = SchoolStudentIdRouteImport.update({
   id: '/student/$id',
   path: '/student/$id',
@@ -295,9 +331,14 @@ const DoctorEntryIdRoute = DoctorEntryIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/community': typeof CommunityRouteWithChildren
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/community/consult': typeof CommunityConsultRoute
+  '/community/edu': typeof CommunityEduRoute
+  '/community/me': typeof CommunityMeRoute
+  '/community/patients': typeof CommunityPatientsRoute
   '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
@@ -336,6 +377,7 @@ export interface FileRoutesByFullPath {
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
+  '/community/': typeof CommunityIndexRoute
   '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
@@ -344,6 +386,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/community/consult': typeof CommunityConsultRoute
+  '/community/edu': typeof CommunityEduRoute
+  '/community/me': typeof CommunityMeRoute
+  '/community/patients': typeof CommunityPatientsRoute
   '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
@@ -382,6 +428,7 @@ export interface FileRoutesByTo {
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
+  '/community': typeof CommunityIndexRoute
   '/doctor': typeof DoctorIndexRoute
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
@@ -391,9 +438,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/community': typeof CommunityRouteWithChildren
   '/doctor': typeof DoctorRouteWithChildren
   '/parent': typeof ParentRouteWithChildren
   '/school': typeof SchoolRouteWithChildren
+  '/community/consult': typeof CommunityConsultRoute
+  '/community/edu': typeof CommunityEduRoute
+  '/community/me': typeof CommunityMeRoute
+  '/community/patients': typeof CommunityPatientsRoute
   '/doctor/child': typeof DoctorChildRoute
   '/doctor/comm': typeof DoctorCommRoute
   '/doctor/coord': typeof DoctorCoordRoute
@@ -432,6 +484,7 @@ export interface FileRoutesById {
   '/school/report': typeof SchoolReportRoute
   '/school/students': typeof SchoolStudentsRoute
   '/school/today': typeof SchoolTodayRoute
+  '/community/': typeof CommunityIndexRoute
   '/doctor/': typeof DoctorIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
@@ -442,9 +495,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/community'
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/community/consult'
+    | '/community/edu'
+    | '/community/me'
+    | '/community/patients'
     | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
@@ -483,6 +541,7 @@ export interface FileRouteTypes {
     | '/school/report'
     | '/school/students'
     | '/school/today'
+    | '/community/'
     | '/doctor/'
     | '/parent/'
     | '/school/'
@@ -491,6 +550,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/community/consult'
+    | '/community/edu'
+    | '/community/me'
+    | '/community/patients'
     | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
@@ -529,6 +592,7 @@ export interface FileRouteTypes {
     | '/school/report'
     | '/school/students'
     | '/school/today'
+    | '/community'
     | '/doctor'
     | '/parent'
     | '/school'
@@ -537,9 +601,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/community'
     | '/doctor'
     | '/parent'
     | '/school'
+    | '/community/consult'
+    | '/community/edu'
+    | '/community/me'
+    | '/community/patients'
     | '/doctor/child'
     | '/doctor/comm'
     | '/doctor/coord'
@@ -578,6 +647,7 @@ export interface FileRouteTypes {
     | '/school/report'
     | '/school/students'
     | '/school/today'
+    | '/community/'
     | '/doctor/'
     | '/parent/'
     | '/school/'
@@ -587,6 +657,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CommunityRoute: typeof CommunityRouteWithChildren
   DoctorRoute: typeof DoctorRouteWithChildren
   ParentRoute: typeof ParentRouteWithChildren
   SchoolRoute: typeof SchoolRouteWithChildren
@@ -613,6 +684,13 @@ declare module '@tanstack/react-router' {
       path: '/doctor'
       fullPath: '/doctor'
       preLoaderRoute: typeof DoctorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -642,6 +720,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/doctor/'
       preLoaderRoute: typeof DoctorIndexRouteImport
       parentRoute: typeof DoctorRoute
+    }
+    '/community/': {
+      id: '/community/'
+      path: '/'
+      fullPath: '/community/'
+      preLoaderRoute: typeof CommunityIndexRouteImport
+      parentRoute: typeof CommunityRoute
     }
     '/school/today': {
       id: '/school/today'
@@ -909,6 +994,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorChildRouteImport
       parentRoute: typeof DoctorRoute
     }
+    '/community/patients': {
+      id: '/community/patients'
+      path: '/patients'
+      fullPath: '/community/patients'
+      preLoaderRoute: typeof CommunityPatientsRouteImport
+      parentRoute: typeof CommunityRoute
+    }
+    '/community/me': {
+      id: '/community/me'
+      path: '/me'
+      fullPath: '/community/me'
+      preLoaderRoute: typeof CommunityMeRouteImport
+      parentRoute: typeof CommunityRoute
+    }
+    '/community/edu': {
+      id: '/community/edu'
+      path: '/edu'
+      fullPath: '/community/edu'
+      preLoaderRoute: typeof CommunityEduRouteImport
+      parentRoute: typeof CommunityRoute
+    }
+    '/community/consult': {
+      id: '/community/consult'
+      path: '/consult'
+      fullPath: '/community/consult'
+      preLoaderRoute: typeof CommunityConsultRouteImport
+      parentRoute: typeof CommunityRoute
+    }
     '/school/student/$id': {
       id: '/school/student/$id'
       path: '/student/$id'
@@ -925,6 +1038,26 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface CommunityRouteChildren {
+  CommunityConsultRoute: typeof CommunityConsultRoute
+  CommunityEduRoute: typeof CommunityEduRoute
+  CommunityMeRoute: typeof CommunityMeRoute
+  CommunityPatientsRoute: typeof CommunityPatientsRoute
+  CommunityIndexRoute: typeof CommunityIndexRoute
+}
+
+const CommunityRouteChildren: CommunityRouteChildren = {
+  CommunityConsultRoute: CommunityConsultRoute,
+  CommunityEduRoute: CommunityEduRoute,
+  CommunityMeRoute: CommunityMeRoute,
+  CommunityPatientsRoute: CommunityPatientsRoute,
+  CommunityIndexRoute: CommunityIndexRoute,
+}
+
+const CommunityRouteWithChildren = CommunityRoute._addFileChildren(
+  CommunityRouteChildren,
+)
 
 interface DoctorRouteChildren {
   DoctorChildRoute: typeof DoctorChildRoute
@@ -1041,6 +1174,7 @@ const SchoolRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CommunityRoute: CommunityRouteWithChildren,
   DoctorRoute: DoctorRouteWithChildren,
   ParentRoute: ParentRouteWithChildren,
   SchoolRoute: SchoolRouteWithChildren,
@@ -1048,13 +1182,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

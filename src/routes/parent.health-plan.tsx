@@ -216,6 +216,17 @@ function HealthPlanPage() {
                     <span className="text-[11px] text-muted-foreground">· 推荐结构</span>
                   </div>
 
+                  {/* 推荐理由 + 科学出处 */}
+                  <div className="mt-2 rounded-xl bg-warm/10 p-2.5 ring-1 ring-warm/20">
+                    <p className="text-[11px] leading-relaxed text-foreground/85">
+                      <b className="text-warm">推荐理由：</b>{m.reason}
+                    </p>
+                    <p className="mt-1 text-[10px] text-muted-foreground">
+                      📚 出处：{m.source}
+                    </p>
+                  </div>
+
+
                   {m.groups && (
                     <div className="mt-2 space-y-2">
                       <p className="text-[11px] text-muted-foreground">

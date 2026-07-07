@@ -48,6 +48,11 @@ const statusStyle: Record<Task["status"], string> = {
 function InTasksPage() {
   const [role, setRole] = useState<(typeof roles)[number]>("全部");
   const [f, setF] = useState<(typeof filters)[number]>("全部");
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+
+  const reassign = (id: string, name: string) => {
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, assignee: name } : t)));
+  };
 
   const list = tasks.filter((t) => {
     if (role !== "全部" && t.role !== role) return false;

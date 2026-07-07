@@ -6,7 +6,7 @@ export const Route = createFileRoute("/doctor/exam")({
   component: UsersPage,
 });
 
-type Status = "待检" | "已检-正常" | "已检-异常" | "需复核" | "方案确认";
+type Status = "待检" | "进行中" | "已检-正常" | "已检-异常" | "需复核" | "方案确认";
 
 type User = {
   id: string;
@@ -18,6 +18,8 @@ type User = {
   note?: string;
   tags?: string[];
   to?: "/doctor/review" | "/doctor/qc" | "/doctor/plan" | "/doctor/riskreview";
+  progress?: { done: number; total: number; current?: string }; // 进行中进度
+  eta?: string; // 待检预计到场
 };
 
 const users: User[] = [
@@ -27,21 +29,22 @@ const users: User[] = [
   { id: "20230508", name: "李娜", gender: "女", age: 9, grade: "三年级 3 班", status: "已检-正常", note: "各项指标正常 · 3 个月复查" },
   { id: "20230521", name: "王晨曦", gender: "男", age: 9, grade: "三年级 3 班", status: "已检-正常", note: "各项指标正常" },
   { id: "20230604", name: "刘思远", gender: "男", age: 9, grade: "三年级 3 班", status: "已检-异常", note: "龋齿 2 颗 · 建议就诊", tags: ["口腔"], to: "/doctor/review" },
-  { id: "20230711", name: "赵一鸣", gender: "男", age: 9, grade: "三年级 3 班", status: "待检" },
-  { id: "20230725", name: "钱佳琪", gender: "女", age: 9, grade: "三年级 3 班", status: "待检" },
-  { id: "20230802", name: "孙欣然", gender: "女", age: 9, grade: "三年级 3 班", status: "待检" },
-  { id: "20230819", name: "周乐言", gender: "男", age: 9, grade: "三年级 3 班", status: "待检" },
+  { id: "20230711", name: "赵一鸣", gender: "男", age: 9, grade: "三年级 3 班", status: "进行中", note: "已完成 身高体重 / 视力", progress: { done: 2, total: 6, current: "血压 / 心率" } },
+  { id: "20230802", name: "孙欣然", gender: "女", age: 9, grade: "三年级 3 班", status: "进行中", note: "已完成 身高体重", progress: { done: 1, total: 6, current: "视力" } },
+  { id: "20230725", name: "钱佳琪", gender: "女", age: 9, grade: "三年级 3 班", status: "待检", eta: "预计 09:20 到场 · 排队 1 号" },
+  { id: "20230819", name: "周乐言", gender: "男", age: 9, grade: "三年级 3 班", status: "待检", eta: "预计 09:25 到场 · 排队 2 号" },
 ];
 
 const statusStyle: Record<Status, string> = {
   待检: "bg-muted text-muted-foreground",
+  进行中: "bg-teal/15 text-teal",
   "已检-正常": "bg-success/15 text-success",
   "已检-异常": "bg-warm/15 text-warm",
   需复核: "bg-danger/10 text-danger",
   方案确认: "bg-deep/10 text-deep",
 };
 
-const filters: (Status | "全部")[] = ["全部", "待检", "已检-正常", "已检-异常", "需复核", "方案确认"];
+const filters: (Status | "全部")[] = ["全部", "待检", "进行中", "已检-正常", "已检-异常", "需复核", "方案确认"];
 
 function UsersPage() {
   const [filter, setFilter] = useState<Status | "全部">("全部");
@@ -60,6 +63,7 @@ function UsersPage() {
 
   const stats = [
     { label: "待检", value: counts["待检"] ?? 0, cls: "text-muted-foreground" },
+    { label: "进行中", value: counts["进行中"] ?? 0, cls: "text-teal" },
     { label: "已检-正常", value: counts["已检-正常"] ?? 0, cls: "text-success" },
     { label: "已检-异常", value: counts["已检-异常"] ?? 0, cls: "text-warm" },
     { label: "需复核", value: counts["需复核"] ?? 0, cls: "text-danger" },
@@ -77,16 +81,25 @@ function UsersPage() {
           </p>
         </div>
 
+        {/* 数据来源说明 */}
+        <div className="mb-3 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
+          <p className="text-[11px] font-semibold text-deep">数据采集方式</p>
+          <div className="mt-1.5 grid grid-cols-2 gap-2 text-[10.5px] text-muted-foreground">
+            <p><span className="mr-1 rounded bg-teal/15 px-1 py-0.5 text-teal">📡 自动</span>身高体重 / 视力 / 血压 / 血糖 / 血红蛋白</p>
+            <p><span className="mr-1 rounded bg-warm/15 px-1 py-0.5 text-warm">✍️ 手动</span>口腔 · 龋齿 / 内科心肺 / 腹部 / 备注</p>
+          </div>
+        </div>
+
         {/* 状态概览 */}
-        <div className="mb-3 grid grid-cols-5 gap-2 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+        <div className="mb-3 grid grid-cols-6 gap-1 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
           {stats.map((s) => (
             <button
               key={s.label}
               onClick={() => setFilter(s.label as Status)}
               className="text-center"
             >
-              <p className={`text-lg font-bold ${s.cls}`}>{s.value}</p>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">{s.label}</p>
+              <p className={`text-base font-bold ${s.cls}`}>{s.value}</p>
+              <p className="mt-0.5 text-[9px] text-muted-foreground">{s.label}</p>
             </button>
           ))}
         </div>
@@ -157,6 +170,20 @@ function UsersPage() {
                   <p className="mt-1 truncate text-[11px] text-muted-foreground">
                     {u.note || `学号 ${u.id}`}
                   </p>
+                  {u.status === "进行中" && u.progress && (
+                    <div className="mt-1.5">
+                      <div className="flex items-center justify-between text-[10px] text-teal">
+                        <span>正在采集：{u.progress.current}</span>
+                        <span>{u.progress.done}/{u.progress.total}</span>
+                      </div>
+                      <div className="mt-1 h-1 overflow-hidden rounded-full bg-surface-2">
+                        <div className="h-full rounded-full bg-teal" style={{ width: `${(u.progress.done / u.progress.total) * 100}%` }} />
+                      </div>
+                    </div>
+                  )}
+                  {u.status === "待检" && u.eta && (
+                    <p className="mt-1 text-[10px] text-warm">⏱ {u.eta}</p>
+                  )}
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1">
                   <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[u.status]}`}>

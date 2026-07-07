@@ -433,18 +433,22 @@ function Panel({
   title,
   children,
   liveDot,
+  className = "",
+  bodyClassName = "",
 }: {
   title: string;
   children: React.ReactNode;
   liveDot?: boolean;
+  className?: string;
+  bodyClassName?: string;
 }) {
   return (
-    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+    <div className={`relative flex flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur ${className}`}>
       <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex shrink-0 items-center justify-between">
         <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
           ▍{title}
         </h3>
@@ -458,7 +462,7 @@ function Panel({
           </span>
         )}
       </div>
-      {children}
+      <div className={`min-h-0 flex-1 ${bodyClassName}`}>{children}</div>
     </div>
   );
 }

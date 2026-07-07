@@ -15,10 +15,9 @@ function CommunityLayout() {
       <BottomNav
         accent="warm"
         items={[
-          { to: "/community", label: "今日待办", icon: "🏥" },
-          { to: "/community/patients", label: "居民档案", icon: "👥" },
-          { to: "/community/edu", label: "健康宣教", icon: "📢" },
-          { to: "/community/consult", label: "咨询回复", icon: "💬" },
+          { to: "/community", label: "工作台", icon: "🏥" },
+          { to: "/community/patients", label: "在管患者", icon: "👥" },
+          { to: "/community/consult", label: "健康咨询", icon: "💬" },
           { to: "/community/me", label: "我的", icon: "👤" },
         ]}
       />

@@ -94,6 +94,22 @@ function ParentHome() {
   const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
   const [catTab, setCatTab] = useState("全部");
   const [showAllTasks, setShowAllTasks] = useState(false);
+  const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem(CONSENT_KEY);
+    if (saved === "agreed" || saved === "declined") setConsent(saved);
+  }, []);
+
+  const agree = () => {
+    window.localStorage.setItem(CONSENT_KEY, "agreed");
+    setConsent("agreed");
+  };
+  const decline = () => {
+    window.localStorage.setItem(CONSENT_KEY, "declined");
+    setConsent("declined");
+  };
 
   return (
     <div className="pb-4">

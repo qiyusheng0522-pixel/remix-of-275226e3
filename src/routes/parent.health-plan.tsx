@@ -325,9 +325,6 @@ function HealthPlanPage() {
                   </p>
                   <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
                 </div>
-                <div className="flex items-center gap-1.5 border-t border-border/50 bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
-                  🔒 开通专属方案解锁 <b className="text-foreground">奥运冠军 1:1 陪练</b> 与个性化强度调整
-                </div>
               </div>
             ))}
           </div>

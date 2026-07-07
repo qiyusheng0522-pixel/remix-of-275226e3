@@ -204,26 +204,6 @@ function CommunityHome() {
         </div>
       </section>
 
-      {/* 场景说明 */}
-      <section className="px-5 pt-5">
-        <h3 className="mb-2 flex items-center gap-1.5 text-sm font-bold">
-          <span className="text-warm">🏥</span> 社区介入的两大场景
-        </h3>
-        <div className="grid grid-cols-2 gap-2 text-[11px]">
-          <div className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-warm/25">
-            <p className="text-[13px] font-semibold text-warm">① 服务包患者</p>
-            <p className="mt-1 leading-relaxed text-muted-foreground">
-              家长在商城购买服务包，社区承接线下随访、耗材配送
-            </p>
-          </div>
-          <div className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-teal/25">
-            <p className="text-[13px] font-semibold text-teal">② 复诊转社区</p>
-            <p className="mt-1 leading-relaxed text-muted-foreground">
-              医院复诊后由医生转介，社区做长期维持与家庭指导
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* 待办清单 */}
       <section className="px-5 pt-5">

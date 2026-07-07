@@ -35,14 +35,32 @@ const kpis = [
 ];
 
 const progressByDistrict = [
-  { name: "徐汇", 已检: 92, 目标: 100 },
-  { name: "浦东", 已检: 88, 目标: 100 },
-  { name: "静安", 已检: 95, 目标: 100 },
-  { name: "闵行", 已检: 84, 目标: 100 },
-  { name: "杨浦", 已检: 90, 目标: 100 },
-  { name: "宝山", 已检: 79, 目标: 100 },
-  { name: "松江", 已检: 86, 目标: 100 },
-  { name: "青浦", 已检: 82, 目标: 100 },
+  { name: "玄武", 已检: 95 },
+  { name: "秦淮", 已检: 93 },
+  { name: "建邺", 已检: 91 },
+  { name: "鼓楼", 已检: 94 },
+  { name: "栖霞", 已检: 88 },
+  { name: "雨花台", 已检: 90 },
+  { name: "江宁", 已检: 86 },
+  { name: "浦口", 已检: 84 },
+  { name: "六合", 已检: 82 },
+  { name: "溧水", 已检: 79 },
+  { name: "高淳", 已检: 81 },
+];
+
+// 南京市 11 个区覆盖 · 坐标基于示意地图 viewBox 500x520
+const njMap: { name: string; x: number; y: number; schools: number; kids: number; rate: number }[] = [
+  { name: "六合", x: 240, y: 55, schools: 42, kids: 11800, rate: 82 },
+  { name: "浦口", x: 130, y: 155, schools: 34, kids: 9200, rate: 84 },
+  { name: "栖霞", x: 340, y: 175, schools: 30, kids: 8600, rate: 88 },
+  { name: "鼓楼", x: 225, y: 220, schools: 46, kids: 13200, rate: 94 },
+  { name: "玄武", x: 285, y: 225, schools: 28, kids: 7900, rate: 95 },
+  { name: "建邺", x: 210, y: 258, schools: 26, kids: 7400, rate: 91 },
+  { name: "秦淮", x: 275, y: 265, schools: 32, kids: 9100, rate: 93 },
+  { name: "雨花台", x: 240, y: 300, schools: 24, kids: 6800, rate: 90 },
+  { name: "江宁", x: 290, y: 355, schools: 52, kids: 15400, rate: 86 },
+  { name: "溧水", x: 265, y: 430, schools: 22, kids: 5900, rate: 79 },
+  { name: "高淳", x: 245, y: 485, schools: 18, kids: 4600, rate: 81 },
 ];
 
 const abnormalTop = [

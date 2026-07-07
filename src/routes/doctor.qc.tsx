@@ -233,6 +233,14 @@ function ReportReviewPage() {
                       </p>
                     </div>
                     <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {r.deviation && (
+                        <span className="rounded bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger">🔁 严重偏差二次复核</span>
+                      )}
+                      {r.missing && r.missing.length > 0 && (
+                        <span className="rounded bg-warning/25 px-1.5 py-0.5 text-[10px] font-medium text-warning-foreground">🕳 漏检复核 · {r.missing.length} 项</span>
+                      )}
+                    </div>
                   </Link>
                   <button
                     onClick={() => setOpenKey(isOpen ? null : key)}

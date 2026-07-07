@@ -6,7 +6,7 @@ export const Route = createFileRoute("/doctor/comm")({
   component: CommPage,
 });
 
-type Role = "家长" | "校方" | "健管师";
+type Role = "家长" | "健管师";
 type Msg = { from: "them" | "me"; text: string; time: string; ai?: boolean };
 type Thread = {
   id: string;
@@ -32,16 +32,6 @@ const initial: Thread[] = [
       { from: "them", text: "陈医生您好，孩子这两天夜里咳嗽比较多。", time: "10:20" },
       { from: "them", text: "白天基本没有，是否需要复诊？", time: "10:24" },
     ],
-  },
-  {
-    id: "t2",
-    name: "阳光小学 · 王主任",
-    role: "校方",
-    sub: "春季体检 · 明日",
-    unread: 1,
-    last: "明日体检车能否 8:15 到？",
-    time: "09:12",
-    msgs: [{ from: "them", text: "陈医生，明日体检车能否 8:15 到？我们提前腾场地。", time: "09:12" }],
   },
   {
     id: "t3",

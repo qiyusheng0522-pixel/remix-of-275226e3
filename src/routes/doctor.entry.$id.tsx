@@ -1,7 +1,8 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, useParams, useNavigate, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import { findExamUser, nextPendingExamUser } from "@/lib/exam-users";
 
 export const Route = createFileRoute("/doctor/entry/$id")({
   component: EntryPage,

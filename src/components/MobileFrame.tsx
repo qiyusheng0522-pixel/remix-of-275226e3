@@ -39,6 +39,12 @@ const TAB_ROOTS = new Set<string>([
   "/school/students",
   "/school/intasks",
   "/school/me",
+  "/community",
+  "/community/",
+  "/community/patients",
+  "/community/edu",
+  "/community/consult",
+  "/community/me",
 ]);
 
 export function StatusBar({

@@ -32,6 +32,15 @@ const roles = [
     subtitle: "校内录检、报告审核与重点儿童干预",
     features: ["现场录检", "风险复核", "健康方案下发"],
   },
+  {
+    to: "/community",
+    tint: "from-rose to-rose/70",
+    ring: "ring-rose/30",
+    icon: "🏥",
+    title: "社区端",
+    subtitle: "承接服务包与复诊转入患者，做长期随访与宣教",
+    features: ["服务包随访", "复诊转社区", "宣教 / 咨询回复"],
+  },
 ] as const;
 
 function Landing() {

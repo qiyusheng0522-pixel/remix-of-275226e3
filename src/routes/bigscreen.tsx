@@ -223,6 +223,57 @@ function BigScreen() {
                 ))}
               </ul>
             </Panel>
+
+            <Panel title="重点儿童干预进度">
+              <ul className="space-y-2 text-[11px]">
+                {[
+                  { k: "视力矫正跟踪", n: 1824, r: 78, c: "#f472b6" },
+                  { k: "体重管理干预", n: 1256, r: 65, c: "#fbbf24" },
+                  { k: "口腔龋齿治疗", n: 986, r: 82, c: "#34d399" },
+                  { k: "脊柱侧弯复查", n: 412, r: 71, c: "#a78bfa" },
+                  { k: "血压异常随访", d: 218, r: 88, c: "#38bdf8" },
+                ].map((x) => (
+                  <li key={x.k}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-200">{x.k}</span>
+                      <span className="tabular-nums text-slate-300">
+                        <span className="text-cyan-300">{fmt((x.n ?? x.d) as number)}</span>
+                        <span className="ml-1 text-slate-500">人</span>
+                      </span>
+                    </div>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-700/40">
+                      <div className="h-full rounded-full" style={{ width: `${x.r}%`, background: x.c }} />
+                    </div>
+                    <p className="mt-0.5 text-right text-[10px] text-slate-400">完成 {x.r}%</p>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title="本周家校医协同任务">
+              <ul className="space-y-1.5 text-[11px]">
+                {[
+                  { t: "校方上传体检花名册", s: "完成", c: "#34d399", p: "98%" },
+                  { t: "机构回传体检报告", s: "进行", c: "#22d3ee", p: "82%" },
+                  { t: "异常结果分级派单", s: "进行", c: "#fbbf24", p: "67%" },
+                  { t: "家长知情同意回收", s: "待办", c: "#f472b6", p: "45%" },
+                  { t: "社区随访建档", s: "进行", c: "#a78bfa", p: "71%" },
+                ].map((x) => (
+                  <li key={x.t} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-800/20 px-2 py-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full" style={{ background: x.c }} />
+                      <span className="text-slate-200">{x.t}</span>
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="tabular-nums text-slate-400">{x.p}</span>
+                      <span className="rounded px-1.5 py-0.5 text-[10px]" style={{ background: `${x.c}25`, color: x.c }}>
+                        {x.s}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
           </div>
 
           {/* center */}

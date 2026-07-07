@@ -260,6 +260,36 @@ function ReportReviewPage() {
                 {isOpen && (
                   <div className="border-t border-border/60 px-4 pb-4 pt-3">
                     <p className="text-[11px] text-muted-foreground">{r.detail}</p>
+
+                    {/* 平台历史体检记录对比 */}
+                    {r.history && r.history.length > 0 && (
+                      <div className="mt-2 rounded-lg bg-teal/8 p-2 ring-1 ring-teal/20">
+                        <p className="text-[10.5px] font-semibold text-teal">📈 平台历史体检记录对比</p>
+                        <ul className="mt-1 space-y-0.5">
+                          {r.history.map((h) => (
+                            <li key={h.round} className="text-[10.5px] text-muted-foreground">
+                              <span className="text-foreground">{h.round}</span> · {h.snapshot}
+                            </li>
+                          ))}
+                        </ul>
+                        {r.deviation && (
+                          <p className="mt-1.5 rounded bg-danger/10 px-2 py-1 text-[10.5px] text-danger">
+                            🔁 {r.deviation}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* 漏检复核 */}
+                    {r.missing && r.missing.length > 0 && (
+                      <div className="mt-2 rounded-lg bg-warning/15 p-2 ring-1 ring-warning/30">
+                        <p className="text-[10.5px] font-semibold text-warning-foreground">🕳 漏检复核清单</p>
+                        <p className="mt-1 text-[10.5px] text-muted-foreground">
+                          缺失：{r.missing.join(" / ")} · 已通知体检机构补录后回传
+                        </p>
+                      </div>
+                    )}
+
                     <p className="mt-2 rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
                       ✨ {r.ai}
                     </p>

@@ -179,13 +179,28 @@ function CommPage() {
                 className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed ${
+                  className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed whitespace-pre-wrap ${
                     m.from === "me"
                       ? "bg-rose text-rose-foreground"
                       : "bg-white text-foreground shadow-sm ring-1 ring-border/60"
                   }`}
                 >
-                  {m.text}
+                  {m.typing ? (
+                    <span className="inline-flex items-center gap-1 text-muted-foreground">
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-rose" style={{ animationDelay: "0ms" }} />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-rose" style={{ animationDelay: "120ms" }} />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-rose" style={{ animationDelay: "240ms" }} />
+                      <span className="ml-1 text-[12px]">健康小助手正在思考…</span>
+                    </span>
+                  ) : (
+                    m.text.split(/(\*\*[^*]+\*\*)/g).map((seg, j) =>
+                      seg.startsWith("**") && seg.endsWith("**") ? (
+                        <b key={j}>{seg.slice(2, -2)}</b>
+                      ) : (
+                        <span key={j}>{seg}</span>
+                      ),
+                    )
+                  )}
                 </div>
               </div>
             ))}

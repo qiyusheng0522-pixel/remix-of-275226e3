@@ -42,6 +42,11 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "身高 128 → 125 cm（半年下降 3cm）",
       detail: "与半年前数据方向矛盾，疑测量误差，需退回体检机构重测。",
       ai: "AI 建议：退回体检机构核实测量",
+      history: [
+        { round: "2025 秋季体检", snapshot: "身高 128 cm · 体重 24.6 kg · BMI 15.0" },
+        { round: "2025 春季体检", snapshot: "身高 126 cm · 体重 23.8 kg · BMI 15.0" },
+      ],
+      deviation: "本次身高较半年前下降 3 cm，儿童身高不应回退 → 触发严重偏差二次复核",
     },
     {
       name: "赵一鸣",
@@ -51,6 +56,7 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "缺 视力（左眼）· 未录入腰围",
       detail: "漏检 2 项，需补录后方可出报告。",
       ai: "AI 建议：标记缺项 · 通知复测",
+      missing: ["视力（左眼）", "腰围"],
     },
     {
       name: "孙嘉禾",
@@ -60,6 +66,10 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "身高 P10 但 BMI 24.6（超标）",
       detail: "身高偏低同时 BMI 严重超标，逻辑矛盾，疑体重录入错误。",
       ai: "AI 建议：核对体重原始秤重数据",
+      history: [
+        { round: "2025 秋季体检", snapshot: "身高 132 cm · 体重 30.2 kg · BMI 17.3" },
+      ],
+      deviation: "BMI 由 17.3 骤升至 24.6（+7.3），单学期涨幅异常 → 触发严重偏差二次复核",
     },
 
     // 二、指标综合研判：AI 只看数字，医生结合发育综合判断

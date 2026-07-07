@@ -123,6 +123,17 @@ const todos: Todo[] = [
 function DoctorHome() {
   const totalTodo = stats.reduce((s, x) => s + x.value, 0);
 
+  const filters: { key: string; label: string; match: (t: Todo) => boolean }[] = [
+    { key: "all", label: "全部", match: () => true },
+    { key: "qc", label: "报告审核", match: (t) => t.tags.some((x) => x.text === "报告审核") },
+    { key: "plan", label: "方案确认", match: (t) => t.tags.some((x) => x.text === "方案确认") },
+    { key: "reply", label: "待回复", match: (t) => t.tags.some((x) => x.text === "待回复") },
+    { key: "prep", label: "入校准备", match: (t) => t.tags.some((x) => x.text === "入校准备") },
+  ];
+  const [active, setActive] = useState<string>("all");
+  const filtered = todos.filter(filters.find((f) => f.key === active)!.match);
+
+
   return (
     <div className="pb-4">
       <StatusBar title="童护佳 · 医生端" />

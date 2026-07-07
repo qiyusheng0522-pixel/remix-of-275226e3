@@ -361,14 +361,80 @@ function EntryPage() {
           </button>
         </div>
 
-        {/* Submit all */}
+        {/* 完成 · 汇总所有检测项结果 */}
         {progress.done === progress.total && (
-          <button
-            onClick={() => toast.success("已提交至报告审核", { description: `学号 ${id}` })}
-            className="mt-4 w-full rounded-xl bg-success py-3 text-sm font-medium text-white"
-          >
-            全部节点已核对 · 提交报告
-          </button>
+          <div className="mt-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-success/30">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-[14px] font-bold text-success">✓ 本次体检已全部完成</p>
+              <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{NODES.length} 项</span>
+            </div>
+            <p className="mb-3 text-[11px] text-muted-foreground">
+              {user?.name ?? "学生"} · 学号 {id} · 结果汇总如下，请核对后提交。
+            </p>
+            <div className="space-y-2">
+              {NODES.map((n) => (
+                <div key={n.key} className="rounded-xl bg-surface-2 p-3">
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <p className="text-[12px] font-semibold">{n.icon} {n.name}</p>
+                    <span className="text-[10px] text-success">✓ 已核对</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {n.fields.map((f) => {
+                      const v = values[f.key];
+                      if (!v) return null;
+                      return (
+                        <div key={f.key} className="flex items-center justify-between rounded-lg bg-surface px-2 py-1">
+                          <span className="text-[11px] text-muted-foreground">{f.label}</span>
+                          <span className="text-[12px] font-medium">
+                            {v}{f.unit ? ` ${f.unit}` : ""}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {!submitted ? (
+              <button
+                onClick={() => {
+                  setSubmitted(true);
+                  toast.success("已提交至报告审核", { description: `学号 ${id}` });
+                }}
+                className="mt-4 w-full rounded-xl bg-success py-3 text-sm font-medium text-white"
+              >
+                提交报告
+              </button>
+            ) : (
+              <div className="mt-4 space-y-2">
+                <p className="rounded-xl bg-success/10 px-3 py-2 text-center text-[12px] text-success">
+                  ✓ 报告已提交，等待复核
+                </p>
+                {nextUser ? (
+                  <button
+                    onClick={() => {
+                      navigate({ to: "/doctor/entry/$id", params: { id: nextUser.id } });
+                      setValues({});
+                      setVerified({});
+                      setActiveKey(NODES[0].key);
+                      setSubmitted(false);
+                    }}
+                    className="w-full rounded-xl bg-deep py-3 text-sm font-medium text-deep-foreground"
+                  >
+                    下一位体检 · {nextUser.name}（{nextUser.grade}）›
+                  </button>
+                ) : (
+                  <Link
+                    to="/doctor/exam"
+                    className="block w-full rounded-xl bg-surface-2 py-3 text-center text-sm font-medium"
+                  >
+                    今日待检已全部完成 · 返回用户列表
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>

@@ -70,6 +70,13 @@ type Todo = {
 
 const todos: Todo[] = [
   {
+    id: "E0",
+    name: "待检学生",
+    tags: [{ text: "待检学生", cls: "bg-teal/15 text-teal" }],
+    desc: "阳光小学 · 三年级 3 班 · 4 人待检 · 点击进入待检清单",
+    to: "/doctor/exam",
+  },
+  {
     id: "0423",
     name: "阳光小学",
     tags: [{ text: "报告审核", cls: "bg-warm/15 text-warm" }],

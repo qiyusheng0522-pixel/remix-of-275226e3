@@ -129,12 +129,25 @@ function StudentsPage() {
           {grades.map((g) => (
             <button
               key={g}
-              onClick={() => setGrade(g)}
+              onClick={() => { setGrade(g); setKlass("全部班级"); }}
               className={`shrink-0 rounded-full px-3 py-1 text-[11px] ${
                 grade === g ? "bg-teal text-teal-foreground" : "bg-surface ring-1 ring-border/60 text-muted-foreground"
               }`}
             >
               {g}
+            </button>
+          ))}
+        </div>
+        <div className="mb-2 flex gap-2 overflow-x-auto pb-1">
+          {classOptions.map((c) => (
+            <button
+              key={c}
+              onClick={() => setKlass(c)}
+              className={`shrink-0 rounded-full px-3 py-1 text-[11px] ${
+                klass === c ? "bg-deep text-white" : "bg-surface ring-1 ring-border/60 text-muted-foreground"
+              }`}
+            >
+              {c}
             </button>
           ))}
         </div>

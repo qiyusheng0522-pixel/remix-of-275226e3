@@ -65,10 +65,17 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep";
+  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep" | "/doctor/exam";
 };
 
 const todos: Todo[] = [
+  {
+    id: "E0",
+    name: "待检学生",
+    tags: [{ text: "待检学生", cls: "bg-teal/15 text-teal" }],
+    desc: "阳光小学 · 三年级 3 班 · 4 人待检 · 点击进入待检清单",
+    to: "/doctor/exam",
+  },
   {
     id: "0423",
     name: "阳光小学",
@@ -125,6 +132,7 @@ function DoctorHome() {
 
   const filters: { key: string; label: string; match: (t: Todo) => boolean }[] = [
     { key: "all", label: "全部", match: () => true },
+    { key: "exam", label: "待检学生", match: (t) => t.tags.some((x) => x.text === "待检学生") },
     { key: "qc", label: "报告审核", match: (t) => t.tags.some((x) => x.text === "报告审核") },
     { key: "plan", label: "方案确认", match: (t) => t.tags.some((x) => x.text === "方案确认") },
     { key: "reply", label: "待回复", match: (t) => t.tags.some((x) => x.text === "待回复") },

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/school/intasks")({
   component: InTasksPage,
 });
 
-type Role = "体检负责老师" | "校管理者" | "校医";
+type Role = "体检负责老师" | "校管理者" | "体育老师";
 type Task = {
   id: string;
   role: Role;
@@ -20,7 +20,7 @@ type Task = {
 
 const staffByRole: Record<Role, string[]> = {
   "体检负责老师": ["王老师", "陈老师", "赵老师", "孙老师"],
-  "校医": ["李校医", "刘校医"],
+  "体育老师": ["马老师", "杨老师"],
   "校管理者": ["周主任", "郑校长"],
 };
 
@@ -28,13 +28,13 @@ const initialTasks: Task[] = [
   { id: "t1", role: "体检负责老师", title: "催办 12 位家长完成体检授权", who: "2年2班", due: "今日", status: "待处理", assignee: "王老师" },
   { id: "t2", role: "体检负责老师", title: "提醒未读体检报告家长查看", who: "3年3班", due: "今日", status: "处理中", assignee: "陈老师" },
   { id: "t3", role: "体检负责老师", title: "组织复检未到场学生补检", who: "全年级 · 6人", due: "本周", status: "待处理", assignee: "赵老师" },
-  { id: "t4", role: "校医", title: "记录疑似过敏反应现场情况", who: "1年1班 · 李同学", due: "已超期", status: "已超期", assignee: "李校医" },
-  { id: "t5", role: "校医", title: "跟踪体检异常学生日常状态", who: "2年2班 · 王小明", due: "本周", status: "处理中", assignee: "刘校医" },
+  { id: "t4", role: "体育老师", title: "根据体检结果调整体测项目强度", who: "1年1班", due: "本周", status: "待处理", assignee: "马老师" },
+  { id: "t5", role: "体育老师", title: "跟进 BMI 偏高学生课后运动打卡", who: "2年2班 · 王小明", due: "本周", status: "处理中", assignee: "杨老师" },
   { id: "t6", role: "校管理者", title: "审核本轮体检执行进度汇总", who: "全校", due: "今日", status: "待处理", assignee: "周主任" },
   { id: "t7", role: "校管理者", title: "确认体检重大异常升级流转", who: "5年1班 · 2人", due: "今日", status: "需升级", assignee: "郑校长" },
 ];
 
-const roles = ["全部", "体检负责老师", "校医", "校管理者"] as const;
+const roles = ["全部", "体检负责老师", "体育老师", "校管理者"] as const;
 const filters = ["全部", "今日到期", "超期", "需升级"] as const;
 
 const statusStyle: Record<Task["status"], string> = {
@@ -137,7 +137,7 @@ function InTasksPage() {
           <li key={t.id} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-teal/15 text-lg">
-                {t.role === "体检负责老师" ? "👨‍🏫" : t.role === "校医" ? "🏥" : "🏫"}
+                {t.role === "体检负责老师" ? "👨‍🏫" : t.role === "体育老师" ? "🏃" : "🏫"}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">

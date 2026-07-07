@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
+import child3d from "@/assets/child-3d.png";
 
 export const Route = createFileRoute("/parent/report")({
   component: ReportPage,

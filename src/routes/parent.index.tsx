@@ -95,6 +95,7 @@ function ParentHome() {
   const [catTab, setCatTab] = useState("全部");
   const [showAllTasks, setShowAllTasks] = useState(false);
   const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
+  const [signed, setSigned] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -103,6 +104,7 @@ function ParentHome() {
   }, []);
 
   const agree = () => {
+    if (!signed) return;
     window.localStorage.setItem(CONSENT_KEY, "agreed");
     setConsent("agreed");
   };
@@ -121,19 +123,52 @@ function ParentHome() {
               <span className="grid h-9 w-9 place-items-center rounded-full bg-rose/15 text-lg">📄</span>
               <h2 className="text-base font-bold">儿童体检数据授权协议</h2>
             </div>
-            <div className="max-h-56 space-y-2 overflow-y-auto rounded-2xl bg-surface-2 p-3 text-[11px] leading-relaxed text-foreground/80">
+            <div className="max-h-40 space-y-2 overflow-y-auto rounded-2xl bg-surface-2 p-3 text-[11px] leading-relaxed text-foreground/80">
               <p>为向您与孩子提供体检报告解读、健康方案与随访服务，本小程序将采集：</p>
               <p>• 基础信息（姓名 / 年龄 / 学校班级）</p>
               <p>• 体检数据（身高体重 / 视力 / 血压 / 过敏筛查等）</p>
               <p>• 家庭健康打卡与咨询记录</p>
               <p>以上数据由承检机构与合作儿童医院加密存储，仅用于服务您的孩子，不会用于商业用途。您可随时在"我的-授权管理"中撤回。</p>
             </div>
+            <div className="mt-3">
+              <div className="mb-1.5 flex items-center justify-between">
+                <p className="text-[11px] font-medium text-muted-foreground">
+                  监护人手写签名 <span className="text-rose">*</span>
+                </p>
+                {signed && (
+                  <button
+                    type="button"
+                    onClick={() => setSigned(false)}
+                    className="text-[11px] text-muted-foreground underline"
+                  >
+                    清除重签
+                  </button>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setSigned(true)}
+                className={`grid h-20 w-full place-items-center rounded-xl border-2 border-dashed text-xs transition ${
+                  signed
+                    ? "border-rose bg-rose/10 text-rose"
+                    : "border-border text-muted-foreground"
+                }`}
+              >
+                {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
+              </button>
+            </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button onClick={decline} className="rounded-full bg-surface-2 py-2.5 text-[13px] font-medium text-muted-foreground">
                 暂不同意
               </button>
-              <button onClick={agree} className="rounded-full bg-rose py-2.5 text-[13px] font-semibold text-rose-foreground">
-                同意并继续
+              <button
+                onClick={agree}
+                disabled={!signed}
+                className={`rounded-full py-2.5 text-[13px] font-semibold transition ${
+                  signed ? "bg-rose text-rose-foreground" : "bg-rose/40 text-rose-foreground/70"
+                }`}
+              >
+                {signed ? "同意并继续" : "请先签名"}
               </button>
             </div>
           </div>

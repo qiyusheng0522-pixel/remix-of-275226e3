@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
+
+// 是否已有体检报告 —— 没有报告时首页不展示任何待办事项
+const HAS_REPORT = true;
+const CONSENT_KEY = "parent_consent_v1";
 
 export const Route = createFileRoute("/parent/")({
   component: ParentHome,

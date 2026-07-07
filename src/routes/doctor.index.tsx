@@ -13,7 +13,7 @@ type Stat = {
   value: number;
   unit: string;
   valueColor: string;
-  to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan" | "/doctor/exam";
+  to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan" | "/doctor/exam" | "/doctor/comm";
 };
 
 const stats: Stat[] = [

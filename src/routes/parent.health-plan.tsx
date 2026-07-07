@@ -318,6 +318,13 @@ function HealthPlanPage() {
                     <p className="mt-1.5 text-[11px] text-muted-foreground">🕐 {e.time} · 〰 {e.hr}</p>
                   </div>
                 </div>
+                {/* 推荐理由 + 科学出处 */}
+                <div className="border-t border-border/50 bg-teal/5 px-3 py-2">
+                  <p className="text-[11px] leading-relaxed text-foreground/85">
+                    <b className="text-teal">推荐理由：</b>{e.reason}
+                  </p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
+                </div>
                 <div className="flex items-center gap-1.5 border-t border-border/50 bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
                   🔒 开通专属方案解锁 <b className="text-foreground">奥运冠军 1:1 陪练</b> 与个性化强度调整
                 </div>

@@ -169,9 +169,13 @@ function TextFieldVoice({
 
 function EntryPage() {
   const { id } = useParams({ from: "/doctor/entry/$id" });
+  const navigate = useNavigate();
+  const user = findExamUser(id);
+  const nextUser = nextPendingExamUser(id);
   const [values, setValues] = useState<Record<string, string>>({});
   const [verified, setVerified] = useState<Record<string, boolean>>({});
   const [activeKey, setActiveKey] = useState<string>(NODES[0].key);
+  const [submitted, setSubmitted] = useState(false);
 
   // 模拟自动采集（进入节点时，若未填则回填 mock）
   useEffect(() => {

@@ -138,9 +138,9 @@ function PrepPage() {
 
   return (
     <div>
-      <StatusBar title="出诊核对清单" />
+      <StatusBar title="待办事项" />
       <div className="px-5 pb-24 pt-2">
-        <h1 className="text-xl font-bold">出诊核对清单</h1>
+        <h1 className="text-xl font-bold">待办事项</h1>
         <p className="mb-3 text-xs text-muted-foreground">
           阳光小学 · 春季体检 · 明日 08:30 · 214 人
         </p>

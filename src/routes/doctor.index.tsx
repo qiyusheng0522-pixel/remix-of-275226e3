@@ -13,12 +13,21 @@ type Stat = {
   value: number;
   unit: string;
   valueColor: string;
-  to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan";
+  to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan" | "/doctor/exam";
 };
 
 const stats: Stat[] = [
   {
-
+    icon: "👶",
+    iconBg: "bg-teal/15 text-teal",
+    label: "待检学生",
+    sub: "阳光小学 · 三年级 3 班",
+    value: 4,
+    unit: "人待检",
+    valueColor: "text-teal",
+    to: "/doctor/exam",
+  },
+  {
     icon: "🔍",
     iconBg: "bg-warm/15 text-warm",
     label: "报告审核",
@@ -165,7 +174,7 @@ function DoctorHome() {
               <span className="rounded bg-warm px-1.5 py-0.5 text-[10px] font-medium text-warm-foreground">
                 提醒
               </span>
-              <p className="truncate text-[13px] font-semibold">入校体检准备 · 明日 08:30</p>
+              <p className="truncate text-[13px] font-semibold">待办事项 · 明日 08:30 入校</p>
             </div>
             <p className="mt-1 text-[11px] text-muted-foreground">
               阳光小学 · 214 人 · 请确认团队 / 设备 / 复测规则已就绪

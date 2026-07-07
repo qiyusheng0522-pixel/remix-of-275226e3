@@ -192,6 +192,11 @@ function NoticePage() {
                     <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
                       {it.desc}
                     </p>
+                    {it.deadline && (
+                      <p className="mt-1 text-[11px] font-medium text-warm">
+                        ⏰ 截止日期：{it.deadline}
+                      </p>
+                    )}
                     {isTodo && it.cta && (
                       <div className="mt-2 flex justify-end">
                         {it.id === "consent" ? (

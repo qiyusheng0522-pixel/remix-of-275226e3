@@ -129,6 +129,7 @@ function DoctorChildDataPage() {
             return (
               <details
                 key={s.title}
+                open={hasAb}
                 className="group rounded-2xl bg-surface shadow-sm ring-1 ring-border/60 open:ring-teal/30"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">

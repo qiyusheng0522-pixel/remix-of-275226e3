@@ -64,7 +64,7 @@ type Todo = {
   name: string;
   tags: { text: string; cls: string }[];
   desc: string;
-  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm";
+  to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep";
 };
 
 const todos: Todo[] = [
@@ -88,6 +88,34 @@ const todos: Todo[] = [
     tags: [{ text: "待回复", cls: "bg-deep/15 text-deep" }],
     desc: "咨询：孩子夜间咳嗽是否需要复诊 · 已等 2h",
     to: "/doctor/comm",
+  },
+  {
+    id: "P1",
+    name: "出诊前物资自查",
+    tags: [{ text: "入校准备", cls: "bg-warm/15 text-warm" }],
+    desc: "阳光小学 · 明日 08:30 · 证件 / 设备 / 耗材 / 数据工具",
+    to: "/doctor/prep",
+  },
+  {
+    id: "P2",
+    name: "入校场地对接核对",
+    tags: [{ text: "入校准备", cls: "bg-teal/15 text-teal" }],
+    desc: "分区 / 隐私 / 供电 / 动线 / 排程 6 项现场核对",
+    to: "/doctor/prep",
+  },
+  {
+    id: "P3",
+    name: "现场体检质控核对",
+    tags: [{ text: "入校准备", cls: "bg-deep/15 text-deep" }],
+    desc: "扫码核验 / 异常复测 / 数据同步 每批次循环自查",
+    to: "/doctor/prep",
+  },
+  {
+    id: "P4",
+    name: "当日收尾 & 数据安全",
+    tags: [{ text: "入校准备", cls: "bg-success/15 text-success" }],
+    desc: "抽查 / 授权同步 / 加密上传 / 归档 6 项离场前必查",
+    to: "/doctor/prep",
   },
 ];
 
@@ -160,29 +188,6 @@ function DoctorHome() {
         </div>
       </section>
 
-      {/* 入校体检 · 前置准备 */}
-      <section className="px-5 pt-4">
-        <Link
-          to="/doctor/prep"
-          className="flex items-start gap-3 rounded-2xl bg-warm/10 p-3 ring-1 ring-warm/30"
-        >
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-warm/20 text-lg">
-            🔔
-          </span>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <span className="rounded bg-warm px-1.5 py-0.5 text-[10px] font-medium text-warm-foreground">
-                提醒
-              </span>
-              <p className="truncate text-[13px] font-semibold">待办事项 · 明日 08:30 入校</p>
-            </div>
-            <p className="mt-1 text-[11px] text-muted-foreground">
-              阳光小学 · 214 人 · 请确认团队 / 设备 / 复测规则已就绪
-            </p>
-          </div>
-          <span className="text-muted-foreground">›</span>
-        </Link>
-      </section>
 
 
 

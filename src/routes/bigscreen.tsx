@@ -140,12 +140,12 @@ function BigScreen() {
         {/* Header */}
         <header className="mb-4 flex items-center justify-between border-b border-cyan-500/20 pb-3">
           <div className="flex items-center gap-3 text-xs text-cyan-300/80">
-            <span>教育局 · 体卫艺处</span>
+            <span>江苏省教育厅 · 南京市教育局体卫艺处</span>
             <span className="text-cyan-500/40">|</span>
-            <span>数据接入：全市 12 区 · 342 所小学 · 68 家承检机构</span>
+            <span>数据接入：南京市 11 区 · 354 所小学 · 68 家承检机构</span>
           </div>
           <h1 className="bg-gradient-to-r from-cyan-300 via-sky-200 to-fuchsia-300 bg-clip-text text-2xl font-black tracking-widest text-transparent">
-            儿童入学体检 · 教育卫健协同监测大屏
+            江苏省南京市 · 儿童入学体检协同监测大屏
           </h1>
           <div className="text-right text-xs text-cyan-300/80">
             <div>{now.toLocaleDateString("zh-CN")} · {now.toLocaleTimeString("zh-CN")}</div>

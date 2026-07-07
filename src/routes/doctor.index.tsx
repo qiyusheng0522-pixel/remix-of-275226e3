@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 
 export const Route = createFileRoute("/doctor/")({
@@ -122,6 +123,17 @@ const todos: Todo[] = [
 function DoctorHome() {
   const totalTodo = stats.reduce((s, x) => s + x.value, 0);
 
+  const filters: { key: string; label: string; match: (t: Todo) => boolean }[] = [
+    { key: "all", label: "全部", match: () => true },
+    { key: "qc", label: "报告审核", match: (t) => t.tags.some((x) => x.text === "报告审核") },
+    { key: "plan", label: "方案确认", match: (t) => t.tags.some((x) => x.text === "方案确认") },
+    { key: "reply", label: "待回复", match: (t) => t.tags.some((x) => x.text === "待回复") },
+    { key: "prep", label: "入校准备", match: (t) => t.tags.some((x) => x.text === "入校准备") },
+  ];
+  const [active, setActive] = useState<string>("all");
+  const filtered = todos.filter(filters.find((f) => f.key === active)!.match);
+
+
   return (
     <div className="pb-4">
       <StatusBar title="童护佳 · 医生端" />
@@ -198,10 +210,32 @@ function DoctorHome() {
           <h3 className="flex items-center gap-1.5 text-sm font-bold">
             <span className="text-teal">📋</span> 今日待办清单
           </h3>
-          <span className="text-[11px] text-muted-foreground">共 {todos.length} 项 · 按优先级</span>
+          <span className="text-[11px] text-muted-foreground">共 {filtered.length}/{todos.length} 项</span>
+        </div>
+        {/* 快捷筛选 */}
+        <div className="mb-3 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {filters.map((f) => {
+            const count = f.key === "all" ? todos.length : todos.filter(f.match).length;
+            const on = active === f.key;
+            return (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setActive(f.key)}
+                className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-medium ring-1 transition ${
+                  on
+                    ? "bg-teal text-teal-foreground ring-teal"
+                    : "bg-surface text-muted-foreground ring-border/60"
+                }`}
+              >
+                {f.label} <span className={on ? "opacity-80" : "opacity-60"}>{count}</span>
+              </button>
+            );
+          })}
         </div>
         <ul className="space-y-2.5">
-          {todos.map((t, i) => (
+          {filtered.map((t, i) => (
+
             <Link
               key={t.id}
               to={t.to}

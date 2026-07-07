@@ -71,18 +71,57 @@ const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
 function DoctorChildDataPage() {
   return (
     <div>
-      <StatusBar title="体检数据" />
+      <StatusBar title="儿童体检结果" />
       <div className="px-5 pb-8 pt-2">
-        <header className="mb-4">
-          <h1 className="text-xl font-bold">小阳 的体检数据</h1>
+        <header className="mb-3">
+          <h1 className="text-xl font-bold">小阳 的体检结果</h1>
           <p className="text-xs text-muted-foreground">
-            体检日期 2026-09-18 · 阳光小学 · 三年级 3 班
+            学生编号 S-2026-0318 · 阳光小学 · 三年级 3 班 · 2026-09-18
           </p>
-          <p className="mt-1 text-[11px] text-muted-foreground">仅展示 · 医生查看用</p>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">
+            医生端：结合本次体检数据与历史趋势，可下发方案或转诊
+          </p>
         </header>
+
+        {/* 关键指标概览 */}
+        <section className="mb-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="grid grid-cols-4 gap-2 text-center">
+            {[
+              { k: "身高", v: "138cm" },
+              { k: "体重", v: "32.5kg" },
+              { k: "BMI", v: "17.1", warn: true },
+              { k: "视力", v: "5.0/5.0" },
+            ].map((s) => (
+              <div key={s.k}>
+                <p className={`text-sm font-bold ${s.warn ? "text-danger" : ""}`}>{s.v}</p>
+                <p className="text-[10px] text-muted-foreground">{s.k}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 本次体检结论 */}
+        <section className="mb-3 rounded-2xl bg-warm/10 p-4 ring-1 ring-warm/30">
+          <div className="mb-1 flex items-center gap-2">
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-warm/20 text-[12px]">⚕</span>
+            <p className="text-[13px] font-semibold text-warm">本次体检结论 · 3 项异常</p>
+          </div>
+          <p className="text-[12px] leading-relaxed text-muted-foreground">
+            BMI 偏高（超 P85）、尘螨过敏 (++)、运动后偶发咳嗽。建议加强体重管理并进行呼吸道随访。
+          </p>
+        </section>
+
+        {/* 参考值来源 */}
+        <div className="mb-3 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 text-[11px] text-muted-foreground ring-1 ring-border/60">
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">🏥</span>
+          <p>
+            指标 <b className="text-foreground">参考值来源：南京市儿童医院体检中心</b>
+          </p>
+        </div>
 
         {/* Detailed exam sections */}
         <p className="mb-2 mt-1 px-1 text-[11px] text-muted-foreground">各项体检明细 · 点击展开</p>
+
         <div className="mb-3 space-y-2">
           {sections.map((s) => {
             const abnormal = s.items.filter((it) => it.level !== "ok").length;
@@ -90,6 +129,7 @@ function DoctorChildDataPage() {
             return (
               <details
                 key={s.title}
+                open={hasAb}
                 className="group rounded-2xl bg-surface shadow-sm ring-1 ring-border/60 open:ring-teal/30"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
@@ -149,6 +189,22 @@ function DoctorChildDataPage() {
             </div>
           </div>
         </details>
+
+        {/* 医生操作 */}
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            className="rounded-2xl bg-teal py-3 text-sm font-semibold text-teal-foreground shadow-sm"
+          >
+            下发健康方案
+          </button>
+          <button
+            type="button"
+            className="rounded-2xl bg-surface py-3 text-sm font-semibold text-teal ring-1 ring-teal/40"
+          >
+            发起转诊 / 复核
+          </button>
+        </div>
       </div>
     </div>
   );

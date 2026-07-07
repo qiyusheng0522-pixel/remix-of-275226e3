@@ -1,6 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { child } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
+
+const aiExtra = [
+  { title: "亲子平板支撑挑战", level: "入门", kcal: 60, tag: "AI推荐", reason: "针对核心力量与体态改善，适合 BMI 偏高儿童" },
+  { title: "楼梯间隔训练 10 分钟", level: "进阶", kcal: 90, tag: "AI推荐", reason: "利用居家场景提升心肺，无需器材" },
+  { title: "睡前拉伸 8 式", level: "入门", kcal: 30, tag: "AI推荐", reason: "缓解运动后肌肉紧张，提高睡眠质量" },
+];
+const nearby = [
+  { title: "周六晨跑 · 玄武湖公园", host: "多多妈 · 阳光小学三(3)班", when: "周六 07:00", joined: 6, cap: 12, dist: "1.2km" },
+  { title: "亲子跳绳 PK", host: "乐乐爸 · 阳光小学三(2)班", when: "周日 16:00 社区广场", joined: 4, cap: 8, dist: "0.6km" },
+  { title: "羽毛球陪练", host: "小雨妈 · 阳光小学三(3)班", when: "周五 18:30 体育馆", joined: 2, cap: 4, dist: "2.1km" },
+];
 
 export const Route = createFileRoute("/parent/health-plan")({
   component: HealthPlanPage,
@@ -62,6 +74,15 @@ const exercises = [
 ];
 
 function HealthPlanPage() {
+  const [checked, setChecked] = useState<Record<string, boolean>>(() => ({ [exercises[0].title]: true }));
+  const [sheet, setSheet] = useState<null | "more" | "publish">(null);
+  const [tab, setTab] = useState<"ai" | "custom" | "nearby">("ai");
+  const [joined, setJoined] = useState<Record<string, boolean>>({});
+  const [customTitle, setCustomTitle] = useState("");
+  const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
+  const doneCount = Object.values(checked).filter(Boolean).length;
+  const total = exercises.length;
+  const pct = Math.round((doneCount / total) * 100);
   return (
     <div className="bg-surface-2">
       <StatusBar title="健康管理方案" />
@@ -277,11 +298,11 @@ function HealthPlanPage() {
               <span className="text-muted-foreground">完成度</span>
             </div>
             <div className="mt-1 flex items-baseline justify-between">
-              <p className="text-lg font-bold">1 <span className="text-[12px] font-normal text-muted-foreground">/ 2 项</span></p>
-              <p className="text-lg font-bold text-teal">50%</p>
+              <p className="text-lg font-bold">{doneCount} <span className="text-[12px] font-normal text-muted-foreground">/ {total} 项</span></p>
+              <p className="text-lg font-bold text-teal">{pct}%</p>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
-              <div className="h-full w-1/2 rounded-full bg-teal" />
+              <div className="h-full rounded-full bg-teal transition-all" style={{ width: `${pct}%` }} />
             </div>
           </div>
 
@@ -293,11 +314,13 @@ function HealthPlanPage() {
 
           <div className="mt-4 flex items-center justify-between">
             <p className="text-[13px] font-semibold text-teal">〰 今日运动清单 <span className="ml-1 rounded-md bg-teal/15 px-1.5 py-0.5 text-[11px]">{exercises.length} 项</span></p>
-            <button className="text-[11px] text-muted-foreground">打卡记录 ›</button>
+            <button onClick={() => { setSheet("more"); setTab("ai"); }} className="text-[11px] text-teal">更多运动 ›</button>
           </div>
 
           <div className="mt-2 space-y-3">
-            {exercises.map((e) => (
+            {exercises.map((e) => {
+              const done = !!checked[e.title];
+              return (
               <div key={e.title} className="overflow-hidden rounded-2xl bg-surface">
                 <div className="flex">
                   <div className="relative grid w-32 shrink-0 place-items-center bg-gradient-to-br from-warm/70 to-warm p-3 text-white">
@@ -306,8 +329,14 @@ function HealthPlanPage() {
                     <p className="absolute inset-x-0 bottom-2 truncate px-2 text-center text-[10px]">{e.coach}</p>
                   </div>
                   <div className="flex-1 p-3">
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-md bg-success/15 px-1.5 py-0.5 text-[10px] font-medium text-success">✓ {e.status}</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${done ? "bg-success/15 text-success" : "bg-surface-2 text-muted-foreground"}`}>{done ? "✓ 已打卡" : "待打卡"}</span>
+                      <button
+                        onClick={() => toggle(e.title)}
+                        className={`rounded-full px-3 py-1 text-[11px] font-semibold transition ${done ? "bg-surface-2 text-muted-foreground" : "bg-teal text-white"}`}
+                      >
+                        {done ? "取消打卡" : "快捷打卡"}
+                      </button>
                     </div>
                     <p className="mt-1 text-[13px] font-bold">{e.title} <span className="ml-1 rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] font-normal text-teal">{e.level}</span></p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
@@ -326,9 +355,17 @@ function HealthPlanPage() {
                   <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
                 </div>
               </div>
-            ))}
+            );})}
           </div>
+
+          <button
+            onClick={() => { setSheet("more"); setTab("ai"); }}
+            className="mt-3 flex w-full items-center justify-center gap-1 rounded-2xl border border-dashed border-teal/50 bg-surface py-2.5 text-[12px] font-semibold text-teal"
+          >
+            ➕ 更多运动 / 发布运动 / 参与周边活动
+          </button>
         </section>
+
 
         {/* 家庭护理 */}
         <section className="mb-4 rounded-3xl bg-rose/10 p-4 shadow-sm">
@@ -391,6 +428,101 @@ function HealthPlanPage() {
           咨询健管师
         </Link>
       </div>
+
+      {sheet && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={() => setSheet(null)}>
+          <div className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-surface p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" />
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-base font-bold">更多运动</h3>
+              <button onClick={() => setSheet(null)} className="text-muted-foreground">✕</button>
+            </div>
+            <div className="mb-3 flex gap-2 rounded-full bg-surface-2 p-1 text-[12px]">
+              {[
+                { k: "ai", l: "AI 推荐" },
+                { k: "custom", l: "自定义发布" },
+                { k: "nearby", l: "周边活动" },
+              ].map((t) => (
+                <button
+                  key={t.k}
+                  onClick={() => setTab(t.k as typeof tab)}
+                  className={`flex-1 rounded-full py-1.5 font-semibold ${tab === t.k ? "bg-teal text-white" : "text-muted-foreground"}`}
+                >{t.l}</button>
+              ))}
+            </div>
+
+            {tab === "ai" && (
+              <div className="space-y-2">
+                {aiExtra.map((a) => (
+                  <div key={a.title} className="rounded-2xl bg-surface-2 p-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[13px] font-bold">{a.title}</p>
+                      <span className="rounded-md bg-teal/15 px-1.5 py-0.5 text-[10px] text-teal">{a.tag}</span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground">{a.level} · 约 {a.kcal} 千卡</p>
+                    <p className="mt-1 text-[11px] text-foreground/80">{a.reason}</p>
+                    <button
+                      onClick={() => { setChecked((s) => ({ ...s, [a.title]: true })); }}
+                      className="mt-2 w-full rounded-full bg-teal py-1.5 text-[12px] font-semibold text-white"
+                    >加入今日清单并打卡</button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {tab === "custom" && (
+              <div className="space-y-3">
+                <p className="text-[11px] text-muted-foreground">自定义家庭运动，发布后可在今日清单直接打卡，也可选择公开邀请周边家长参与。</p>
+                <input
+                  value={customTitle}
+                  onChange={(e) => setCustomTitle(e.target.value)}
+                  placeholder="例如：周末骑行 · 明城墙"
+                  className="w-full rounded-2xl bg-surface-2 px-3 py-2.5 text-[13px] outline-none"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <select className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px]"><option>入门</option><option>进阶</option></select>
+                  <input placeholder="时长 (分钟)" className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px] outline-none" />
+                </div>
+                <label className="flex items-center gap-2 text-[12px] text-muted-foreground">
+                  <input type="checkbox" className="accent-teal" /> 同时公开邀请周边家长参与
+                </label>
+                <button
+                  disabled={!customTitle.trim()}
+                  onClick={() => {
+                    setChecked((s) => ({ ...s, [customTitle]: false }));
+                    setCustomTitle("");
+                    setSheet(null);
+                  }}
+                  className="w-full rounded-full bg-warm py-2 text-[13px] font-semibold text-white disabled:opacity-40"
+                >发布运动</button>
+              </div>
+            )}
+
+            {tab === "nearby" && (
+              <div className="space-y-2">
+                {nearby.map((n) => {
+                  const j = !!joined[n.title];
+                  return (
+                    <div key={n.title} className="rounded-2xl bg-surface-2 p-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[13px] font-bold">{n.title}</p>
+                        <span className="rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">{n.dist}</span>
+                      </div>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">发起人：{n.host}</p>
+                      <p className="mt-1 text-[11px] text-foreground/80">🕐 {n.when} · 👥 {n.joined + (j ? 1 : 0)}/{n.cap}</p>
+                      <button
+                        onClick={() => setJoined((s) => ({ ...s, [n.title]: !s[n.title] }))}
+                        className={`mt-2 w-full rounded-full py-1.5 text-[12px] font-semibold ${j ? "bg-surface text-muted-foreground ring-1 ring-border" : "bg-teal text-white"}`}
+                      >{j ? "已报名 · 取消" : "报名参与"}</button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
+
   );
 }

@@ -1,0 +1,393 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+export const Route = createFileRoute("/bigscreen")({
+  component: BigScreen,
+});
+
+const kpis = [
+  { label: "在册适龄儿童", value: 128460, unit: "人", tint: "#38bdf8" },
+  { label: "本年度已入学体检", value: 116329, unit: "人", tint: "#22d3ee" },
+  { label: "体检完成率", value: 90.6, unit: "%", tint: "#34d399" },
+  { label: "异常检出率", value: 18.4, unit: "%", tint: "#fbbf24" },
+  { label: "重点儿童在管", value: 4212, unit: "人", tint: "#f472b6" },
+  { label: "转诊完成率", value: 87.3, unit: "%", tint: "#a78bfa" },
+];
+
+const progressByDistrict = [
+  { name: "徐汇", 已检: 92, 目标: 100 },
+  { name: "浦东", 已检: 88, 目标: 100 },
+  { name: "静安", 已检: 95, 目标: 100 },
+  { name: "闵行", 已检: 84, 目标: 100 },
+  { name: "杨浦", 已检: 90, 目标: 100 },
+  { name: "宝山", 已检: 79, 目标: 100 },
+  { name: "松江", 已检: 86, 目标: 100 },
+  { name: "青浦", 已检: 82, 目标: 100 },
+];
+
+const abnormalTop = [
+  { name: "视力不良", value: 34.2 },
+  { name: "超重 / 肥胖", value: 21.5 },
+  { name: "龋齿", value: 19.8 },
+  { name: "脊柱侧弯风险", value: 8.6 },
+  { name: "血压偏高", value: 6.3 },
+  { name: "过敏性鼻炎", value: 5.1 },
+  { name: "心律异常", value: 2.9 },
+];
+
+const trend = [
+  { m: "1月", 完成: 6200, 异常: 1120 },
+  { m: "2月", 完成: 8800, 异常: 1580 },
+  { m: "3月", 完成: 15400, 异常: 2830 },
+  { m: "4月", 完成: 22100, 异常: 4080 },
+  { m: "5月", 完成: 18600, 异常: 3420 },
+  { m: "6月", 完成: 14300, 异常: 2610 },
+  { m: "7月", 完成: 9800, 异常: 1810 },
+  { m: "8月", 完成: 12100, 异常: 2260 },
+  { m: "9月", 完成: 8929, 异常: 1642 },
+];
+
+const referral = [
+  { name: "已建档随访", value: 62, color: "#22d3ee" },
+  { name: "社区在管", value: 21, color: "#34d399" },
+  { name: "医院复诊中", value: 12, color: "#fbbf24" },
+  { name: "未响应", value: 5, color: "#f87171" },
+];
+
+const dimensions = [
+  { k: "视力", A: 68 },
+  { k: "体重", A: 74 },
+  { k: "口腔", A: 71 },
+  { k: "脊柱", A: 88 },
+  { k: "血压", A: 92 },
+  { k: "心肺", A: 95 },
+  { k: "过敏", A: 82 },
+];
+
+const alerts = [
+  { time: "10:24", tag: "预警", tint: "#f87171", msg: "宝山区体检进度落后目标 -11%，建议增派承检机构" },
+  { time: "10:12", tag: "转诊", tint: "#fbbf24", msg: "浦东新区 128 例视力不良未按期到院复查" },
+  { time: "09:58", tag: "上报", tint: "#22d3ee", msg: "闵行区完成本周异常汇总上报（1,284 例）" },
+  { time: "09:41", tag: "宣教", tint: "#34d399", msg: "全市推送《春季儿童过敏防护》，覆盖 8.6 万家庭" },
+  { time: "09:20", tag: "抽查", tint: "#a78bfa", msg: "市卫健委抽查 5 所小学体检质控，通过率 96%" },
+  { time: "08:47", tag: "预警", tint: "#f87171", msg: "松江某校连续 3 天缺检率 > 8%，已通知教育局" },
+];
+
+const orgs = [
+  { name: "阳光社区卫生服务中心", done: 8420, rate: 94 },
+  { name: "市儿童医院浦东分院", done: 7620, rate: 91 },
+  { name: "徐汇区妇幼保健院", done: 6980, rate: 96 },
+  { name: "静安区中心医院", done: 6410, rate: 92 },
+  { name: "闵行第二人民医院", done: 5820, rate: 85 },
+];
+
+function BigScreen() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const fmt = (n: number) => n.toLocaleString("zh-CN");
+
+  return (
+    <div className="min-h-screen w-full overflow-hidden bg-[#050a1f] p-6 font-sans text-slate-100">
+      {/* bg glow */}
+      <div className="pointer-events-none absolute inset-0 -z-0">
+        <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-fuchsia-500/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1920px]">
+        {/* Header */}
+        <header className="mb-4 flex items-center justify-between border-b border-cyan-500/20 pb-3">
+          <div className="flex items-center gap-3 text-xs text-cyan-300/80">
+            <span>教育局 · 体卫艺处</span>
+            <span className="text-cyan-500/40">|</span>
+            <span>数据接入：全市 12 区 · 342 所小学 · 68 家承检机构</span>
+          </div>
+          <h1 className="bg-gradient-to-r from-cyan-300 via-sky-200 to-fuchsia-300 bg-clip-text text-2xl font-black tracking-widest text-transparent">
+            儿童入学体检 · 教育卫健协同监测大屏
+          </h1>
+          <div className="text-right text-xs text-cyan-300/80">
+            <div>{now.toLocaleDateString("zh-CN")} · {now.toLocaleTimeString("zh-CN")}</div>
+            <div className="text-cyan-500/60">卫健委 · 妇幼健康处 联合发布</div>
+          </div>
+        </header>
+
+        {/* KPI row */}
+        <div className="mb-4 grid grid-cols-6 gap-3">
+          {kpis.map((k) => (
+            <div
+              key={k.label}
+              className="relative overflow-hidden rounded-lg border border-cyan-500/20 bg-gradient-to-br from-white/[0.03] to-transparent p-3 backdrop-blur"
+            >
+              <div
+                className="absolute -right-6 -top-6 h-20 w-20 rounded-full opacity-30 blur-2xl"
+                style={{ background: k.tint }}
+              />
+              <p className="text-[11px] tracking-wider text-slate-400">{k.label}</p>
+              <p className="mt-1 text-3xl font-black tabular-nums" style={{ color: k.tint }}>
+                {typeof k.value === "number" && k.value % 1 !== 0 ? k.value.toFixed(1) : fmt(k.value)}
+                <span className="ml-1 text-xs font-normal text-slate-400">{k.unit}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* main grid */}
+        <div className="grid grid-cols-12 gap-3">
+          {/* left */}
+          <div className="col-span-3 space-y-3">
+            <Panel title="各区体检进度（%）">
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={progressByDistrict} layout="vertical" margin={{ left: 8, right: 16 }}>
+                  <CartesianGrid stroke="#164e63" strokeDasharray="2 4" horizontal={false} />
+                  <XAxis type="number" domain={[0, 100]} stroke="#67e8f9" fontSize={10} />
+                  <YAxis dataKey="name" type="category" stroke="#67e8f9" fontSize={11} width={40} />
+                  <Tooltip {...tt} />
+                  <Bar dataKey="已检" fill="url(#gradBar)" radius={[0, 4, 4, 0]} />
+                  <defs>
+                    <linearGradient id="gradBar" x1="0" x2="1">
+                      <stop offset="0%" stopColor="#22d3ee" />
+                      <stop offset="100%" stopColor="#a78bfa" />
+                    </linearGradient>
+                  </defs>
+                </BarChart>
+              </ResponsiveContainer>
+            </Panel>
+
+            <Panel title="承检机构 TOP 5">
+              <ul className="space-y-2 text-xs">
+                {orgs.map((o, i) => (
+                  <li key={o.name}>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <span
+                          className={`grid h-5 w-5 place-items-center rounded text-[10px] font-bold ${
+                            i < 3 ? "bg-cyan-500/30 text-cyan-200" : "bg-slate-700/40 text-slate-300"
+                          }`}
+                        >
+                          {i + 1}
+                        </span>
+                        <span className="text-slate-200">{o.name}</span>
+                      </span>
+                      <span className="tabular-nums text-cyan-300">{fmt(o.done)}</span>
+                    </div>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-700/40">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-400"
+                        style={{ width: `${o.rate}%` }}
+                      />
+                    </div>
+                    <p className="mt-0.5 text-right text-[10px] text-slate-400">质控 {o.rate}%</p>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          </div>
+
+          {/* center */}
+          <div className="col-span-6 space-y-3">
+            <Panel title="全市体检完成 / 异常检出趋势">
+              <ResponsiveContainer width="100%" height={280}>
+                <AreaChart data={trend} margin={{ left: 0, right: 16 }}>
+                  <defs>
+                    <linearGradient id="gDone" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="#22d3ee" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="gAbn" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#f472b6" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="#f472b6" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="#164e63" strokeDasharray="2 4" />
+                  <XAxis dataKey="m" stroke="#67e8f9" fontSize={11} />
+                  <YAxis stroke="#67e8f9" fontSize={11} />
+                  <Tooltip {...tt} />
+                  <Area type="monotone" dataKey="完成" stroke="#22d3ee" fill="url(#gDone)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="异常" stroke="#f472b6" fill="url(#gAbn)" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </Panel>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Panel title="TOP 异常检出（%）">
+                <ResponsiveContainer width="100%" height={240}>
+                  <BarChart data={abnormalTop} margin={{ left: 0, right: 16 }}>
+                    <CartesianGrid stroke="#164e63" strokeDasharray="2 4" />
+                    <XAxis dataKey="name" stroke="#67e8f9" fontSize={10} interval={0} angle={-15} height={40} />
+                    <YAxis stroke="#67e8f9" fontSize={10} />
+                    <Tooltip {...tt} />
+                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                      {abnormalTop.map((_, i) => (
+                        <Cell key={i} fill={["#f472b6", "#fbbf24", "#34d399", "#a78bfa", "#38bdf8", "#f87171", "#fb923c"][i]} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </Panel>
+
+              <Panel title="健康维度综合指数">
+                <ResponsiveContainer width="100%" height={240}>
+                  <RadarChart data={dimensions}>
+                    <PolarGrid stroke="#164e63" />
+                    <PolarAngleAxis dataKey="k" stroke="#67e8f9" fontSize={11} />
+                    <Radar dataKey="A" stroke="#22d3ee" fill="#22d3ee" fillOpacity={0.35} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </Panel>
+            </div>
+          </div>
+
+          {/* right */}
+          <div className="col-span-3 space-y-3">
+            <Panel title="异常后处置分布">
+              <ResponsiveContainer width="100%" height={220}>
+                <PieChart>
+                  <Pie
+                    data={referral}
+                    dataKey="value"
+                    innerRadius={45}
+                    outerRadius={80}
+                    paddingAngle={3}
+                    stroke="#050a1f"
+                  >
+                    {referral.map((r) => (
+                      <Cell key={r.name} fill={r.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip {...tt} />
+                </PieChart>
+              </ResponsiveContainer>
+              <ul className="grid grid-cols-2 gap-1 text-[11px]">
+                {referral.map((r) => (
+                  <li key={r.name} className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-sm" style={{ background: r.color }} />
+                    <span className="text-slate-300">{r.name}</span>
+                    <span className="ml-auto tabular-nums text-slate-400">{r.value}%</span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title="实时预警与协同事件" liveDot>
+              <ul className="space-y-2 text-xs">
+                {alerts.map((a, i) => (
+                  <li
+                    key={i}
+                    className="rounded border border-slate-700/40 bg-slate-800/30 p-2"
+                  >
+                    <div className="flex items-center justify-between text-[10px]">
+                      <span
+                        className="rounded px-1.5 py-0.5 font-semibold"
+                        style={{ background: `${a.tint}30`, color: a.tint }}
+                      >
+                        {a.tag}
+                      </span>
+                      <span className="text-slate-500">{a.time}</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-slate-200">{a.msg}</p>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title="家校医协同健康指数">
+              <ResponsiveContainer width="100%" height={110}>
+                <LineChart data={trend}>
+                  <Line
+                    type="monotone"
+                    dataKey="完成"
+                    stroke="#34d399"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <XAxis dataKey="m" hide />
+                  <YAxis hide />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="flex items-end justify-between">
+                <p className="text-3xl font-black text-emerald-300">92.4</p>
+                <p className="text-[11px] text-slate-400">
+                  较上月 <span className="text-emerald-300">▲ 2.1</span>
+                </p>
+              </div>
+            </Panel>
+          </div>
+        </div>
+
+        <footer className="mt-3 flex items-center justify-between border-t border-cyan-500/20 pt-2 text-[10px] text-slate-500">
+          <span>数据来源：市教育局体卫艺处 · 市卫健委妇幼健康处 · 阳光校园健康平台</span>
+          <span>刷新周期：60s · 当前接入承检机构在线 68 / 68</span>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+const tt = {
+  contentStyle: {
+    background: "rgba(3,10,30,0.9)",
+    border: "1px solid #22d3ee55",
+    borderRadius: 8,
+    fontSize: 12,
+    color: "#e2e8f0",
+  },
+  labelStyle: { color: "#67e8f9" },
+};
+
+function Panel({
+  title,
+  children,
+  liveDot,
+}: {
+  title: string;
+  children: React.ReactNode;
+  liveDot?: boolean;
+}) {
+  return (
+    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+      <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
+          ▍{title}
+        </h3>
+        {liveDot && (
+          <span className="flex items-center gap-1 text-[10px] text-emerald-300">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            LIVE
+          </span>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+}

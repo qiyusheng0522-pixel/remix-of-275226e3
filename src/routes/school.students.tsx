@@ -176,8 +176,9 @@ function StudentsPage() {
         {filtered.map((r) => (
           <li key={r.name}>
             <Link
-              to="/parent/report"
-              onClick={() => toast.success(`查看 ${r.name} 的体检报告`)}
+              to="/school/student/$id"
+              params={{ id: r.name }}
+              onClick={() => toast.success(`查看 ${r.name} 的体检数据`)}
               className="block rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60 active:scale-[0.99]"
             >
               <div className="flex items-center gap-3">

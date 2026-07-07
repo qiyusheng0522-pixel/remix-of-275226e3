@@ -170,8 +170,20 @@ function UsersPage() {
                   <p className="mt-1 truncate text-[11px] text-muted-foreground">
                     {u.note || `学号 ${u.id}`}
                   </p>
-                </div>
-                <div className="flex shrink-0 flex-col items-end gap-1">
+                  {u.status === "进行中" && u.progress && (
+                    <div className="mt-1.5">
+                      <div className="flex items-center justify-between text-[10px] text-teal">
+                        <span>正在采集：{u.progress.current}</span>
+                        <span>{u.progress.done}/{u.progress.total}</span>
+                      </div>
+                      <div className="mt-1 h-1 overflow-hidden rounded-full bg-surface-2">
+                        <div className="h-full rounded-full bg-teal" style={{ width: `${(u.progress.done / u.progress.total) * 100}%` }} />
+                      </div>
+                    </div>
+                  )}
+                  {u.status === "待检" && u.eta && (
+                    <p className="mt-1 text-[10px] text-warm">⏱ {u.eta}</p>
+                  )}
                   <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[u.status]}`}>
                     {u.status}
                   </span>

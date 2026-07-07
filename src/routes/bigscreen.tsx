@@ -129,22 +129,22 @@ function BigScreen() {
   const fmt = (n: number) => n.toLocaleString("zh-CN");
 
   return (
-    <div className="min-h-screen w-full overflow-hidden bg-[#050a1f] p-6 font-sans text-slate-100">
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#050a1f] p-3 font-sans text-slate-100">
       {/* bg glow */}
       <div className="pointer-events-none absolute inset-0 -z-0">
         <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
         <div className="absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-fuchsia-500/10 blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1920px]">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1920px] flex-col">
         {/* Header */}
-        <header className="mb-4 flex items-center justify-between border-b border-cyan-500/20 pb-3">
+        <header className="mb-2 flex shrink-0 items-center justify-between border-b border-cyan-500/20 pb-2">
           <div className="flex items-center gap-3 text-xs text-cyan-300/80">
             <span>江苏省教育厅 · 南京市教育局体卫艺处</span>
             <span className="text-cyan-500/40">|</span>
             <span>数据接入：南京市 11 区 · 354 所小学 · 68 家承检机构</span>
           </div>
-          <h1 className="bg-gradient-to-r from-cyan-300 via-sky-200 to-fuchsia-300 bg-clip-text text-2xl font-black tracking-widest text-transparent">
+          <h1 className="bg-gradient-to-r from-cyan-300 via-sky-200 to-fuchsia-300 bg-clip-text text-xl font-black tracking-widest text-transparent">
             江苏省南京市 · 儿童入学体检协同监测大屏
           </h1>
           <div className="text-right text-xs text-cyan-300/80">
@@ -154,18 +154,18 @@ function BigScreen() {
         </header>
 
         {/* KPI row */}
-        <div className="mb-4 grid grid-cols-6 gap-3">
+        <div className="mb-2 grid shrink-0 grid-cols-6 gap-2">
           {kpis.map((k) => (
             <div
               key={k.label}
-              className="relative overflow-hidden rounded-lg border border-cyan-500/20 bg-gradient-to-br from-white/[0.03] to-transparent p-3 backdrop-blur"
+              className="relative overflow-hidden rounded-lg border border-cyan-500/20 bg-gradient-to-br from-white/[0.03] to-transparent p-2 backdrop-blur"
             >
               <div
-                className="absolute -right-6 -top-6 h-20 w-20 rounded-full opacity-30 blur-2xl"
+                className="absolute -right-6 -top-6 h-16 w-16 rounded-full opacity-30 blur-2xl"
                 style={{ background: k.tint }}
               />
               <p className="text-[11px] tracking-wider text-slate-400">{k.label}</p>
-              <p className="mt-1 text-3xl font-black tabular-nums" style={{ color: k.tint }}>
+              <p className="mt-0.5 text-2xl font-black tabular-nums" style={{ color: k.tint }}>
                 {typeof k.value === "number" && k.value % 1 !== 0 ? k.value.toFixed(1) : fmt(k.value)}
                 <span className="ml-1 text-xs font-normal text-slate-400">{k.unit}</span>
               </p>
@@ -174,12 +174,12 @@ function BigScreen() {
         </div>
 
         {/* main grid */}
-        <div className="grid grid-cols-12 gap-3">
+        <div className="grid min-h-0 flex-1 grid-cols-12 gap-2">
           {/* left */}
-          <div className="col-span-3 space-y-3">
-            <Panel title="各区体检进度（%）">
-              <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={progressByDistrict} layout="vertical" margin={{ left: 8, right: 16 }}>
+          <div className="col-span-3 flex min-h-0 flex-col gap-2">
+            <Panel title="各区体检进度（%）" className="flex-[1.2]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={progressByDistrict} layout="vertical" margin={{ left: 8, right: 16, top: 4, bottom: 4 }}>
                   <CartesianGrid stroke="#164e63" strokeDasharray="2 4" horizontal={false} />
                   <XAxis type="number" domain={[0, 100]} stroke="#67e8f9" fontSize={10} />
                   <YAxis dataKey="name" type="category" stroke="#67e8f9" fontSize={11} width={40} />
@@ -195,8 +195,8 @@ function BigScreen() {
               </ResponsiveContainer>
             </Panel>
 
-            <Panel title="承检机构 TOP 5">
-              <ul className="space-y-2 text-xs">
+            <Panel title="承检机构 TOP 5" className="flex-1" bodyClassName="overflow-auto">
+              <ul className="space-y-1.5 text-xs">
                 {orgs.map((o, i) => (
                   <li key={o.name}>
                     <div className="flex items-center justify-between">
@@ -212,20 +212,19 @@ function BigScreen() {
                       </span>
                       <span className="tabular-nums text-cyan-300">{fmt(o.done)}</span>
                     </div>
-                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-700/40">
+                    <div className="mt-1 h-1 overflow-hidden rounded-full bg-slate-700/40">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-400"
                         style={{ width: `${o.rate}%` }}
                       />
                     </div>
-                    <p className="mt-0.5 text-right text-[10px] text-slate-400">质控 {o.rate}%</p>
                   </li>
                 ))}
               </ul>
             </Panel>
 
-            <Panel title="重点儿童干预进度">
-              <ul className="space-y-2 text-[11px]">
+            <Panel title="重点儿童干预进度" className="flex-1" bodyClassName="overflow-auto">
+              <ul className="space-y-1.5 text-[11px]">
                 {[
                   { k: "视力矫正跟踪", n: 1824, r: 78, c: "#f472b6" },
                   { k: "体重管理干预", n: 1256, r: 65, c: "#fbbf24" },
@@ -238,20 +237,19 @@ function BigScreen() {
                       <span className="text-slate-200">{x.k}</span>
                       <span className="tabular-nums text-slate-300">
                         <span className="text-cyan-300">{fmt(x.n)}</span>
-                        <span className="ml-1 text-slate-500">人</span>
+                        <span className="ml-1 text-slate-500">人 · {x.r}%</span>
                       </span>
                     </div>
-                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-700/40">
+                    <div className="mt-1 h-1 overflow-hidden rounded-full bg-slate-700/40">
                       <div className="h-full rounded-full" style={{ width: `${x.r}%`, background: x.c }} />
                     </div>
-                    <p className="mt-0.5 text-right text-[10px] text-slate-400">完成 {x.r}%</p>
                   </li>
                 ))}
               </ul>
             </Panel>
 
-            <Panel title="本周家校医协同任务">
-              <ul className="space-y-1.5 text-[11px]">
+            <Panel title="本周家校医协同任务" className="flex-1" bodyClassName="overflow-auto">
+              <ul className="space-y-1 text-[11px]">
                 {[
                   { t: "校方上传体检花名册", s: "完成", c: "#34d399", p: "98%" },
                   { t: "机构回传体检报告", s: "进行", c: "#22d3ee", p: "82%" },
@@ -259,7 +257,7 @@ function BigScreen() {
                   { t: "家长知情同意回收", s: "待办", c: "#f472b6", p: "45%" },
                   { t: "社区随访建档", s: "进行", c: "#a78bfa", p: "71%" },
                 ].map((x) => (
-                  <li key={x.t} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-800/20 px-2 py-1.5">
+                  <li key={x.t} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-800/20 px-2 py-1">
                     <span className="flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full" style={{ background: x.c }} />
                       <span className="text-slate-200">{x.t}</span>
@@ -277,12 +275,12 @@ function BigScreen() {
           </div>
 
           {/* center */}
-          <div className="col-span-6 space-y-3">
+          <div className="col-span-6 flex min-h-0 flex-col gap-2">
             <NanjingMapPanel />
 
-            <Panel title="全市体检完成 / 异常检出趋势">
-              <ResponsiveContainer width="100%" height={280}>
-                <AreaChart data={trend} margin={{ left: 0, right: 16 }}>
+            <Panel title="全市体检完成 / 异常检出趋势" className="flex-[1.1]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trend} margin={{ left: 0, right: 16, top: 4, bottom: 4 }}>
                   <defs>
                     <linearGradient id="gDone" x1="0" x2="0" y1="0" y2="1">
                       <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.6} />
@@ -303,10 +301,10 @@ function BigScreen() {
               </ResponsiveContainer>
             </Panel>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid flex-1 grid-cols-2 gap-2">
               <Panel title="TOP 异常检出（%）">
-                <ResponsiveContainer width="100%" height={240}>
-                  <BarChart data={abnormalTop} margin={{ left: 0, right: 16 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={abnormalTop} margin={{ left: 0, right: 16, top: 4, bottom: 4 }}>
                     <CartesianGrid stroke="#164e63" strokeDasharray="2 4" />
                     <XAxis dataKey="name" stroke="#67e8f9" fontSize={10} interval={0} angle={-15} height={40} />
                     <YAxis stroke="#67e8f9" fontSize={10} />
@@ -321,7 +319,7 @@ function BigScreen() {
               </Panel>
 
               <Panel title="健康维度综合指数">
-                <ResponsiveContainer width="100%" height={240}>
+                <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={dimensions}>
                     <PolarGrid stroke="#164e63" />
                     <PolarAngleAxis dataKey="k" stroke="#67e8f9" fontSize={11} />
@@ -333,42 +331,46 @@ function BigScreen() {
           </div>
 
           {/* right */}
-          <div className="col-span-3 space-y-3">
-            <Panel title="异常后处置分布">
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={referral}
-                    dataKey="value"
-                    innerRadius={45}
-                    outerRadius={80}
-                    paddingAngle={3}
-                    stroke="#050a1f"
-                  >
-                    {referral.map((r) => (
-                      <Cell key={r.name} fill={r.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip {...tt} />
-                </PieChart>
-              </ResponsiveContainer>
-              <ul className="grid grid-cols-2 gap-1 text-[11px]">
-                {referral.map((r) => (
-                  <li key={r.name} className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-sm" style={{ background: r.color }} />
-                    <span className="text-slate-300">{r.name}</span>
-                    <span className="ml-auto tabular-nums text-slate-400">{r.value}%</span>
-                  </li>
-                ))}
-              </ul>
+          <div className="col-span-3 flex min-h-0 flex-col gap-2">
+            <Panel title="异常后处置分布" className="flex-1">
+              <div className="flex h-full flex-col">
+                <div className="min-h-0 flex-1">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={referral}
+                        dataKey="value"
+                        innerRadius={35}
+                        outerRadius={65}
+                        paddingAngle={3}
+                        stroke="#050a1f"
+                      >
+                        {referral.map((r) => (
+                          <Cell key={r.name} fill={r.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip {...tt} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <ul className="grid shrink-0 grid-cols-2 gap-1 text-[11px]">
+                  {referral.map((r) => (
+                    <li key={r.name} className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-sm" style={{ background: r.color }} />
+                      <span className="text-slate-300">{r.name}</span>
+                      <span className="ml-auto tabular-nums text-slate-400">{r.value}%</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Panel>
 
-            <Panel title="实时预警与协同事件" liveDot>
-              <ul className="space-y-2 text-xs">
+            <Panel title="实时预警与协同事件" liveDot className="flex-[1.6]" bodyClassName="overflow-auto">
+              <ul className="space-y-1.5 text-xs">
                 {alerts.map((a, i) => (
                   <li
                     key={i}
-                    className="rounded border border-slate-700/40 bg-slate-800/30 p-2"
+                    className="rounded border border-slate-700/40 bg-slate-800/30 p-1.5"
                   >
                     <div className="flex items-center justify-between text-[10px]">
                       <span
@@ -385,31 +387,35 @@ function BigScreen() {
               </ul>
             </Panel>
 
-            <Panel title="家校医协同健康指数">
-              <ResponsiveContainer width="100%" height={110}>
-                <LineChart data={trend}>
-                  <Line
-                    type="monotone"
-                    dataKey="完成"
-                    stroke="#34d399"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <XAxis dataKey="m" hide />
-                  <YAxis hide />
-                </LineChart>
-              </ResponsiveContainer>
-              <div className="flex items-end justify-between">
-                <p className="text-3xl font-black text-emerald-300">92.4</p>
-                <p className="text-[11px] text-slate-400">
-                  较上月 <span className="text-emerald-300">▲ 2.1</span>
-                </p>
+            <Panel title="家校医协同健康指数" className="flex-[0.9]">
+              <div className="flex h-full flex-col">
+                <div className="min-h-0 flex-1">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={trend}>
+                      <Line
+                        type="monotone"
+                        dataKey="完成"
+                        stroke="#34d399"
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                      <XAxis dataKey="m" hide />
+                      <YAxis hide />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="flex shrink-0 items-end justify-between">
+                  <p className="text-3xl font-black text-emerald-300">92.4</p>
+                  <p className="text-[11px] text-slate-400">
+                    较上月 <span className="text-emerald-300">▲ 2.1</span>
+                  </p>
+                </div>
               </div>
             </Panel>
           </div>
         </div>
 
-        <footer className="mt-3 flex items-center justify-between border-t border-cyan-500/20 pt-2 text-[10px] text-slate-500">
+        <footer className="mt-2 flex shrink-0 items-center justify-between border-t border-cyan-500/20 pt-1.5 text-[10px] text-slate-500">
           <span>数据来源：市教育局体卫艺处 · 市卫健委妇幼健康处 · 阳光校园健康平台</span>
           <span>刷新周期：60s · 当前接入承检机构在线 68 / 68</span>
         </footer>
@@ -417,6 +423,7 @@ function BigScreen() {
     </div>
   );
 }
+
 
 const tt = {
   contentStyle: {
@@ -433,18 +440,22 @@ function Panel({
   title,
   children,
   liveDot,
+  className = "",
+  bodyClassName = "",
 }: {
   title: string;
   children: React.ReactNode;
   liveDot?: boolean;
+  className?: string;
+  bodyClassName?: string;
 }) {
   return (
-    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+    <div className={`relative flex flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur ${className}`}>
       <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex shrink-0 items-center justify-between">
         <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
           ▍{title}
         </h3>
@@ -458,7 +469,7 @@ function Panel({
           </span>
         )}
       </div>
-      {children}
+      <div className={`min-h-0 flex-1 ${bodyClassName}`}>{children}</div>
     </div>
   );
 }
@@ -472,13 +483,13 @@ function NanjingMapPanel() {
     r >= 92 ? "#34d399" : r >= 85 ? "#22d3ee" : r >= 80 ? "#fbbf24" : "#f87171";
 
   return (
-    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+    <div className="relative flex min-h-0 flex-[1.8] flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
       <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
 
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex shrink-0 items-center justify-between">
         <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
           ▍江苏省南京市 · 项目辐射覆盖
         </h3>
@@ -490,9 +501,9 @@ function NanjingMapPanel() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr_180px] gap-3">
+      <div className="grid min-h-0 flex-1 grid-cols-[1fr_180px] gap-3">
         {/* Map */}
-        <div className="relative h-[420px] overflow-hidden rounded-md bg-gradient-to-b from-[#061a3a] via-[#04122a] to-[#020814] ring-1 ring-cyan-500/20">
+        <div className="relative min-h-0 overflow-hidden rounded-md bg-gradient-to-b from-[#061a3a] via-[#04122a] to-[#020814] ring-1 ring-cyan-500/20">
           <svg viewBox="0 0 500 560" className="h-full w-full">
             <defs>
               <linearGradient id="dTop" x1="0" x2="0" y1="0" y2="1">
@@ -608,7 +619,7 @@ function NanjingMapPanel() {
         </div>
 
         {/* Right list */}
-        <div className="max-h-[420px] overflow-auto pr-1 text-xs">
+        <div className="min-h-0 overflow-auto pr-1 text-xs">
           <p className="mb-1 text-[10px] tracking-wider text-slate-400">区县明细</p>
           <ul className="space-y-1.5">
             {njMap

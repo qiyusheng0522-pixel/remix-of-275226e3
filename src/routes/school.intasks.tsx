@@ -146,6 +146,41 @@ function InTasksPage() {
                 <p className="mt-0.5 text-[11px] text-muted-foreground">
                   {t.role} · {t.who} · 期限 {t.due}
                 </p>
+                <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                  <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">
+                    🤖 AI 分派 · 责任人 {t.assignee}
+                  </span>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] text-foreground ring-1 ring-border/60">
+                        调整
+                      </button>
+                    }
+                    title="手动调整责任人"
+                    description={<>{t.title}<br />当前：{t.assignee}（{t.role}）</>}
+                    confirmText="关闭"
+                    toastMessage="责任人已更新"
+                  >
+                    <div className="space-y-2">
+                      <p className="text-[11px] text-muted-foreground">从同角色人员中选择：</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {staffByRole[t.role].map((name) => (
+                          <button
+                            key={name}
+                            onClick={() => reassign(t.id, name)}
+                            className={`rounded-full px-3 py-1 text-[11px] ring-1 ${
+                              t.assignee === name
+                                ? "bg-teal text-teal-foreground ring-teal"
+                                : "bg-surface-2 text-foreground ring-border/60"
+                            }`}
+                          >
+                            {name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </ActionSheet>
+                </div>
                 <div className="mt-2 flex items-center gap-2">
                   <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[t.status]}`}>{t.status}</span>
                   <ActionSheet

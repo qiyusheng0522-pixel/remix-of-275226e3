@@ -87,7 +87,7 @@ const todos: Todo[] = [
     name: "陈敏 家长",
     tags: [{ text: "待回复", cls: "bg-deep/15 text-deep" }],
     desc: "咨询：孩子夜间咳嗽是否需要复诊 · 已等 2h",
-    to: "/doctor/messages",
+    to: "/doctor/comm",
   },
 ];
 

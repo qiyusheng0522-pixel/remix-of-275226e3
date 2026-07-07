@@ -117,6 +117,49 @@ function ReportPage() {
           </p>
         </header>
 
+        {/* 儿童形象 + 问题标签 可视化 */}
+        <section className="mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-teal/15 via-warm/10 to-rose/15 p-4 ring-1 ring-border/60">
+          <div className="flex items-center gap-4">
+            <div className="relative shrink-0">
+              <div className="grid h-24 w-24 place-items-center rounded-full bg-white text-[56px] shadow-inner ring-4 ring-white">
+                <span role="img" aria-label="child">🧒</span>
+              </div>
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full bg-warning px-2 py-0.5 text-[10px] font-bold text-warning-foreground shadow">
+                需关注
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline gap-2">
+                <p className="text-base font-bold">{child.name}</p>
+                <span className="text-[11px] text-muted-foreground">8 岁 · 男</span>
+              </div>
+              <p className="mt-1 text-[11px] text-muted-foreground">身高 138cm · 体重 32.5kg · BMI 17.1</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {[
+                  { t: "体重偏高", c: "bg-warm/15 text-warm ring-warm/30" },
+                  { t: "尘螨过敏", c: "bg-rose/10 text-rose ring-rose/30" },
+                  { t: "运动后咳嗽", c: "bg-warning/15 text-warning-foreground ring-warning/30" },
+                  { t: "视力正常", c: "bg-success/10 text-success ring-success/30" },
+                  { t: "口腔健康", c: "bg-success/10 text-success ring-success/30" },
+                ].map((x) => (
+                  <span key={x.t} className={`rounded-full px-2 py-0.5 text-[11px] ring-1 ${x.c}`}>
+                    {x.t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 参考值来源说明 */}
+        <div className="mb-3 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 text-[11px] text-muted-foreground ring-1 ring-border/60">
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">🏥</span>
+          <p>
+            本报告所有指标 <b className="text-foreground">参考值来源：南京市儿童医院体检中心</b>（2024 版学龄儿童参考区间）
+          </p>
+        </div>
+
+
         {/* Summary card */}
         <details className="group mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 ring-1 ring-warning/30">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4">

@@ -12,14 +12,26 @@ const meals = [
   {
     name: "早餐",
     kcal: 430,
+    reason: "早餐提供全天 25–30% 能量，粗细搭配 + 优质蛋白可稳定上午血糖、改善注意力",
+    source: "《中国学龄儿童膳食指南 (2022)》· 中国营养学会",
     groups: [
       { title: "粗细搭配主食", amount: "50–75 克(生重)", tips: "粗粮占 1/3 以上", tags: ["燕麦片", "玉米面", "全麦面包", "杂粮馒头"] },
       { title: "优质蛋白", amount: "1 份", tags: ["鸡蛋 1 个", "牛奶 250ml", "无糖豆浆 300ml"] },
       { title: "蔬菜或低糖水果", amount: "100–150 克", tags: ["黄瓜", "番茄", "蓝莓", "苹果"] },
     ],
   },
-  { name: "午餐", kcal: 560 },
-  { name: "晚餐", kcal: 440 },
+  {
+    name: "午餐",
+    kcal: 560,
+    reason: "午餐承担全天最高供能，蛋白质与蔬菜比重提升有助于控重",
+    source: "WHO《School-age children and adolescents nutrition guidance (2023)》",
+  },
+  {
+    name: "晚餐",
+    kcal: 440,
+    reason: "晚餐能量适度下调、餐后 2 小时不进食，可减少肥胖与胰岛素抵抗风险",
+    source: "《中国儿童青少年零食指南 (2018)》· 国家卫生健康委",
+  },
 ];
 
 const exercises = [
@@ -32,6 +44,8 @@ const exercises = [
     time: "午餐后 13:00",
     hr: "8–10 分钟",
     coach: "社区健身指导员 · 06:00",
+    reason: "餐后 30 分钟中低强度活动可降低餐后血糖峰值约 12–17%，是学龄儿童控重的有效方式",
+    source: "《中国儿童青少年身体活动指南 (2018)》· 国家卫健委疾控局",
   },
   {
     tag: "通用教学",
@@ -42,6 +56,8 @@ const exercises = [
     time: "傍晚 17:30",
     hr: "心率 130–150",
     coach: "国家二级运动员 · 08:20",
+    reason: "跳绳属于负重冲击运动，可同步促进骨密度增长与心肺耐力，每次≥15 分钟效果显著",
+    source: "WHO《Physical activity for children and adolescents (2020)》· 每日 60min MVPA",
   },
 ];
 
@@ -200,6 +216,17 @@ function HealthPlanPage() {
                     <span className="text-[11px] text-muted-foreground">· 推荐结构</span>
                   </div>
 
+                  {/* 推荐理由 + 科学出处 */}
+                  <div className="mt-2 rounded-xl bg-warm/10 p-2.5 ring-1 ring-warm/20">
+                    <p className="text-[11px] leading-relaxed text-foreground/85">
+                      <b className="text-warm">推荐理由：</b>{m.reason}
+                    </p>
+                    <p className="mt-1 text-[10px] text-muted-foreground">
+                      📚 出处：{m.source}
+                    </p>
+                  </div>
+
+
                   {m.groups && (
                     <div className="mt-2 space-y-2">
                       <p className="text-[11px] text-muted-foreground">
@@ -290,6 +317,13 @@ function HealthPlanPage() {
                     </div>
                     <p className="mt-1.5 text-[11px] text-muted-foreground">🕐 {e.time} · 〰 {e.hr}</p>
                   </div>
+                </div>
+                {/* 推荐理由 + 科学出处 */}
+                <div className="border-t border-border/50 bg-teal/5 px-3 py-2">
+                  <p className="text-[11px] leading-relaxed text-foreground/85">
+                    <b className="text-teal">推荐理由：</b>{e.reason}
+                  </p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
                 </div>
                 <div className="flex items-center gap-1.5 border-t border-border/50 bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
                   🔒 开通专属方案解锁 <b className="text-foreground">奥运冠军 1:1 陪练</b> 与个性化强度调整

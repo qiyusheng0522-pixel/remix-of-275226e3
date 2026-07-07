@@ -15,6 +15,7 @@ type Item = {
   title: string;
   desc: string;
   status: "待办" | "已完成" | "已签署" | "已阅读";
+  deadline?: string;
   cta?: string;
 };
 
@@ -29,6 +30,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "填写健康问卷",
         desc: "过敏史 / 既往病史 / 用药情况",
         status: "待办",
+        deadline: "2026-04-13 24:00 前",
         cta: "去填写",
       },
     ],
@@ -44,6 +46,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "体检时间与地点",
         desc: "2026-04-15（周三）08:30—11:30 · 操场东侧体检车",
         status: "已阅读",
+        deadline: "2026-04-14 前知悉",
       },
       {
         id: "org",
@@ -51,6 +54,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "承检机构",
         desc: "阳光社区卫生服务中心 · 具备儿童体检资质",
         status: "已阅读",
+        deadline: "2026-04-14 前知悉",
       },
       {
         id: "items",
@@ -58,6 +62,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "体检项目清单",
         desc: "身高 / 体重 / BMI / 腰围 / 血压 / 视力 / 口腔 / 呼吸过敏问卷",
         status: "已阅读",
+        deadline: "2026-04-14 前知悉",
       },
     ],
   },
@@ -71,6 +76,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "体检知情同意书",
         desc: "同意本次校内体检采集孩子基础健康数据",
         status: "待办",
+        deadline: "2026-04-13 24:00 前",
         cta: "去签署",
       },
       {
@@ -79,6 +85,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
         title: "数据使用与呵护授权",
         desc: "授权后 12 个月内用于家庭呵护、随访、复评提醒",
         status: "已签署",
+        deadline: "2026-04-13 24:00 前",
       },
     ],
   },
@@ -185,6 +192,11 @@ function NoticePage() {
                     <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
                       {it.desc}
                     </p>
+                    {it.deadline && (
+                      <p className="mt-1 text-[11px] font-medium text-warm">
+                        ⏰ 截止日期：{it.deadline}
+                      </p>
+                    )}
                     {isTodo && it.cta && (
                       <div className="mt-2 flex justify-end">
                         {it.id === "consent" ? (

@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
+
+// 是否已有体检报告 —— 没有报告时首页不展示任何待办事项
+const HAS_REPORT = true;
+const CONSENT_KEY = "parent_consent_v1";
 
 export const Route = createFileRoute("/parent/")({
   component: ParentHome,
@@ -90,10 +94,78 @@ function ParentHome() {
   const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
   const [catTab, setCatTab] = useState("全部");
   const [showAllTasks, setShowAllTasks] = useState(false);
+  const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem(CONSENT_KEY);
+    if (saved === "agreed" || saved === "declined") setConsent(saved);
+  }, []);
+
+  const agree = () => {
+    window.localStorage.setItem(CONSENT_KEY, "agreed");
+    setConsent("agreed");
+  };
+  const decline = () => {
+    window.localStorage.setItem(CONSENT_KEY, "declined");
+    setConsent("declined");
+  };
 
   return (
     <div className="pb-4">
+      {/* 体检授权协议 · 首次进入弹出 */}
+      {consent === "pending" && (
+        <div className="fixed inset-0 z-50 mx-auto flex max-w-md items-center justify-center bg-black/40 px-5 backdrop-blur-sm">
+          <div className="w-full rounded-3xl bg-surface p-5 shadow-2xl">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-rose/15 text-lg">📄</span>
+              <h2 className="text-base font-bold">儿童体检数据授权协议</h2>
+            </div>
+            <div className="max-h-56 space-y-2 overflow-y-auto rounded-2xl bg-surface-2 p-3 text-[11px] leading-relaxed text-foreground/80">
+              <p>为向您与孩子提供体检报告解读、健康方案与随访服务，本小程序将采集：</p>
+              <p>• 基础信息（姓名 / 年龄 / 学校班级）</p>
+              <p>• 体检数据（身高体重 / 视力 / 血压 / 过敏筛查等）</p>
+              <p>• 家庭健康打卡与咨询记录</p>
+              <p>以上数据由承检机构与合作儿童医院加密存储，仅用于服务您的孩子，不会用于商业用途。您可随时在"我的-授权管理"中撤回。</p>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button onClick={decline} className="rounded-full bg-surface-2 py-2.5 text-[13px] font-medium text-muted-foreground">
+                暂不同意
+              </button>
+              <button onClick={agree} className="rounded-full bg-rose py-2.5 text-[13px] font-semibold text-rose-foreground">
+                同意并继续
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 拒绝授权友好提示 */}
+      {consent === "declined" && (
+        <div className="fixed inset-0 z-50 mx-auto flex max-w-md items-center justify-center bg-black/40 px-5 backdrop-blur-sm">
+          <div className="w-full rounded-3xl bg-surface p-6 text-center shadow-2xl">
+            <span className="mx-auto mb-2 grid h-14 w-14 place-items-center rounded-full bg-warm/15 text-2xl">🌱</span>
+            <h2 className="text-base font-bold">还没同意授权哦</h2>
+            <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+              没有授权就无法为宝贝生成体检报告和专属健康方案。您可以先浏览科普内容，随时回来继续开启守护 💕
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setConsent("pending")}
+                className="rounded-full bg-surface-2 py-2.5 text-[13px] font-medium text-muted-foreground"
+              >
+                仅浏览小程序
+              </button>
+              <button onClick={agree} className="rounded-full bg-rose py-2.5 text-[13px] font-semibold text-rose-foreground">
+                重新查看协议
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <StatusBar title="童护佳 · 南京" />
+
 
       {/* Brand row */}
       <div className="flex items-center justify-between px-5 pb-3 pt-2">
@@ -247,7 +319,8 @@ function ParentHome() {
         <span className="text-muted-foreground">›</span>
       </Link>
 
-      {/* Today tasks */}
+      {/* Today tasks — 需已生成体检报告后才展示 */}
+      {HAS_REPORT && (
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-sm font-bold">
@@ -300,8 +373,10 @@ function ParentHome() {
           })}
         </ul>
       </section>
+      )}
 
-      {/* 居家健康提醒 */}
+      {/* 居家健康提醒 — 需已生成体检报告后才展示 */}
+      {HAS_REPORT && (
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
         <div className="mb-3 flex items-start justify-between gap-2">
           <div>
@@ -440,6 +515,7 @@ function ParentHome() {
           })}
         </ul>
       </section>
+      )}
 
 
       {/* 健康百科 */}

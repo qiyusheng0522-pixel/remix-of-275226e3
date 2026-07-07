@@ -135,6 +135,16 @@ function TodayPage() {
           </>
         ) : (
           <>
+            <Link
+              to="/school/students"
+              className="mb-3 flex items-center justify-between rounded-2xl bg-gradient-to-br from-teal to-deep p-3 text-white shadow-sm"
+            >
+              <div className="text-left">
+                <p className="text-sm font-semibold">⚡ 一键同步本批次体检学生清单</p>
+                <p className="mt-0.5 text-[11px] opacity-90">从教育局批次拉取最新名单至学生模块</p>
+              </div>
+              <span>→</span>
+            </Link>
             {/* 教育局下发批次 */}
             <div className="space-y-3">
               {batches.map((b) => (

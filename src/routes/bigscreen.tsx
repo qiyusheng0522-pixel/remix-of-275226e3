@@ -227,6 +227,8 @@ function BigScreen() {
 
           {/* center */}
           <div className="col-span-6 space-y-3">
+            <NanjingMapPanel />
+
             <Panel title="全市体检完成 / 异常检出趋势">
               <ResponsiveContainer width="100%" height={280}>
                 <AreaChart data={trend} margin={{ left: 0, right: 16 }}>

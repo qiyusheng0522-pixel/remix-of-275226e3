@@ -183,6 +183,7 @@ function UsersPage() {
                   )}
                   {u.status === "待检" && u.eta && (
                     <p className="mt-1 text-[10px] text-warm">⏱ {u.eta}</p>
+                  )}
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1">
                   <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusStyle[u.status]}`}>

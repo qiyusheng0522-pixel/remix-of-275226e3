@@ -1,6 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { child } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
+
+const aiExtra = [
+  { title: "亲子平板支撑挑战", level: "入门", kcal: 60, tag: "AI推荐", reason: "针对核心力量与体态改善，适合 BMI 偏高儿童" },
+  { title: "楼梯间隔训练 10 分钟", level: "进阶", kcal: 90, tag: "AI推荐", reason: "利用居家场景提升心肺，无需器材" },
+  { title: "睡前拉伸 8 式", level: "入门", kcal: 30, tag: "AI推荐", reason: "缓解运动后肌肉紧张，提高睡眠质量" },
+];
+const nearby = [
+  { title: "周六晨跑 · 玄武湖公园", host: "多多妈 · 阳光小学三(3)班", when: "周六 07:00", joined: 6, cap: 12, dist: "1.2km" },
+  { title: "亲子跳绳 PK", host: "乐乐爸 · 阳光小学三(2)班", when: "周日 16:00 社区广场", joined: 4, cap: 8, dist: "0.6km" },
+  { title: "羽毛球陪练", host: "小雨妈 · 阳光小学三(3)班", when: "周五 18:30 体育馆", joined: 2, cap: 4, dist: "2.1km" },
+];
 
 export const Route = createFileRoute("/parent/health-plan")({
   component: HealthPlanPage,

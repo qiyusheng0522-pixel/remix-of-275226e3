@@ -209,10 +209,10 @@ function ReportPage() {
         <details className="group mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 ring-1 ring-warning/30">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4">
             <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">🟡</span>
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">🤖</span>
               <div>
-                <p className="text-[11px] text-warning-foreground/80">整体风险等级</p>
-                <p className="text-sm font-bold text-warning-foreground">{child.riskLevel} · 需关注</p>
+                <p className="text-[11px] text-warning-foreground/80">AI 解读与就诊建议</p>
+                <p className="text-sm font-bold text-warning-foreground">展开查看详情</p>
               </div>
             </div>
             <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>

@@ -608,7 +608,7 @@ function NanjingMapPanel() {
         </div>
 
         {/* Right list */}
-        <div className="max-h-[380px] overflow-auto pr-1 text-xs">
+        <div className="max-h-[420px] overflow-auto pr-1 text-xs">
           <p className="mb-1 text-[10px] tracking-wider text-slate-400">区县明细</p>
           <ul className="space-y-1.5">
             {njMap

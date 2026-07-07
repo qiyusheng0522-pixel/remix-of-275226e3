@@ -21,7 +21,7 @@ const stats: Stat[] = [
   {
     icon: "📦",
     iconBg: "bg-warm/15 text-warm",
-    label: "服务包在管",
+    label: "在管患者",
     sub: "商城购买 · 社区承接随访",
     value: 46,
     unit: "人在管",
@@ -31,7 +31,7 @@ const stats: Stat[] = [
   {
     icon: "🔁",
     iconBg: "bg-teal/15 text-teal",
-    label: "复诊转入",
+    label: "医院下传",
     sub: "医院转介 · 待建档随访",
     value: 12,
     unit: "人待接",

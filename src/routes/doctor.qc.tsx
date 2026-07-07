@@ -19,6 +19,9 @@ type Item = {
   issue: string;
   detail: string;
   ai: string;
+  history?: { round: string; snapshot: string }[]; // 平台历史体检记录
+  deviation?: string; // 与历史相比的严重偏差，触发二次复核
+  missing?: string[]; // 漏检项，触发漏检复核
 };
 
 const catStyle: Record<Category, string> = {
@@ -39,6 +42,11 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "身高 128 → 125 cm（半年下降 3cm）",
       detail: "与半年前数据方向矛盾，疑测量误差，需退回体检机构重测。",
       ai: "AI 建议：退回体检机构核实测量",
+      history: [
+        { round: "2025 秋季体检", snapshot: "身高 128 cm · 体重 24.6 kg · BMI 15.0" },
+        { round: "2025 春季体检", snapshot: "身高 126 cm · 体重 23.8 kg · BMI 15.0" },
+      ],
+      deviation: "本次身高较半年前下降 3 cm，儿童身高不应回退 → 触发严重偏差二次复核",
     },
     {
       name: "赵一鸣",
@@ -48,6 +56,7 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "缺 视力（左眼）· 未录入腰围",
       detail: "漏检 2 项，需补录后方可出报告。",
       ai: "AI 建议：标记缺项 · 通知复测",
+      missing: ["视力（左眼）", "腰围"],
     },
     {
       name: "孙嘉禾",
@@ -57,6 +66,10 @@ const data: Record<(typeof tabs)[number], Item[]> = {
       issue: "身高 P10 但 BMI 24.6（超标）",
       detail: "身高偏低同时 BMI 严重超标，逻辑矛盾，疑体重录入错误。",
       ai: "AI 建议：核对体重原始秤重数据",
+      history: [
+        { round: "2025 秋季体检", snapshot: "身高 132 cm · 体重 30.2 kg · BMI 17.3" },
+      ],
+      deviation: "BMI 由 17.3 骤升至 24.6（+7.3），单学期涨幅异常 → 触发严重偏差二次复核",
     },
 
     // 二、指标综合研判：AI 只看数字，医生结合发育综合判断
@@ -220,6 +233,14 @@ function ReportReviewPage() {
                       </p>
                     </div>
                     <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {r.deviation && (
+                        <span className="rounded bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger">🔁 严重偏差二次复核</span>
+                      )}
+                      {r.missing && r.missing.length > 0 && (
+                        <span className="rounded bg-warning/25 px-1.5 py-0.5 text-[10px] font-medium text-warning-foreground">🕳 漏检复核 · {r.missing.length} 项</span>
+                      )}
+                    </div>
                   </Link>
                   <button
                     onClick={() => setOpenKey(isOpen ? null : key)}
@@ -239,6 +260,36 @@ function ReportReviewPage() {
                 {isOpen && (
                   <div className="border-t border-border/60 px-4 pb-4 pt-3">
                     <p className="text-[11px] text-muted-foreground">{r.detail}</p>
+
+                    {/* 平台历史体检记录对比 */}
+                    {r.history && r.history.length > 0 && (
+                      <div className="mt-2 rounded-lg bg-teal/8 p-2 ring-1 ring-teal/20">
+                        <p className="text-[10.5px] font-semibold text-teal">📈 平台历史体检记录对比</p>
+                        <ul className="mt-1 space-y-0.5">
+                          {r.history.map((h) => (
+                            <li key={h.round} className="text-[10.5px] text-muted-foreground">
+                              <span className="text-foreground">{h.round}</span> · {h.snapshot}
+                            </li>
+                          ))}
+                        </ul>
+                        {r.deviation && (
+                          <p className="mt-1.5 rounded bg-danger/10 px-2 py-1 text-[10.5px] text-danger">
+                            🔁 {r.deviation}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* 漏检复核 */}
+                    {r.missing && r.missing.length > 0 && (
+                      <div className="mt-2 rounded-lg bg-warning/15 p-2 ring-1 ring-warning/30">
+                        <p className="text-[10.5px] font-semibold text-warning-foreground">🕳 漏检复核清单</p>
+                        <p className="mt-1 text-[10.5px] text-muted-foreground">
+                          缺失：{r.missing.join(" / ")} · 已通知体检机构补录后回传
+                        </p>
+                      </div>
+                    )}
+
                     <p className="mt-2 rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
                       ✨ {r.ai}
                     </p>

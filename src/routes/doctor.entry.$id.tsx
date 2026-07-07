@@ -231,14 +231,30 @@ function EntryPage() {
     <div className="min-h-full bg-muted/40">
       <StatusBar title="体检录入" />
       <div className="px-4 pb-24 pt-2">
-        {/* Header */}
+        {/* Header — 与待检学生列表信息一致 */}
         <div className="mb-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[15px] font-bold">学号 {id}</p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">阳光小学 · 三年级 3 班</p>
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-deep/10 text-sm font-bold text-deep">
+              {user?.name.slice(-1) ?? "?"}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[15px] font-bold">
+                {user?.name ?? "未知学生"}
+                <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+                  {user ? `${user.grade} · ${user.age}岁${user.gender}` : "阳光小学"}
+                </span>
+              </p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">学号 {id}</p>
+              {user?.tags && user.tags.length > 0 && (
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {user.tags.map((t) => (
+                    <span key={t} className="rounded bg-surface-2 px-1.5 py-0.5 text-[10px] text-muted-foreground">{t}</span>
+                  ))}
+                </div>
+              )}
+              {user?.eta && <p className="mt-1 text-[10px] text-warm">⏱ {user.eta}</p>}
             </div>
-            <span className="rounded-full bg-deep/10 px-2.5 py-1 text-[11px] font-medium text-deep">
+            <span className="shrink-0 rounded-full bg-deep/10 px-2.5 py-1 text-[11px] font-medium text-deep">
               进度 {progress.done}/{progress.total}
             </span>
           </div>
@@ -249,6 +265,7 @@ function EntryPage() {
             />
           </div>
         </div>
+
 
         {/* Node tabs */}
         <div className="mb-3 -mx-1 flex gap-1.5 overflow-x-auto px-1">

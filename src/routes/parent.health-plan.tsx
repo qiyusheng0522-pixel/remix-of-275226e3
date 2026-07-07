@@ -74,6 +74,15 @@ const exercises = [
 ];
 
 function HealthPlanPage() {
+  const [checked, setChecked] = useState<Record<string, boolean>>(() => ({ [exercises[0].title]: true }));
+  const [sheet, setSheet] = useState<null | "more" | "publish">(null);
+  const [tab, setTab] = useState<"ai" | "custom" | "nearby">("ai");
+  const [joined, setJoined] = useState<Record<string, boolean>>({});
+  const [customTitle, setCustomTitle] = useState("");
+  const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
+  const doneCount = Object.values(checked).filter(Boolean).length;
+  const total = exercises.length;
+  const pct = Math.round((doneCount / total) * 100);
   return (
     <div className="bg-surface-2">
       <StatusBar title="健康管理方案" />

@@ -119,37 +119,49 @@ function ReportPage() {
         </header>
 
         {/* 3D 虚拟儿童形象 + 问题标注 */}
-        <section className="mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-teal/15 via-warm/10 to-rose/15 p-4 ring-1 ring-border/60">
-          <div className="mb-2 flex items-baseline justify-between">
-            <div className="flex items-baseline gap-2">
-              <p className="text-base font-bold">{child.name}</p>
-              <span className="text-[11px] text-muted-foreground">8 岁 · 男 · 138cm / 32.5kg</span>
+        <section className="mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/20 via-warm/10 to-rose/15 p-4 ring-1 ring-warning/30">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-warning/40 text-sm">🟡</span>
+              <div>
+                <p className="text-[10px] leading-none text-muted-foreground">整体风险等级</p>
+                <p className="text-sm font-bold text-warning-foreground">{child.riskLevel} · 需关注 3 项</p>
+              </div>
             </div>
-            <span className="rounded-full bg-warning px-2 py-0.5 text-[10px] font-bold text-warning-foreground shadow">
-              需关注 3 项
-            </span>
+            <span className="text-[11px] text-muted-foreground">8 岁 · 男 · 138cm / 32.5kg</span>
           </div>
 
           <div className="relative mx-auto h-[340px] w-full">
+            {/* 风险光晕 - 融入 3D 形象 */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-warning/25 blur-2xl" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[240px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-warm/20 blur-xl" />
+
             {/* 中央 3D 形象 */}
             <img
               src={child3d}
-              alt={`${child.name} 虚拟形象`}
+              alt="虚拟形象"
               width={768}
               height={1024}
               loading="lazy"
               className="absolute left-1/2 top-0 h-full w-auto -translate-x-1/2 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.12)]"
             />
 
+            {/* 头顶风险徽章 */}
+            <div className="absolute left-1/2 top-1 -translate-x-1/2">
+              <span className="rounded-full bg-warning px-3 py-1 text-[11px] font-bold text-warning-foreground shadow-md ring-2 ring-white">
+                🟡 {child.riskLevel}风险
+              </span>
+            </div>
+
             {/* 左侧标注：视力 / 呼吸 */}
-            <div className="absolute left-0 top-4 max-w-[38%]">
+            <div className="absolute left-0 top-16 max-w-[38%]">
               <div className="rounded-xl bg-success/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-success/30 backdrop-blur">
                 <p className="font-semibold text-success">👁 视力正常</p>
                 <p className="text-foreground/70">5.0 / 5.0</p>
               </div>
               <div className="ml-auto mt-0.5 h-px w-10 bg-success/50" />
             </div>
-            <div className="absolute left-0 top-[38%] max-w-[42%]">
+            <div className="absolute left-0 top-[42%] max-w-[42%]">
               <div className="rounded-xl bg-warning/15 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-warning/40 backdrop-blur">
                 <p className="font-semibold text-warning-foreground">🫁 运动后咳嗽</p>
                 <p className="text-foreground/70">偶发 · 需关注</p>
@@ -158,36 +170,30 @@ function ReportPage() {
             </div>
 
             {/* 右侧标注：过敏 / 体重 / 口腔 */}
-            <div className="absolute right-0 top-2 max-w-[38%]">
+            <div className="absolute right-0 top-14 max-w-[38%]">
               <div className="rounded-xl bg-rose/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-rose/30 backdrop-blur">
                 <p className="font-semibold text-rose">🌿 尘螨过敏 ++</p>
                 <p className="text-foreground/70">需家庭除螨</p>
               </div>
               <div className="mt-0.5 h-px w-10 bg-rose/50" />
             </div>
-            <div className="absolute right-0 top-[30%] max-w-[42%]">
+            <div className="absolute right-0 top-[34%] max-w-[42%]">
               <div className="rounded-xl bg-warm/15 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-warm/40 backdrop-blur">
                 <p className="font-semibold text-warm">⚖️ 体重偏高</p>
                 <p className="text-foreground/70">BMI 17.1 · P85</p>
               </div>
               <div className="mt-0.5 h-px w-8 bg-warm/60" />
             </div>
-            <div className="absolute right-0 top-[58%] max-w-[38%]">
+            <div className="absolute right-0 top-[60%] max-w-[38%]">
               <div className="rounded-xl bg-success/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-success/30 backdrop-blur">
                 <p className="font-semibold text-success">🦷 口腔健康</p>
                 <p className="text-foreground/70">无龋齿</p>
               </div>
               <div className="mt-0.5 h-px w-10 bg-success/50" />
             </div>
-
-            {/* 底部体检节点小徽章 */}
-            <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 gap-1.5">
-              <span className="rounded-full bg-surface/90 px-2 py-0.5 text-[10px] ring-1 ring-border/60 backdrop-blur">
-                风险等级 <b className="text-warning-foreground">{child.riskLevel}</b>
-              </span>
-            </div>
           </div>
         </section>
+
 
 
         {/* 参考值来源说明 */}
@@ -203,10 +209,10 @@ function ReportPage() {
         <details className="group mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 ring-1 ring-warning/30">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4">
             <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">🟡</span>
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">🤖</span>
               <div>
-                <p className="text-[11px] text-warning-foreground/80">整体风险等级</p>
-                <p className="text-sm font-bold text-warning-foreground">{child.riskLevel} · 需关注</p>
+                <p className="text-[11px] text-warning-foreground/80">AI 解读与就诊建议</p>
+                <p className="text-sm font-bold text-warning-foreground">展开查看详情</p>
               </div>
             </div>
             <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>

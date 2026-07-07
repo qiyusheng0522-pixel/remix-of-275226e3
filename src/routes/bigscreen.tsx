@@ -223,6 +223,57 @@ function BigScreen() {
                 ))}
               </ul>
             </Panel>
+
+            <Panel title="重点儿童干预进度">
+              <ul className="space-y-2 text-[11px]">
+                {[
+                  { k: "视力矫正跟踪", n: 1824, r: 78, c: "#f472b6" },
+                  { k: "体重管理干预", n: 1256, r: 65, c: "#fbbf24" },
+                  { k: "口腔龋齿治疗", n: 986, r: 82, c: "#34d399" },
+                  { k: "脊柱侧弯复查", n: 412, r: 71, c: "#a78bfa" },
+                  { k: "血压异常随访", n: 218, r: 88, c: "#38bdf8" },
+                ].map((x) => (
+                  <li key={x.k}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-200">{x.k}</span>
+                      <span className="tabular-nums text-slate-300">
+                        <span className="text-cyan-300">{fmt(x.n)}</span>
+                        <span className="ml-1 text-slate-500">人</span>
+                      </span>
+                    </div>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-700/40">
+                      <div className="h-full rounded-full" style={{ width: `${x.r}%`, background: x.c }} />
+                    </div>
+                    <p className="mt-0.5 text-right text-[10px] text-slate-400">完成 {x.r}%</p>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title="本周家校医协同任务">
+              <ul className="space-y-1.5 text-[11px]">
+                {[
+                  { t: "校方上传体检花名册", s: "完成", c: "#34d399", p: "98%" },
+                  { t: "机构回传体检报告", s: "进行", c: "#22d3ee", p: "82%" },
+                  { t: "异常结果分级派单", s: "进行", c: "#fbbf24", p: "67%" },
+                  { t: "家长知情同意回收", s: "待办", c: "#f472b6", p: "45%" },
+                  { t: "社区随访建档", s: "进行", c: "#a78bfa", p: "71%" },
+                ].map((x) => (
+                  <li key={x.t} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-800/20 px-2 py-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full" style={{ background: x.c }} />
+                      <span className="text-slate-200">{x.t}</span>
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="tabular-nums text-slate-400">{x.p}</span>
+                      <span className="rounded px-1.5 py-0.5 text-[10px]" style={{ background: `${x.c}25`, color: x.c }}>
+                        {x.s}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
           </div>
 
           {/* center */}
@@ -441,48 +492,102 @@ function NanjingMapPanel() {
 
       <div className="grid grid-cols-[1fr_180px] gap-3">
         {/* Map */}
-        <div className="relative h-[380px] overflow-hidden rounded-md bg-gradient-to-br from-cyan-950/40 to-slate-950/40 ring-1 ring-cyan-500/20">
-          <svg viewBox="0 0 500 520" className="h-full w-full">
+        <div className="relative h-[420px] overflow-hidden rounded-md bg-gradient-to-b from-[#061a3a] via-[#04122a] to-[#020814] ring-1 ring-cyan-500/20">
+          <svg viewBox="0 0 500 560" className="h-full w-full">
             <defs>
-              <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.6" />
+              <linearGradient id="dTop" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#3ec6ff" />
+                <stop offset="100%" stopColor="#1a6db8" />
+              </linearGradient>
+              <linearGradient id="dSide" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#1a5a99" />
+                <stop offset="100%" stopColor="#0a2547" />
+              </linearGradient>
+              <radialGradient id="floorGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.5" />
+                <stop offset="70%" stopColor="#22d3ee" stopOpacity="0.06" />
                 <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
               </radialGradient>
-              <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#164e63" strokeWidth="0.4" />
-              </pattern>
+              <filter id="topGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="b" />
+                <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
             </defs>
-            <rect width="500" height="520" fill="url(#grid)" />
-            {/* Nanjing outline (stylized) */}
-            <path
-              d="M 240 30 L 320 60 L 360 120 L 400 180 L 380 240 L 340 300 L 340 380 L 300 460 L 260 510 L 220 480 L 200 420 L 170 360 L 130 300 L 90 220 L 80 160 L 130 100 L 190 60 Z"
-              fill="rgba(34,211,238,0.06)"
-              stroke="#22d3ee"
-              strokeWidth="1.2"
-              strokeDasharray="4 3"
-            />
 
-            {njMap.map((d) => {
-              const r = 8 + (d.kids / maxKids) * 16;
-              const c = color(d.rate);
+            {/* Floor glow */}
+            <ellipse cx="250" cy="510" rx="230" ry="34" fill="url(#floorGlow)" />
+            <ellipse cx="250" cy="510" rx="210" ry="26" fill="none" stroke="#22d3ee" strokeOpacity="0.35" strokeDasharray="2 6" />
+            <ellipse cx="250" cy="510" rx="170" ry="20" fill="none" stroke="#22d3ee" strokeOpacity="0.25" />
+
+            {(() => {
+              const EXT = 12; // extrusion depth
+              const districts: { name: string; pts: string; cx: number; cy: number }[] = [
+                { name: "六合",   pts: "160,40 340,40 380,110 340,150 200,150 130,130",                 cx: 250, cy: 95  },
+                { name: "浦口",   pts: "60,140 200,150 200,380 130,410 60,310",                          cx: 128, cy: 250 },
+                { name: "栖霞",   pts: "340,150 440,150 450,300 380,400 320,380 320,150",               cx: 385, cy: 260 },
+                { name: "鼓楼",   pts: "200,150 265,150 265,240 200,240",                                cx: 232, cy: 200 },
+                { name: "玄武",   pts: "265,150 320,150 320,240 265,240",                                cx: 292, cy: 200 },
+                { name: "建邺",   pts: "200,240 260,240 260,310 200,310",                                cx: 230, cy: 278 },
+                { name: "秦淮",   pts: "260,240 320,240 320,310 260,310",                                cx: 290, cy: 278 },
+                { name: "雨花台", pts: "200,310 320,310 320,380 200,380",                                cx: 260, cy: 348 },
+                { name: "江宁",   pts: "130,380 380,380 380,440 250,460 130,440",                        cx: 250, cy: 418 },
+                { name: "溧水",   pts: "170,460 340,460 355,490 190,490",                                cx: 262, cy: 478 },
+                { name: "高淳",   pts: "190,490 355,490 335,510 210,510",                                cx: 272, cy: 500 },
+              ];
               return (
-                <g key={d.name}>
-                  <circle cx={d.x} cy={d.y} r={r * 2.2} fill="url(#pulseGrad)">
-                    <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3s" repeatCount="indefinite" />
-                  </circle>
-                  <circle cx={d.x} cy={d.y} r={r} fill={c} fillOpacity="0.85" stroke="#0f172a" strokeWidth="1" />
-                  <text x={d.x} y={d.y - r - 6} textAnchor="middle" fontSize="12" fontWeight="700" fill="#e2e8f0">
-                    {d.name}
-                  </text>
-                  <text x={d.x} y={d.y + 4} textAnchor="middle" fontSize="10" fontWeight="700" fill="#0f172a">
-                    {d.schools}
-                  </text>
-                </g>
+                <>
+                  {/* extruded side faces (drawn first so top overlays) */}
+                  {districts.map((d) => (
+                    <g key={`s-${d.name}`} transform={`translate(0, ${EXT})`}>
+                      <polygon points={d.pts} fill="url(#dSide)" stroke="#0a1f3d" strokeWidth="1" />
+                    </g>
+                  ))}
+                  {/* top faces */}
+                  {districts.map((d) => {
+                    const info = njMap.find((n) => n.name === d.name);
+                    const c = info ? color(info.rate) : "#22d3ee";
+                    return (
+                      <g key={`t-${d.name}`}>
+                        <polygon
+                          points={d.pts}
+                          fill="url(#dTop)"
+                          stroke="#7dd3fc"
+                          strokeWidth="1"
+                          filter="url(#topGlow)"
+                        />
+                        {/* rate accent */}
+                        <polygon points={d.pts} fill={c} fillOpacity="0.18" />
+                        <text
+                          x={d.cx}
+                          y={d.cy - 2}
+                          textAnchor="middle"
+                          fontSize="13"
+                          fontWeight="700"
+                          fill="#eaf6ff"
+                          style={{ letterSpacing: 1 }}
+                        >
+                          {d.name}
+                        </text>
+                        {info && (
+                          <text
+                            x={d.cx}
+                            y={d.cy + 12}
+                            textAnchor="middle"
+                            fontSize="9"
+                            fill="#7dd3fc"
+                          >
+                            {info.rate}%
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </>
               );
-            })}
+            })()}
 
             {/* Compass */}
-            <g transform="translate(430,60)" opacity="0.7">
+            <g transform="translate(450,70)" opacity="0.8">
               <circle r="14" fill="none" stroke="#22d3ee" strokeWidth="1" />
               <text y="-16" textAnchor="middle" fontSize="10" fill="#22d3ee">N</text>
               <path d="M0,-10 L4,4 L0,0 L-4,4 Z" fill="#22d3ee" />
@@ -498,12 +603,12 @@ function NanjingMapPanel() {
             <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-400" />&lt;80%</span>
           </div>
           <div className="absolute right-2 top-2 rounded bg-slate-950/70 px-2 py-1 text-[10px] text-cyan-300 ring-1 ring-cyan-500/20">
-            圆圈大小 = 监测儿童数
+            南京市 · 3D 行政区示意
           </div>
         </div>
 
         {/* Right list */}
-        <div className="max-h-[380px] overflow-auto pr-1 text-xs">
+        <div className="max-h-[420px] overflow-auto pr-1 text-xs">
           <p className="mb-1 text-[10px] tracking-wider text-slate-400">区县明细</p>
           <ul className="space-y-1.5">
             {njMap

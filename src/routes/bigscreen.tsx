@@ -483,7 +483,7 @@ function NanjingMapPanel() {
     r >= 92 ? "#34d399" : r >= 85 ? "#22d3ee" : r >= 80 ? "#fbbf24" : "#f87171";
 
   return (
-    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+    <div className="relative flex min-h-0 flex-[1.8] flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
       <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />

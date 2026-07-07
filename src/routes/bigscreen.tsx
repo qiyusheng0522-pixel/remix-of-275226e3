@@ -411,3 +411,127 @@ function Panel({
     </div>
   );
 }
+
+function NanjingMapPanel() {
+  const totalSchools = njMap.reduce((s, d) => s + d.schools, 0);
+  const totalKids = njMap.reduce((s, d) => s + d.kids, 0);
+  const avgRate = Math.round(njMap.reduce((s, d) => s + d.rate, 0) / njMap.length);
+  const maxKids = Math.max(...njMap.map((d) => d.kids));
+  const color = (r: number) =>
+    r >= 92 ? "#34d399" : r >= 85 ? "#22d3ee" : r >= 80 ? "#fbbf24" : "#f87171";
+
+  return (
+    <div className="relative rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur">
+      <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
+      <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-8 border-b-2 border-r-2 border-cyan-400" />
+
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-xs font-semibold tracking-wider text-cyan-200">
+          ▍江苏省南京市 · 项目辐射覆盖
+        </h3>
+        <div className="flex gap-3 text-[10px] text-slate-400">
+          <span>覆盖区县 <span className="font-bold text-cyan-300">11 / 11</span></span>
+          <span>覆盖学校 <span className="font-bold text-cyan-300">{totalSchools}</span> 所</span>
+          <span>监测儿童 <span className="font-bold text-fuchsia-300">{totalKids.toLocaleString("zh-CN")}</span> 人</span>
+          <span>体检完成 <span className="font-bold text-emerald-300">{avgRate}%</span></span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[1fr_180px] gap-3">
+        {/* Map */}
+        <div className="relative h-[380px] overflow-hidden rounded-md bg-gradient-to-br from-cyan-950/40 to-slate-950/40 ring-1 ring-cyan-500/20">
+          <svg viewBox="0 0 500 520" className="h-full w-full">
+            <defs>
+              <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+              </radialGradient>
+              <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#164e63" strokeWidth="0.4" />
+              </pattern>
+            </defs>
+            <rect width="500" height="520" fill="url(#grid)" />
+            {/* Nanjing outline (stylized) */}
+            <path
+              d="M 240 30 L 320 60 L 360 120 L 400 180 L 380 240 L 340 300 L 340 380 L 300 460 L 260 510 L 220 480 L 200 420 L 170 360 L 130 300 L 90 220 L 80 160 L 130 100 L 190 60 Z"
+              fill="rgba(34,211,238,0.06)"
+              stroke="#22d3ee"
+              strokeWidth="1.2"
+              strokeDasharray="4 3"
+            />
+
+            {njMap.map((d) => {
+              const r = 8 + (d.kids / maxKids) * 16;
+              const c = color(d.rate);
+              return (
+                <g key={d.name}>
+                  <circle cx={d.x} cy={d.y} r={r * 2.2} fill="url(#pulseGrad)">
+                    <animate attributeName="opacity" values="0.6;0.15;0.6" dur="3s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx={d.x} cy={d.y} r={r} fill={c} fillOpacity="0.85" stroke="#0f172a" strokeWidth="1" />
+                  <text x={d.x} y={d.y - r - 6} textAnchor="middle" fontSize="12" fontWeight="700" fill="#e2e8f0">
+                    {d.name}
+                  </text>
+                  <text x={d.x} y={d.y + 4} textAnchor="middle" fontSize="10" fontWeight="700" fill="#0f172a">
+                    {d.schools}
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* Compass */}
+            <g transform="translate(430,60)" opacity="0.7">
+              <circle r="14" fill="none" stroke="#22d3ee" strokeWidth="1" />
+              <text y="-16" textAnchor="middle" fontSize="10" fill="#22d3ee">N</text>
+              <path d="M0,-10 L4,4 L0,0 L-4,4 Z" fill="#22d3ee" />
+            </g>
+          </svg>
+
+          {/* Legend */}
+          <div className="absolute bottom-2 left-2 flex items-center gap-2 rounded bg-slate-950/70 px-2 py-1 text-[10px] text-slate-300 ring-1 ring-cyan-500/20">
+            <span>完成率</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-emerald-400" />≥92%</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-cyan-400" />85–92%</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-amber-400" />80–85%</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-400" />&lt;80%</span>
+          </div>
+          <div className="absolute right-2 top-2 rounded bg-slate-950/70 px-2 py-1 text-[10px] text-cyan-300 ring-1 ring-cyan-500/20">
+            圆圈大小 = 监测儿童数
+          </div>
+        </div>
+
+        {/* Right list */}
+        <div className="max-h-[380px] overflow-auto pr-1 text-xs">
+          <p className="mb-1 text-[10px] tracking-wider text-slate-400">区县明细</p>
+          <ul className="space-y-1.5">
+            {njMap
+              .slice()
+              .sort((a, b) => b.kids - a.kids)
+              .map((d) => (
+                <li
+                  key={d.name}
+                  className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-800/30 px-2 py-1.5"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ background: color(d.rate) }}
+                    />
+                    <span className="font-semibold text-slate-100">{d.name}</span>
+                  </span>
+                  <span className="text-right text-[10px] text-slate-400">
+                    <div className="tabular-nums text-cyan-300">
+                      {d.kids.toLocaleString("zh-CN")} 人
+                    </div>
+                    <div>{d.schools} 校 · {d.rate}%</div>
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -329,14 +329,22 @@ function HealthPlanPage() {
                     <p className="absolute inset-x-0 bottom-2 truncate px-2 text-center text-[10px]">{e.coach}</p>
                   </div>
                   <div className="flex-1 p-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${done ? "bg-success/15 text-success" : "bg-surface-2 text-muted-foreground"}`}>{done ? "✓ 已打卡" : "待打卡"}</span>
-                      <button
-                        onClick={() => toggle(e.title)}
-                        className={`rounded-full px-3 py-1 text-[11px] font-semibold transition ${done ? "bg-surface-2 text-muted-foreground" : "bg-teal text-white"}`}
-                      >
-                        {done ? "取消打卡" : "快捷打卡"}
-                      </button>
+                    <div className="flex items-center justify-end gap-2">
+                      {done ? (
+                        <button
+                          onClick={() => toggle(e.title)}
+                          className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground"
+                        >
+                          已打卡 ✓
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => toggle(e.title)}
+                          className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose"
+                        >
+                          打卡
+                        </button>
+                      )}
                     </div>
                     <p className="mt-1 text-[13px] font-bold">{e.title} <span className="ml-1 rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] font-normal text-teal">{e.level}</span></p>
                     <div className="mt-1.5 flex flex-wrap gap-1">

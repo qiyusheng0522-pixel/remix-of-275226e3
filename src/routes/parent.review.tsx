@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/review")({
   component: ReviewPage,
 });
@@ -53,7 +54,7 @@ function ReviewPage() {
         <div className="mb-4 rounded-3xl bg-gradient-to-br from-teal/25 to-warm/15 p-4 ring-1 ring-teal/20">
           <p className="text-xs text-muted-foreground">下一次复评</p>
           <p className="mt-1 text-lg font-bold">1 月复评 · 5 月 15 日</p>
-          <p className="mt-1 text-xs text-foreground/80">本周会推送 3 题问卷，1 分钟即可完成 ✍️</p>
+          <p className="mt-1 text-xs text-foreground/80">本周会推送 3 题问卷，1 分钟即可完成 {<EIcon e="✍️" className="inline h-3.5 w-3.5" />}</p>
           <button className="mt-3 rounded-full bg-warm px-4 py-1.5 text-xs font-medium text-warm-foreground">
             提前填写
           </button>

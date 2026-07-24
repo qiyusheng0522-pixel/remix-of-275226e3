@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useMemo, useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/comm")({
   component: CommPage,
 });
@@ -24,10 +25,10 @@ const suggestPool = [
 ];
 
 const quickChips = [
-  { icon: "📋", label: "体检解读" },
-  { icon: "🥗", label: "今日食谱" },
-  { icon: "🏃", label: "运动打卡" },
-  { icon: "📝", label: "复查计划" },
+  { icon: <EIcon e="📋" />, label: "体检解读" },
+  { icon: <EIcon e="🥗" />, label: "今日食谱" },
+  { icon: <EIcon e="🏃" />, label: "运动打卡" },
+  { icon: <EIcon e="📝" />, label: "复查计划" },
 ];
 
 // 模拟 AI 答案库 —— 关键词命中后返回结构化建议
@@ -129,7 +130,7 @@ function CommPage() {
             </p>
           </div>
           <div className="grid h-20 w-20 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose to-rose/70 text-4xl shadow-lg shadow-rose/30">
-            🐥
+            {<EIcon e="🐥" className="inline h-3.5 w-3.5" />}
           </div>
         </div>
       </div>
@@ -237,7 +238,7 @@ function CommPage() {
             className="grid h-9 w-9 place-items-center rounded-full bg-rose text-rose-foreground"
             aria-label="发送"
           >
-            ➤
+            {<EIcon e="➤" className="inline h-3.5 w-3.5" />}
           </button>
         </div>
       </div>

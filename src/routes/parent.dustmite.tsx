@@ -1,17 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/dustmite")({
   component: DustMitePage,
 });
 
 const weekly = [
-  { icon: "🛏️", title: "床单换洗", done: true, note: "本周一 已完成" },
-  { icon: "🌙", title: "枕套换洗", done: true, note: "本周一 已完成" },
-  { icon: "🧺", title: "被套换洗", done: false, note: "建议今晚更换" },
-  { icon: "🧸", title: "毛绒玩具清理/晾晒", done: false, note: "床边只留 1—2 只" },
-  { icon: "🪟", title: "卧室通风 30 分钟", done: true, note: "今日 早晨" },
-  { icon: "💧", title: "湿度检查（&lt;60%）", done: false, note: "保持干爽" },
+  { icon: <EIcon e="🛏️" />, title: "床单换洗", done: true, note: "本周一 已完成" },
+  { icon: <EIcon e="🌙" />, title: "枕套换洗", done: true, note: "本周一 已完成" },
+  { icon: <EIcon e="🧺" />, title: "被套换洗", done: false, note: "建议今晚更换" },
+  { icon: <EIcon e="🧸" />, title: "毛绒玩具清理/晾晒", done: false, note: "床边只留 1—2 只" },
+  { icon: <EIcon e="🪟" />, title: "卧室通风 30 分钟", done: true, note: "今日 早晨" },
+  { icon: <EIcon e="💧" />, title: "湿度检查（&lt;60%）", done: false, note: "保持干爽" },
 ];
 
 const longTerm = [
@@ -62,7 +63,7 @@ function DustMitePage() {
                 <p className="text-[11px] text-muted-foreground" dangerouslySetInnerHTML={{__html: w.note}} />
               </div>
               {w.done ? (
-                <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] text-success">✓</span>
+                <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />}</span>
               ) : (
                 <button className="rounded-full bg-teal px-3 py-1 text-[11px] font-medium text-teal-foreground">
                   打卡
@@ -88,7 +89,7 @@ function DustMitePage() {
         </ul>
 
         <div className="rounded-2xl bg-teal/10 p-4 text-xs leading-relaxed text-deep ring-1 ring-teal/20">
-          💡 卧室尽量减少地毯、厚窗帘和大量毛绒玩具；保持通风与干爽是最简单有效的除螨方式。
+          {<EIcon e="💡" className="inline h-3.5 w-3.5" />} 卧室尽量减少地毯、厚窗帘和大量毛绒玩具；保持通风与干爽是最简单有效的除螨方式。
         </div>
       </div>
     </div>

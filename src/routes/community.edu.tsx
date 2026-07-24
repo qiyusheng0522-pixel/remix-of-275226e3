@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/community/edu")({
   component: EduPage,
 });
@@ -37,12 +38,12 @@ const campaigns = [
 ];
 
 const templates = [
-  { icon: "🥗", label: "营养饮食" },
-  { icon: "🏃", label: "运动方案" },
-  { icon: "😴", label: "睡眠作息" },
-  { icon: "🌸", label: "过敏防护" },
-  { icon: "👁️", label: "近视防控" },
-  { icon: "🫁", label: "呼吸道疾病" },
+  { icon: <EIcon e="🥗" />, label: "营养饮食" },
+  { icon: <EIcon e="🏃" />, label: "运动方案" },
+  { icon: <EIcon e="😴" />, label: "睡眠作息" },
+  { icon: <EIcon e="🌸" />, label: "过敏防护" },
+  { icon: <EIcon e="👁️" />, label: "近视防控" },
+  { icon: <EIcon e="🫁" />, label: "呼吸道疾病" },
 ];
 
 function EduPage() {

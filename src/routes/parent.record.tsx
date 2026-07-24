@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/record")({
   component: RecordPage,
 });
@@ -118,7 +119,7 @@ function WeightForm() {
         toastDescription="27.5 kg · BMI 已同步更新"
       />
       
-      <p className="text-[11px] text-muted-foreground">💡 建议每周固定时间称一次，比如周日早晨起床后。</p>
+      <p className="text-[11px] text-muted-foreground">{<EIcon e="💡" className="inline h-3.5 w-3.5" />} 建议每周固定时间称一次，比如周日早晨起床后。</p>
     </Card>
   );
 }
@@ -128,7 +129,7 @@ function DietForm() {
     <Card>
       <Row label="今天喝含糖饮料了吗？">
         <div className="flex gap-2">
-          <Chip active>没有 👍</Chip>
+          <Chip active>没有 {<EIcon e="👍" className="inline h-3.5 w-3.5" />}</Chip>
           <Chip>1 杯</Chip>
           <Chip>2 杯以上</Chip>
         </div>
@@ -276,7 +277,7 @@ function SymptomForm() {
         </Link>
       </div>
       <p className="rounded-xl bg-warm/10 px-3 py-2 text-[11px] text-warm">
-        ⚠️ 若出现呼吸困难或喘息持续不缓解，请立即联系健康管理师或就近就医。
+        {<EIcon e="⚠️" className="inline h-3.5 w-3.5" />} 若出现呼吸困难或喘息持续不缓解，请立即联系健康管理师或就近就医。
       </p>
     </Card>
   );

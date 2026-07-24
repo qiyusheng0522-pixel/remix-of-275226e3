@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/community/")({
   component: CommunityHome,
 });
@@ -19,7 +20,7 @@ type Stat = {
 
 const stats: Stat[] = [
   {
-    icon: "📦",
+    icon: <EIcon e="📦" />,
     iconBg: "bg-warm/15 text-warm",
     label: "在管患者",
     sub: "商城购买 · 社区承接随访",
@@ -29,7 +30,7 @@ const stats: Stat[] = [
     to: "/community/patients",
   },
   {
-    icon: "🔁",
+    icon: <EIcon e="🔁" />,
     iconBg: "bg-teal/15 text-teal",
     label: "医院下传",
     sub: "医院转介 · 待建档随访",
@@ -39,7 +40,7 @@ const stats: Stat[] = [
     to: "/community/patients",
   },
   {
-    icon: "📢",
+    icon: <EIcon e="📢" />,
     iconBg: "bg-rose/15 text-rose",
     label: "今日宣教",
     sub: "过敏体质家长精准推送",
@@ -49,7 +50,7 @@ const stats: Stat[] = [
     to: "/community/edu",
   },
   {
-    icon: "💬",
+    icon: <EIcon e="💬" />,
     iconBg: "bg-deep/15 text-deep",
     label: "待回复咨询",
     sub: "承诺 24h 内回复",
@@ -150,7 +151,7 @@ function CommunityHome() {
         <h1 className="text-base font-bold">工作台</h1>
         <div className="flex items-center gap-3">
           <Link to="/community/consult" className="relative text-lg">
-            🔔
+            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
             <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
           </Link>
           <span className="grid h-8 w-8 place-items-center rounded-full bg-warm text-sm font-bold text-warm-foreground">
@@ -162,7 +163,7 @@ function CommunityHome() {
       {/* Greeting card */}
       <div className="px-5 pt-3">
         <div className="rounded-2xl bg-gradient-to-r from-warm to-warm/80 p-5 text-warm-foreground shadow-lg shadow-warm/25">
-          <p className="text-lg font-bold">张医生，早上好 👋</p>
+          <p className="text-lg font-bold">张医生，早上好 {<EIcon e="👋" className="inline h-3.5 w-3.5" />}</p>
           <p className="mt-1 text-[13px] text-white/85">
             阳光社区卫生服务中心 · 儿童健康管理站 · 今日 {totalTodo} 项待处理
           </p>
@@ -209,7 +210,7 @@ function CommunityHome() {
       <section className="px-5 pt-5">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-warm">📋</span> 今日待办清单
+            <span className="text-warm">{<EIcon e="📋" className="inline h-3.5 w-3.5" />}</span> 今日待办清单
           </h3>
           <span className="text-[11px] text-muted-foreground">
             共 {filtered.length}/{todos.length} 项

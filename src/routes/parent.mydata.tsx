@@ -4,6 +4,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { toast } from "sonner";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/mydata")({
   component: MyDataPage,
 });
@@ -22,7 +23,7 @@ type Metric = {
 const metrics: Metric[] = [
   {
     id: "weight",
-    icon: "⚖️",
+    icon: <EIcon e="⚖️" />,
     label: "身高体重",
     unit: "kg / cm",
     latest: "28.6 kg · 128 cm",
@@ -35,7 +36,7 @@ const metrics: Metric[] = [
   },
   {
     id: "bp",
-    icon: "🩺",
+    icon: <EIcon e="🩺" />,
     label: "血压 / 心率",
     unit: "mmHg / bpm",
     latest: "108/68 · 82",
@@ -49,7 +50,7 @@ const metrics: Metric[] = [
   },
   {
     id: "sleep",
-    icon: "😴",
+    icon: <EIcon e="😴" />,
     label: "睡眠时长",
     unit: "小时",
     latest: "9 h 20 m",
@@ -63,7 +64,7 @@ const metrics: Metric[] = [
   },
   {
     id: "sport",
-    icon: "🏃",
+    icon: <EIcon e="🏃" />,
     label: "运动 / 步数",
     unit: "分钟 / 步",
     latest: "42 分钟 · 6820 步",
@@ -77,7 +78,7 @@ const metrics: Metric[] = [
   },
   {
     id: "diet",
-    icon: "🥗",
+    icon: <EIcon e="🥗" />,
     label: "饮食 / 饮水",
     unit: "kcal / ml",
     latest: "1420 kcal · 900 ml",
@@ -91,7 +92,7 @@ const metrics: Metric[] = [
   },
   {
     id: "vision",
-    icon: "👀",
+    icon: <EIcon e="👀" />,
     label: "视力自测",
     unit: "裸眼",
     latest: "L 4.9 / R 5.0",
@@ -115,10 +116,10 @@ type Device = {
 };
 
 const initialDevices: Device[] = [
-  { id: "scale", icon: "⚖️", name: "智能体脂秤", brand: "小米 · S400", connected: true, data: "自动同步体重 / BMI / 体脂率" },
+  { id: "scale", icon: <EIcon e="⚖️" />, name: "智能体脂秤", brand: "小米 · S400", connected: true, data: "自动同步体重 / BMI / 体脂率" },
   { id: "band", icon: "⌚", name: "儿童手表 / 手环", brand: "华为 Watch Kids 5", connected: true, data: "自动同步心率 / 睡眠 / 步数" },
-  { id: "bp", icon: "🩺", name: "电子血压计", brand: "欧姆龙 · U32", connected: false, data: "支持蓝牙同步血压 / 心率" },
-  { id: "vision", icon: "👓", name: "视力自测仪", brand: "护眼宝 · V1", connected: false, data: "在家自测视力并生成趋势" },
+  { id: "bp", icon: <EIcon e="🩺" />, name: "电子血压计", brand: "欧姆龙 · U32", connected: false, data: "支持蓝牙同步血压 / 心率" },
+  { id: "vision", icon: <EIcon e="👓" />, name: "视力自测仪", brand: "护眼宝 · V1", connected: false, data: "在家自测视力并生成趋势" },
 ];
 
 function MyDataPage() {
@@ -292,7 +293,7 @@ function MyDataPage() {
             ))}
           </ul>
           <p className="mt-3 rounded-xl bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
-            🔒 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
+            {<EIcon e="🔒" className="inline h-3.5 w-3.5" />} 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
           </p>
         </section>
       </div>

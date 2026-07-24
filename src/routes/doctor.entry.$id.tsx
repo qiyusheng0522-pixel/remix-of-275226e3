@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { findExamUser, nextPendingExamUser } from "@/lib/exam-users";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/entry/$id")({
   component: EntryPage,
 });
@@ -30,7 +31,7 @@ const NODES: Node[] = [
   {
     key: "body",
     name: "身高体重",
-    icon: "📏",
+    icon: <EIcon e="📏" />,
     device: "身高体重一体机",
     fields: [
       { key: "height", label: "身高", type: "number", unit: "cm", source: "auto" },
@@ -41,7 +42,7 @@ const NODES: Node[] = [
   {
     key: "vision",
     name: "视力",
-    icon: "👁",
+    icon: <EIcon e="👁" />,
     device: "自动视力筛查仪",
     fields: [
       { key: "left", label: "左眼", type: "number", source: "auto", ref: "≥ 4.9" },
@@ -52,7 +53,7 @@ const NODES: Node[] = [
   {
     key: "bp",
     name: "血压 / 心率",
-    icon: "💓",
+    icon: <EIcon e="💓" />,
     device: "电子血压计",
     fields: [
       { key: "sbp", label: "收缩压", type: "number", unit: "mmHg", source: "auto" },
@@ -63,7 +64,7 @@ const NODES: Node[] = [
   {
     key: "oral",
     name: "口腔",
-    icon: "🦷",
+    icon: <EIcon e="🦷" />,
     fields: [
       { key: "caries", label: "龋齿颗数", type: "number", source: "manual" },
       { key: "oralNote", label: "口腔检查描述", type: "text", source: "manual" },
@@ -72,7 +73,7 @@ const NODES: Node[] = [
   {
     key: "internal",
     name: "内科查体",
-    icon: "🩺",
+    icon: <EIcon e="🩺" />,
     fields: [
       { key: "heartLung", label: "心肺听诊", type: "text", source: "manual" },
       { key: "abdomen", label: "腹部触诊", type: "text", source: "manual" },
@@ -81,7 +82,7 @@ const NODES: Node[] = [
   {
     key: "lab",
     name: "实验室",
-    icon: "🧪",
+    icon: <EIcon e="🧪" />,
     device: "生化分析仪",
     fields: [
       { key: "glu", label: "空腹血糖", type: "number", unit: "mmol/L", source: "auto", ref: "3.9–6.1" },
@@ -161,7 +162,7 @@ function TextFieldVoice({
         }`}
         title={listening ? "停止录音" : "语音输入"}
       >
-        🎤
+        {<EIcon e="🎤" className="inline h-3.5 w-3.5" />}
       </button>
     </div>
   );
@@ -365,7 +366,7 @@ function EntryPage() {
         {progress.done === progress.total && (
           <div className="mt-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-success/30">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[14px] font-bold text-success">✓ 本次体检已全部完成</p>
+              <p className="text-[14px] font-bold text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} 本次体检已全部完成</p>
               <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{NODES.length} 项</span>
             </div>
             <p className="mb-3 text-[11px] text-muted-foreground">
@@ -376,7 +377,7 @@ function EntryPage() {
                 <div key={n.key} className="rounded-xl bg-surface-2 p-3">
                   <div className="mb-1.5 flex items-center justify-between">
                     <p className="text-[12px] font-semibold">{n.icon} {n.name}</p>
-                    <span className="text-[10px] text-success">✓ 已核对</span>
+                    <span className="text-[10px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} 已核对</span>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     {n.fields.map((f) => {
@@ -409,7 +410,7 @@ function EntryPage() {
             ) : (
               <div className="mt-4 space-y-2">
                 <p className="rounded-xl bg-success/10 px-3 py-2 text-center text-[12px] text-success">
-                  ✓ 报告已提交，等待复核
+                  {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 报告已提交，等待复核
                 </p>
                 {nextUser ? (
                   <button

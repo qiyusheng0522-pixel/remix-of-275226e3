@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { child } from "@/lib/mock-data";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/me")({
   component: MePage,
 });
@@ -10,28 +11,28 @@ const groups = [
   {
     title: "儿童与授权",
     items: [
-      { icon: "👶", label: "儿童档案", right: `${child.name} · ${child.grade}`, to: "/parent/bind" },
-      { icon: "🔗", label: "绑定儿童 / 多监护人", right: "1 名孩子", to: "/parent/bind" },
-      { icon: "✍️", label: "体检授权与告知书", right: "已授权", to: "/parent/notice" },
-      { icon: "🗂️", label: "授权与终止记录", right: "查看", to: "/parent/me" },
+      { icon: <EIcon e="👶" />, label: "儿童档案", right: `${child.name} · ${child.grade}`, to: "/parent/bind" },
+      { icon: <EIcon e="🔗" />, label: "绑定儿童 / 多监护人", right: "1 名孩子", to: "/parent/bind" },
+      { icon: <EIcon e="✍️" />, label: "体检授权与告知书", right: "已授权", to: "/parent/notice" },
+      { icon: <EIcon e="🗂️" />, label: "授权与终止记录", right: "查看", to: "/parent/me" },
     ],
   },
   {
     title: "健康与沟通",
     items: [
-      { icon: "📊", label: "我的数据", right: "手动 & 智能设备", to: "/parent/mydata" },
-      { icon: "🗓️", label: "复评随访", right: "下次 5/15", to: "/parent/review" },
-      { icon: "💬", label: "健康管理师沟通", right: "2 条新回复", to: "/parent/comm" },
-      { icon: "🛏️", label: "卧室除螨任务", right: "本周", to: "/parent/dustmite" },
-      { icon: "📩", label: "消息通知", right: "3 条未读", to: "/parent/me" },
+      { icon: <EIcon e="📊" />, label: "我的数据", right: "手动 & 智能设备", to: "/parent/mydata" },
+      { icon: <EIcon e="🗓️" />, label: "复评随访", right: "下次 5/15", to: "/parent/review" },
+      { icon: <EIcon e="💬" />, label: "健康管理师沟通", right: "2 条新回复", to: "/parent/comm" },
+      { icon: <EIcon e="🛏️" />, label: "卧室除螨任务", right: "本周", to: "/parent/dustmite" },
+      { icon: <EIcon e="📩" />, label: "消息通知", right: "3 条未读", to: "/parent/me" },
     ],
   },
   {
     title: "帮助与说明",
     items: [
-      { icon: "🏥", label: "联系学校 / 健康管理师", right: "", to: "/parent/comm" },
-      { icon: "🔒", label: "数据使用与隐私说明", right: "", to: "/parent/me" },
-      { icon: "❓", label: "帮助中心", right: "", to: "/parent/me" },
+      { icon: <EIcon e="🏥" />, label: "联系学校 / 健康管理师", right: "", to: "/parent/comm" },
+      { icon: <EIcon e="🔒" />, label: "数据使用与隐私说明", right: "", to: "/parent/me" },
+      { icon: <EIcon e="❓" />, label: "帮助中心", right: "", to: "/parent/me" },
     ],
   },
 ];
@@ -46,7 +47,7 @@ function MePage() {
         <div className="absolute inset-0 -z-0 bg-gradient-to-br from-warm via-warm/70 to-teal" />
         <div className="relative flex items-center gap-4 text-white">
           <div className="grid h-16 w-16 place-items-center rounded-3xl bg-white/25 text-3xl backdrop-blur">
-            👩
+            {<EIcon e="👩" className="inline h-3.5 w-3.5" />}
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-lg font-bold">李妈妈</p>

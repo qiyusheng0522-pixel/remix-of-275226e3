@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/community/me")({
   component: MePage,
 });
@@ -16,23 +17,23 @@ const groups = [
   {
     title: "工作台",
     items: [
-      { icon: "📅", label: "我的排班", note: "本周 5 天门诊" },
-      { icon: "🗂️", label: "服务包清单", note: "承接 46 份" },
-      { icon: "🔁", label: "转诊对接", note: "上级医院联络本" },
+      { icon: <EIcon e="📅" />, label: "我的排班", note: "本周 5 天门诊" },
+      { icon: <EIcon e="🗂️" />, label: "服务包清单", note: "承接 46 份" },
+      { icon: <EIcon e="🔁" />, label: "转诊对接", note: "上级医院联络本" },
     ],
   },
   {
     title: "培训与规范",
     items: [
-      { icon: "📘", label: "儿童健康管理规范" },
-      { icon: "🎓", label: "继教学时", note: "已完成 12 / 25" },
+      { icon: <EIcon e="📘" />, label: "儿童健康管理规范" },
+      { icon: <EIcon e="🎓" />, label: "继教学时", note: "已完成 12 / 25" },
     ],
   },
   {
     title: "设置",
     items: [
-      { icon: "🔔", label: "通知偏好" },
-      { icon: "👤", label: "个人信息" },
+      { icon: <EIcon e="🔔" />, label: "通知偏好" },
+      { icon: <EIcon e="👤" />, label: "个人信息" },
       { icon: "↩️", label: "退出登录" },
     ],
   },
@@ -46,7 +47,7 @@ function MePage() {
         <div className="rounded-3xl bg-gradient-to-br from-warm/30 to-teal/15 p-4 ring-1 ring-warm/20">
           <div className="flex items-center gap-3">
             <div className="grid h-14 w-14 place-items-center rounded-full bg-warm text-2xl text-warm-foreground">
-              🩺
+              {<EIcon e="🩺" className="inline h-3.5 w-3.5" />}
             </div>
             <div>
               <p className="text-base font-bold">张医生</p>

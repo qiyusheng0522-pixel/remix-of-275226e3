@@ -3,17 +3,18 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/abnormal")({
   component: AbnormalPage,
 });
 
 const types = [
-  { key: "体检重大异常", icon: "⚠️", tint: "warning" },
-  { key: "运动后胸闷/喘息", icon: "🏃", tint: "warm" },
-  { key: "呼吸不适", icon: "🌬️", tint: "teal" },
-  { key: "疑似过敏反应", icon: "🤧", tint: "danger" },
-  { key: "头晕/晕厥", icon: "💫", tint: "deep" },
-  { key: "复检未到场", icon: "📋", tint: "muted-foreground" },
+  { key: "体检重大异常", icon: <EIcon e="⚠️" />, tint: "warning" },
+  { key: "运动后胸闷/喘息", icon: <EIcon e="🏃" />, tint: "warm" },
+  { key: "呼吸不适", icon: <EIcon e="🌬️" />, tint: "teal" },
+  { key: "疑似过敏反应", icon: <EIcon e="🤧" />, tint: "danger" },
+  { key: "头晕/晕厥", icon: <EIcon e="💫" />, tint: "deep" },
+  { key: "复检未到场", icon: <EIcon e="📋" />, tint: "muted-foreground" },
 ] as const;
 
 const flows = [
@@ -112,7 +113,7 @@ function AbnormalPage() {
               />
             </label>
             <div className="rounded-xl bg-surface-2 p-3 text-[11px] text-muted-foreground">
-              📎 可上传现场照片、体检单据（可选）
+              {<EIcon e="📎" className="inline h-3.5 w-3.5" />} 可上传现场照片、体检单据（可选）
             </div>
             <button
               disabled={!who || !cls}

@@ -2,22 +2,23 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { schoolStats, classSchedule } from "@/lib/mock-data";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/")({
   component: SchoolHome,
 });
 
 const todos = [
-  { icon: "🔔", title: "催办未授权家长", count: 18, tint: "warm", to: "/school/notify" },
-  { icon: "📝", title: "未完成健康问卷", count: 85, tint: "teal", to: "/school/notify" },
-  { icon: "🚫", title: "今日缺检学生", count: 6, tint: "warning", to: "/school/absent" },
-  { icon: "📬", title: "报告未读家长", count: 89, tint: "deep", to: "/school/report" },
+  { icon: <EIcon e="🔔" />, title: "催办未授权家长", count: 18, tint: "warm", to: "/school/notify" },
+  { icon: <EIcon e="📝" />, title: "未完成健康问卷", count: 85, tint: "teal", to: "/school/notify" },
+  { icon: <EIcon e="🚫" />, title: "今日缺检学生", count: 6, tint: "warning", to: "/school/absent" },
+  { icon: <EIcon e="📬" />, title: "报告未读家长", count: 89, tint: "deep", to: "/school/report" },
 ] as const;
 
 const quick = [
-  { icon: "🚨", label: "异常上报", to: "/school/abnormal" },
-  { icon: "📊", label: "报告中心", to: "/school/report" },
-  { icon: "🏥", label: "缺检补检", to: "/school/absent" },
-  { icon: "⭐", label: "需关注", to: "/school/focus" },
+  { icon: <EIcon e="🚨" />, label: "异常上报", to: "/school/abnormal" },
+  { icon: <EIcon e="📊" />, label: "报告中心", to: "/school/report" },
+  { icon: <EIcon e="🏥" />, label: "缺检补检", to: "/school/absent" },
+  { icon: <EIcon e="⭐" />, label: "需关注", to: "/school/focus" },
 ] as const;
 
 function SchoolHome() {
@@ -31,9 +32,9 @@ function SchoolHome() {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-xs text-muted-foreground">阳光小学 · 卫生保健老师</p>
-            <h1 className="text-lg font-bold">今日体检工作台 🏫</h1>
+            <h1 className="text-lg font-bold">今日体检工作台 {<EIcon e="🏫" className="inline h-3.5 w-3.5" />}</h1>
           </div>
-          <button className="grid h-10 w-10 place-items-center rounded-full bg-surface text-lg shadow-sm">🔔</button>
+          <button className="grid h-10 w-10 place-items-center rounded-full bg-surface text-lg shadow-sm">{<EIcon e="🔔" className="inline h-3.5 w-3.5" />}</button>
         </div>
 
         <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-teal to-deep p-5 text-white shadow-lg shadow-teal/20">
@@ -47,7 +48,7 @@ function SchoolHome() {
               <p className="text-[11px] opacity-80">已完成 · 进度 {pct}% · 今日 1-6 班</p>
             </div>
             <Link to="/school/today" className="grid h-16 w-16 place-items-center rounded-2xl bg-white/20 text-2xl backdrop-blur">
-              📋
+              {<EIcon e="📋" className="inline h-3.5 w-3.5" />}
             </Link>
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/25">

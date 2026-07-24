@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useMemo, useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/community/consult")({
   component: ConsultPage,
 });
@@ -146,7 +147,7 @@ function ConsultPage() {
               <span className={srcTag(active.src)}>{active.src}</span> · {active.sub}
             </p>
           </div>
-          <span className="text-lg">☎️</span>
+          <span className="text-lg">{<EIcon e="☎️" className="inline h-3.5 w-3.5" />}</span>
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto bg-surface-2 px-4 py-4">
@@ -161,7 +162,7 @@ function ConsultPage() {
               >
                 {m.ai && (
                   <p className="mb-1 flex items-center gap-1 text-[10px] font-medium opacity-80">
-                    ✨ AI 生成 · 已由医生确认
+                    {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 生成 · 已由医生确认
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.text}</p>
@@ -179,7 +180,7 @@ function ConsultPage() {
             <div className="border-b border-border/60 bg-warm/5 px-4 py-2">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-1 text-[11px] text-warm">
-                  ✨ AI 助手已就绪 · 按人群/病史生成回复
+                  {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 助手已就绪 · 按人群/病史生成回复
                 </p>
                 <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                   自动
@@ -248,7 +249,7 @@ function ConsultPage() {
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">
-            <span>✨ AI 回复</span>
+            <span>{<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 回复</span>
             <button
               onClick={() => setAiOn((v) => !v)}
               className={`relative h-4 w-7 rounded-full transition ${aiOn ? "bg-warm" : "bg-surface-2"}`}

@@ -4,6 +4,7 @@ import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/review")({
   component: ReviewPage,
 });
@@ -139,7 +140,7 @@ function ReviewPage() {
                     <p className="text-lg font-bold tracking-wide">{d.name}</p>
                     {d.consult && (
                       <span className="flex items-center gap-1 rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">
-                        👥 会诊查看
+                        {<EIcon e="👥" className="inline h-3.5 w-3.5" />} 会诊查看
                       </span>
                     )}
                     <span className={`rounded-full px-2 py-0.5 text-[10px] ${riskCls[d.risk]}`}>
@@ -173,7 +174,7 @@ function ReviewPage() {
               {/* 评估内容 */}
               <div className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
                 <h3 className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
-                  <span className="text-teal">📄</span> 评估内容
+                  <span className="text-teal">{<EIcon e="📄" className="inline h-3.5 w-3.5" />}</span> 评估内容
                 </h3>
                 <p className="mb-2 text-[12px] text-muted-foreground">普通评估</p>
                 <div className="rounded-xl bg-surface-2 p-4">
@@ -186,7 +187,7 @@ function ReviewPage() {
               {/* 方案内容 */}
               <div className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
                 <h3 className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
-                  <span className="text-teal">📄</span> 方案内容
+                  <span className="text-teal">{<EIcon e="📄" className="inline h-3.5 w-3.5" />}</span> 方案内容
                 </h3>
                 <div className="rounded-xl bg-surface-2 p-4">
                   <p className={`text-[13px] leading-relaxed text-foreground/85 ${open ? "" : "line-clamp-4"}`}>
@@ -205,7 +206,7 @@ function ReviewPage() {
               <button className="flex w-full items-center justify-between gap-3 rounded-2xl bg-surface p-4 text-left shadow-sm ring-1 ring-border/60">
                 <div className="flex items-center gap-3">
                   <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal/10 text-base text-teal">
-                    📈
+                    {<EIcon e="📈" className="inline h-3.5 w-3.5" />}
                   </span>
                   <div>
                     <p className="text-[14px] font-semibold">查看患者详情</p>

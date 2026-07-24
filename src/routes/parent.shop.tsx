@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/shop")({
   component: ShopPage,
 });
@@ -26,7 +27,7 @@ const products: Product[] = [
   {
     id: "meal-balance",
     cat: "营养餐",
-    icon: "🥗",
+    icon: <EIcon e="🥗" />,
     name: "均衡成长营养餐",
     brief: "营养师配比 · 每餐 500-600 kcal · 冷链配送到家",
     tags: ["7-12 岁", "低盐低糖", "含蔬果"],
@@ -43,7 +44,7 @@ const products: Product[] = [
   {
     id: "meal-obesity",
     cat: "营养餐",
-    icon: "🥦",
+    icon: <EIcon e="🥦" />,
     name: "肥胖 / 代谢管理餐",
     brief: "针对 BMI 偏高儿童 · 医生联合定制",
     tags: ["低 GI", "高蛋白", "定量餐盒"],
@@ -60,7 +61,7 @@ const products: Product[] = [
   {
     id: "meal-allergy",
     cat: "营养餐",
-    icon: "🍚",
+    icon: <EIcon e="🍚" />,
     name: "低敏儿童营养餐",
     brief: "针对花粉 / 尘螨 / 食物过敏儿童 · 无常见致敏原",
     tags: ["无麸质可选", "无海鲜", "无坚果"],
@@ -76,7 +77,7 @@ const products: Product[] = [
   {
     id: "svc-obesity",
     cat: "服务包",
-    icon: "⚖️",
+    icon: <EIcon e="⚖️" />,
     name: "儿童体重管理季度包",
     brief: "医生 + 营养师 + 健管师 · 3 个月体重曲线干预",
     tags: ["3 个月", "含 4 次随访", "1 次门诊"],
@@ -92,7 +93,7 @@ const products: Product[] = [
   {
     id: "svc-asthma",
     cat: "服务包",
-    icon: "🫁",
+    icon: <EIcon e="🫁" />,
     name: "儿童哮喘管理年度包",
     brief: "呼吸科医生随访 · 峰流速仪 + 家庭雾化指导",
     tags: ["12 个月", "8 次随访", "2 次门诊"],
@@ -107,7 +108,7 @@ const products: Product[] = [
   {
     id: "svc-vision",
     cat: "服务包",
-    icon: "👀",
+    icon: <EIcon e="👀" />,
     name: "近视防控半年包",
     brief: "眼科医生 + 视功能训练 · 每月屈光复查",
     tags: ["6 个月", "6 次视力检查"],
@@ -117,7 +118,7 @@ const products: Product[] = [
   {
     id: "goods-scale",
     cat: "健康商品",
-    icon: "⚖️",
+    icon: <EIcon e="⚖️" />,
     name: "儿童智能体脂秤",
     brief: "自动同步『我的数据』· 生成体重曲线",
     tags: ["蓝牙", "App 联动"],
@@ -127,7 +128,7 @@ const products: Product[] = [
   {
     id: "goods-mite",
     cat: "健康商品",
-    icon: "🛏️",
+    icon: <EIcon e="🛏️" />,
     name: "除螨包月耗材",
     brief: "床品除螨喷雾 + 一次性防螨罩",
     tags: ["低敏", "月度补给"],
@@ -143,7 +144,7 @@ const products: Product[] = [
   {
     id: "goods-vitd",
     cat: "健康商品",
-    icon: "☀️",
+    icon: <EIcon e="☀️" />,
     name: "儿童维生素 D 滴剂",
     brief: "医师推荐剂量 · 30 天装",
     tags: ["30 天", "药监备案"],
@@ -169,7 +170,7 @@ function ShopPage() {
       <StatusBar title="健康服务商城" />
       <div className="px-5 pb-24 pt-2">
         <div className="mb-3 rounded-2xl bg-gradient-to-r from-rose/90 to-rose/70 p-4 text-white shadow-lg shadow-rose/30">
-          <p className="text-[11px] text-white/85">✨ 儿科医生 & 营养师联合甄选</p>
+          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 儿科医生 & 营养师联合甄选</p>
           <p className="mt-0.5 text-base font-bold">童护佳健康服务商城</p>
           <p className="mt-1 text-[12px] text-white/90">
             营养餐 · 服务包 · 健康商品 · 均支持按周期订阅，随时暂停
@@ -331,7 +332,7 @@ function BuySheet({ product }: { product: Product }) {
 
         {product.subscribable && cycle.key !== "single" && (
           <p className="rounded-lg bg-teal/10 px-2.5 py-1.5 text-[11px] text-teal">
-            ✓ 周期订阅可随时在「我的 · 我的订单」中暂停或退订
+            {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 周期订阅可随时在「我的 · 我的订单」中暂停或退订
           </p>
         )}
 

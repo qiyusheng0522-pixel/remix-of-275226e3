@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/referral")({
   component: ReferralPage,
 });
@@ -172,7 +173,7 @@ function ReferralPage() {
                     </div>
                     <div className="rounded-xl bg-surface-2 p-3">
                       <p className="text-[11px] text-muted-foreground">附件</p>
-                      <p className="mt-0.5">📎 门诊病历.pdf · 📎 化验单.pdf</p>
+                      <p className="mt-0.5">{<EIcon e="📎" className="inline h-3.5 w-3.5" />} 门诊病历.pdf · {<EIcon e="📎" className="inline h-3.5 w-3.5" />} 化验单.pdf</p>
                     </div>
                   </div>
                 </ActionSheet>

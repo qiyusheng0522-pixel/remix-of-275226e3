@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/me")({
   component: DoctorMe,
 });
@@ -9,18 +10,18 @@ const groups = [
   {
     title: "工作记录",
     items: [
-      { icon: "📅", label: "体检任务记录", right: "本月 8 场" },
-      { icon: "📝", label: "审核记录", right: "本月 165 份" },
-      { icon: "🔄", label: "转诊 / 绿色通道", right: "3 例" },
-      { icon: "📈", label: "复评随访", right: "查看" },
+      { icon: <EIcon e="📅" />, label: "体检任务记录", right: "本月 8 场" },
+      { icon: <EIcon e="📝" />, label: "审核记录", right: "本月 165 份" },
+      { icon: <EIcon e="🔄" />, label: "转诊 / 绿色通道", right: "3 例" },
+      { icon: <EIcon e="📈" />, label: "复评随访", right: "查看" },
     ],
   },
   {
     title: "账号与说明",
     items: [
-      { icon: "📩", label: "消息通知", right: "8 条未读" },
-      { icon: "📜", label: "操作日志", right: "" },
-      { icon: "❓", label: "帮助中心", right: "" },
+      { icon: <EIcon e="📩" />, label: "消息通知", right: "8 条未读" },
+      { icon: <EIcon e="📜" />, label: "操作日志", right: "" },
+      { icon: <EIcon e="❓" />, label: "帮助中心", right: "" },
     ],
   },
 ];
@@ -33,7 +34,7 @@ function DoctorMe() {
         <div className="absolute inset-0 -z-0 bg-gradient-to-br from-deep via-deep/80 to-teal" />
         <div className="relative flex items-center gap-4 text-white">
           <div className="grid h-16 w-16 place-items-center rounded-3xl bg-white/25 text-3xl backdrop-blur">
-            🩺
+            {<EIcon e="🩺" className="inline h-3.5 w-3.5" />}
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-lg font-bold">陈医生</p>

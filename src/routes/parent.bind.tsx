@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/bind")({
   component: BindPage,
 });
@@ -105,7 +106,7 @@ function BindPage() {
         </section>
 
         <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
-          ➕ 绑定另一个孩子
+          {<EIcon e="➕" className="inline h-3.5 w-3.5" />} 绑定另一个孩子
         </button>
 
         <Link

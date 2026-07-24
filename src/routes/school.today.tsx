@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { classSchedule } from "@/lib/mock-data";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/today")({
   component: TodayPage,
 });
@@ -61,10 +62,10 @@ function TodayPage() {
                 ))}
               </div>
               <div className="mt-3 flex gap-2">
-                <button className="flex-1 rounded-xl bg-white/25 py-1.5 text-[11px] backdrop-blur">📞 体检负责人</button>
-                <button className="flex-1 rounded-xl bg-white/25 py-1.5 text-[11px] backdrop-blur">🏥 校医</button>
+                <button className="flex-1 rounded-xl bg-white/25 py-1.5 text-[11px] backdrop-blur">{<EIcon e="📞" className="inline h-3.5 w-3.5" />} 体检负责人</button>
+                <button className="flex-1 rounded-xl bg-white/25 py-1.5 text-[11px] backdrop-blur">{<EIcon e="🏥" className="inline h-3.5 w-3.5" />} 校医</button>
                 <Link to="/school/abnormal" className="flex-1 rounded-xl bg-warm py-1.5 text-center text-[11px] font-medium text-warm-foreground">
-                  🚨 上报
+                  {<EIcon e="🚨" className="inline h-3.5 w-3.5" />} 上报
                 </Link>
               </div>
             </div>
@@ -140,7 +141,7 @@ function TodayPage() {
               className="mb-3 flex items-center justify-between rounded-2xl bg-gradient-to-br from-teal to-deep p-3 text-white shadow-sm"
             >
               <div className="text-left">
-                <p className="text-sm font-semibold">⚡ 一键同步本批次体检学生清单</p>
+                <p className="text-sm font-semibold">{<EIcon e="⚡" className="inline h-3.5 w-3.5" />} 一键同步本批次体检学生清单</p>
                 <p className="mt-0.5 text-[11px] opacity-90">从教育局批次拉取最新名单至学生模块</p>
               </div>
               <span>→</span>

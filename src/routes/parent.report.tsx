@@ -16,49 +16,52 @@ type Item = { name: string; value: string; ref: string; level: Level; refSource?
 type Section = { title: string; items: Item[] };
 
 
+const REF_SRC = "南京市儿童医院 · 2024版学龄儿童参考区间";
+
 const sections: Section[] = [
   {
     title: "体格发育",
     items: [
-      { name: "身高", value: "138 cm", ref: "P75", level: "ok" },
-      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad" },
-      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad" },
-      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok" },
+      { name: "身高", value: "138 cm", ref: "P75", level: "ok", refSource: REF_SRC },
+      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad", refSource: REF_SRC, recDept: "儿童保健科", recDoctor: "王丽 主任医师" },
+      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad", refSource: REF_SRC, recDept: "营养科", recDoctor: "陈静 副主任医师" },
+      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "视力与眼健康",
     items: [
-      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok" },
-      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok" },
-      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok" },
-      { name: "眼位", value: "正位", ref: "正位", level: "ok" },
+      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok", refSource: REF_SRC },
+      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok", refSource: REF_SRC },
+      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok", refSource: REF_SRC },
+      { name: "眼位", value: "正位", ref: "正位", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "口腔",
     items: [
-      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok" },
-      { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
+      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok", refSource: REF_SRC },
+      { name: "牙列", value: "整齐", ref: "整齐", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "内科",
     items: [
-      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok" },
-      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok" },
-      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok" },
+      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok", refSource: REF_SRC },
+      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok", refSource: REF_SRC },
+      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "过敏与呼吸",
     items: [
-      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad" },
-      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok" },
-      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn" },
+      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad", refSource: REF_SRC, recDept: "过敏反应科", recDoctor: "刘敏 主任医师" },
+      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok", refSource: REF_SRC },
+      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn", refSource: REF_SRC, recDept: "呼吸科", recDoctor: "张伟 副主任医师" },
     ],
   },
 ];
+
 
 type ArchiveKind = "exam" | "review" | "hospital";
 type ArchiveEntry = { date: string; kind: ArchiveKind; tags: string[]; note?: string };

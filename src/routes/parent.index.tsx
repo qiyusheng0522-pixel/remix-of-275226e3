@@ -96,6 +96,17 @@ function ParentHome() {
   const [showAllTasks, setShowAllTasks] = useState(false);
   const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
   const [signed, setSigned] = useState(false);
+  const [hasReport, setHasReport] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return window.localStorage.getItem(VIEW_KEY) !== "0";
+  });
+  const toggleView = () => {
+    setHasReport((v) => {
+      const nv = !v;
+      window.localStorage.setItem(VIEW_KEY, nv ? "1" : "0");
+      return nv;
+    });
+  };
 
   // 每次进入家长端首页都需要重新签署授权（演示需求）
   useEffect(() => {

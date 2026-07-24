@@ -247,7 +247,7 @@ function CommPage() {
                 className="flex w-full items-start gap-3 rounded-2xl bg-surface p-3 text-left shadow-sm ring-1 ring-border/60"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal/15 text-sm">
-                  {t.role === "家长" ? "👨‍👩‍👧" : "🩺"}
+                  {t.role === "家长" ? "" : ""}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">

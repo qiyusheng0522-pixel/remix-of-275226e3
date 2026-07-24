@@ -163,7 +163,7 @@ function ParentHome() {
                     : "border-border text-muted-foreground"
                 }`}
               >
-                {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
+                {signed ? " 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
               </button>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
@@ -254,7 +254,7 @@ function ParentHome() {
             <div className="min-w-0 flex-1">
               <p className="text-[11px] text-white/80">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 童护佳 · AI 健康顾问</p>
               <p className="mt-0.5 text-[15px] font-bold leading-tight">
-                家长好，{kid.name}的体检数据已为您解读 🌸
+                家长好，{kid.name}的体检数据已为您解读 
               </p>
             </div>
           </div>
@@ -561,7 +561,7 @@ function ParentHome() {
                       title={c.id === "weight" ? "记录晨起体重" : `记录：${c.title}`}
                       description={c.id === "weight" ? "建议每周同一时间空腹测量，连续记录曲线更直观" : c.tag}
                       confirmText="保存记录"
-                      toastMessage="已保存记录 ✓"
+                      toastMessage="已保存记录 "
                     >
                       {c.id === "weight" ? (
                         <div className="space-y-2 text-xs">
@@ -659,7 +659,7 @@ function ParentHome() {
         </div>
 
         <div className="mb-3 flex gap-2 overflow-x-auto">
-          {["全部", "▷ 视频", "🖼 图文", "📻 直播"].map((t) => {
+          {["全部", "▷ 视频", " 图文", " 直播"].map((t) => {
             const label = t.replace(/^[^\u4e00-\u9fa5]+/, "").trim() || t;
             const active = catTab === label || (t === "全部" && catTab === "全部");
             return (

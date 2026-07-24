@@ -285,7 +285,7 @@ function EntryPage() {
                     : "bg-surface text-muted-foreground ring-1 ring-border/60"
                 }`}
               >
-                {done ? "✓ " : ""}
+                {done ? " " : ""}
                 {n.icon} {n.name}
               </button>
             );
@@ -303,7 +303,7 @@ function EntryPage() {
                 onClick={pullAuto}
                 className="rounded-full bg-deep/10 px-2.5 py-1 text-[11px] font-medium text-deep"
               >
-                📡 采集 {active.device}
+                 采集 {active.device}
               </button>
             )}
           </div>
@@ -358,7 +358,7 @@ function EntryPage() {
                 : "bg-deep text-deep-foreground"
             }`}
           >
-            {verified[active.key] ? "✓ 已核对" : "核对并保存"}
+            {verified[active.key] ? " 已核对" : "核对并保存"}
           </button>
         </div>
 

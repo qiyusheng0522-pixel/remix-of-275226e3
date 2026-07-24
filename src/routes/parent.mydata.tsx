@@ -184,7 +184,7 @@ function MyDataPage() {
                   title={`录入 ${m.label}`}
                   description={`单位：${m.unit}`}
                   confirmText="保存"
-                  toastMessage="数据已保存 ✓"
+                  toastMessage="数据已保存 "
                 >
                   <div className="space-y-2 text-xs">
                     <label className="block">
@@ -278,7 +278,7 @@ function MyDataPage() {
                   onClick={() => {
                     toggle(d.id);
                     toast[d.connected ? "info" : "success"](
-                      d.connected ? "已断开设备" : "设备已连接 ✓",
+                      d.connected ? "已断开设备" : "设备已连接 ",
                     );
                   }}
                   className={`shrink-0 rounded-full px-3 py-1 text-[11px] ${

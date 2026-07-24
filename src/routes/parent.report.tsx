@@ -154,7 +154,7 @@ function ReportPage() {
             {/* 头顶风险徽章 */}
             <div className="absolute left-1/2 top-1 -translate-x-1/2">
               <span className="rounded-full bg-warning px-3 py-1 text-[11px] font-bold text-warning-foreground shadow-md ring-2 ring-white">
-                🟡 {child.riskLevel}风险
+                 {child.riskLevel}风险
               </span>
             </div>
 

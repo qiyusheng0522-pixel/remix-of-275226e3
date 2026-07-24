@@ -233,13 +233,13 @@ function ReportReviewPage() {
                         <span className="ml-1 text-[10px] text-deep">查看体检数据 ›</span>
                       </p>
                     </div>
-                    <p className="mt-1 text-xs text-warm">⚠ {r.issue}</p>
+                    <p className="mt-1 text-xs text-warm">{<EIcon e="⚠" className="inline h-3.5 w-3.5" />} {r.issue}</p>
                     <div className="mt-1 flex flex-wrap gap-1">
                       {r.deviation && (
                         <span className="rounded bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger">{<EIcon e="🔁" className="inline h-3.5 w-3.5" />} 严重偏差二次复核</span>
                       )}
                       {r.missing && r.missing.length > 0 && (
-                        <span className="rounded bg-warning/25 px-1.5 py-0.5 text-[10px] font-medium text-warning-foreground">🕳 漏检复核 · {r.missing.length} 项</span>
+                        <span className="rounded bg-warning/25 px-1.5 py-0.5 text-[10px] font-medium text-warning-foreground">{<EIcon e="🕳" className="inline h-3.5 w-3.5" />} 漏检复核 · {r.missing.length} 项</span>
                       )}
                     </div>
                   </Link>
@@ -275,7 +275,7 @@ function ReportReviewPage() {
                         </ul>
                         {r.deviation && (
                           <p className="mt-1.5 rounded bg-danger/10 px-2 py-1 text-[10.5px] text-danger">
-                            🔁 {r.deviation}
+                             {r.deviation}
                           </p>
                         )}
                       </div>
@@ -292,7 +292,7 @@ function ReportReviewPage() {
                     )}
 
                     <p className="mt-2 rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
-                      ✨ {r.ai}
+                       {r.ai}
                     </p>
                     {t === "待审核" && (
                       <div className="mt-3 flex gap-2">
@@ -320,7 +320,7 @@ function ReportReviewPage() {
                           title="确认人工二次审核通过？"
                           description="签发后报告将同步至家长与校方。"
                           confirmText="签发"
-                          toastMessage="报告已签发 ✓"
+                          toastMessage="报告已签发 "
                         />
                       </div>
                     )}

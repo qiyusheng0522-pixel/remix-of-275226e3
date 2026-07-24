@@ -163,7 +163,7 @@ function TodayPage() {
                         </span>
                       </div>
                       <p className="mt-1 text-[11px] text-muted-foreground">教育局下发 · {b.org}</p>
-                      <p className="text-[11px] text-muted-foreground">📅 {b.date}</p>
+                      <p className="text-[11px] text-muted-foreground">{<EIcon e="📅" className="inline h-3.5 w-3.5" />} {b.date}</p>
                     </div>
                   </div>
                   <div className="mt-3 grid grid-cols-3 gap-2 text-center">

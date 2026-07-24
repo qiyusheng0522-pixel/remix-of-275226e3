@@ -249,7 +249,7 @@ function ReviewPage() {
                   title={`确认发布 ${d.name} 的方案？`}
                   description={`风险等级：${d.risk} · 发布后家长立即收到通知，健管师同步接手。`}
                   confirmText="确认发布"
-                  toastMessage="方案已发布 ✓"
+                  toastMessage="方案已发布 "
                   toastDescription={`${d.name} · 家长已收到通知`}
                 />
               </div>

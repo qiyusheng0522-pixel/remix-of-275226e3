@@ -7,7 +7,7 @@ export const child = {
   className: "3班",
   school: "阳光小学",
   studentId: "20230318",
-  avatar: "🌸",
+  avatar: "",
   height: 128,
   weight: 27.5,
   bmi: 16.8,
@@ -19,11 +19,11 @@ export const child = {
 };
 
 export const todayTasks = [
-  { id: 1, icon: "🍚", title: "记录今日早餐", tag: "饮食", done: true, time: "08:30" },
-  { id: 2, icon: "🏃", title: "户外运动 60 分钟", tag: "运动", done: true, time: "16:00" },
-  { id: 3, icon: "🛏️", title: "床品换洗（每周一次）", tag: "环境", done: false, time: "本周" },
+  { id: 1, icon: "", title: "记录今日早餐", tag: "饮食", done: true, time: "08:30" },
+  { id: 2, icon: "", title: "户外运动 60 分钟", tag: "运动", done: true, time: "16:00" },
+  { id: 3, icon: "", title: "床品换洗（每周一次）", tag: "环境", done: false, time: "本周" },
   
-  { id: 5, icon: "😴", title: "22:00 前上床", tag: "睡眠", done: false, time: "22:00" },
+  { id: 5, icon: "", title: "22:00 前上床", tag: "睡眠", done: false, time: "22:00" },
 ];
 
 export const abnormalItems = [

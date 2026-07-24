@@ -53,7 +53,7 @@ function AbnormalPage() {
                   step === i + 1 ? "bg-warm text-warm-foreground" : step > i + 1 ? "bg-success text-white" : "bg-surface-2 text-muted-foreground"
                 }`}
               >
-                {step > i + 1 ? "✓" : i + 1}
+                {step > i + 1 ? "" : i + 1}
               </span>
               <span className={step >= i + 1 ? "" : "text-muted-foreground"}>{s}</span>
               {i < 2 && <span className="text-muted-foreground">—</span>}
@@ -162,7 +162,7 @@ function AbnormalPage() {
               title="确认提交上报？"
               description={`将按「${flow || "—"}」流转，并同步通知相关角色。提交后可在异常池追踪处理状态。`}
               confirmText="确认提交"
-              toastMessage="上报已提交 ✓"
+              toastMessage="上报已提交 "
               toastDescription={`${who} · ${cls} · 已通知${flow || "校医"}`}
               onConfirm={() => nav({ to: "/school" })}
             />

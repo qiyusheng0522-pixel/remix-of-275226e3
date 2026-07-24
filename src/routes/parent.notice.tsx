@@ -247,7 +247,7 @@ function NoticePage() {
                                   : "border-border text-muted-foreground"
                               }`}
                             >
-                              {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
+                              {signed ? " 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
                             </div>
                           </ActionSheet>
                         ) : it.id === "health-form" ? (

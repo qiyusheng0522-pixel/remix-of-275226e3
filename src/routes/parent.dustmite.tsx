@@ -29,7 +29,7 @@ function DustMitePage() {
       <div className="px-5 pb-8 pt-2">
         <div className="mb-4 overflow-hidden rounded-3xl bg-gradient-to-br from-teal to-teal/70 p-5 text-white shadow-lg shadow-teal/20">
           <p className="text-xs opacity-90">尘螨是过敏与夜间咳嗽的常见诱因</p>
-          <h1 className="mt-1 text-lg font-bold">给{" "}{"小雨"} 一个干净的睡眠环境 🛏️</h1>
+          <h1 className="mt-1 text-lg font-bold">给{" "}{"小雨"} 一个干净的睡眠环境 {<EIcon e="🛏️" className="inline h-3.5 w-3.5" />}</h1>
           <div className="mt-3 flex items-center gap-3">
             <div className="flex-1">
               <div className="h-2 overflow-hidden rounded-full bg-white/25">

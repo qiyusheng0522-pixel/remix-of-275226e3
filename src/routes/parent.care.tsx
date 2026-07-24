@@ -237,7 +237,7 @@ function WeightSheet({ onSave }: { onSave: (w: number) => void }) {
       title="记录今日体重"
       description="录入后将同步至成长曲线，用于评估体重管理进度"
       confirmText="保存"
-      toastMessage="本周体重已记录 ✓"
+      toastMessage="本周体重已记录 "
       onConfirm={() => {
         const n = parseFloat(weight);
         if (!isNaN(n)) onSave(n);

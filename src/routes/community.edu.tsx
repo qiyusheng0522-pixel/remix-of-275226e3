@@ -93,9 +93,9 @@ function EduPage() {
                 </span>
               </div>
               <p className="mt-1 text-[11px] text-muted-foreground">
-                👥 {c.audience}
+                 {c.audience}
               </p>
-              <p className="text-[11px] text-muted-foreground">🕒 {c.date}</p>
+              <p className="text-[11px] text-muted-foreground">{<EIcon e="🕒" className="inline h-3.5 w-3.5" />} {c.date}</p>
             </li>
           ))}
         </ul>

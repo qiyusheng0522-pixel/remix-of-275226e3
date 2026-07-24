@@ -59,7 +59,7 @@ function RecordPage() {
                     i < 5 ? "bg-warm/20 text-warm" : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {i < 5 ? "✓" : "·"}
+                  {i < 5 ? "" : "·"}
                 </span>
               </div>
             ))}
@@ -115,7 +115,7 @@ function WeightForm() {
         title="保存本周体重"
         description="体重会加入孩子的成长曲线，用于评估是否偏轻/超重。"
         confirmText="保存"
-        toastMessage="本周体重已记录 ✓"
+        toastMessage="本周体重已记录 "
         toastDescription="27.5 kg · BMI 已同步更新"
       />
       
@@ -157,7 +157,7 @@ function DietForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日饮食</button>}
         title="保存今日饮食"
         confirmText="保存"
-        toastMessage="今日饮食已记录 ✓"
+        toastMessage="今日饮食已记录 "
         toastDescription="含糖饮料：0 · 早餐正常 · 蔬菜达标"
       />
     </Card>
@@ -196,7 +196,7 @@ function SportForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日运动</button>}
         title="保存今日运动"
         confirmText="保存"
-        toastMessage="运动记录已保存 ✓"
+        toastMessage="运动记录已保存 "
         toastDescription="户外玩耍 · 30—60 分钟 · 无不适"
       />
     </Card>
@@ -229,7 +229,7 @@ function SleepForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日睡眠</button>}
         title="保存今日睡眠"
         confirmText="保存"
-        toastMessage="今日睡眠已记录 ✓"
+        toastMessage="今日睡眠已记录 "
         toastDescription="睡眠 9 小时 · 符合学龄建议"
       />
     </Card>

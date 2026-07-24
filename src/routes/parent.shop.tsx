@@ -257,7 +257,7 @@ function BuySheet({ product }: { product: Product }) {
       title={product.name}
       description={product.brief}
       confirmText={`确认下单 ￥${total}`}
-      toastMessage={cycle.key === "single" ? "已下单，客服将联系您 ✓" : "周期订阅已创建 ✓"}
+      toastMessage={cycle.key === "single" ? "已下单，客服将联系您 " : "周期订阅已创建 "}
     >
       <div className="space-y-3 text-xs">
         {product.subscribable && (

@@ -307,7 +307,7 @@ function HealthPlanPage() {
                       <b className="text-warm">推荐理由：</b>{m.reason}
                     </p>
                     <p className="mt-1 text-[10px] text-muted-foreground">
-                      📚 出处：{m.source}
+                       出处：{m.source}
                     </p>
                   </div>
 
@@ -416,7 +416,7 @@ function HealthPlanPage() {
                         <span key={t} className="rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] text-teal">{t}</span>
                       ))}
                     </div>
-                    <p className="mt-1.5 text-[11px] text-muted-foreground">🕐 {e.time} · 〰 {e.hr}</p>
+                    <p className="mt-1.5 text-[11px] text-muted-foreground">{<EIcon e="🕐" className="inline h-3.5 w-3.5" />} {e.time} · 〰 {e.hr}</p>
                   </div>
                 </div>
                 {/* 推荐理由 + 科学出处 */}
@@ -424,7 +424,7 @@ function HealthPlanPage() {
                   <p className="text-[11px] leading-relaxed text-foreground/85">
                     <b className="text-teal">推荐理由：</b>{e.reason}
                   </p>
-                  <p className="mt-1 text-[10px] text-muted-foreground">📚 出处：{e.source}</p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">{<EIcon e="📚" className="inline h-3.5 w-3.5" />} 出处：{e.source}</p>
                 </div>
               </div>
             );})}
@@ -460,7 +460,7 @@ function HealthPlanPage() {
             ].map((c) => (
               <div key={c.title} className="flex items-center gap-3 rounded-2xl bg-surface p-3">
                 <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] ${c.done ? "bg-success text-success-foreground" : "border border-border bg-surface-2 text-muted-foreground"}`}>
-                  {c.done ? "✓" : ""}
+                  {c.done ? "" : ""}
                 </span>
                 <div className="flex-1">
                   <p className="text-[13px] font-semibold">{c.title}</p>
@@ -582,7 +582,7 @@ function HealthPlanPage() {
                         <span className="rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">{n.dist}</span>
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted-foreground">发起人：{n.host}</p>
-                      <p className="mt-1 text-[11px] text-foreground/80">🕐 {n.when} · 👥 {n.joined + (j ? 1 : 0)}/{n.cap}</p>
+                      <p className="mt-1 text-[11px] text-foreground/80">{<EIcon e="🕐" className="inline h-3.5 w-3.5" />} {n.when} · {<EIcon e="👥" className="inline h-3.5 w-3.5" />} {n.joined + (j ? 1 : 0)}/{n.cap}</p>
                       <button
                         onClick={() => setJoined((s) => ({ ...s, [n.title]: !s[n.title] }))}
                         className={`mt-2 w-full rounded-full py-1.5 text-[12px] font-semibold ${j ? "bg-surface text-muted-foreground ring-1 ring-border" : "bg-teal text-white"}`}

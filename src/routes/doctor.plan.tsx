@@ -205,7 +205,7 @@ function PlanPage() {
                   </p>
                   {c.reviewState === "已审核" && (
                     <p className="mt-2 text-[11px] text-muted-foreground">
-                      ✓ {c.approvedAt} · {c.approvedBy} 审核通过 · 共 {c.history?.length ?? 1} 版
+                       {c.approvedAt} · {c.approvedBy} 审核通过 · 共 {c.history?.length ?? 1} 版
                     </p>
                   )}
                 </div>
@@ -221,7 +221,7 @@ function PlanPage() {
                     }}
                     className="rounded-xl bg-deep/10 py-2.5 text-[13px] font-medium text-deep"
                   >
-                    {c.reviewState === "待审核" ? "👁 查看方案" : "📄 查看历史方案"}
+                    {c.reviewState === "待审核" ? " 查看方案" : " 查看历史方案"}
                   </button>
                   {c.reviewState === "待审核" && (
                     <button

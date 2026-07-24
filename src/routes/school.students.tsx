@@ -109,7 +109,7 @@ function StudentsPage() {
           title="同步本批次学生清单？"
           description={<>将从"春季常规体检"批次拉取 486 位学生，覆盖 18 个班级。<br />已存在的学生信息将保留，新增学生自动分配班主任与体检医生。</>}
           confirmText="立即同步"
-          toastMessage="同步成功 ✓"
+          toastMessage="同步成功 "
           toastDescription="共更新 486 名学生 · 新增 3 名"
         />
 
@@ -191,7 +191,7 @@ function StudentsPage() {
             >
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-teal/15 text-lg">
-                  {r.gender === "男" ? "👦" : "👧"}
+                  {r.gender === "男" ? "" : ""}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
@@ -245,7 +245,7 @@ function Chip({
   variant?: "warn" | "danger" | "muted";
 }) {
   if (ok) {
-    return <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">✓ {okText}</span>;
+    return <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} {okText}</span>;
   }
   const cls =
     variant === "danger"

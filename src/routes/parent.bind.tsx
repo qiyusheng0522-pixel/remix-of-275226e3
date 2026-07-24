@@ -86,7 +86,7 @@ function BindPage() {
                 className="flex items-center gap-3 rounded-xl bg-surface-2 p-3"
               >
                 <div className="grid h-10 w-10 place-items-center rounded-xl bg-warm/15 text-lg">
-                  {g.relation === "母亲" ? "👩" : "👨"}
+                  {g.relation === "母亲" ? "" : ""}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">

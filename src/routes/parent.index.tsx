@@ -399,7 +399,7 @@ function ParentHome() {
       </Link>
 
       {/* Today tasks — 需已生成体检报告后才展示 */}
-      {HAS_REPORT && (
+      {hasReport && (
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-sm font-bold">
@@ -455,7 +455,7 @@ function ParentHome() {
       )}
 
       {/* 居家健康提醒 — 需已生成体检报告后才展示 */}
-      {HAS_REPORT && (
+      {hasReport && (
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
         <div className="mb-3 flex items-start justify-between gap-2">
           <div>

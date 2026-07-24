@@ -282,6 +282,7 @@ function ParentHome() {
       </div>
 
       {/* AI Health advisor card — 精简后 */}
+      {hasReport ? (
       <div className="mt-3 px-5">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose/90 via-rose to-rose/70 p-4 text-white shadow-xl shadow-rose/30">
           <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />

@@ -302,25 +302,44 @@ function ReportPage() {
                 </summary>
                 <ul className="divide-y divide-border/60 px-4 pb-3">
                   {s.items.map((it) => (
-                    <li
-                      key={it.name}
-                      className="flex items-center justify-between gap-3 py-2.5"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
-                        <span className="text-sm">{it.name}</span>
+                    <li key={it.name} className="py-2.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                          <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
+                          <span className="text-sm">{it.name}</span>
+                        </div>
+                        <div className="flex items-baseline gap-2">
+                          <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
+                            {it.value}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            参考 {it.ref}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
-                          {it.value}
-                        </span>
-                        <span className="text-[11px] text-muted-foreground">
-                          参考 {it.ref}
-                        </span>
+                      <div className="mt-1 flex items-center gap-1 pl-4 text-[10px] text-muted-foreground">
+                        <span className="grid h-3 w-3 place-items-center rounded-full bg-teal/15 text-[8px]">🏥</span>
+                        <span>参考值来源：{it.refSource ?? REF_SRC}</span>
                       </div>
+                      {it.level !== "ok" && it.recDept && (
+                        <div className="mt-1.5 ml-4 flex items-center justify-between gap-2 rounded-xl bg-danger/5 px-2.5 py-1.5 ring-1 ring-danger/20">
+                          <div className="min-w-0 text-[11px]">
+                            <span className="font-semibold text-danger">推荐医生 · {it.recDept}</span>
+                            <span className="ml-1 text-foreground/70">{it.recDoctor}</span>
+                          </div>
+                          <Link
+                            to="/parent/comm"
+                            search={{ topic: it.name, from: "report" }}
+                            className="shrink-0 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold text-danger-foreground"
+                          >
+                            立即咨询
+                          </Link>
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ul>
+
               </details>
             );
           })}

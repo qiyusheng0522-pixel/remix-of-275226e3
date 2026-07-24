@@ -12,52 +12,56 @@ const trend = [125, 126, 126.5, 127, 127.5, 128];
 const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
 
 type Level = "ok" | "warn" | "bad";
-type Item = { name: string; value: string; ref: string; level: Level };
+type Item = { name: string; value: string; ref: string; level: Level; refSource?: string; recDept?: string; recDoctor?: string };
 type Section = { title: string; items: Item[] };
+
+
+const REF_SRC = "南京市儿童医院 · 2024版学龄儿童参考区间";
 
 const sections: Section[] = [
   {
     title: "体格发育",
     items: [
-      { name: "身高", value: "138 cm", ref: "P75", level: "ok" },
-      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad" },
-      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad" },
-      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok" },
+      { name: "身高", value: "138 cm", ref: "P75", level: "ok", refSource: REF_SRC },
+      { name: "体重", value: "32.5 kg", ref: "P85 · 偏重", level: "bad", refSource: REF_SRC, recDept: "儿童保健科", recDoctor: "王丽 主任医师" },
+      { name: "BMI", value: "17.1", ref: "14.5–16.8", level: "bad", refSource: REF_SRC, recDept: "营养科", recDoctor: "陈静 副主任医师" },
+      { name: "腰围", value: "62 cm", ref: "≤ 64 cm", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "视力与眼健康",
     items: [
-      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok" },
-      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok" },
-      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok" },
-      { name: "眼位", value: "正位", ref: "正位", level: "ok" },
+      { name: "裸眼视力 (左)", value: "5.0", ref: "≥ 5.0", level: "ok", refSource: REF_SRC },
+      { name: "裸眼视力 (右)", value: "5.0", ref: "≥ 5.0", level: "ok", refSource: REF_SRC },
+      { name: "屈光度 (左)", value: "+0.25D", ref: "±0.50D", level: "ok", refSource: REF_SRC },
+      { name: "眼位", value: "正位", ref: "正位", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "口腔",
     items: [
-      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok" },
-      { name: "牙列", value: "整齐", ref: "整齐", level: "ok" },
+      { name: "龋齿", value: "0 颗", ref: "0 颗", level: "ok", refSource: REF_SRC },
+      { name: "牙列", value: "整齐", ref: "整齐", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "内科",
     items: [
-      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok" },
-      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok" },
-      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok" },
+      { name: "血压", value: "102/66 mmHg", ref: "< 120/80", level: "ok", refSource: REF_SRC },
+      { name: "心率", value: "88 bpm", ref: "70–110", level: "ok", refSource: REF_SRC },
+      { name: "肺部听诊", value: "呼吸音清", ref: "正常", level: "ok", refSource: REF_SRC },
     ],
   },
   {
     title: "过敏与呼吸",
     items: [
-      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad" },
-      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok" },
-      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn" },
+      { name: "过敏原-尘螨", value: "阳性 (++)", ref: "阴性", level: "bad", refSource: REF_SRC, recDept: "过敏反应科", recDoctor: "刘敏 主任医师" },
+      { name: "肺功能 FEV1", value: "98%", ref: "≥ 80%", level: "ok", refSource: REF_SRC },
+      { name: "运动后咳嗽", value: "偶发", ref: "无", level: "warn", refSource: REF_SRC, recDept: "呼吸科", recDoctor: "张伟 副主任医师" },
     ],
   },
 ];
+
 
 type ArchiveKind = "exam" | "review" | "hospital";
 type ArchiveEntry = { date: string; kind: ArchiveKind; tags: string[]; note?: string };
@@ -298,25 +302,44 @@ function ReportPage() {
                 </summary>
                 <ul className="divide-y divide-border/60 px-4 pb-3">
                   {s.items.map((it) => (
-                    <li
-                      key={it.name}
-                      className="flex items-center justify-between gap-3 py-2.5"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
-                        <span className="text-sm">{it.name}</span>
+                    <li key={it.name} className="py-2.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                          <span className={`h-2 w-2 rounded-full ${dot[it.level]}`} />
+                          <span className="text-sm">{it.name}</span>
+                        </div>
+                        <div className="flex items-baseline gap-2">
+                          <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
+                            {it.value}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            参考 {it.ref}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className={`text-sm font-semibold ${valueColor[it.level]}`}>
-                          {it.value}
-                        </span>
-                        <span className="text-[11px] text-muted-foreground">
-                          参考 {it.ref}
-                        </span>
+                      <div className="mt-1 flex items-center gap-1 pl-4 text-[10px] text-muted-foreground">
+                        <span className="grid h-3 w-3 place-items-center rounded-full bg-teal/15 text-[8px]">🏥</span>
+                        <span>参考值来源：{it.refSource ?? REF_SRC}</span>
                       </div>
+                      {it.level !== "ok" && it.recDept && (
+                        <div className="mt-1.5 ml-4 flex items-center justify-between gap-2 rounded-xl bg-danger/5 px-2.5 py-1.5 ring-1 ring-danger/20">
+                          <div className="min-w-0 text-[11px]">
+                            <span className="font-semibold text-danger">推荐医生 · {it.recDept}</span>
+                            <span className="ml-1 text-foreground/70">{it.recDoctor}</span>
+                          </div>
+                          <Link
+                            to="/parent/comm"
+                            search={{ topic: it.name, from: "report" }}
+                            className="shrink-0 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold text-danger-foreground"
+                          >
+                            立即咨询
+                          </Link>
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ul>
+
               </details>
             );
           })}

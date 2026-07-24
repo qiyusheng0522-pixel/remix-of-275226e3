@@ -64,8 +64,6 @@ const encyclopedia = [
     meta: "李医生 · 4 分钟 · 1.2 万阅读",
     badge: "必读",
     badgeClass: "bg-rose/15 text-rose",
-    points: "+50 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
   {
     kind: "图文",
@@ -74,8 +72,6 @@ const encyclopedia = [
     meta: "营养师 · 6 分钟 · 8423 阅读",
     badge: "食谱",
     badgeClass: "bg-success/15 text-success",
-    points: "+30 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
   {
     kind: "直播",
@@ -84,10 +80,9 @@ const encyclopedia = [
     meta: "主任医师 · 直播预约 · 526 人…",
     badge: "预约",
     badgeClass: "bg-warning/20 text-warning-foreground",
-    points: "+80 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
 ];
+
 
 function ParentHome() {
   const [activeKid, setActiveKid] = useState(kids[0].id);
@@ -694,10 +689,11 @@ function ParentHome() {
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold">健康百科</h3>
-            <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">看完单篇得积分</span>
+            <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">医生甄选内容</span>
           </div>
           <button className="text-[11px] font-medium text-rose">进入百科 ›</button>
         </div>
+
         <div className="mb-3 flex gap-2 overflow-x-auto">
           {["全部", "▷ 视频", "🖼 图文", "📻 直播"].map((t) => {
             const label = t.replace(/^[^\u4e00-\u9fa5]+/, "").trim() || t;
@@ -736,9 +732,8 @@ function ParentHome() {
                     </span>
                     <span className="truncate text-[11px] text-muted-foreground">{a.meta}</span>
                   </div>
-                  <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium ${a.pointsClass}`}>
-                    {a.points}
-                  </span>
+
+
                 </div>
               </div>
             </li>

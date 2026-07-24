@@ -425,12 +425,12 @@ function Plan() {
         <table className="w-full text-sm">
           <thead className="text-xs text-slate-500">
             <tr className="border-b border-slate-100">
-              <th className="py-2 text-left font-normal">年级 / 班级</th>
+              <th className="py-2 text-left font-normal">班级</th>
               <th className="text-left font-normal">人数</th>
               <th className="text-left font-normal">体检日期</th>
-              <th className="text-left font-normal">时段</th>
-              <th className="text-left font-normal">工位</th>
-              <th className="text-left font-normal">带队班主任</th>
+              <th className="text-left font-normal">时间</th>
+              <th className="text-left font-normal">体检地点</th>
+              <th className="text-left font-normal">带队老师</th>
               <th className="text-left font-normal">主检医生 / 护士</th>
               <th className="text-left font-normal">进度</th>
               <th className="text-left font-normal">状态</th>
@@ -439,14 +439,12 @@ function Plan() {
           </thead>
           <tbody>
             {classArrangements.map((c) => (
-              <tr key={c.grade + c.cls} className="border-b border-slate-50">
-                <td className="py-2 font-medium">
-                  {c.grade} {c.cls}
-                </td>
+              <tr key={c.name} className="border-b border-slate-50">
+                <td className="py-2 font-medium">{c.name}</td>
                 <td>{c.students}</td>
                 <td className="text-slate-500">{c.date}</td>
                 <td className="font-mono text-xs">{c.time}</td>
-                <td>{c.room}</td>
+                <td>{c.location}</td>
                 <td>{c.teacher}</td>
                 <td className="text-slate-600">
                   {c.doctor} · {c.nurse}

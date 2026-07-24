@@ -14,6 +14,7 @@ import { Route as ParentRouteImport } from './routes/parent'
 import { Route as DoctorRouteImport } from './routes/doctor'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as BigscreenRouteImport } from './routes/bigscreen'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolIndexRouteImport } from './routes/school.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
@@ -87,6 +88,11 @@ const CommunityRoute = CommunityRouteImport.update({
 const BigscreenRoute = BigscreenRouteImport.update({
   id: '/bigscreen',
   path: '/bigscreen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -337,6 +343,7 @@ const DoctorEntryIdRoute = DoctorEntryIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bigscreen': typeof BigscreenRoute
   '/community': typeof CommunityRouteWithChildren
   '/doctor': typeof DoctorRouteWithChildren
@@ -393,6 +400,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bigscreen': typeof BigscreenRoute
   '/community/consult': typeof CommunityConsultRoute
   '/community/edu': typeof CommunityEduRoute
@@ -446,6 +454,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bigscreen': typeof BigscreenRoute
   '/community': typeof CommunityRouteWithChildren
   '/doctor': typeof DoctorRouteWithChildren
@@ -504,6 +513,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/bigscreen'
     | '/community'
     | '/doctor'
@@ -560,6 +570,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/bigscreen'
     | '/community/consult'
     | '/community/edu'
@@ -612,6 +623,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/bigscreen'
     | '/community'
     | '/doctor'
@@ -669,6 +681,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   BigscreenRoute: typeof BigscreenRoute
   CommunityRoute: typeof CommunityRouteWithChildren
   DoctorRoute: typeof DoctorRouteWithChildren
@@ -711,6 +724,13 @@ declare module '@tanstack/react-router' {
       path: '/bigscreen'
       fullPath: '/bigscreen'
       preLoaderRoute: typeof BigscreenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -1194,6 +1214,7 @@ const SchoolRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   BigscreenRoute: BigscreenRoute,
   CommunityRoute: CommunityRouteWithChildren,
   DoctorRoute: DoctorRouteWithChildren,

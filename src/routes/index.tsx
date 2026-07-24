@@ -110,6 +110,17 @@ function Landing() {
           <span className="text-lg">{<EIcon e="🖥️" className="inline h-3.5 w-3.5" />} →</span>
         </Link>
 
+        <Link
+          to="/admin"
+          className="mt-3 flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+        >
+          <div>
+            <p className="text-[11px] tracking-widest text-slate-400">PC · 后台管理系统</p>
+            <p className="mt-0.5 text-sm font-bold">学生同步 · 体检规划 · 数据回流统计</p>
+          </div>
+          <span className="text-lg text-slate-500"><EIcon e="⚙️" className="inline h-4 w-4" /> →</span>
+        </Link>
+
         <p className="mt-auto pt-8 text-center text-[11px] text-muted-foreground">
           原型演示 · Mock 数据 · v0.1
         </p>

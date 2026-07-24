@@ -64,8 +64,6 @@ const encyclopedia = [
     meta: "李医生 · 4 分钟 · 1.2 万阅读",
     badge: "必读",
     badgeClass: "bg-rose/15 text-rose",
-    points: "+50 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
   {
     kind: "图文",
@@ -74,8 +72,6 @@ const encyclopedia = [
     meta: "营养师 · 6 分钟 · 8423 阅读",
     badge: "食谱",
     badgeClass: "bg-success/15 text-success",
-    points: "+30 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
   {
     kind: "直播",
@@ -84,10 +80,9 @@ const encyclopedia = [
     meta: "主任医师 · 直播预约 · 526 人…",
     badge: "预约",
     badgeClass: "bg-warning/20 text-warning-foreground",
-    points: "+80 积分",
-    pointsClass: "bg-warning/25 text-warning-foreground",
   },
 ];
+
 
 function ParentHome() {
   const [activeKid, setActiveKid] = useState(kids[0].id);

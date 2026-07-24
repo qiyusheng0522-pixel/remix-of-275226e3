@@ -381,8 +381,8 @@ function Schedule() {
             { name: "口腔 · 陈医生", cells: ["三1", "三2", "三2", "三3", "—"] },
             { name: "内科 · 张主任", cells: ["三1", "三1", "三2", "三2", "三3"] },
           ].map((row) => (
-            <>
-              <div key={row.name} className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
+            <Fragment key={row.name}>
+              <div className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
                 {row.name}
               </div>
               {row.cells.map((c, i) => (

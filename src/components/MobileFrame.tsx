@@ -11,9 +11,9 @@ export function MobileFrame({
 }) {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 py-6 md:py-10">
-      <div className="mx-auto w-full max-w-md">
-        {/* Phone device frame */}
-        <div className="relative mx-auto w-full max-w-[400px]">
+      <div className="mx-auto w-full max-w-[402px]">
+        {/* Phone device frame (iPhone 17 · 402 × 874) */}
+        <div className="relative mx-auto w-full max-w-[402px]">
           {/* Side buttons */}
           <span className="absolute -left-[3px] top-24 h-8 w-[3px] rounded-l bg-slate-400/70" />
           <span className="absolute -left-[3px] top-36 h-12 w-[3px] rounded-l bg-slate-400/70" />
@@ -24,12 +24,13 @@ export function MobileFrame({
             <div className={`relative overflow-hidden rounded-[36px] ${bg}`}>
               {/* Dynamic Island / Notch */}
               <div className="pointer-events-none absolute left-1/2 top-2 z-30 h-6 w-28 -translate-x-1/2 rounded-full bg-slate-900" />
-              <div className="flex min-h-[820px] flex-col pt-8">{children}</div>
+              <div className="flex h-[874px] flex-col overflow-y-auto pt-8">{children}</div>
               {/* Home indicator */}
               <div className="pointer-events-none absolute bottom-1.5 left-1/2 z-30 h-1 w-28 -translate-x-1/2 rounded-full bg-slate-900/40" />
             </div>
           </div>
         </div>
+
         <RoleSwitcher />
       </div>
     </div>

@@ -240,6 +240,70 @@ function NoticePage() {
                               {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
                             </div>
                           </ActionSheet>
+                        ) : it.id === "health-form" ? (
+                          <ActionSheet
+                            trigger={
+                              <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
+                                {it.cta}
+                              </button>
+                            }
+                            title="儿童健康问卷 · 哮喘风险筛查"
+                            description="以下 6 道题用于评估孩子是否存在哮喘线索，结果将同步给校医与体检医生。"
+                            confirmText={asthmaDone ? "提交问卷" : "请完成全部题目"}
+                            disabled={!asthmaDone}
+                            toastMessage="问卷已提交"
+                            toastDescription={`${child.name} · ${riskLabel}`}
+                          >
+                            <div className="space-y-3 pb-2">
+                              {[
+                                { k: "q1", q: "近 12 个月内，孩子是否有过反复喘息、胸闷或呼吸急促？" },
+                                { k: "q2", q: "夜间或凌晨是否常因咳嗽、喘息而醒来？" },
+                                { k: "q3", q: "剧烈运动、大笑或哭闹后是否出现咳嗽、气喘？" },
+                                { k: "q4", q: "接触冷空气 / 花粉 / 尘螨 / 宠物后是否诱发咳喘？" },
+                                { k: "q5", q: "既往是否被诊断为哮喘、过敏性鼻炎、湿疹？" },
+                                { k: "q6", q: "父母或兄弟姐妹是否有哮喘或过敏史？" },
+                              ].map((row, idx) => (
+                                <div key={row.k} className="rounded-xl bg-surface-2 p-3">
+                                  <p className="text-[12px] leading-relaxed">
+                                    {idx + 1}. {row.q}
+                                  </p>
+                                  <div className="mt-2 flex gap-2">
+                                    {(["是", "否"] as const).map((v) => {
+                                      const active = asthma[row.k] === v;
+                                      return (
+                                        <button
+                                          key={v}
+                                          type="button"
+                                          onClick={() =>
+                                            setAsthma((s) => ({ ...s, [row.k]: v }))
+                                          }
+                                          className={`flex-1 rounded-full px-3 py-1.5 text-[12px] ring-1 transition ${
+                                            active
+                                              ? v === "是"
+                                                ? "bg-danger/15 text-danger ring-danger/40"
+                                                : "bg-success/15 text-success ring-success/40"
+                                              : "bg-surface text-muted-foreground ring-border"
+                                          }`}
+                                        >
+                                          {v}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              ))}
+                              {asthmaDone && (
+                                <div className="rounded-xl bg-warm/10 p-3 text-[12px] ring-1 ring-warm/30">
+                                  <p className="font-medium text-warm">
+                                    初步评估：{riskLabel}
+                                  </p>
+                                  <p className="mt-1 text-[11px] text-muted-foreground">
+                                    评估依据 GINA 2024 儿童哮喘筛查建议，仅供体检医生参考。
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </ActionSheet>
                         ) : (
                           <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
                             {it.cta}

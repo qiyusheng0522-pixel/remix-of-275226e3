@@ -10,9 +10,26 @@ export function MobileFrame({
   bg?: string;
 }) {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-warm/10 via-surface-2 to-teal/10">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col">
-        <div className={`flex min-h-screen flex-1 flex-col ${bg}`}>{children}</div>
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 py-6 md:py-10">
+      <div className="mx-auto w-full max-w-md">
+        {/* Phone device frame */}
+        <div className="relative mx-auto w-full max-w-[400px]">
+          {/* Side buttons */}
+          <span className="absolute -left-[3px] top-24 h-8 w-[3px] rounded-l bg-slate-400/70" />
+          <span className="absolute -left-[3px] top-36 h-12 w-[3px] rounded-l bg-slate-400/70" />
+          <span className="absolute -left-[3px] top-52 h-12 w-[3px] rounded-l bg-slate-400/70" />
+          <span className="absolute -right-[3px] top-40 h-16 w-[3px] rounded-r bg-slate-400/70" />
+          {/* Bezel */}
+          <div className="rounded-[44px] bg-slate-900 p-[10px] shadow-[0_30px_80px_-20px_rgba(15,23,42,0.55),0_0_0_2px_rgba(255,255,255,0.05)_inset]">
+            <div className={`relative overflow-hidden rounded-[36px] ${bg}`}>
+              {/* Dynamic Island / Notch */}
+              <div className="pointer-events-none absolute left-1/2 top-2 z-30 h-6 w-28 -translate-x-1/2 rounded-full bg-slate-900" />
+              <div className="flex min-h-[820px] flex-col pt-8">{children}</div>
+              {/* Home indicator */}
+              <div className="pointer-events-none absolute bottom-1.5 left-1/2 z-30 h-1 w-28 -translate-x-1/2 rounded-full bg-slate-900/40" />
+            </div>
+          </div>
+        </div>
         <RoleSwitcher />
       </div>
     </div>

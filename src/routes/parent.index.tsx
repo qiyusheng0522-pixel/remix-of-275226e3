@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
-// 是否已有体检报告 —— 没有报告时首页不展示任何待办事项
-const HAS_REPORT = true;
+// 演示：默认已有体检报告；可通过右上角"视角"按钮切换到"检前 · 无报告"
 const CONSENT_KEY = "parent_consent_v1";
+const VIEW_KEY = "parent_view_hasreport_v1";
 
 export const Route = createFileRoute("/parent/")({
   component: ParentHome,

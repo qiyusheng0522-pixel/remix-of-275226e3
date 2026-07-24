@@ -83,6 +83,69 @@ function HealthPlanPage() {
   const doneCount = Object.values(checked).filter(Boolean).length;
   const total = exercises.length;
   const pct = Math.round((doneCount / total) * 100);
+
+  const hasReport =
+    typeof window === "undefined"
+      ? true
+      : window.localStorage.getItem("parent_view_hasreport_v1") !== "0";
+
+  if (!hasReport) {
+    return (
+      <div className="bg-surface-2">
+        <StatusBar title="健康管理方案" />
+        <div className="flex flex-col items-center px-6 pb-16 pt-10 text-center">
+          <div className="grid h-24 w-24 place-items-center rounded-full bg-warm/15 text-4xl">
+            🗓️
+          </div>
+          <h1 className="mt-4 text-lg font-bold">还没有健康方案</h1>
+          <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+            健康方案会基于 {child.name} 的入学体检报告，由儿童医院医生 + AI 营养师联合生成。
+            当前还未完成体检，请先按检前须知完成授权与问卷。
+          </p>
+
+          <div className="mt-5 w-full space-y-2 text-left">
+            <div className="rounded-2xl bg-surface p-3 ring-1 ring-border/60">
+              <p className="text-[12px] font-semibold">检前 3 步 · 已完成 1/3</p>
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
+                <div className="h-full w-1/3 rounded-full bg-warm" />
+              </div>
+              <ul className="mt-2 space-y-1 text-[11px] text-muted-foreground">
+                <li>✓ 数据使用授权 · 已签署</li>
+                <li className="text-danger">! 健康问卷 · 哮喘风险筛查（4-13 截止）</li>
+                <li className="text-danger">! 体检知情同意书 · 待签署（4-13 截止）</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl bg-warning/10 p-3 text-[11px] leading-relaxed text-warning-foreground ring-1 ring-warning/25">
+              💡 体检当日数据回收后 <b>48h 内</b>会自动生成个性化方案，涵盖饮食、运动、居家护理与随访提醒。
+            </div>
+          </div>
+
+          <div className="mt-5 grid w-full grid-cols-2 gap-2">
+            <Link
+              to="/parent/notice"
+              className="rounded-full bg-warm px-4 py-2.5 text-[13px] font-semibold text-warm-foreground"
+            >
+              去完成检前须知
+            </Link>
+            <Link
+              to="/parent/comm"
+              className="rounded-full bg-surface px-4 py-2.5 text-[13px] font-medium text-foreground ring-1 ring-border"
+            >
+              先咨询 AI 顾问
+            </Link>
+          </div>
+
+          <Link
+            to="/parent"
+            className="mt-4 text-[11px] text-muted-foreground underline"
+          >
+            返回首页
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-surface-2">
       <StatusBar title="健康管理方案" />

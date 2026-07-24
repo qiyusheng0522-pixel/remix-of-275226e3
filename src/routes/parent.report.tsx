@@ -12,8 +12,9 @@ const trend = [125, 126, 126.5, 127, 127.5, 128];
 const weightTrend = [25.8, 26.2, 26.5, 26.9, 27.2, 27.5];
 
 type Level = "ok" | "warn" | "bad";
-type Item = { name: string; value: string; ref: string; level: Level };
+type Item = { name: string; value: string; ref: string; level: Level; refSource?: string; recDept?: string; recDoctor?: string };
 type Section = { title: string; items: Item[] };
+
 
 const sections: Section[] = [
   {

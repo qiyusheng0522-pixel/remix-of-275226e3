@@ -312,19 +312,20 @@ const schoolMeta = {
   items: ["身高体重", "视力", "血压", "口腔", "内科", "血常规"],
 };
 
+// 与学校端 classSchedule 字段一致：班级名称、时间、体检地点（体检车 A/B）、状态、人数、带队老师
 const classArrangements = [
-  { grade: "一年级", cls: "1班", students: 42, date: "2026-09-18", time: "08:30-09:10", room: "工位 A", teacher: "王老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 42 },
-  { grade: "一年级", cls: "2班", students: 40, date: "2026-09-18", time: "09:10-09:50", room: "工位 A", teacher: "李老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 40 },
-  { grade: "一年级", cls: "3班", students: 41, date: "2026-09-18", time: "09:50-10:30", room: "工位 A", teacher: "陈老师", nurse: "刘护士", doctor: "李医生", status: "进行中", done: 22 },
-  { grade: "二年级", cls: "1班", students: 45, date: "2026-09-18", time: "10:30-11:15", room: "工位 B", teacher: "周老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
-  { grade: "二年级", cls: "2班", students: 44, date: "2026-09-18", time: "13:30-14:15", room: "工位 B", teacher: "吴老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
-  { grade: "三年级", cls: "1班", students: 43, date: "2026-09-19", time: "08:30-09:15", room: "工位 A", teacher: "郑老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
-  { grade: "三年级", cls: "2班", students: 43, date: "2026-09-19", time: "09:15-10:00", room: "工位 A", teacher: "孙老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
-  { grade: "三年级", cls: "3班", students: 42, date: "2026-09-19", time: "10:00-10:45", room: "工位 B", teacher: "赵老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
-  { grade: "四年级", cls: "1班", students: 44, date: "2026-09-19", time: "13:30-14:15", room: "工位 A", teacher: "钱老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
-  { grade: "四年级", cls: "2班", students: 45, date: "2026-09-19", time: "14:15-15:00", room: "工位 B", teacher: "冯老师", nurse: "刘护士", doctor: "陈医生", status: "待到场", done: 0 },
-  { grade: "五年级", cls: "1班", students: 46, date: "2026-09-20", time: "08:30-09:15", room: "工位 A", teacher: "褚老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
-  { grade: "五年级", cls: "2班", students: 45, date: "2026-09-20", time: "09:15-10:00", room: "工位 A", teacher: "卫老师", nurse: "王护士", doctor: "李医生", status: "待到场", done: 0 },
+  { grade: "一年级", cls: "1班", name: "一年级 1班", students: 42, date: "2026-09-18", time: "08:30", location: "体检车 A", teacher: "王老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 42 },
+  { grade: "一年级", cls: "2班", name: "一年级 2班", students: 40, date: "2026-09-18", time: "09:00", location: "体检车 A", teacher: "李老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 40 },
+  { grade: "一年级", cls: "3班", name: "一年级 3班", students: 41, date: "2026-09-18", time: "09:30", location: "体检车 A", teacher: "陈老师", nurse: "刘护士", doctor: "李医生", status: "进行中", done: 22 },
+  { grade: "二年级", cls: "1班", name: "二年级 1班", students: 45, date: "2026-09-18", time: "10:00", location: "体检车 B", teacher: "周老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
+  { grade: "二年级", cls: "2班", name: "二年级 2班", students: 44, date: "2026-09-18", time: "10:30", location: "体检车 B", teacher: "吴老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "1班", name: "三年级 1班", students: 43, date: "2026-09-19", time: "08:30", location: "体检车 A", teacher: "郑老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "2班", name: "三年级 2班", students: 43, date: "2026-09-19", time: "09:00", location: "体检车 A", teacher: "孙老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "3班", name: "三年级 3班", students: 42, date: "2026-09-19", time: "09:30", location: "体检车 B", teacher: "赵老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
+  { grade: "四年级", cls: "1班", name: "四年级 1班", students: 44, date: "2026-09-19", time: "10:00", location: "体检车 A", teacher: "钱老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "四年级", cls: "2班", name: "四年级 2班", students: 45, date: "2026-09-19", time: "10:30", location: "体检车 B", teacher: "冯老师", nurse: "刘护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "五年级", cls: "1班", name: "五年级 1班", students: 46, date: "2026-09-20", time: "08:30", location: "体检车 A", teacher: "褚老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "五年级", cls: "2班", name: "五年级 2班", students: 45, date: "2026-09-20", time: "09:00", location: "体检车 A", teacher: "卫老师", nurse: "王护士", doctor: "李医生", status: "待到场", done: 0 },
 ];
 
 function Plan() {

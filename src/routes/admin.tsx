@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { EIcon } from "@/components/EIcon";
 
 export const Route = createFileRoute("/admin")({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin")({
   }),
 });
 
-type Tab = "overview" | "students" | "plan" | "schedule" | "stats";
+type Tab = "overview" | "students" | "plan" | "stats";
 
 const schools = [
   { name: "阳光小学", students: 1284, synced: "2026-09-15 08:20", status: "已同步" },
@@ -86,8 +86,7 @@ function AdminConsole() {
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "overview", label: "总览", icon: "📊" },
     { id: "students", label: "学校 / 学生同步", icon: "🏫" },
-    { id: "plan", label: "体检规划", icon: "🗓️" },
-    { id: "schedule", label: "调度安排", icon: "👥" },
+    { id: "plan", label: "班级安排 / 统筹", icon: "🗓️" },
     { id: "stats", label: "数据回流 / 统计", icon: "📈" },
   ];
 
@@ -150,7 +149,6 @@ function AdminConsole() {
           {tab === "overview" && <Overview />}
           {tab === "students" && <Students />}
           {tab === "plan" && <Plan />}
-          {tab === "schedule" && <Schedule />}
           {tab === "stats" && <Stats />}
         </main>
       </div>
@@ -303,132 +301,180 @@ function Students() {
   );
 }
 
+// 阳光小学 · 各班级体检安排
+const schoolName = "阳光小学";
+const schoolMeta = {
+  totalClasses: 18,
+  totalStudents: 1284,
+  batch: "B-2026-09-18",
+  window: "2026-09-18 ~ 2026-09-20",
+  location: "行政楼 3F 体检中心",
+  items: ["身高体重", "视力", "血压", "口腔", "内科", "血常规"],
+};
+
+const classArrangements = [
+  { grade: "一年级", cls: "1班", students: 42, date: "2026-09-18", time: "08:30-09:10", room: "工位 A", teacher: "王老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 42 },
+  { grade: "一年级", cls: "2班", students: 40, date: "2026-09-18", time: "09:10-09:50", room: "工位 A", teacher: "李老师", nurse: "王护士", doctor: "张主任", status: "已完成", done: 40 },
+  { grade: "一年级", cls: "3班", students: 41, date: "2026-09-18", time: "09:50-10:30", room: "工位 A", teacher: "陈老师", nurse: "刘护士", doctor: "李医生", status: "进行中", done: 22 },
+  { grade: "二年级", cls: "1班", students: 45, date: "2026-09-18", time: "10:30-11:15", room: "工位 B", teacher: "周老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
+  { grade: "二年级", cls: "2班", students: 44, date: "2026-09-18", time: "13:30-14:15", room: "工位 B", teacher: "吴老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "1班", students: 43, date: "2026-09-19", time: "08:30-09:15", room: "工位 A", teacher: "郑老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "2班", students: 43, date: "2026-09-19", time: "09:15-10:00", room: "工位 A", teacher: "孙老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "三年级", cls: "3班", students: 42, date: "2026-09-19", time: "10:00-10:45", room: "工位 B", teacher: "赵老师", nurse: "刘护士", doctor: "李医生", status: "待到场", done: 0 },
+  { grade: "四年级", cls: "1班", students: 44, date: "2026-09-19", time: "13:30-14:15", room: "工位 A", teacher: "钱老师", nurse: "王护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "四年级", cls: "2班", students: 45, date: "2026-09-19", time: "14:15-15:00", room: "工位 B", teacher: "冯老师", nurse: "刘护士", doctor: "陈医生", status: "待到场", done: 0 },
+  { grade: "五年级", cls: "1班", students: 46, date: "2026-09-20", time: "08:30-09:15", room: "工位 A", teacher: "褚老师", nurse: "王护士", doctor: "张主任", status: "待到场", done: 0 },
+  { grade: "五年级", cls: "2班", students: 45, date: "2026-09-20", time: "09:15-10:00", room: "工位 A", teacher: "卫老师", nurse: "王护士", doctor: "李医生", status: "待到场", done: 0 },
+];
+
 function Plan() {
+  const doneCount = classArrangements.filter((c) => c.status === "已完成").length;
+  const runningCount = classArrangements.filter((c) => c.status === "进行中").length;
+  const pendingCount = classArrangements.filter((c) => c.status === "待到场").length;
+  const totalStudents = classArrangements.reduce((s, c) => s + c.students, 0);
+  const doneStudents = classArrangements.reduce((s, c) => s + c.done, 0);
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold">体检规划</p>
-          <p className="text-[11px] text-slate-500">配置日期、学校 / 班级、场地、体检项目</p>
-        </div>
-        <button className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white">+ 新建批次</button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        {batches.map((b) => (
-          <Card key={b.id}>
-            <div className="mb-2 flex items-center justify-between">
-              <p className="font-mono text-xs text-slate-500">{b.id}</p>
-              <StatusBadge s={b.status} />
-            </div>
-            <p className="text-base font-bold">
-              {b.school} · {b.date}
-            </p>
-            <p className="mt-1 text-xs text-slate-500">📍 {b.location}</p>
-
-            <div className="mt-3 space-y-2 text-xs">
-              <Row label="参检班级">
-                <div className="flex flex-wrap gap-1">
-                  {b.classes.map((c) => (
-                    <span key={c} className="rounded bg-teal/10 px-2 py-0.5 text-teal">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </Row>
-              <Row label="体检项目">
-                <div className="flex flex-wrap gap-1">
-                  {b.items.map((i) => (
-                    <span key={i} className="rounded bg-slate-100 px-2 py-0.5 text-slate-600">
-                      {i}
-                    </span>
-                  ))}
-                </div>
-              </Row>
-              <Row label="预计人数">
-                <b>{b.students} 人</b>
-              </Row>
-            </div>
-
-            <div className="mt-3 flex gap-2 border-t border-slate-100 pt-3">
-              <button className="flex-1 rounded-lg border border-slate-200 py-1.5 text-xs">编辑</button>
-              <button className="flex-1 rounded-lg bg-slate-50 py-1.5 text-xs text-slate-600">调度安排</button>
-              <button className="flex-1 rounded-lg bg-deep py-1.5 text-xs text-white">下发批次</button>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Schedule() {
-  return (
-    <div className="space-y-4">
+      {/* 学校信息 & 批次统筹 */}
       <Card>
-        <p className="mb-3 text-sm font-semibold">调度安排 · B-2026-09-18 阳光小学</p>
-        <div className="grid grid-cols-6 gap-2 text-[11px]">
-          <div className="col-span-1 rounded-lg bg-slate-50 p-2 font-semibold text-slate-500">工位 / 项目</div>
-          {["08:30", "09:00", "09:30", "10:00", "10:30"].map((t) => (
-            <div key={t} className="rounded-lg bg-slate-50 p-2 text-center font-semibold text-slate-500">
-              {t}
+        <div className="flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="text-base font-bold">{schoolName} · 秋季学生体检</p>
+              <span className="rounded bg-teal/10 px-2 py-0.5 text-[11px] text-teal">
+                批次 {schoolMeta.batch}
+              </span>
+              <StatusBadge s="进行中" />
             </div>
-          ))}
-          {[
-            { name: "身高体重 · 王护士", cells: ["三1", "三1", "三2", "三2", "三3"] },
-            { name: "视力 · 张主任", cells: ["三1", "三2", "三2", "三3", "三3"] },
-            { name: "血压 · 李医生", cells: ["三1", "三1", "三2", "三3", "三3"] },
-            { name: "口腔 · 陈医生", cells: ["三1", "三2", "三2", "三3", "—"] },
-            { name: "内科 · 张主任", cells: ["三1", "三1", "三2", "三2", "三3"] },
-          ].map((row) => (
-            <Fragment key={row.name}>
-              <div className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
-                {row.name}
-              </div>
-              {row.cells.map((c, i) => (
-                <div
-                  key={row.name + i}
-                  className={`rounded-lg p-2 text-center ${
-                    c === "—" ? "bg-slate-50 text-slate-300" : "bg-teal/10 text-teal"
-                  }`}
-                >
-                  {c}
-                </div>
+            <p className="mt-1 text-xs text-slate-500">
+              📅 {schoolMeta.window} · 📍 {schoolMeta.location} · 共 {schoolMeta.totalClasses} 个班 / {schoolMeta.totalStudents} 名学生
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1">
+              {schoolMeta.items.map((i) => (
+                <span key={i} className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">
+                  {i}
+                </span>
               ))}
-            </Fragment>
-          ))}
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <select className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs">
+              <option>{schoolName}</option>
+              <option>青苗小学</option>
+              <option>海棠中学</option>
+            </select>
+            <button className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white">下发批次</button>
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-5 gap-3 border-t border-slate-100 pt-3 text-center text-xs">
+          <div>
+            <p className="text-slate-500">已完成班级</p>
+            <p className="mt-1 text-lg font-bold text-emerald-600">{doneCount}</p>
+          </div>
+          <div>
+            <p className="text-slate-500">进行中</p>
+            <p className="mt-1 text-lg font-bold text-teal">{runningCount}</p>
+          </div>
+          <div>
+            <p className="text-slate-500">待到场</p>
+            <p className="mt-1 text-lg font-bold text-slate-500">{pendingCount}</p>
+          </div>
+          <div>
+            <p className="text-slate-500">已检 / 总人数</p>
+            <p className="mt-1 text-lg font-bold text-deep">
+              {doneStudents}/{totalStudents}
+            </p>
+          </div>
+          <div>
+            <p className="text-slate-500">整体进度</p>
+            <p className="mt-1 text-lg font-bold text-teal">
+              {Math.round((doneStudents / totalStudents) * 100)}%
+            </p>
+          </div>
         </div>
       </Card>
 
-      <div className="grid grid-cols-2 gap-4">
-        <Card>
-          <p className="mb-2 text-sm font-semibold">参检人员</p>
-          <ul className="space-y-2 text-sm">
-            {["张主任 · 内科 / 视力", "李医生 · 血压", "陈医生 · 口腔", "王护士 · 身高体重", "刘护士 · 采血"].map((p) => (
-              <li key={p} className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
-                <span>{p}</span>
-                <button className="text-xs text-teal">调整</button>
-              </li>
+      {/* 班级安排表 */}
+      <Card>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <p className="text-sm font-semibold">班级体检安排</p>
+            <p className="text-[11px] text-slate-500">按年级 / 班级排定日期、时段、工位与主检医护</p>
+          </div>
+          <div className="flex gap-2 text-xs">
+            <select className="rounded-lg border border-slate-200 px-2 py-1">
+              <option>全部年级</option>
+              <option>一年级</option>
+              <option>二年级</option>
+              <option>三年级</option>
+              <option>四年级</option>
+              <option>五年级</option>
+            </select>
+            <select className="rounded-lg border border-slate-200 px-2 py-1">
+              <option>全部日期</option>
+              <option>09-18</option>
+              <option>09-19</option>
+              <option>09-20</option>
+            </select>
+            <button className="rounded-lg bg-slate-50 px-2 py-1 text-slate-600">+ 新增班级安排</button>
+          </div>
+        </div>
+        <table className="w-full text-sm">
+          <thead className="text-xs text-slate-500">
+            <tr className="border-b border-slate-100">
+              <th className="py-2 text-left font-normal">年级 / 班级</th>
+              <th className="text-left font-normal">人数</th>
+              <th className="text-left font-normal">体检日期</th>
+              <th className="text-left font-normal">时段</th>
+              <th className="text-left font-normal">工位</th>
+              <th className="text-left font-normal">带队班主任</th>
+              <th className="text-left font-normal">主检医生 / 护士</th>
+              <th className="text-left font-normal">进度</th>
+              <th className="text-left font-normal">状态</th>
+              <th className="text-left font-normal">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {classArrangements.map((c) => (
+              <tr key={c.grade + c.cls} className="border-b border-slate-50">
+                <td className="py-2 font-medium">
+                  {c.grade} {c.cls}
+                </td>
+                <td>{c.students}</td>
+                <td className="text-slate-500">{c.date}</td>
+                <td className="font-mono text-xs">{c.time}</td>
+                <td>{c.room}</td>
+                <td>{c.teacher}</td>
+                <td className="text-slate-600">
+                  {c.doctor} · {c.nurse}
+                </td>
+                <td>
+                  <div className="flex items-center gap-2">
+                    <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-100">
+                      <div
+                        className="h-full bg-teal"
+                        style={{ width: `${(c.done / c.students) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-[11px] text-slate-500">
+                      {c.done}/{c.students}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <StatusBadge s={c.status} />
+                </td>
+                <td>
+                  <button className="text-xs text-teal hover:underline">调整</button>
+                  <button className="ml-2 text-xs text-slate-500 hover:underline">通知</button>
+                </td>
+              </tr>
             ))}
-          </ul>
-        </Card>
-        <Card>
-          <p className="mb-2 text-sm font-semibold">场地与设备</p>
-          <ul className="space-y-2 text-sm">
-            {[
-              "行政楼 3F · 5 号工位",
-              "身高体重仪 ×2 (已联网)",
-              "自动视力仪 ×2 (已联网)",
-              "电子血压计 ×2",
-              "手动录入终端 ×3 (iPad)",
-            ].map((p) => (
-              <li key={p} className="rounded-lg bg-slate-50 px-3 py-2">
-                {p}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
+          </tbody>
+        </table>
+      </Card>
     </div>
   );
 }

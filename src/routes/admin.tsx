@@ -136,12 +136,6 @@ function AdminConsole() {
             })}
           </ul>
 
-          <div className="mt-6 rounded-xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 text-[11px] text-slate-600">
-            <p className="font-semibold text-deep">数据流</p>
-            <p className="mt-1 leading-relaxed">
-              后台建档 → 手机端采集 → 数据回流 → 统计分析
-            </p>
-          </div>
         </aside>
 
         {/* Main */}

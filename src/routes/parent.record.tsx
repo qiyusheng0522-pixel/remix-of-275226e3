@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/record")({
   component: RecordPage,
 });
@@ -58,7 +59,7 @@ function RecordPage() {
                     i < 5 ? "bg-warm/20 text-warm" : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {i < 5 ? "✓" : "·"}
+                  {i < 5 ? "" : "·"}
                 </span>
               </div>
             ))}
@@ -114,11 +115,11 @@ function WeightForm() {
         title="保存本周体重"
         description="体重会加入孩子的成长曲线，用于评估是否偏轻/超重。"
         confirmText="保存"
-        toastMessage="本周体重已记录 ✓"
+        toastMessage="本周体重已记录 "
         toastDescription="27.5 kg · BMI 已同步更新"
       />
       
-      <p className="text-[11px] text-muted-foreground">💡 建议每周固定时间称一次，比如周日早晨起床后。</p>
+      <p className="text-[11px] text-muted-foreground">{<EIcon e="💡" className="inline h-3.5 w-3.5" />} 建议每周固定时间称一次，比如周日早晨起床后。</p>
     </Card>
   );
 }
@@ -128,7 +129,7 @@ function DietForm() {
     <Card>
       <Row label="今天喝含糖饮料了吗？">
         <div className="flex gap-2">
-          <Chip active>没有 👍</Chip>
+          <Chip active>没有 {<EIcon e="👍" className="inline h-3.5 w-3.5" />}</Chip>
           <Chip>1 杯</Chip>
           <Chip>2 杯以上</Chip>
         </div>
@@ -156,7 +157,7 @@ function DietForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日饮食</button>}
         title="保存今日饮食"
         confirmText="保存"
-        toastMessage="今日饮食已记录 ✓"
+        toastMessage="今日饮食已记录 "
         toastDescription="含糖饮料：0 · 早餐正常 · 蔬菜达标"
       />
     </Card>
@@ -195,7 +196,7 @@ function SportForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日运动</button>}
         title="保存今日运动"
         confirmText="保存"
-        toastMessage="运动记录已保存 ✓"
+        toastMessage="运动记录已保存 "
         toastDescription="户外玩耍 · 30—60 分钟 · 无不适"
       />
     </Card>
@@ -228,7 +229,7 @@ function SleepForm() {
         trigger={<button className="w-full rounded-xl bg-warm py-2.5 text-sm font-medium text-warm-foreground">保存今日睡眠</button>}
         title="保存今日睡眠"
         confirmText="保存"
-        toastMessage="今日睡眠已记录 ✓"
+        toastMessage="今日睡眠已记录 "
         toastDescription="睡眠 9 小时 · 符合学龄建议"
       />
     </Card>
@@ -276,7 +277,7 @@ function SymptomForm() {
         </Link>
       </div>
       <p className="rounded-xl bg-warm/10 px-3 py-2 text-[11px] text-warm">
-        ⚠️ 若出现呼吸困难或喘息持续不缓解，请立即联系健康管理师或就近就医。
+        {<EIcon e="⚠️" className="inline h-3.5 w-3.5" />} 若出现呼吸困难或喘息持续不缓解，请立即联系健康管理师或就近就医。
       </p>
     </Card>
   );

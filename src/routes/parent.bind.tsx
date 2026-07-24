@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/bind")({
   component: BindPage,
 });
@@ -85,7 +86,7 @@ function BindPage() {
                 className="flex items-center gap-3 rounded-xl bg-surface-2 p-3"
               >
                 <div className="grid h-10 w-10 place-items-center rounded-xl bg-warm/15 text-lg">
-                  {g.relation === "母亲" ? "👩" : "👨"}
+                  {g.relation === "母亲" ? "" : ""}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">
@@ -105,7 +106,7 @@ function BindPage() {
         </section>
 
         <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
-          ➕ 绑定另一个孩子
+          {<EIcon e="➕" className="inline h-3.5 w-3.5" />} 绑定另一个孩子
         </button>
 
         <Link

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/terminate")({
   component: TerminatePage,
 });
@@ -96,7 +97,7 @@ function TerminatePage() {
         {step === 2 && (
           <>
             <div className="mb-4 rounded-3xl bg-warm/10 p-5 text-center ring-1 ring-warm/30">
-              <div className="text-3xl">🤔</div>
+              <div className="text-3xl">{<EIcon e="🤔" className="inline h-3.5 w-3.5" />}</div>
               <p className="mt-2 text-base font-semibold">确认终止后续健康管理？</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 之后可随时重新授权，历史体检记录不会丢失。
@@ -129,7 +130,7 @@ function TerminatePage() {
                   signed ? "border-warm bg-warm/10 text-warm" : "border-border text-muted-foreground"
                 }`}
               >
-                {signed ? "✍ 李妈妈 · 2026-04-08 20:32" : "点击此处手写签名"}
+                {signed ? " 李妈妈 · 2026-04-08 20:32" : "点击此处手写签名"}
               </div>
             </section>
             <button

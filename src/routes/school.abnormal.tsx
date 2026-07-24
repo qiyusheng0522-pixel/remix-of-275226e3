@@ -3,17 +3,18 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/abnormal")({
   component: AbnormalPage,
 });
 
 const types = [
-  { key: "体检重大异常", icon: "⚠️", tint: "warning" },
-  { key: "运动后胸闷/喘息", icon: "🏃", tint: "warm" },
-  { key: "呼吸不适", icon: "🌬️", tint: "teal" },
-  { key: "疑似过敏反应", icon: "🤧", tint: "danger" },
-  { key: "头晕/晕厥", icon: "💫", tint: "deep" },
-  { key: "复检未到场", icon: "📋", tint: "muted-foreground" },
+  { key: "体检重大异常", icon: <EIcon e="⚠️" />, tint: "warning" },
+  { key: "运动后胸闷/喘息", icon: <EIcon e="🏃" />, tint: "warm" },
+  { key: "呼吸不适", icon: <EIcon e="🌬️" />, tint: "teal" },
+  { key: "疑似过敏反应", icon: <EIcon e="🤧" />, tint: "danger" },
+  { key: "头晕/晕厥", icon: <EIcon e="💫" />, tint: "deep" },
+  { key: "复检未到场", icon: <EIcon e="📋" />, tint: "muted-foreground" },
 ] as const;
 
 const flows = [
@@ -52,7 +53,7 @@ function AbnormalPage() {
                   step === i + 1 ? "bg-warm text-warm-foreground" : step > i + 1 ? "bg-success text-white" : "bg-surface-2 text-muted-foreground"
                 }`}
               >
-                {step > i + 1 ? "✓" : i + 1}
+                {step > i + 1 ? "" : i + 1}
               </span>
               <span className={step >= i + 1 ? "" : "text-muted-foreground"}>{s}</span>
               {i < 2 && <span className="text-muted-foreground">—</span>}
@@ -112,7 +113,7 @@ function AbnormalPage() {
               />
             </label>
             <div className="rounded-xl bg-surface-2 p-3 text-[11px] text-muted-foreground">
-              📎 可上传现场照片、体检单据（可选）
+              {<EIcon e="📎" className="inline h-3.5 w-3.5" />} 可上传现场照片、体检单据（可选）
             </div>
             <button
               disabled={!who || !cls}
@@ -161,7 +162,7 @@ function AbnormalPage() {
               title="确认提交上报？"
               description={`将按「${flow || "—"}」流转，并同步通知相关角色。提交后可在异常池追踪处理状态。`}
               confirmText="确认提交"
-              toastMessage="上报已提交 ✓"
+              toastMessage="上报已提交 "
               toastDescription={`${who} · ${cls} · 已通知${flow || "校医"}`}
               onConfirm={() => nav({ to: "/school" })}
             />

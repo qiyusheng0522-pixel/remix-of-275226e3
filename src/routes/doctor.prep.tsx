@@ -206,7 +206,7 @@ function PrepPage() {
                                     isOn ? "border-teal bg-teal text-[10px] text-teal-foreground" : "border-muted-foreground/40"
                                   }`}
                                 >
-                                  {isOn ? "✓" : ""}
+                                  {isOn ? "" : ""}
                                 </button>
                                 <button
                                   onClick={() => toggleOpen(it.k)}

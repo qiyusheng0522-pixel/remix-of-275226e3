@@ -4,13 +4,14 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useMemo, useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/care")({
   component: CarePage,
 });
 
 type Reminder = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   title: string;
   tag: string;
   cycleDays: number; // 提醒周期（天）
@@ -28,12 +29,12 @@ const daysAgo = (n: number) => {
 };
 
 const initialReminders: Reminder[] = [
-  { id: "weight", icon: "⚖️", title: "晨起体重记录", tag: "体重管理", cycleDays: 7, lastDone: daysAgo(7), needsInput: "weight", unit: "kg" },
-  { id: "bed", icon: "🛏️", title: "床品除螨清洗", tag: "过敏防护", cycleDays: 14, lastDone: daysAgo(9) },
-  { id: "vent", icon: "🪟", title: "开窗通风换气", tag: "通风湿度", cycleDays: 1, lastDone: daysAgo(1) },
-  { id: "humid", icon: "💧", title: "空气加湿器换水", tag: "呼吸道", cycleDays: 3, lastDone: daysAgo(1) },
-  { id: "brush", icon: "🦷", title: "儿童牙刷更换", tag: "口腔", cycleDays: 90, lastDone: daysAgo(46) },
-  { id: "vitd", icon: "☀️", title: "维生素 D 补充", tag: "营养", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "weight", icon: <EIcon e="⚖️" />, title: "晨起体重记录", tag: "体重管理", cycleDays: 7, lastDone: daysAgo(7), needsInput: "weight", unit: "kg" },
+  { id: "bed", icon: <EIcon e="🛏️" />, title: "床品除螨清洗", tag: "过敏防护", cycleDays: 14, lastDone: daysAgo(9) },
+  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "humid", icon: <EIcon e="💧" />, title: "空气加湿器换水", tag: "呼吸道", cycleDays: 3, lastDone: daysAgo(1) },
+  { id: "brush", icon: <EIcon e="🦷" />, title: "儿童牙刷更换", tag: "口腔", cycleDays: 90, lastDone: daysAgo(46) },
+  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
 const dayDiff = (a: string, b: string) => {
@@ -65,7 +66,7 @@ function CarePage() {
               连续执行 12 天 · 本周完成率 78%
             </p>
           </div>
-          <span className="text-3xl">💗</span>
+          <span className="text-3xl">{<EIcon e="💗" className="inline h-3.5 w-3.5" />}</span>
         </header>
 
         {/* Tabs */}
@@ -236,7 +237,7 @@ function WeightSheet({ onSave }: { onSave: (w: number) => void }) {
       title="记录今日体重"
       description="录入后将同步至成长曲线，用于评估体重管理进度"
       confirmText="保存"
-      toastMessage="本周体重已记录 ✓"
+      toastMessage="本周体重已记录 "
       onConfirm={() => {
         const n = parseFloat(weight);
         if (!isNaN(n)) onSave(n);

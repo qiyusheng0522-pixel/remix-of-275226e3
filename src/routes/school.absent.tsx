@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/absent")({
   component: AbsentPage,
 });
@@ -54,7 +55,7 @@ function AbsentPage() {
         {list.map((a, idx) => (
           <li key={a.name} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-lg">🚫</div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-lg">{<EIcon e="🚫" className="inline h-3.5 w-3.5" />}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <p className="truncate text-sm font-semibold">{a.name}</p>

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/")({
   component: Landing,
 });
@@ -9,7 +10,7 @@ const roles = [
     to: "/parent",
     tint: "from-warm to-warm/70",
     ring: "ring-warm/30",
-    icon: "👨‍👩‍👧",
+    icon: <EIcon e="👨‍👩‍👧" />,
     title: "家长端",
     subtitle: "查看孩子体检报告、完成家庭健康呵护任务",
     features: ["体检报告解读", "每日呵护任务", "健康管理师沟通"],
@@ -18,7 +19,7 @@ const roles = [
     to: "/school",
     tint: "from-teal to-teal/70",
     ring: "ring-teal/30",
-    icon: "🏫",
+    icon: <EIcon e="🏫" />,
     title: "学校端",
     subtitle: "组织体检批次、跟进授权与需关注学生",
     features: ["班级排程", "家长授权跟进", "现场协同"],
@@ -27,7 +28,7 @@ const roles = [
     to: "/doctor",
     tint: "from-deep to-deep/70",
     ring: "ring-deep/30",
-    icon: "🩺",
+    icon: <EIcon e="🩺" />,
     title: "医生端",
     subtitle: "校内录检、报告审核与重点儿童干预",
     features: ["现场录检", "风险复核", "健康方案下发"],
@@ -36,7 +37,7 @@ const roles = [
     to: "/community",
     tint: "from-rose to-rose/70",
     ring: "ring-rose/30",
-    icon: "🏥",
+    icon: <EIcon e="🏥" />,
     title: "社区端",
     subtitle: "承接服务包与复诊转入患者，做长期随访与宣教",
     features: ["服务包随访", "复诊转社区", "宣教 / 咨询回复"],
@@ -49,7 +50,7 @@ function Landing() {
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-14">
         <header className="mb-8 text-center">
           <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-3xl bg-gradient-to-br from-warm to-teal text-3xl shadow-lg shadow-warm/30">
-            🌤️
+            {<EIcon e="🌤️" className="inline h-3.5 w-3.5" />}
           </div>
           <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
             阳光校园健康
@@ -106,7 +107,7 @@ function Landing() {
             <p className="text-[11px] tracking-widest text-cyan-300/70">PC · 教育局 / 卫健委</p>
             <p className="mt-0.5 text-sm font-bold">儿童入学体检监测大屏</p>
           </div>
-          <span className="text-lg">🖥️ →</span>
+          <span className="text-lg">{<EIcon e="🖥️" className="inline h-3.5 w-3.5" />} →</span>
         </Link>
 
         <p className="mt-auto pt-8 text-center text-[11px] text-muted-foreground">

@@ -118,7 +118,7 @@ function PatientsPage() {
               </div>
 
               <p className="mt-2 rounded-xl bg-surface-2 p-2 text-[12px]">
-                📋 {p.plan}
+                 {p.plan}
               </p>
 
               <div className="mt-2 flex items-center justify-between text-[11px]">

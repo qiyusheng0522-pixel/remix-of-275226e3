@@ -4,6 +4,7 @@ import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/notice")({
   component: NoticePage,
 });
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/parent/notice")({
 type Cat = "todo" | "info" | "sign";
 type Item = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   title: string;
   desc: string;
   status: "待办" | "已完成" | "已签署" | "已阅读";
@@ -26,7 +27,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
     items: [
       {
         id: "health-form",
-        icon: "📝",
+        icon: <EIcon e="📝" />,
         title: "填写健康问卷",
         desc: "过敏史 / 既往病史 / 用药情况",
         status: "待办",
@@ -42,7 +43,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
     items: [
       {
         id: "prep",
-        icon: "📌",
+        icon: <EIcon e="📌" />,
         title: "检前注意事项（务必提醒孩子）",
         desc: "① 禁食禁水：前一晚 22:00 后不再进食饮水，晨起空腹到校；② 睡眠运动：21:30 前入睡，当日勿剧烈运动，静息 10 分钟再测血压；③ 饮食用药：前 3 天清淡饮食，勿服维生素 C / 布洛芬等（长期用药提前告知校医）；④ 着装物品：宽松衣物 + 运动鞋，戴眼镜者请携带；⑤ 身体不适：发热 / 咳嗽 / 腹泻 / 生理期请提前在「我的-请假」报备安排补检。",
         status: "已阅读",
@@ -50,7 +51,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
       },
       {
         id: "when",
-        icon: "🗓️",
+        icon: <EIcon e="🗓️" />,
         title: "体检时间与地点",
         desc: "2026-04-15（周三）08:30—11:30 · 操场东侧体检车，请于 08:20 前到班集合。",
         status: "已阅读",
@@ -58,7 +59,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
       },
       {
         id: "org",
-        icon: "🏥",
+        icon: <EIcon e="🏥" />,
         title: "承检机构",
         desc: "阳光社区卫生服务中心 · 具备儿童体检资质",
         status: "已阅读",
@@ -66,7 +67,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
       },
       {
         id: "items",
-        icon: "🩺",
+        icon: <EIcon e="🩺" />,
         title: "体检项目清单",
         desc: "身高 / 体重 / BMI / 腰围 / 血压 / 视力 / 口腔 / 呼吸过敏问卷",
         status: "已阅读",
@@ -74,7 +75,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
       },
       {
         id: "post",
-        icon: "🌱",
+        icon: <EIcon e="🌱" />,
         title: "检后注意事项（体检结束后请留意）",
         desc: "① 报告查看：体检后 3–5 个工作日内在「体检报告」查看，异常项将自动推荐对应科室医生；② 饮食恢复：抽血后 30 分钟按压针孔，当日避免剧烈运动与游泳；③ 复查随访：如提示复查/转诊，请在 2 周内前往推荐科室，避免延误；④ 健康方案：报告出具后系统会生成个性化运动/营养方案，请按计划打卡；⑤ 疑问咨询：任何指标疑问可通过「AI 解读 / 咨询医生」实时反馈。",
         status: "已阅读",
@@ -89,7 +90,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
     items: [
       {
         id: "consent",
-        icon: "✍️",
+        icon: <EIcon e="✍️" />,
         title: "体检知情同意书",
         desc: "同意本次校内体检采集孩子基础健康数据",
         status: "待办",
@@ -98,7 +99,7 @@ const grouped: Record<Cat, { label: string; hint: string; items: Item[] }> = {
       },
       {
         id: "data",
-        icon: "🔐",
+        icon: <EIcon e="🔐" />,
         title: "数据使用与呵护授权",
         desc: "授权后 12 个月内用于家庭呵护、随访、复评提醒",
         status: "已签署",
@@ -246,7 +247,7 @@ function NoticePage() {
                                   : "border-border text-muted-foreground"
                               }`}
                             >
-                              {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
+                              {signed ? " 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
                             </div>
                           </ActionSheet>
                         ) : it.id === "health-form" ? (

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
+import { EIcon } from "@/components/EIcon";
 // 演示：默认已有体检报告；可通过右上角"视角"按钮切换到"检前 · 无报告"
 const CONSENT_KEY = "parent_consent_v1";
 const VIEW_KEY = "parent_view_hasreport_v1";
@@ -26,10 +27,10 @@ const kids: Kid[] = [
 ];
 
 const quickAsk = [
-  { icon: "🥗", label: "饮食建议", to: "/parent/comm" },
-  { icon: "🏃", label: "运动咨询", to: "/parent/comm" },
-  { icon: "😴", label: "睡眠咨询", to: "/parent/comm" },
-  { icon: "📋", label: "报告解读", to: "/parent/report" },
+  { icon: <EIcon e="🥗" />, label: "饮食建议", to: "/parent/comm" },
+  { icon: <EIcon e="🏃" />, label: "运动咨询", to: "/parent/comm" },
+  { icon: <EIcon e="😴" />, label: "睡眠咨询", to: "/parent/comm" },
+  { icon: <EIcon e="📋" />, label: "报告解读", to: "/parent/report" },
 ] as const;
 
 // 与 /parent/care 保持一致的示例数据
@@ -43,17 +44,17 @@ const dayDiff = (a: string, b: string) =>
   Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
 
 const homeCare = [
-  { id: "weight", icon: "⚖️", title: "晨起体重记录", tag: "体重管理", tagClass: "bg-warm/15 text-warm", cycleDays: 7, lastDone: daysAgo(7) },
-  { id: "bed", icon: "🛏️", title: "床品除螨清洗", tag: "过敏防护", tagClass: "bg-rose/10 text-rose", cycleDays: 14, lastDone: daysAgo(9) },
-  { id: "vent", icon: "🪟", title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1) },
-  { id: "humid", icon: "💧", title: "空气加湿器换水", tag: "呼吸道", tagClass: "bg-teal/15 text-teal", cycleDays: 3, lastDone: daysAgo(1) },
-  { id: "brush", icon: "🦷", title: "儿童牙刷更换", tag: "口腔", tagClass: "bg-success/15 text-success", cycleDays: 90, lastDone: daysAgo(46) },
-  { id: "vitd", icon: "☀️", title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "weight", icon: <EIcon e="⚖️" />, title: "晨起体重记录", tag: "体重管理", tagClass: "bg-warm/15 text-warm", cycleDays: 7, lastDone: daysAgo(7) },
+  { id: "bed", icon: <EIcon e="🛏️" />, title: "床品除螨清洗", tag: "过敏防护", tagClass: "bg-rose/10 text-rose", cycleDays: 14, lastDone: daysAgo(9) },
+  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "humid", icon: <EIcon e="💧" />, title: "空气加湿器换水", tag: "呼吸道", tagClass: "bg-teal/15 text-teal", cycleDays: 3, lastDone: daysAgo(1) },
+  { id: "brush", icon: <EIcon e="🦷" />, title: "儿童牙刷更换", tag: "口腔", tagClass: "bg-success/15 text-success", cycleDays: 90, lastDone: daysAgo(46) },
+  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
 const todayTasks = [
-  { icon: "🤸", text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const },
-  { icon: "🥦", text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const },
+  { icon: <EIcon e="🤸" />, text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const },
+  { icon: <EIcon e="🥦" />, text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const },
 ];
 
 const encyclopedia = [
@@ -128,7 +129,7 @@ function ParentHome() {
         <div className="fixed inset-0 z-50 mx-auto flex max-w-md items-center justify-center bg-black/40 px-5 backdrop-blur-sm">
           <div className="w-full rounded-3xl bg-surface p-5 shadow-2xl">
             <div className="mb-2 flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-rose/15 text-lg">📄</span>
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-rose/15 text-lg">{<EIcon e="📄" className="inline h-3.5 w-3.5" />}</span>
               <h2 className="text-base font-bold">儿童体检数据授权协议</h2>
             </div>
             <div className="max-h-40 space-y-2 overflow-y-auto rounded-2xl bg-surface-2 p-3 text-[11px] leading-relaxed text-foreground/80">
@@ -162,7 +163,7 @@ function ParentHome() {
                     : "border-border text-muted-foreground"
                 }`}
               >
-                {signed ? "✍ 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
+                {signed ? " 李妈妈 · 2026-04-08 20:14" : "点击此处手写签名"}
               </button>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
@@ -187,10 +188,10 @@ function ParentHome() {
       {consent === "declined" && (
         <div className="fixed inset-0 z-50 mx-auto flex max-w-md items-center justify-center bg-black/40 px-5 backdrop-blur-sm">
           <div className="w-full rounded-3xl bg-surface p-6 text-center shadow-2xl">
-            <span className="mx-auto mb-2 grid h-14 w-14 place-items-center rounded-full bg-warm/15 text-2xl">🌱</span>
+            <span className="mx-auto mb-2 grid h-14 w-14 place-items-center rounded-full bg-warm/15 text-2xl">{<EIcon e="🌱" className="inline h-3.5 w-3.5" />}</span>
             <h2 className="text-base font-bold">还没同意授权哦</h2>
             <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
-              没有授权就无法为宝贝生成体检报告和专属健康方案。您可以先浏览科普内容，随时回来继续开启守护 💕
+              没有授权就无法为宝贝生成体检报告和专属健康方案。您可以先浏览科普内容，随时回来继续开启守护 {<EIcon e="💕" className="inline h-3.5 w-3.5" />}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
@@ -213,7 +214,7 @@ function ParentHome() {
       {/* Brand row */}
       <div className="flex items-center justify-between px-5 pb-3 pt-2">
         <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-rose/15 text-rose">♥</span>
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-rose/15 text-rose">{<EIcon e="♥" className="inline h-3.5 w-3.5" />}</span>
           <span className="text-sm font-bold">童护佳 · 南京</span>
         </div>
         <div className="flex items-center gap-2">
@@ -230,7 +231,7 @@ function ParentHome() {
             {hasReport ? "视角：报告后" : "视角：检前"} ⇄
           </button>
           <Link to="/parent/me" className="relative grid h-8 w-8 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-border">
-            🔔
+            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
             <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-rose" />
           </Link>
         </div>
@@ -248,12 +249,12 @@ function ParentHome() {
           {/* 头像 + 标题 + 内嵌关注提示 */}
           <div className="relative flex items-start gap-3">
             <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/25 text-2xl backdrop-blur">
-              👩‍⚕️
+              {<EIcon e="👩‍⚕️" className="inline h-3.5 w-3.5" />}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[11px] text-white/80">✨ 童护佳 · AI 健康顾问</p>
+              <p className="text-[11px] text-white/80">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 童护佳 · AI 健康顾问</p>
               <p className="mt-0.5 text-[15px] font-bold leading-tight">
-                家长好，{kid.name}的体检数据已为您解读 🌸
+                家长好，{kid.name}的体检数据已为您解读 
               </p>
             </div>
           </div>
@@ -265,7 +266,7 @@ function ParentHome() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-danger/15 text-[12px]">⚠️</span>
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-danger/15 text-[12px]">{<EIcon e="⚠️" className="inline h-3.5 w-3.5" />}</span>
                 <span className="text-[12px] font-bold text-rose">本次体检 · 2 项需重点关注</span>
               </div>
               <span className="text-[11px] font-medium text-rose">查看报告 ›</span>
@@ -297,7 +298,7 @@ function ParentHome() {
             to="/parent/comm"
             className="relative mt-3 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
           >
-            <span className="text-rose">💬</span>
+            <span className="text-rose">{<EIcon e="💬" className="inline h-3.5 w-3.5" />}</span>
             <span className="flex-1 truncate text-[13px] text-muted-foreground">
               向 AI 健康顾问咨询…
             </span>
@@ -327,10 +328,10 @@ function ParentHome() {
             <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/25 blur-2xl" />
             <div className="relative flex items-start gap-3">
               <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/30 text-2xl backdrop-blur">
-                🗓️
+                {<EIcon e="🗓️" className="inline h-3.5 w-3.5" />}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[11px] opacity-85">✨ 检前视角 · 还未生成体检报告</p>
+                <p className="text-[11px] opacity-85">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 检前视角 · 还未生成体检报告</p>
                 <p className="mt-0.5 text-[15px] font-bold leading-tight">
                   {kid.name}的入学体检 · 还有 <span className="text-[22px]">7</span> 天
                 </p>
@@ -350,7 +351,7 @@ function ParentHome() {
               </div>
               <ul className="space-y-1.5 text-[11px]">
                 <li className="flex items-center gap-2">
-                  <span className="grid h-4 w-4 place-items-center rounded-full bg-success text-[10px] text-success-foreground">✓</span>
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-success text-[10px] text-success-foreground">{<EIcon e="✓" className="inline h-3.5 w-3.5" />}</span>
                   <span className="flex-1 text-muted-foreground line-through">数据使用授权 · 已签署</span>
                 </li>
                 <li className="flex items-center gap-2">
@@ -369,9 +370,9 @@ function ParentHome() {
             {/* 检前提示 · 关键 3 条 */}
             <div className="relative mt-3 grid grid-cols-3 gap-1.5">
               {[
-                { icon: "🚱", t: "22:00 起", s: "禁食禁水" },
-                { icon: "😴", t: "21:30 前", s: "按时入睡" },
-                { icon: "👕", t: "宽松衣裤", s: "戴好眼镜" },
+                { icon: <EIcon e="🚱" />, t: "22:00 起", s: "禁食禁水" },
+                { icon: <EIcon e="😴" />, t: "21:30 前", s: "按时入睡" },
+                { icon: <EIcon e="👕" />, t: "宽松衣裤", s: "戴好眼镜" },
               ].map((x) => (
                 <div key={x.s} className="rounded-2xl bg-white/95 py-2 text-center text-foreground">
                   <p className="text-lg leading-none">{x.icon}</p>
@@ -386,7 +387,7 @@ function ParentHome() {
               to="/parent/comm"
               className="relative mt-3 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
             >
-              <span className="text-warm">💬</span>
+              <span className="text-warm">{<EIcon e="💬" className="inline h-3.5 w-3.5" />}</span>
               <span className="flex-1 truncate text-[13px] text-muted-foreground">
                 检前有疑问？问问 AI 顾问…
               </span>
@@ -407,7 +408,7 @@ function ParentHome() {
           className="flex flex-1 items-center gap-3 rounded-2xl bg-surface px-3 py-2.5 shadow-sm ring-1 ring-border/60"
         >
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal/15 text-lg text-teal">
-            🎧
+            {<EIcon e="🎧" className="inline h-3.5 w-3.5" />}
           </span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">咨询儿童呼吸科医生？</p>
@@ -422,7 +423,7 @@ function ParentHome() {
           className="relative flex w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-surface shadow-sm ring-1 ring-border/60"
         >
           <span className="relative text-lg text-rose">
-            🔔
+            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
             <span className="absolute -right-2 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose px-1 text-[10px] font-bold text-rose-foreground">
               3
             </span>
@@ -490,7 +491,7 @@ function ParentHome() {
                 </p>
                 {t.done ? (
                   <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
-                    已打卡 ✓
+                    已打卡 {<EIcon e="✓" className="inline h-3.5 w-3.5" />}
                   </span>
                 ) : (
                   <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
@@ -560,7 +561,7 @@ function ParentHome() {
                       title={c.id === "weight" ? "记录晨起体重" : `记录：${c.title}`}
                       description={c.id === "weight" ? "建议每周同一时间空腹测量，连续记录曲线更直观" : c.tag}
                       confirmText="保存记录"
-                      toastMessage="已保存记录 ✓"
+                      toastMessage="已保存记录 "
                     >
                       {c.id === "weight" ? (
                         <div className="space-y-2 text-xs">
@@ -609,7 +610,7 @@ function ParentHome() {
                             />
                           </label>
                           <p className="rounded-lg bg-surface-2 px-2.5 py-1.5 text-[11px] text-muted-foreground">
-                            💡 已连接的智能秤会自动同步，无需手动录入。
+                            {<EIcon e="💡" className="inline h-3.5 w-3.5" />} 已连接的智能秤会自动同步，无需手动录入。
                             <Link to="/parent/me" className="ml-1 text-warm">前往「我的数据」管理</Link>
                           </p>
                         </div>
@@ -658,7 +659,7 @@ function ParentHome() {
         </div>
 
         <div className="mb-3 flex gap-2 overflow-x-auto">
-          {["全部", "▷ 视频", "🖼 图文", "📻 直播"].map((t) => {
+          {["全部", "▷ 视频", " 图文", " 直播"].map((t) => {
             const label = t.replace(/^[^\u4e00-\u9fa5]+/, "").trim() || t;
             const active = catTab === label || (t === "全部" && catTab === "全部");
             return (
@@ -711,7 +712,7 @@ function ParentHome() {
           <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">医生甄选</span>
         </div>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose/90 to-rose/70 p-4 text-white shadow-lg shadow-rose/30">
-          <p className="text-[11px] text-white/85">✨ 儿科呼吸科医生 & 营养师联合甄选</p>
+          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 儿科呼吸科医生 & 营养师联合甄选</p>
           <p className="mt-0.5 text-base font-bold">童护佳健康服务商城</p>
           <p className="mt-1 text-[12px] text-white/90">营养餐 · 专病服务包 · 健康商品 · 三大专区</p>
           <div className="mt-3 flex items-center justify-between">

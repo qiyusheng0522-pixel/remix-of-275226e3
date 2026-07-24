@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/plan")({
   component: PlanPage,
 });
@@ -204,7 +205,7 @@ function PlanPage() {
                   </p>
                   {c.reviewState === "已审核" && (
                     <p className="mt-2 text-[11px] text-muted-foreground">
-                      ✓ {c.approvedAt} · {c.approvedBy} 审核通过 · 共 {c.history?.length ?? 1} 版
+                       {c.approvedAt} · {c.approvedBy} 审核通过 · 共 {c.history?.length ?? 1} 版
                     </p>
                   )}
                 </div>
@@ -220,7 +221,7 @@ function PlanPage() {
                     }}
                     className="rounded-xl bg-deep/10 py-2.5 text-[13px] font-medium text-deep"
                   >
-                    {c.reviewState === "待审核" ? "👁 查看方案" : "📄 查看历史方案"}
+                    {c.reviewState === "待审核" ? " 查看方案" : " 查看历史方案"}
                   </button>
                   {c.reviewState === "待审核" && (
                     <button
@@ -230,7 +231,7 @@ function PlanPage() {
                       }}
                       className="rounded-xl bg-success/15 py-2.5 text-[13px] font-medium text-success"
                     >
-                      ✓ 一键通过
+                      {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 一键通过
                     </button>
                   )}
                 </div>
@@ -287,7 +288,7 @@ function PlanPage() {
         {/* Evaluation */}
         <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
           <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
-            <span className="text-deep">📄</span> 评估内容
+            <span className="text-deep">{<EIcon e="📄" className="inline h-3.5 w-3.5" />}</span> 评估内容
           </p>
           <p className="mb-2 text-[12px] text-muted-foreground">普通评估</p>
           <div className="rounded-xl bg-surface-2 p-3 text-[13px] leading-relaxed">
@@ -299,7 +300,7 @@ function PlanPage() {
         <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
           <div className="mb-3 flex items-center justify-between">
             <p className="flex items-center gap-2 text-[15px] font-semibold">
-              <span className="text-deep">📄</span> 方案内容
+              <span className="text-deep">{<EIcon e="📄" className="inline h-3.5 w-3.5" />}</span> 方案内容
             </p>
             {!isApproved && (
               <button
@@ -331,7 +332,7 @@ function PlanPage() {
               <ActionSheet
                 trigger={
                   <button className="w-full rounded-xl bg-deep py-3 text-sm font-medium text-deep-foreground">
-                    ✓ 审核通过
+                    {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 审核通过
                   </button>
                 }
                 title="确认审核通过该方案？"
@@ -349,7 +350,7 @@ function PlanPage() {
         {isApproved && active.history && active.history.length > 0 && (
           <div className="mb-3 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-border/60">
             <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold">
-              <span className="text-deep">🕘</span> 历史审核记录
+              <span className="text-deep">{<EIcon e="🕘" className="inline h-3.5 w-3.5" />}</span> 历史审核记录
               <span className="text-[11px] font-normal text-muted-foreground">
                 共 {active.history.length} 版
               </span>
@@ -382,7 +383,7 @@ function PlanPage() {
           className="flex w-full items-center gap-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
         >
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-deep/10 text-deep">
-            📈
+            {<EIcon e="📈" className="inline h-3.5 w-3.5" />}
           </span>
           <div className="flex-1 text-left">
             <p className="text-[14px] font-semibold">查看体检数据</p>

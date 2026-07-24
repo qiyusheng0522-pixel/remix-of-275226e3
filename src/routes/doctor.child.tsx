@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/child")({
   component: DoctorChildDataPage,
 });
@@ -103,7 +104,7 @@ function DoctorChildDataPage() {
         {/* 本次体检结论 */}
         <section className="mb-3 rounded-2xl bg-warm/10 p-4 ring-1 ring-warm/30">
           <div className="mb-1 flex items-center gap-2">
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-warm/20 text-[12px]">⚕</span>
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-warm/20 text-[12px]">{<EIcon e="⚕" className="inline h-3.5 w-3.5" />}</span>
             <p className="text-[13px] font-semibold text-warm">本次体检结论 · 3 项异常</p>
           </div>
           <p className="text-[12px] leading-relaxed text-muted-foreground">
@@ -113,7 +114,7 @@ function DoctorChildDataPage() {
 
         {/* 参考值来源 */}
         <div className="mb-3 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 text-[11px] text-muted-foreground ring-1 ring-border/60">
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">🏥</span>
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">{<EIcon e="🏥" className="inline h-3.5 w-3.5" />}</span>
           <p>
             指标 <b className="text-foreground">参考值来源：南京市儿童医院体检中心</b>
           </p>

@@ -1,11 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 const roles = [
-  { to: "/parent", label: "家长端", icon: "👨‍👩‍👧", color: "bg-warm" },
-  { to: "/school", label: "学校端", icon: "🏫", color: "bg-teal" },
-  { to: "/doctor", label: "医生端", icon: "🩺", color: "bg-deep" },
-  { to: "/community", label: "社区端", icon: "🏥", color: "bg-rose" },
+  { to: "/parent", label: "家长端", icon: <EIcon e="👨‍👩‍👧" />, color: "bg-warm" },
+  { to: "/school", label: "学校端", icon: <EIcon e="🏫" />, color: "bg-teal" },
+  { to: "/doctor", label: "医生端", icon: <EIcon e="🩺" />, color: "bg-deep" },
+  { to: "/community", label: "社区端", icon: <EIcon e="🏥" />, color: "bg-rose" },
 ] as const;
 
 export function RoleSwitcher() {
@@ -54,7 +55,7 @@ export function RoleSwitcher() {
               onClick={() => setOpen(false)}
               className="flex items-center gap-2 border-t border-border px-3 py-2.5 text-xs text-muted-foreground active:bg-surface-2"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-lg bg-muted">🏠</span>
+              <span className="grid h-6 w-6 place-items-center rounded-lg bg-muted">{<EIcon e="🏠" className="inline h-3.5 w-3.5" />}</span>
               <span>回到首页</span>
             </Link>
           </div>

@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { focusStudents, riskColorMap } from "@/lib/mock-data";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/focus")({
   component: FocusPage,
 });
@@ -31,7 +32,7 @@ function FocusPage() {
         <div className="mb-4 rounded-2xl bg-gradient-to-br from-warm/20 to-danger/10 p-4 ring-1 ring-warm/30">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-lg">🚨</span>
+              <span className="text-lg">{<EIcon e="🚨" className="inline h-3.5 w-3.5" />}</span>
               <span className="text-sm font-semibold">现场异常上报</span>
             </div>
             <Link to="/school/abnormal" className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
@@ -74,7 +75,7 @@ function FocusPage() {
           <li key={s.name} className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-surface-2 text-lg">
-                🧒
+                {<EIcon e="🧒" className="inline h-3.5 w-3.5" />}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">

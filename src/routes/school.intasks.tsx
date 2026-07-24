@@ -3,6 +3,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
 
+import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/intasks")({
   component: InTasksPage,
 });
@@ -70,7 +71,7 @@ function InTasksPage() {
         <p className="mb-3 text-xs text-muted-foreground">AI 自动按角色分派 · 支持手动调整</p>
 
         <div className="mb-3 flex items-center gap-2 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">🤖</span>
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">{<EIcon e="🤖" className="inline h-3.5 w-3.5" />}</span>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold">AI 已完成本轮任务分派</p>
             <p className="text-[11px] text-muted-foreground">按角色、班级、历史负荷智能匹配责任人</p>
@@ -137,7 +138,7 @@ function InTasksPage() {
           <li key={t.id} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-teal/15 text-lg">
-                {t.role === "体检负责老师" ? "👨‍🏫" : t.role === "体育老师" ? "🏃" : "🏫"}
+                {t.role === "体检负责老师" ? "" : t.role === "体育老师" ? "" : ""}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
@@ -148,7 +149,7 @@ function InTasksPage() {
                 </p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                   <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">
-                    🤖 AI 分派 · 责任人 {t.assignee}
+                     AI 分派 · 责任人 {t.assignee}
                   </span>
                   <ActionSheet
                     trigger={
@@ -190,7 +191,7 @@ function InTasksPage() {
                     title="标记任务已完成？"
                     description={<>{t.title}<br />{t.role} · {t.who}</>}
                     confirmText="标记完成"
-                    toastMessage="任务已完成 ✓"
+                    toastMessage="任务已完成 "
                     toastDescription="可在已完成中查看"
                   >
                     <label className="block text-xs">

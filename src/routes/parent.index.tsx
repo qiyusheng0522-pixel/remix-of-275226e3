@@ -689,10 +689,11 @@ function ParentHome() {
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold">健康百科</h3>
-            <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">看完单篇得积分</span>
+            <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">医生甄选内容</span>
           </div>
           <button className="text-[11px] font-medium text-rose">进入百科 ›</button>
         </div>
+
         <div className="mb-3 flex gap-2 overflow-x-auto">
           {["全部", "▷ 视频", "🖼 图文", "📻 直播"].map((t) => {
             const label = t.replace(/^[^\u4e00-\u9fa5]+/, "").trim() || t;

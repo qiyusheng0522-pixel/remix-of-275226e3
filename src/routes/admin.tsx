@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin")({
   }),
 });
 
-type Tab = "overview" | "students" | "plan" | "schedule" | "stats";
+type Tab = "overview" | "students" | "plan" | "stats";
 
 const schools = [
   { name: "阳光小学", students: 1284, synced: "2026-09-15 08:20", status: "已同步" },
@@ -86,8 +86,7 @@ function AdminConsole() {
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "overview", label: "总览", icon: "📊" },
     { id: "students", label: "学校 / 学生同步", icon: "🏫" },
-    { id: "plan", label: "体检规划", icon: "🗓️" },
-    { id: "schedule", label: "调度安排", icon: "👥" },
+    { id: "plan", label: "班级安排 / 统筹", icon: "🗓️" },
     { id: "stats", label: "数据回流 / 统计", icon: "📈" },
   ];
 
@@ -150,7 +149,6 @@ function AdminConsole() {
           {tab === "overview" && <Overview />}
           {tab === "students" && <Students />}
           {tab === "plan" && <Plan />}
-          {tab === "schedule" && <Schedule />}
           {tab === "stats" && <Stats />}
         </main>
       </div>

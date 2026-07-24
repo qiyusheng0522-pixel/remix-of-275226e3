@@ -395,7 +395,7 @@ function Schedule() {
                   {c}
                 </div>
               ))}
-            </>
+            </Fragment>
           ))}
         </div>
       </Card>

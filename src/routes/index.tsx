@@ -99,16 +99,6 @@ function Landing() {
           ))}
         </div>
 
-        <Link
-          to="/bigscreen"
-          className="mt-6 flex items-center justify-between rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-[#0b1530] to-[#0b2540] p-4 text-cyan-100 shadow-lg shadow-cyan-500/10"
-        >
-          <div>
-            <p className="text-[11px] tracking-widest text-cyan-300/70">PC · 教育局 / 卫健委</p>
-            <p className="mt-0.5 text-sm font-bold">儿童入学体检监测大屏</p>
-          </div>
-          <span className="text-lg">{<EIcon e="🖥️" className="inline h-3.5 w-3.5" />} →</span>
-        </Link>
 
         <Link
           to="/admin"

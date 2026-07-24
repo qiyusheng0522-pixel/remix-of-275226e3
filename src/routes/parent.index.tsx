@@ -221,10 +221,24 @@ function ParentHome() {
           <span className="grid h-7 w-7 place-items-center rounded-full bg-rose/15 text-rose">♥</span>
           <span className="text-sm font-bold">童护佳 · 南京</span>
         </div>
-        <Link to="/parent/me" className="relative grid h-8 w-8 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-border">
-          🔔
-          <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-rose" />
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleView}
+            className={`rounded-full px-2.5 py-1 text-[10px] font-medium ring-1 transition ${
+              hasReport
+                ? "bg-success/10 text-success ring-success/30"
+                : "bg-warning/15 text-warning-foreground ring-warning/40"
+            }`}
+            aria-label="切换视角"
+          >
+            {hasReport ? "视角：报告后" : "视角：检前"} ⇄
+          </button>
+          <Link to="/parent/me" className="relative grid h-8 w-8 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-border">
+            🔔
+            <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-rose" />
+          </Link>
+        </div>
       </div>
 
       {/* Kid switcher */}

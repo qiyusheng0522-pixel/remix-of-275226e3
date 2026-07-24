@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { findExamUser } from "@/lib/exam-users";
+import { User2, CalendarClock, School as SchoolIcon, IdCard, Ruler, Scale, Eye, Activity } from "lucide-react";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/student/$id")({

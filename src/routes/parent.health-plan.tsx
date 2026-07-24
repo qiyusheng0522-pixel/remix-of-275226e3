@@ -501,8 +501,9 @@ function HealthPlanPage() {
       </div>
 
       {sheet && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={() => setSheet(null)}>
-          <div className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-surface p-4" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute inset-0 z-50 flex items-end justify-center bg-black/40" onClick={() => setSheet(null)}>
+          <div className="max-h-[85%] w-full overflow-y-auto rounded-t-3xl bg-surface p-4" onClick={(e) => e.stopPropagation()}>
+
             <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" />
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-base font-bold">更多运动</h3>

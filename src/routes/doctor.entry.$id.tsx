@@ -22,7 +22,7 @@ type Field = {
 type Node = {
   key: string;
   name: string;
-  icon: string;
+  icon: import("react").ReactNode;
   device?: string; // 自动采集设备名
   fields: Field[];
 };

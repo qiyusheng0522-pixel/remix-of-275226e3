@@ -11,7 +11,7 @@ export const Route = createFileRoute("/parent/mydata")({
 
 type Metric = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   label: string;
   unit: string;
   latest: string;
@@ -108,7 +108,7 @@ const metrics: Metric[] = [
 
 type Device = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   name: string;
   brand: string;
   connected: boolean;

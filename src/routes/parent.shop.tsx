@@ -13,7 +13,7 @@ type Cat = "全部" | "营养餐" | "服务包" | "健康商品";
 type Product = {
   id: string;
   cat: Exclude<Cat, "全部">;
-  icon: string;
+  icon: import("react").ReactNode;
   name: string;
   brief: string;
   tags: string[];

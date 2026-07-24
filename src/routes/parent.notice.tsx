@@ -12,7 +12,7 @@ export const Route = createFileRoute("/parent/notice")({
 type Cat = "todo" | "info" | "sign";
 type Item = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   title: string;
   desc: string;
   status: "待办" | "已完成" | "已签署" | "已阅读";

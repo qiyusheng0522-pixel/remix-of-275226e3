@@ -11,7 +11,7 @@ export const Route = createFileRoute("/parent/care")({
 
 type Reminder = {
   id: string;
-  icon: string;
+  icon: import("react").ReactNode;
   title: string;
   tag: string;
   cycleDays: number; // 提醒周期（天）

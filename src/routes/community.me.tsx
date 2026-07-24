@@ -34,7 +34,7 @@ const groups = [
     items: [
       { icon: <EIcon e="🔔" />, label: "通知偏好" },
       { icon: <EIcon e="👤" />, label: "个人信息" },
-      { icon: "↩️", label: "退出登录" },
+      { icon: <EIcon e="🔄" />, label: "退出登录" },
     ],
   },
 ];

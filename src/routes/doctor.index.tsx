@@ -8,7 +8,7 @@ export const Route = createFileRoute("/doctor/")({
 });
 
 type Stat = {
-  icon: string;
+  icon: import("react").ReactNode;
   iconBg: string;
   label: string;
   sub: string;

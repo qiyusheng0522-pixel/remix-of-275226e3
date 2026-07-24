@@ -732,9 +732,8 @@ function ParentHome() {
                     </span>
                     <span className="truncate text-[11px] text-muted-foreground">{a.meta}</span>
                   </div>
-                  <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium ${a.pointsClass}`}>
-                    {a.points}
-                  </span>
+
+
                 </div>
               </div>
             </li>

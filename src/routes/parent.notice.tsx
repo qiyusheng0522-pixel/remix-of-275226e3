@@ -105,6 +105,15 @@ function NoticePage() {
   const [tab, setTab] = useState<Cat>("todo");
   const [signed, setSigned] = useState(false);
   const [revokeScope, setRevokeScope] = useState<"this" | "all">("this");
+  const [asthma, setAsthma] = useState<Record<string, "是" | "否" | "">>({
+    q1: "", q2: "", q3: "", q4: "", q5: "", q6: "",
+  });
+  const asthmaDone = Object.values(asthma).every((v) => v !== "");
+  const asthmaRisk = Object.values(asthma).filter((v) => v === "是").length;
+  const riskLabel =
+    asthmaRisk >= 3 ? "高风险 · 建议尽早呼吸专科评估" :
+    asthmaRisk >= 1 ? "中风险 · 体检当日增加肺功能筛查" :
+    "低风险 · 未见哮喘线索";
 
   const totals = cats.map((c) => ({
     c,

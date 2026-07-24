@@ -236,45 +236,8 @@ function ParentHome() {
         </div>
       </div>
 
-      {/* Kid switcher */}
-      <div className="grid grid-cols-2 gap-3 px-5">
-        {kids.map((k) => {
-          const active = k.id === activeKid;
-          const activeStyle =
-            k.tagColor === "warm"
-              ? "bg-gradient-to-r from-warm to-warm/80 text-warm-foreground shadow-lg shadow-warm/30"
-              : "bg-gradient-to-r from-rose to-rose/80 text-rose-foreground shadow-lg shadow-rose/30";
-          return (
-            <button
-              key={k.id}
-              onClick={() => setActiveKid(k.id)}
-              className={`flex items-center gap-3 rounded-2xl p-2.5 text-left ring-1 transition ${
-                active ? `${activeStyle} ring-transparent` : "bg-surface text-foreground ring-border"
-              }`}
-            >
-              <span
-                className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold ${
-                  active
-                    ? "bg-white/25 text-white backdrop-blur"
-                    : k.tagColor === "warm"
-                    ? "bg-warm/15 text-warm"
-                    : "bg-rose/15 text-rose"
-                }`}
-              >
-                {k.short}
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-bold">
-                  {k.name} · {k.age}岁
-                </p>
-                <p className={`truncate text-[11px] ${active ? "text-white/85" : "text-muted-foreground"}`}>
-                  {k.tag}
-                </p>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+
+
 
       {/* AI Health advisor card — 精简后 */}
       {hasReport ? (

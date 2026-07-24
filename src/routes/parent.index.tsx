@@ -363,6 +363,83 @@ function ParentHome() {
           </div>
         </div>
       </div>
+      ) : (
+        <div className="mt-3 px-5">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-warm/90 via-warm to-warm/70 p-4 text-warm-foreground shadow-xl shadow-warm/30">
+            <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/25 blur-2xl" />
+            <div className="relative flex items-start gap-3">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/30 text-2xl backdrop-blur">
+                🗓️
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] opacity-85">✨ 检前视角 · 还未生成体检报告</p>
+                <p className="mt-0.5 text-[15px] font-bold leading-tight">
+                  {kid.name}的入学体检 · 还有 <span className="text-[22px]">7</span> 天
+                </p>
+              </div>
+            </div>
+
+            {/* 检前 3 步进度 */}
+            <div className="mt-3 rounded-2xl bg-white/95 p-3 text-foreground shadow-sm ring-1 ring-white/60">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-[12px] font-bold">检前 3 步 · 已完成 1/3</span>
+                <Link to="/parent/notice" className="text-[11px] font-medium text-warm">
+                  去完成 ›
+                </Link>
+              </div>
+              <div className="mb-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
+                <div className="h-full w-1/3 rounded-full bg-warm" />
+              </div>
+              <ul className="space-y-1.5 text-[11px]">
+                <li className="flex items-center gap-2">
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-success text-[10px] text-success-foreground">✓</span>
+                  <span className="flex-1 text-muted-foreground line-through">数据使用授权 · 已签署</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-danger/15 text-[10px] text-danger">!</span>
+                  <span className="flex-1 font-medium">健康问卷 · 哮喘风险筛查</span>
+                  <span className="text-[10px] text-danger">4-13 截止</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-danger/15 text-[10px] text-danger">!</span>
+                  <span className="flex-1 font-medium">体检知情同意书 · 待签署</span>
+                  <span className="text-[10px] text-danger">4-13 截止</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* 检前提示 · 关键 3 条 */}
+            <div className="relative mt-3 grid grid-cols-3 gap-1.5">
+              {[
+                { icon: "🚱", t: "22:00 起", s: "禁食禁水" },
+                { icon: "😴", t: "21:30 前", s: "按时入睡" },
+                { icon: "👕", t: "宽松衣裤", s: "戴好眼镜" },
+              ].map((x) => (
+                <div key={x.s} className="rounded-2xl bg-white/95 py-2 text-center text-foreground">
+                  <p className="text-lg leading-none">{x.icon}</p>
+                  <p className="mt-1 text-[11px] font-semibold">{x.t}</p>
+                  <p className="text-[10px] text-muted-foreground">{x.s}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* 咨询入口 */}
+            <Link
+              to="/parent/comm"
+              className="relative mt-3 flex items-center gap-2 rounded-full bg-white pl-3 pr-1 py-1"
+            >
+              <span className="text-warm">💬</span>
+              <span className="flex-1 truncate text-[13px] text-muted-foreground">
+                检前有疑问？问问 AI 顾问…
+              </span>
+              <span className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
+                咨询
+              </span>
+            </Link>
+          </div>
+        </div>
+      )}
+
 
 
       {/* 咨询专科医生 + 消息入口 */}

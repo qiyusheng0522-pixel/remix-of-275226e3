@@ -10,7 +10,9 @@ export const Route = createFileRoute("/community")({
 function CommunityLayout() {
   return (
     <MobileFrame>
-      <div className="flex flex-1 flex-col pb-16">
+      {/* This wrapper owns scrolling (not the phone frame), so BottomNav sits
+          after it in normal flow and stays put. See parent.tsx for details. */}
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
         <Outlet />
       </div>
       <BottomNav

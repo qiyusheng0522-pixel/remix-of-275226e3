@@ -41,7 +41,11 @@ export function MobileFrame({
               <div className={`pointer-events-none absolute inset-x-0 top-0 z-20 h-8 ${bg}`} />
               {/* Dynamic Island / Notch */}
               <div className="pointer-events-none absolute left-1/2 top-2 z-30 h-6 w-28 -translate-x-1/2 rounded-full bg-slate-900" />
-              <div className="no-scrollbar flex h-[min(874px,calc(100svh-140px))] flex-col overflow-y-auto pt-8">
+              {/* The screen itself is a fixed-height, NON-scrolling flex column.
+                  Scrolling belongs to the page wrapper inside each end's layout,
+                  so the bottom nav can sit after it in normal flow and never
+                  scroll away or overlap content. */}
+              <div className="flex h-[min(874px,calc(100svh-140px))] flex-col overflow-hidden pt-8">
                 <ScreenPortalProvider value={screen}>{children}</ScreenPortalProvider>
               </div>
               {/* Home indicator */}

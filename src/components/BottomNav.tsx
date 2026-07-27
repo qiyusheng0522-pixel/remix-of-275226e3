@@ -15,7 +15,8 @@ export function BottomNav({ items, accent = "warm" }: { items: NavItem[]; accent
   return (
     <nav
       aria-label="主导航"
-      className="sticky bottom-0 z-20 mt-auto border-t border-border bg-surface/95 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur"
+      // Sits outside the scrolling page wrapper, so plain flow keeps it pinned.
+      className="z-20 shrink-0 border-t border-border bg-surface/95 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur"
     >
       <ul className="grid" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
         {items.map((it) => {

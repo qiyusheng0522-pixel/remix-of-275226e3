@@ -1,6 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
+import {
+  FilterChips,
+  GreetingCard,
+  SectionCount,
+  SectionTitle,
+  StatCard,
+  TodoRow,
+  WorkbenchHeader,
+} from "@/components/Workbench";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/community/")({
@@ -143,127 +152,70 @@ function CommunityHome() {
 
   return (
     <div className="pb-4">
-      <StatusBar title="童护佳 · 社区端" />
+      <StatusBar />
 
-      {/* Top bar */}
-      <div className="flex items-center justify-between bg-surface px-5 py-3">
-        <span className="text-xl text-muted-foreground">‹</span>
-        <h1 className="text-base font-bold">工作台</h1>
-        <div className="flex items-center gap-3">
-          <Link to="/community/consult" className="relative text-lg">
-            {<EIcon e="🔔" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
-            <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
-          </Link>
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-warm text-sm font-bold text-warm-foreground">
-            张
-          </span>
-        </div>
-      </div>
+      <WorkbenchHeader
+        title="工作台"
+        accent="warm"
+        notifyTo="/community/consult"
+        avatar="张"
+        unread
+      />
 
-      {/* Greeting card */}
-      <div className="px-5 pt-3">
-        <div className="rounded-2xl bg-gradient-to-r from-warm to-warm/80 p-5 text-warm-foreground shadow-lg shadow-warm/25">
-          <p className="text-lg font-bold">张医生，早上好 {<EIcon e="👋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</p>
-          <p className="mt-1 text-[13px] text-white/85">
-            阳光社区卫生服务中心 · 儿童健康管理站 · 今日 {totalTodo} 项待处理
-          </p>
-        </div>
-      </div>
+      <GreetingCard
+        accent="warm"
+        greeting={
+          <>
+            张医生，早上好
+            <EIcon e="👋" />
+          </>
+        }
+        meta={`阳光社区 · 儿童健康管理站 · 今日 ${totalTodo} 项待处理`}
+      />
 
       {/* stats */}
       <section className="px-5 pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-warm">〰</span> 今日待办
-          </h3>
-          <span className="rounded-full bg-warm/10 px-2.5 py-0.5 text-[11px] text-warm">
-            共 {totalTodo} 项
-          </span>
-        </div>
+        <SectionTitle accent="warm" right={<SectionCount accent="warm">共 {totalTodo} 项</SectionCount>}>
+          今日待办
+        </SectionTitle>
         <div className="grid grid-cols-2 gap-3">
           {stats.map((s) => (
-            <Link
-              key={s.label}
-              to={s.to}
-              className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
-            >
-              <div className="flex items-start justify-between">
-                <span className={`grid h-10 w-10 place-items-center rounded-xl text-lg ${s.iconBg}`}>
-                  {s.icon}
-                </span>
-                <p className={`text-2xl font-bold leading-none ${s.valueColor}`}>{s.value}</p>
-              </div>
-              <div className="mt-3 flex items-end justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="text-[15px] font-semibold">{s.label}</p>
-                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{s.sub}</p>
-                </div>
-                <p className="shrink-0 text-[11px] text-muted-foreground">{s.unit}</p>
-              </div>
-            </Link>
+            <StatCard key={s.label} stat={s} />
           ))}
         </div>
       </section>
 
-
       {/* 待办清单 */}
       <section className="px-5 pt-5">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-warm">{<EIcon e="📋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> 今日待办清单
-          </h3>
-          <span className="text-[11px] text-muted-foreground">
-            共 {filtered.length}/{todos.length} 项
-          </span>
-        </div>
-        <div className="mb-3 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-          {filters.map((f) => {
-            const count = f.key === "all" ? todos.length : todos.filter(f.match).length;
-            const on = active === f.key;
-            return (
-              <button
-                key={f.key}
-                type="button"
-                onClick={() => setActive(f.key)}
-                className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-medium ring-1 transition ${
-                  on
-                    ? "bg-warm text-warm-foreground ring-warm"
-                    : "bg-surface text-muted-foreground ring-border/60"
-                }`}
-              >
-                {f.label} <span className={on ? "opacity-80" : "opacity-60"}>{count}</span>
-              </button>
-            );
-          })}
-        </div>
+        <SectionTitle
+          accent="warm"
+          right={
+            <span className="shrink-0 text-[11px] text-muted-foreground">
+              共 {filtered.length}/{todos.length} 项
+            </span>
+          }
+        >
+          今日待办清单
+        </SectionTitle>
+
+        <FilterChips
+          accent="warm"
+          filters={filters}
+          active={active}
+          onChange={setActive}
+          countOf={(f) => (f.key === "all" ? todos.length : todos.filter(f.match).length)}
+        />
+
         <ul className="space-y-2.5">
           {filtered.map((t, i) => (
-            <Link
+            <TodoRow
               key={t.id}
+              index={i + 1}
               to={t.to}
-              className="flex items-center gap-3 rounded-2xl bg-surface p-3.5 shadow-sm ring-1 ring-border/60"
-            >
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-2 text-[13px] font-bold text-muted-foreground">
-                {i + 1}
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5">
-                  {t.tags.map((tag) => (
-                    <span
-                      key={tag.text}
-                      className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${tag.cls}`}
-                    >
-                      {tag.text}
-                    </span>
-                  ))}
-                  <span className="truncate text-[14px] font-semibold">
-                    {t.id} {t.name}
-                  </span>
-                </div>
-                <p className="mt-1 truncate text-[12px] text-muted-foreground">{t.desc}</p>
-              </div>
-              <span className="text-muted-foreground">›</span>
-            </Link>
+              tags={t.tags}
+              title={`${t.id} ${t.name}`}
+              desc={t.desc}
+            />
           ))}
         </ul>
       </section>

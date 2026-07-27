@@ -5,6 +5,18 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
 import { EIcon } from "@/components/EIcon";
+import { readCheckins, type CheckinRecord } from "@/lib/checkin";
+
+/** 首页任务行上展示的本次打卡摘要 */
+function summarize(rec: CheckinRecord) {
+  if (rec.kind === "diet") {
+    const via = { photo: "拍照", voice: "语音", text: "文字" }[rec.mode];
+    return `${rec.meal} · ${via}记录 · 约 ${rec.kcal} kcal`;
+  }
+  const level = ["", "轻松", "适中", "吃力"][rec.intensity];
+  return `${rec.item} · ${rec.minutes} 分钟 · ${level} · 疲惫 ${rec.fatigue}/5`;
+}
+
 // 演示：默认已有体检报告；可通过右上角"视角"按钮切换到"检前 · 无报告"
 const CONSENT_KEY = "parent_consent_v1";
 const VIEW_KEY = "parent_view_hasreport_v1";
@@ -72,19 +84,27 @@ const homeCare = [
   { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
-/** 今日任务折叠时展示的条数 */
-const VISIBLE_TASKS = 2;
-
 /**
- * 今日任务。默认只展示 2 条，超出部分由「查看全部」展开，
- * 因此这里保留完整的当日清单（含已过时段的漏打卡项）。
+ * 今日打卡任务：家长端只保留「饮食」与「运动」两类。
+ * 点击进入各自的打卡页填写详情，不支持事后补卡。
  */
 const todayTasks = [
-  { id: "rope", icon: <EIcon e="🤸" />, text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const, slot: "19:00" },
-  { id: "dinner", icon: <EIcon e="🥦" />, text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const, slot: "18:00" },
-  { id: "vitd", icon: <EIcon e="☀️" />, text: "维生素 D 补充 · 1 粒", done: false, tone: "teal" as const, slot: "08:00" },
-  { id: "vent", icon: <EIcon e="🪟" />, text: "开窗通风换气 · 30 分钟", done: true, tone: "teal" as const, slot: "10:00" },
-  { id: "screen", icon: <EIcon e="📵" />, text: "屏幕时间 ≤ 1 小时", done: false, tone: "deep" as const, slot: "21:00" },
+  {
+    kind: "diet" as const,
+    icon: <EIcon e="🥦" />,
+    text: "饮食打卡 · 晚餐 500-600 kcal",
+    hint: "支持拍照 / 语音 / 文字",
+    tone: "success" as const,
+    to: "/parent/checkin/diet",
+  },
+  {
+    kind: "exercise" as const,
+    icon: <EIcon e="🤸" />,
+    text: "运动打卡 · 亲子跳绳 20 分钟",
+    hint: "记录时长 / 强度 / 疲惫度",
+    tone: "warning" as const,
+    to: "/parent/checkin/exercise",
+  },
 ];
 
 const encyclopedia = [
@@ -119,11 +139,15 @@ function ParentHome() {
   const [activeKid, setActiveKid] = useState(kids[0].id);
   const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
   const [catTab, setCatTab] = useState("全部");
-  const [showAllTasks, setShowAllTasks] = useState(false);
-  // 首页可直接打卡，勾选结果覆盖示例数据里的 done
-  const [punched, setPunched] = useState<Record<string, boolean>>({});
-  const doneCount = todayTasks.filter((t) => punched[t.id] ?? t.done).length;
-  const missedCount = todayTasks.length - doneCount;
+  // 打卡结果来自打卡页写入的记录，进入首页时读取并监听更新
+  const [checkins, setCheckins] = useState<ReturnType<typeof readCheckins>>({});
+  useEffect(() => {
+    const sync = () => setCheckins(readCheckins());
+    sync();
+    window.addEventListener("checkin-updated", sync);
+    return () => window.removeEventListener("checkin-updated", sync);
+  }, []);
+  const doneCount = todayTasks.filter((t) => checkins[t.kind]).length;
   const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
   const [signed, setSigned] = useState(false);
   const [hasReport, setHasReport] = useState<boolean>(() => {
@@ -499,75 +523,44 @@ function ParentHome() {
           <span className="shrink-0 text-[11px] text-muted-foreground">
             {doneCount}/{todayTasks.length}
           </span>
-          {/* 仅当确有折叠内容时才出现，避免 2 条任务全展示还挂一个「查看全部」 */}
-          {todayTasks.length > VISIBLE_TASKS && (
-            <button
-              onClick={() => setShowAllTasks((v) => !v)}
-              className="shrink-0 text-[11px] font-medium text-rose"
-            >
-              {showAllTasks ? "收起" : `查看全部 ${todayTasks.length}`} ›
-            </button>
-          )}
         </div>
         <ul className="space-y-2">
-          {(showAllTasks ? todayTasks : todayTasks.slice(0, VISIBLE_TASKS)).map((t) => {
+          {todayTasks.map((t) => {
             const toneBg = {
               warning: "bg-warning/10 ring-warning/25",
               success: "bg-success/10 ring-success/25",
-              teal: "bg-teal/10 ring-teal/25",
-              deep: "bg-deep/10 ring-deep/25",
             }[t.tone];
-            const done = punched[t.id] ?? t.done;
+            const rec = checkins[t.kind];
             return (
-              <li
-                key={t.id}
-                className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
-              >
-                <span className="text-xl">{t.icon}</span>
-                <div className="min-w-0 flex-1">
-                  <p className={`truncate text-sm ${done ? "text-muted-foreground line-through" : ""}`}>
-                    {t.text}
-                  </p>
-                  <p className="text-[10px] text-muted-foreground">建议时段 {t.slot}</p>
-                </div>
-                {done ? (
-                  <span className="shrink-0 rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
-                    已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
-                  </span>
-                ) : (
-                  <button
-                    onClick={() => setPunched((p) => ({ ...p, [t.id]: true }))}
-                    className="shrink-0 rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose"
-                  >
-                    打卡
-                  </button>
-                )}
+              <li key={t.kind}>
+                <Link
+                  to={t.to}
+                  className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
+                >
+                  <span className="text-xl">{t.icon}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className={`truncate text-sm ${rec ? "text-muted-foreground" : ""}`}>
+                      {t.text}
+                    </p>
+                    {/* 已打卡后把提示换成本次记录的摘要，让家长一眼看到填了什么 */}
+                    <p className="truncate text-[10px] text-muted-foreground">
+                      {rec ? summarize(rec) : t.hint}
+                    </p>
+                  </div>
+                  {rec ? (
+                    <span className="shrink-0 rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
+                      已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+                    </span>
+                  ) : (
+                    <span className="shrink-0 rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
+                      去打卡
+                    </span>
+                  )}
+                </Link>
               </li>
             );
           })}
         </ul>
-
-        {/* 漏打卡的补记入口 */}
-        <Link
-          to="/parent/punch"
-          className="mt-2.5 flex items-center gap-2 rounded-2xl bg-surface-2 px-3 py-2.5"
-        >
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-[13px] shadow-sm">
-            <EIcon e="🗓️" />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[12px] font-semibold">补充打卡</p>
-            <p className="truncate text-[10px] text-muted-foreground">
-              漏打卡了？可补记最近 7 天
-            </p>
-          </div>
-          {missedCount > 0 && (
-            <span className="shrink-0 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-medium text-warning-foreground">
-              {missedCount} 项待补
-            </span>
-          )}
-          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
-        </Link>
       </section>
       )}
 

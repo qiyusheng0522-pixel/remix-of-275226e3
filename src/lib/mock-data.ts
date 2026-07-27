@@ -18,12 +18,10 @@ export const child = {
   focus: ["体重偏轻", "过敏性鼻炎倾向"],
 };
 
+/** 家长端只保留「饮食」「运动」两类打卡，与首页任务保持一致 */
 export const todayTasks = [
-  { id: 1, icon: "", title: "记录今日早餐", tag: "饮食", done: true, time: "08:30" },
-  { id: 2, icon: "", title: "户外运动 60 分钟", tag: "运动", done: true, time: "16:00" },
-  { id: 3, icon: "", title: "床品换洗（每周一次）", tag: "环境", done: false, time: "本周" },
-  
-  { id: 5, icon: "", title: "22:00 前上床", tag: "睡眠", done: false, time: "22:00" },
+  { id: 1, icon: "", title: "饮食打卡 · 晚餐", tag: "饮食", done: true, time: "18:00" },
+  { id: 2, icon: "", title: "运动打卡 · 亲子跳绳", tag: "运动", done: false, time: "19:00" },
 ];
 
 export const abnormalItems = [

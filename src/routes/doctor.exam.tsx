@@ -58,8 +58,8 @@ function UsersPage() {
         <div className="mb-3 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
           <p className="text-[11px] font-semibold text-deep">数据采集方式</p>
           <div className="mt-1.5 grid grid-cols-2 gap-2 text-[10.5px] text-muted-foreground">
-            <p><span className="mr-1 rounded bg-teal/15 px-1 py-0.5 text-teal">{<EIcon e="📡" className="inline h-3.5 w-3.5" />} 自动</span>身高体重 / 视力 / 血压 / 血糖 / 血红蛋白</p>
-            <p><span className="mr-1 rounded bg-warm/15 px-1 py-0.5 text-warm">{<EIcon e="✍️" className="inline h-3.5 w-3.5" />} 手动</span>口腔 · 龋齿 / 内科心肺 / 腹部 / 备注</p>
+            <p><span className="mr-1 rounded bg-teal/15 px-1 py-0.5 text-teal">{<EIcon e="📡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 自动</span>身高体重 / 视力 / 血压 / 血糖 / 血红蛋白</p>
+            <p><span className="mr-1 rounded bg-warm/15 px-1 py-0.5 text-warm">{<EIcon e="✍️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 手动</span>口腔 · 龋齿 / 内科心肺 / 腹部 / 备注</p>
           </div>
         </div>
 
@@ -79,7 +79,7 @@ function UsersPage() {
 
         {/* 搜索 */}
         <div className="mb-3 flex items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-sm ring-1 ring-border/60">
-          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}

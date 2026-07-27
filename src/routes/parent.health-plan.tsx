@@ -96,7 +96,7 @@ function HealthPlanPage() {
         <StatusBar title="健康管理方案" />
         <div className="flex flex-col items-center px-6 pb-16 pt-10 text-center">
           <div className="grid h-24 w-24 place-items-center rounded-full bg-warm/15 text-4xl">
-            {<EIcon e="🗓️" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="🗓️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
           </div>
           <h1 className="mt-4 text-lg font-bold">还没有健康方案</h1>
           <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
@@ -111,13 +111,13 @@ function HealthPlanPage() {
                 <div className="h-full w-1/3 rounded-full bg-warm" />
               </div>
               <ul className="mt-2 space-y-1 text-[11px] text-muted-foreground">
-                <li>{<EIcon e="✓" className="inline h-3.5 w-3.5" />} 数据使用授权 · 已签署</li>
+                <li>{<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 数据使用授权 · 已签署</li>
                 <li className="text-danger">! 健康问卷 · 哮喘风险筛查（4-13 截止）</li>
                 <li className="text-danger">! 体检知情同意书 · 待签署（4-13 截止）</li>
               </ul>
             </div>
             <div className="rounded-2xl bg-warning/10 p-3 text-[11px] leading-relaxed text-warning-foreground ring-1 ring-warning/25">
-              {<EIcon e="💡" className="inline h-3.5 w-3.5" />} 体检当日数据回收后 <b>48h 内</b>会自动生成个性化方案，涵盖饮食、运动、居家护理与随访提醒。
+              {<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 体检当日数据回收后 <b>48h 内</b>会自动生成个性化方案，涵盖饮食、运动、居家护理与随访提醒。
             </div>
           </div>
 
@@ -169,7 +169,7 @@ function HealthPlanPage() {
           </div>
 
           <div className="mt-3 rounded-2xl bg-gradient-to-br from-warning/15 to-warm/10 p-3 ring-1 ring-warning/20">
-            <p className="text-[11px] font-semibold text-warning-foreground">{<EIcon e="🟡" className="inline h-3.5 w-3.5" />} 整体评估</p>
+            <p className="text-[11px] font-semibold text-warning-foreground">{<EIcon e="🟡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 整体评估</p>
             <p className="mt-1 text-[12px] leading-relaxed text-foreground/85">
               {child.name}本次体检整体发育良好，身高处于 P75，各项内科与视力指标正常。
               主要异常集中在 <b>体重/BMI 偏高</b> 及 <b>尘螨过敏合并运动后咳嗽</b> 两方面，
@@ -216,7 +216,7 @@ function HealthPlanPage() {
                 <h2 className="text-lg font-bold">通用饮食方案</h2>
                 <p className="text-[11px] text-muted-foreground">基于国家儿童营养指南 · 控糖限脂建议</p>
               </div>
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="🥗" className="inline h-3.5 w-3.5" />}</span>
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="🥗" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
             </div>
 
             <div className="mt-3 flex gap-6 border-b border-teal/20">
@@ -353,7 +353,7 @@ function HealthPlanPage() {
               </h2>
               <p className="mt-1 text-[11px] text-muted-foreground">通用指南建议：每周 ≥150 分钟中等强度有氧</p>
             </div>
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="💗" className="inline h-3.5 w-3.5" />}</span>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="💗" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           </div>
 
           <div className="mt-3 rounded-2xl bg-surface p-4">
@@ -371,7 +371,7 @@ function HealthPlanPage() {
           </div>
 
           <div className="mt-3 flex items-center justify-between rounded-2xl bg-rose/10 px-3 py-2.5 ring-1 ring-rose/20">
-            <p className="text-[12px]"><span className="mr-1 text-danger">{<EIcon e="⚠" className="inline h-3.5 w-3.5" />}</span><b>运动风险提示</b> 胸闷/头晕请立即停止，血糖 &lt;5.6…</p>
+            <p className="text-[12px]"><span className="mr-1 text-danger">{<EIcon e="⚠" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span><b>运动风险提示</b> 胸闷/头晕请立即停止，血糖 &lt;5.6…</p>
             <span className="text-muted-foreground">▾</span>
           </div>
 
@@ -399,7 +399,7 @@ function HealthPlanPage() {
                           onClick={() => toggle(e.title)}
                           className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground"
                         >
-                          已打卡 {<EIcon e="✓" className="inline h-3.5 w-3.5" />}
+                          已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
                         </button>
                       ) : (
                         <button
@@ -416,7 +416,7 @@ function HealthPlanPage() {
                         <span key={t} className="rounded-md bg-teal/10 px-1.5 py-0.5 text-[10px] text-teal">{t}</span>
                       ))}
                     </div>
-                    <p className="mt-1.5 text-[11px] text-muted-foreground">{<EIcon e="🕐" className="inline h-3.5 w-3.5" />} {e.time} · 〰 {e.hr}</p>
+                    <p className="mt-1.5 text-[11px] text-muted-foreground">{<EIcon e="🕐" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} {e.time} · 〰 {e.hr}</p>
                   </div>
                 </div>
                 {/* 推荐理由 + 科学出处 */}
@@ -424,7 +424,7 @@ function HealthPlanPage() {
                   <p className="text-[11px] leading-relaxed text-foreground/85">
                     <b className="text-teal">推荐理由：</b>{e.reason}
                   </p>
-                  <p className="mt-1 text-[10px] text-muted-foreground">{<EIcon e="📚" className="inline h-3.5 w-3.5" />} 出处：{e.source}</p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">{<EIcon e="📚" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 出处：{e.source}</p>
                 </div>
               </div>
             );})}
@@ -434,7 +434,7 @@ function HealthPlanPage() {
             onClick={() => { setSheet("more"); setTab("ai"); }}
             className="mt-3 flex w-full items-center justify-center gap-1 rounded-2xl border border-dashed border-teal/50 bg-surface py-2.5 text-[12px] font-semibold text-teal"
           >
-            {<EIcon e="➕" className="inline h-3.5 w-3.5" />} 更多运动 / 发布运动 / 参与周边活动
+            {<EIcon e="➕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 更多运动 / 发布运动 / 参与周边活动
           </button>
         </section>
 
@@ -448,7 +448,7 @@ function HealthPlanPage() {
               </h2>
               <p className="mt-1 text-[11px] text-muted-foreground">改善家庭环境，减少过敏原暴露</p>
             </div>
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="🏠" className="inline h-3.5 w-3.5" />}</span>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="🏠" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           </div>
 
           <div className="mt-3 space-y-2">
@@ -479,7 +479,7 @@ function HealthPlanPage() {
         >
           <div className="flex items-center gap-3">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-surface/80 text-2xl">
-              {<EIcon e="🛒" className="inline h-3.5 w-3.5" />}
+              {<EIcon e="🛒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[13px] font-bold text-foreground">方案配套优选商城</p>
@@ -508,7 +508,7 @@ function HealthPlanPage() {
             <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" />
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-base font-bold">更多运动</h3>
-              <button onClick={() => setSheet(null)} className="text-muted-foreground">{<EIcon e="✕" className="inline h-3.5 w-3.5" />}</button>
+              <button onClick={() => setSheet(null)} className="text-muted-foreground">{<EIcon e="✕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</button>
             </div>
             <div className="mb-3 flex gap-2 rounded-full bg-surface-2 p-1 text-[12px]">
               {[
@@ -582,7 +582,7 @@ function HealthPlanPage() {
                         <span className="rounded-md bg-warm/15 px-1.5 py-0.5 text-[10px] text-warm">{n.dist}</span>
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted-foreground">发起人：{n.host}</p>
-                      <p className="mt-1 text-[11px] text-foreground/80">{<EIcon e="🕐" className="inline h-3.5 w-3.5" />} {n.when} · {<EIcon e="👥" className="inline h-3.5 w-3.5" />} {n.joined + (j ? 1 : 0)}/{n.cap}</p>
+                      <p className="mt-1 text-[11px] text-foreground/80">{<EIcon e="🕐" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} {n.when} · {<EIcon e="👥" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} {n.joined + (j ? 1 : 0)}/{n.cap}</p>
                       <button
                         onClick={() => setJoined((s) => ({ ...s, [n.title]: !s[n.title] }))}
                         className={`mt-2 w-full rounded-full py-1.5 text-[12px] font-semibold ${j ? "bg-surface text-muted-foreground ring-1 ring-border" : "bg-teal text-white"}`}

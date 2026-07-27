@@ -71,7 +71,7 @@ function InTasksPage() {
         <p className="mb-3 text-xs text-muted-foreground">AI 自动按角色分派 · 支持手动调整</p>
 
         <div className="mb-3 flex items-center gap-2 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">{<EIcon e="🤖" className="inline h-3.5 w-3.5" />}</span>
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold">AI 已完成本轮任务分派</p>
             <p className="text-[11px] text-muted-foreground">按角色、班级、历史负荷智能匹配责任人</p>

@@ -13,24 +13,30 @@ export function BottomNav({ items, accent = "warm" }: { items: NavItem[]; accent
   const accentBg = accent === "teal" ? "bg-teal/15" : accent === "deep" ? "bg-deep/15" : accent === "rose" ? "bg-rose/15" : "bg-warm/15";
 
   return (
-    <nav className="sticky bottom-0 z-20 mt-auto border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
+    <nav
+      aria-label="主导航"
+      className="sticky bottom-0 z-20 mt-auto border-t border-border bg-surface/95 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur"
+    >
       <ul className="grid" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
         {items.map((it) => {
           const active = pathname === it.to;
           return (
-            <li key={it.to} className="flex">
+            <li key={it.to} className="flex min-w-0">
               <Link
                 to={it.to}
-                className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] text-muted-foreground"
+                aria-current={active ? "page" : undefined}
+                className="flex min-w-0 flex-1 flex-col items-center gap-0.5 px-1 pt-2 pb-1 text-[10px] text-muted-foreground transition-colors"
               >
                 <span
-                  className={`grid h-9 w-9 place-items-center rounded-2xl transition ${
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl text-[17px] transition ${
                     active ? `${accentBg} ${accentText}` : ""
                   }`}
                 >
                   {it.icon}
                 </span>
-                <span className={active ? `${accentText} font-medium` : ""}>{it.label}</span>
+                <span className={`max-w-full truncate ${active ? `${accentText} font-semibold` : ""}`}>
+                  {it.label}
+                </span>
               </Link>
             </li>
           );

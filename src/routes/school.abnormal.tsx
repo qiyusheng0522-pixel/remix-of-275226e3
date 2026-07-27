@@ -113,7 +113,7 @@ function AbnormalPage() {
               />
             </label>
             <div className="rounded-xl bg-surface-2 p-3 text-[11px] text-muted-foreground">
-              {<EIcon e="📎" className="inline h-3.5 w-3.5" />} 可上传现场照片、体检单据（可选）
+              {<EIcon e="📎" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 可上传现场照片、体检单据（可选）
             </div>
             <button
               disabled={!who || !cls}

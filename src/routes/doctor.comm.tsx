@@ -107,7 +107,7 @@ function CommPage() {
               <span className={roleTag(active.role)}>{active.role}</span> · {active.sub}
             </p>
           </div>
-          <span className="text-lg">{<EIcon e="☎️" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-lg">{<EIcon e="☎️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto bg-surface-2 px-4 py-4">
@@ -122,7 +122,7 @@ function CommPage() {
               >
                 {m.ai && (
                   <p className="mb-1 flex items-center gap-1 text-[10px] font-medium opacity-80">
-                    {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 生成 · 已由医生确认
+                    {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 生成 · 已由医生确认
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.text}</p>
@@ -140,7 +140,7 @@ function CommPage() {
             <div className="border-b border-border/60 bg-teal/5 px-4 py-2">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-1 text-[11px] text-teal">
-                  {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 助手已就绪 · 按角色/病史生成回复
+                  {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 助手已就绪 · 按角色/病史生成回复
                 </p>
                 <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                   自动
@@ -209,7 +209,7 @@ function CommPage() {
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">
-            <span>{<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 回复</span>
+            <span>{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 回复</span>
             <button
               onClick={() => setAiOn((v) => !v)}
               className={`relative h-4 w-7 rounded-full transition ${aiOn ? "bg-teal" : "bg-surface-2"}`}

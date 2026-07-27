@@ -153,7 +153,7 @@ function DoctorHome() {
         <h1 className="text-base font-bold">工作台</h1>
         <div className="flex items-center gap-3">
           <Link to="/doctor/messages" className="relative text-lg">
-            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="🔔" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
             <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
           </Link>
           <span className="grid h-8 w-8 place-items-center rounded-full bg-teal text-sm font-bold text-teal-foreground">
@@ -165,7 +165,7 @@ function DoctorHome() {
       {/* Greeting card */}
       <div className="px-5 pt-3">
         <div className="rounded-2xl bg-gradient-to-r from-teal to-teal/80 p-5 text-teal-foreground shadow-lg shadow-teal/25">
-          <p className="text-lg font-bold">陈医生，早上好 {<EIcon e="👋" className="inline h-3.5 w-3.5" />}</p>
+          <p className="text-lg font-bold">陈医生，早上好 {<EIcon e="👋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</p>
           <p className="mt-1 text-[13px] text-white/85">
             儿童保健科 · 今日 {totalTodo} 项待处理
           </p>
@@ -217,7 +217,7 @@ function DoctorHome() {
       <section className="px-5 pt-5">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-teal">{<EIcon e="📋" className="inline h-3.5 w-3.5" />}</span> 今日待办清单
+            <span className="text-teal">{<EIcon e="📋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> 今日待办清单
           </h3>
           <span className="text-[11px] text-muted-foreground">共 {filtered.length}/{todos.length} 项</span>
         </div>

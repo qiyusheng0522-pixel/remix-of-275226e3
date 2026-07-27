@@ -170,7 +170,7 @@ function ShopPage() {
       <StatusBar title="健康服务商城" />
       <div className="px-5 pb-24 pt-2">
         <div className="mb-3 rounded-2xl bg-gradient-to-r from-rose/90 to-rose/70 p-4 text-white shadow-lg shadow-rose/30">
-          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline h-3.5 w-3.5" />} 儿科医生 & 营养师联合甄选</p>
+          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 儿科医生 & 营养师联合甄选</p>
           <p className="mt-0.5 text-base font-bold">童护佳健康服务商城</p>
           <p className="mt-1 text-[12px] text-white/90">
             营养餐 · 服务包 · 健康商品 · 均支持按周期订阅，随时暂停
@@ -332,7 +332,7 @@ function BuySheet({ product }: { product: Product }) {
 
         {product.subscribable && cycle.key !== "single" && (
           <p className="rounded-lg bg-teal/10 px-2.5 py-1.5 text-[11px] text-teal">
-            {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 周期订阅可随时在「我的 · 我的订单」中暂停或退订
+            {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 周期订阅可随时在「我的 · 我的订单」中暂停或退订
           </p>
         )}
 

@@ -47,7 +47,7 @@ function SchoolMe() {
         <div className="absolute inset-0 -z-0 bg-gradient-to-br from-teal via-teal/70 to-deep" />
         <div className="relative flex items-center gap-4 text-white">
           <div className="grid h-16 w-16 place-items-center rounded-3xl bg-white/25 text-3xl backdrop-blur">
-            {<EIcon e="👨‍🏫" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="👨‍🏫" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-lg font-bold">张老师</p>

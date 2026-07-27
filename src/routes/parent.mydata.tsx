@@ -293,7 +293,7 @@ function MyDataPage() {
             ))}
           </ul>
           <p className="mt-3 rounded-xl bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
-            {<EIcon e="🔒" className="inline h-3.5 w-3.5" />} 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
+            {<EIcon e="🔒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
           </p>
         </section>
       </div>

@@ -151,7 +151,7 @@ function CommunityHome() {
         <h1 className="text-base font-bold">工作台</h1>
         <div className="flex items-center gap-3">
           <Link to="/community/consult" className="relative text-lg">
-            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="🔔" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
             <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
           </Link>
           <span className="grid h-8 w-8 place-items-center rounded-full bg-warm text-sm font-bold text-warm-foreground">
@@ -163,7 +163,7 @@ function CommunityHome() {
       {/* Greeting card */}
       <div className="px-5 pt-3">
         <div className="rounded-2xl bg-gradient-to-r from-warm to-warm/80 p-5 text-warm-foreground shadow-lg shadow-warm/25">
-          <p className="text-lg font-bold">张医生，早上好 {<EIcon e="👋" className="inline h-3.5 w-3.5" />}</p>
+          <p className="text-lg font-bold">张医生，早上好 {<EIcon e="👋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</p>
           <p className="mt-1 text-[13px] text-white/85">
             阳光社区卫生服务中心 · 儿童健康管理站 · 今日 {totalTodo} 项待处理
           </p>
@@ -210,7 +210,7 @@ function CommunityHome() {
       <section className="px-5 pt-5">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-warm">{<EIcon e="📋" className="inline h-3.5 w-3.5" />}</span> 今日待办清单
+            <span className="text-warm">{<EIcon e="📋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> 今日待办清单
           </h3>
           <span className="text-[11px] text-muted-foreground">
             共 {filtered.length}/{todos.length} 项

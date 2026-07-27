@@ -100,7 +100,7 @@ function StudentsPage() {
           trigger={
             <button className="mb-3 flex w-full items-center justify-between rounded-2xl bg-gradient-to-br from-teal to-deep p-3 text-white shadow-sm">
               <div className="text-left">
-                <p className="text-sm font-semibold">{<EIcon e="⚡" className="inline h-3.5 w-3.5" />} 一键同步本批次体检学生清单</p>
+                <p className="text-sm font-semibold">{<EIcon e="⚡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 一键同步本批次体检学生清单</p>
                 <p className="mt-0.5 text-[11px] opacity-90">从教育局体检批次拉取最新名单</p>
               </div>
               <span>→</span>
@@ -116,7 +116,7 @@ function StudentsPage() {
 
         {/* 搜索 */}
         <div className="mb-3 flex items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-sm ring-1 ring-border/60">
-          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -245,7 +245,7 @@ function Chip({
   variant?: "warn" | "danger" | "muted";
 }) {
   if (ok) {
-    return <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} {okText}</span>;
+    return <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} {okText}</span>;
   }
   const cls =
     variant === "danger"

@@ -52,7 +52,7 @@ function NotifyPage() {
 
         {/* 一键提醒 */}
         <div className="mb-4 rounded-2xl bg-gradient-to-br from-teal/15 to-deep/15 p-4 ring-1 ring-teal/20">
-          <p className="text-sm font-semibold">{<EIcon e="📣" className="inline h-3.5 w-3.5" />} 一键发送体检通知</p>
+          <p className="text-sm font-semibold">{<EIcon e="📣" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 一键发送体检通知</p>
           <p className="mt-1 text-[11px] text-muted-foreground">通过微信 / 短信推送体检时间、地点、注意事项</p>
           <div className="mt-3 flex gap-2">
             <ActionSheet
@@ -102,7 +102,7 @@ function NotifyPage() {
         {list.map((p) => (
           <li key={p.name} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-lg">{<EIcon e="👨‍👩‍👧" className="inline h-3.5 w-3.5" />}</div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-lg">{<EIcon e="👨‍👩‍👧" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <p className="truncate text-sm font-semibold">{p.name}</p>

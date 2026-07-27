@@ -95,7 +95,7 @@ function EduPage() {
               <p className="mt-1 text-[11px] text-muted-foreground">
                  {c.audience}
               </p>
-              <p className="text-[11px] text-muted-foreground">{<EIcon e="🕒" className="inline h-3.5 w-3.5" />} {c.date}</p>
+              <p className="text-[11px] text-muted-foreground">{<EIcon e="🕒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} {c.date}</p>
             </li>
           ))}
         </ul>

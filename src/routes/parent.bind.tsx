@@ -106,7 +106,7 @@ function BindPage() {
         </section>
 
         <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
-          {<EIcon e="➕" className="inline h-3.5 w-3.5" />} 绑定另一个孩子
+          {<EIcon e="➕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 绑定另一个孩子
         </button>
 
         <Link

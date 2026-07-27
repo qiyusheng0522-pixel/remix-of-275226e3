@@ -32,9 +32,9 @@ function SchoolHome() {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-xs text-muted-foreground">阳光小学 · 卫生保健老师</p>
-            <h1 className="text-lg font-bold">今日体检工作台 {<EIcon e="🏫" className="inline h-3.5 w-3.5" />}</h1>
+            <h1 className="text-lg font-bold">今日体检工作台 {<EIcon e="🏫" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</h1>
           </div>
-          <button className="grid h-10 w-10 place-items-center rounded-full bg-surface text-lg shadow-sm">{<EIcon e="🔔" className="inline h-3.5 w-3.5" />}</button>
+          <button className="grid h-10 w-10 place-items-center rounded-full bg-surface text-lg shadow-sm">{<EIcon e="🔔" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</button>
         </div>
 
         <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-teal to-deep p-5 text-white shadow-lg shadow-teal/20">
@@ -48,7 +48,7 @@ function SchoolHome() {
               <p className="text-[11px] opacity-80">已完成 · 进度 {pct}% · 今日 1-6 班</p>
             </div>
             <Link to="/school/today" className="grid h-16 w-16 place-items-center rounded-2xl bg-white/20 text-2xl backdrop-blur">
-              {<EIcon e="📋" className="inline h-3.5 w-3.5" />}
+              {<EIcon e="📋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
             </Link>
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/25">

@@ -66,7 +66,7 @@ function CarePage() {
               连续执行 12 天 · 本周完成率 78%
             </p>
           </div>
-          <span className="text-3xl">{<EIcon e="💗" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-3xl">{<EIcon e="💗" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
         </header>
 
         {/* Tabs */}

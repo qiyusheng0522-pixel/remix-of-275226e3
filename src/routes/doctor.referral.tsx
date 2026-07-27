@@ -173,7 +173,7 @@ function ReferralPage() {
                     </div>
                     <div className="rounded-xl bg-surface-2 p-3">
                       <p className="text-[11px] text-muted-foreground">附件</p>
-                      <p className="mt-0.5">{<EIcon e="📎" className="inline h-3.5 w-3.5" />} 门诊病历.pdf · {<EIcon e="📎" className="inline h-3.5 w-3.5" />} 化验单.pdf</p>
+                      <p className="mt-0.5">{<EIcon e="📎" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 门诊病历.pdf · {<EIcon e="📎" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 化验单.pdf</p>
                     </div>
                   </div>
                 </ActionSheet>

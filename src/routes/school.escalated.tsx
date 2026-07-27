@@ -169,8 +169,8 @@ function EscalatedPage() {
                   toastType="info"
                 >
                   <div className="mb-2 flex gap-2 text-[11px]">
-                    <button className="flex-1 rounded-xl bg-surface-2 py-2">{<EIcon e="📞" className="inline h-3.5 w-3.5" />} 电话</button>
-                    <button className="flex-1 rounded-xl bg-surface-2 py-2">{<EIcon e="💬" className="inline h-3.5 w-3.5" />} 站内消息</button>
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">{<EIcon e="📞" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 电话</button>
+                    <button className="flex-1 rounded-xl bg-surface-2 py-2">{<EIcon e="💬" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 站内消息</button>
                   </div>
                   <label className="block text-xs">
                     <span className="text-muted-foreground">留言内容</span>

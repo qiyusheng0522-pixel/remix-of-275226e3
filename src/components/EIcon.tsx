@@ -44,9 +44,24 @@ const MAP: Record<string, LucideIcon> = {
   "➕": Plus, "➤": ChevronRight, "➔": ArrowRight, "★": Star, "ℹ": Info, "ℹ️": Info,
 };
 
-export function EIcon({ e, className = "h-4 w-4" }: { e: string; className?: string }) {
+/**
+ * Renders a Lucide icon in place of a legacy emoji glyph.
+ *
+ * The default size is intentionally relative (`em`) rather than a fixed pixel
+ * size: these call sites replaced emoji, so their containers still carry the
+ * original `text-lg` / `text-2xl` / `text-3xl` classes. Sizing in `em` makes an
+ * icon inherit the size the emoji would have had, so it fills avatar tiles and
+ * stays inline-sized inside body copy without per-site tuning.
+ */
+export function EIcon({
+  e,
+  className = "inline-block h-[1.15em] w-[1.15em] align-[-0.15em]",
+}: {
+  e: string;
+  className?: string;
+}) {
   const C = MAP[e] ?? HelpCircle;
-  return <C className={className} strokeWidth={2} />;
+  return <C className={className} strokeWidth={2} aria-hidden="true" />;
 }
 
 export function hasEIcon(e: string) {

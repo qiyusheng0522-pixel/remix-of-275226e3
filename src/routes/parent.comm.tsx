@@ -130,7 +130,7 @@ function CommPage() {
             </p>
           </div>
           <div className="grid h-20 w-20 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose to-rose/70 text-4xl shadow-lg shadow-rose/30">
-            {<EIcon e="🐥" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="🐥" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@ function CommPage() {
             className="grid h-9 w-9 place-items-center rounded-full bg-rose text-rose-foreground"
             aria-label="发送"
           >
-            {<EIcon e="➤" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="➤" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
           </button>
         </div>
       </div>

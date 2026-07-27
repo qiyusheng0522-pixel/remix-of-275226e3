@@ -63,8 +63,6 @@ import { Route as CommunityMeRouteImport } from './routes/community.me'
 import { Route as CommunityEduRouteImport } from './routes/community.edu'
 import { Route as CommunityConsultRouteImport } from './routes/community.consult'
 import { Route as SchoolStudentIdRouteImport } from './routes/school.student.$id'
-import { Route as ParentCheckinExerciseRouteImport } from './routes/parent.checkin.exercise'
-import { Route as ParentCheckinDietRouteImport } from './routes/parent.checkin.diet'
 import { Route as DoctorEntryIdRouteImport } from './routes/doctor.entry.$id'
 
 const SchoolRoute = SchoolRouteImport.update({
@@ -337,16 +335,6 @@ const SchoolStudentIdRoute = SchoolStudentIdRouteImport.update({
   path: '/student/$id',
   getParentRoute: () => SchoolRoute,
 } as any)
-const ParentCheckinExerciseRoute = ParentCheckinExerciseRouteImport.update({
-  id: '/checkin/exercise',
-  path: '/checkin/exercise',
-  getParentRoute: () => ParentRoute,
-} as any)
-const ParentCheckinDietRoute = ParentCheckinDietRouteImport.update({
-  id: '/checkin/diet',
-  path: '/checkin/diet',
-  getParentRoute: () => ParentRoute,
-} as any)
 const DoctorEntryIdRoute = DoctorEntryIdRouteImport.update({
   id: '/entry/$id',
   path: '/entry/$id',
@@ -408,8 +396,6 @@ export interface FileRoutesByFullPath {
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
-  '/parent/checkin/diet': typeof ParentCheckinDietRoute
-  '/parent/checkin/exercise': typeof ParentCheckinExerciseRoute
   '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRoutesByTo {
@@ -463,8 +449,6 @@ export interface FileRoutesByTo {
   '/parent': typeof ParentIndexRoute
   '/school': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
-  '/parent/checkin/diet': typeof ParentCheckinDietRoute
-  '/parent/checkin/exercise': typeof ParentCheckinExerciseRoute
   '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRoutesById {
@@ -523,8 +507,6 @@ export interface FileRoutesById {
   '/parent/': typeof ParentIndexRoute
   '/school/': typeof SchoolIndexRoute
   '/doctor/entry/$id': typeof DoctorEntryIdRoute
-  '/parent/checkin/diet': typeof ParentCheckinDietRoute
-  '/parent/checkin/exercise': typeof ParentCheckinExerciseRoute
   '/school/student/$id': typeof SchoolStudentIdRoute
 }
 export interface FileRouteTypes {
@@ -584,8 +566,6 @@ export interface FileRouteTypes {
     | '/parent/'
     | '/school/'
     | '/doctor/entry/$id'
-    | '/parent/checkin/diet'
-    | '/parent/checkin/exercise'
     | '/school/student/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -639,8 +619,6 @@ export interface FileRouteTypes {
     | '/parent'
     | '/school'
     | '/doctor/entry/$id'
-    | '/parent/checkin/diet'
-    | '/parent/checkin/exercise'
     | '/school/student/$id'
   id:
     | '__root__'
@@ -698,8 +676,6 @@ export interface FileRouteTypes {
     | '/parent/'
     | '/school/'
     | '/doctor/entry/$id'
-    | '/parent/checkin/diet'
-    | '/parent/checkin/exercise'
     | '/school/student/$id'
   fileRoutesById: FileRoutesById
 }
@@ -1093,20 +1069,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchoolStudentIdRouteImport
       parentRoute: typeof SchoolRoute
     }
-    '/parent/checkin/exercise': {
-      id: '/parent/checkin/exercise'
-      path: '/checkin/exercise'
-      fullPath: '/parent/checkin/exercise'
-      preLoaderRoute: typeof ParentCheckinExerciseRouteImport
-      parentRoute: typeof ParentRoute
-    }
-    '/parent/checkin/diet': {
-      id: '/parent/checkin/diet'
-      path: '/checkin/diet'
-      fullPath: '/parent/checkin/diet'
-      preLoaderRoute: typeof ParentCheckinDietRouteImport
-      parentRoute: typeof ParentRoute
-    }
     '/doctor/entry/$id': {
       id: '/doctor/entry/$id'
       path: '/entry/$id'
@@ -1193,8 +1155,6 @@ interface ParentRouteChildren {
   ParentShopRoute: typeof ParentShopRoute
   ParentTerminateRoute: typeof ParentTerminateRoute
   ParentIndexRoute: typeof ParentIndexRoute
-  ParentCheckinDietRoute: typeof ParentCheckinDietRoute
-  ParentCheckinExerciseRoute: typeof ParentCheckinExerciseRoute
 }
 
 const ParentRouteChildren: ParentRouteChildren = {
@@ -1212,8 +1172,6 @@ const ParentRouteChildren: ParentRouteChildren = {
   ParentShopRoute: ParentShopRoute,
   ParentTerminateRoute: ParentTerminateRoute,
   ParentIndexRoute: ParentIndexRoute,
-  ParentCheckinDietRoute: ParentCheckinDietRoute,
-  ParentCheckinExerciseRoute: ParentCheckinExerciseRoute,
 }
 
 const ParentRouteWithChildren =

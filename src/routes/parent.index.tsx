@@ -5,6 +5,7 @@ import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 
 import { EIcon } from "@/components/EIcon";
+import { DietCheckinSheet, ExerciseCheckinSheet } from "@/components/CheckinSheets";
 import { readCheckins, type CheckinRecord } from "@/lib/checkin";
 
 /** 首页任务行上展示的本次打卡摘要 */
@@ -75,18 +76,29 @@ const daysAgo = (n: number) => {
 const dayDiff = (a: string, b: string) =>
   Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
 
-const homeCare = [
+type HomeCareItem = {
+  id: string;
+  icon: import("react").ReactNode;
+  title: string;
+  tag: string;
+  tagClass: string;
+  cycleDays: number;
+  lastDone: string;
+  passive?: boolean; // 仅提醒、无需操作的日常习惯
+};
+
+const homeCare: HomeCareItem[] = [
   { id: "weight", icon: <EIcon e="⚖️" />, title: "晨起体重记录", tag: "体重管理", tagClass: "bg-warm/15 text-warm", cycleDays: 7, lastDone: daysAgo(7) },
   { id: "bed", icon: <EIcon e="🛏️" />, title: "床品除螨清洗", tag: "过敏防护", tagClass: "bg-rose/10 text-rose", cycleDays: 14, lastDone: daysAgo(9) },
-  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", tagClass: "bg-teal/15 text-teal", cycleDays: 1, lastDone: daysAgo(1), passive: true },
   { id: "humid", icon: <EIcon e="💧" />, title: "空气加湿器换水", tag: "呼吸道", tagClass: "bg-teal/15 text-teal", cycleDays: 3, lastDone: daysAgo(1) },
   { id: "brush", icon: <EIcon e="🦷" />, title: "儿童牙刷更换", tag: "口腔", tagClass: "bg-success/15 text-success", cycleDays: 90, lastDone: daysAgo(46) },
-  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1), passive: true },
 ];
 
 /**
  * 今日打卡任务：家长端只保留「饮食」与「运动」两类。
- * 点击进入各自的打卡页填写详情，不支持事后补卡。
+ * 点击在当前页底部弹窗填写详情，不跳转、不支持事后补卡。
  */
 const todayTasks = [
   {
@@ -95,7 +107,6 @@ const todayTasks = [
     text: "饮食打卡 · 晚餐 500-600 kcal",
     hint: "支持拍照 / 语音 / 文字",
     tone: "success" as const,
-    to: "/parent/checkin/diet",
   },
   {
     kind: "exercise" as const,
@@ -103,7 +114,6 @@ const todayTasks = [
     text: "运动打卡 · 亲子跳绳 20 分钟",
     hint: "记录时长 / 强度 / 疲惫度",
     tone: "warning" as const,
-    to: "/parent/checkin/exercise",
   },
 ];
 
@@ -345,7 +355,7 @@ function ParentHome() {
                 <p className="mt-1 text-[10px] leading-snug text-muted-foreground">
                   IgE (++)
                   <br />
-                  需家庭除螨
+                  ��家庭除螨
                 </p>
               </div>
             </div>
@@ -531,32 +541,37 @@ function ParentHome() {
               success: "bg-success/10 ring-success/25",
             }[t.tone];
             const rec = checkins[t.kind];
+            const CheckinSheet = t.kind === "diet" ? DietCheckinSheet : ExerciseCheckinSheet;
             return (
               <li key={t.kind}>
-                <Link
-                  to={t.to}
-                  className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
-                >
-                  <span className="text-xl">{t.icon}</span>
-                  <div className="min-w-0 flex-1">
-                    <p className={`truncate text-sm ${rec ? "text-muted-foreground" : ""}`}>
-                      {t.text}
-                    </p>
-                    {/* 已打卡后把提示换成本次记录的摘要，让家长一眼看到填了什么 */}
-                    <p className="truncate text-[10px] text-muted-foreground">
-                      {rec ? summarize(rec) : t.hint}
-                    </p>
-                  </div>
-                  {rec ? (
-                    <span className="shrink-0 rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
-                      已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
-                    </span>
-                  ) : (
-                    <span className="shrink-0 rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
-                      去打卡
-                    </span>
-                  )}
-                </Link>
+                <CheckinSheet
+                  trigger={
+                    <button
+                      type="button"
+                      className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ring-1 ${toneBg}`}
+                    >
+                      <span className="text-xl">{t.icon}</span>
+                      <div className="min-w-0 flex-1">
+                        <p className={`truncate text-sm ${rec ? "text-muted-foreground" : ""}`}>
+                          {t.text}
+                        </p>
+                        {/* 已打卡后把提示换成本次记录的摘要，让家长一眼看到填了什么 */}
+                        <p className="truncate text-[10px] text-muted-foreground">
+                          {rec ? summarize(rec) : t.hint}
+                        </p>
+                      </div>
+                      {rec ? (
+                        <span className="shrink-0 rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
+                          已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+                        </span>
+                      ) : (
+                        <span className="shrink-0 rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
+                          去记录
+                        </span>
+                      )}
+                    </button>
+                  }
+                />
               </li>
             );
           })}
@@ -582,7 +597,7 @@ function ParentHome() {
           {homeCare.map((c) => {
             const daysSince = dayDiff(c.lastDone, TODAY);
             const daysLeft = c.cycleDays - daysSince;
-            const isDue = daysLeft <= 0;
+            const isDue = !c.passive && daysLeft <= 0;
             return (
               <li
                 key={c.id}
@@ -605,15 +620,25 @@ function ParentHome() {
                             /parent/care, so the summary row only carries the
                             cycle and the next-due status. */}
                         <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                          每 {c.cycleDays} 天 ·{" "}
-                          {isDue ? (
-                            <span className="font-medium text-warm">今日到期</span>
+                          {c.passive ? (
+                            <span>{c.cycleDays <= 1 ? "每日" : `每 ${c.cycleDays} 天`}提醒 · 无需打卡</span>
                           ) : (
-                            <span>{daysLeft} 天后</span>
+                            <>
+                              每 {c.cycleDays} 天 ·{" "}
+                              {isDue ? (
+                                <span className="font-medium text-warm">今日到期</span>
+                              ) : (
+                                <span>{daysLeft} 天后</span>
+                              )}
+                            </>
                           )}
                         </p>
                   </div>
-                  {isDue ? (
+                  {c.passive ? (
+                    <span className="shrink-0 rounded-full bg-surface px-2.5 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
+                      仅提醒
+                    </span>
+                  ) : isDue ? (
                     <ActionSheet
                       trigger={
                         <button className="shrink-0 rounded-full bg-warm px-2.5 py-1 text-[11px] text-warm-foreground">
@@ -660,7 +685,7 @@ function ParentHome() {
                             <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
                               <option>手动录入</option>
                               <option>智能体脂秤同步</option>
-                              <option>体检机构录入</option>
+                              <option>体检机���录入</option>
                             </select>
                           </label>
                           <label className="block">

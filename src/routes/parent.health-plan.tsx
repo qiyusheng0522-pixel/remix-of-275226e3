@@ -219,22 +219,12 @@ function HealthPlanPage() {
               <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg">{<EIcon e="🥗" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
             </div>
 
-            <div className="mt-3 flex gap-6 border-b border-teal/20">
-              <button className="relative pb-2 text-[13px] font-semibold text-teal">
-                营养方案
-                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded bg-teal" />
-              </button>
-              <button className="pb-2 text-[13px] text-muted-foreground">药食同源</button>
-            </div>
           </div>
 
           <div className="mx-4 mt-3 rounded-2xl bg-surface p-4">
             <div className="flex items-center justify-between">
-              <p className="text-[12px]">当前您执行的是 <span className="font-semibold text-warm">营养方案</span></p>
-            </div>
-            <div className="mt-2 flex items-center justify-between">
               <p className="text-[12px] text-muted-foreground">用餐时间：<span className="font-semibold text-foreground">07:30–18:00</span></p>
-              <span className="rounded-full bg-teal/15 px-2.5 py-1 text-[11px] font-medium text-teal">已选择该方案</span>
+              <span className="rounded-full bg-teal/15 px-2.5 py-1 text-[11px] font-medium text-teal">营养方案</span>
             </div>
 
             <div className="mt-4 flex items-center gap-4">
@@ -282,14 +272,10 @@ function HealthPlanPage() {
               <button className="flex-1 rounded-xl bg-teal/10 py-2.5 text-[12px] font-medium text-teal">
                 ↻ 不想吃全部换
               </button>
-              <Link to="/parent/shop" className="flex-1 rounded-xl bg-warm/15 py-2.5 text-center text-[12px] font-semibold text-warm">
-                去买菜 ›
-              </Link>
+              <button className="flex-1 rounded-xl bg-warm/15 py-2.5 text-center text-[12px] font-semibold text-warm">
+                生成食材清单 ›
+              </button>
             </div>
-
-            <p className="mt-3 text-[11px] text-muted-foreground">
-              带 <span className="text-danger">ⓘ</span> 食谱包含卫健委公布的药食同源药材，点击查看功效
-            </p>
 
             <div className="mt-3 space-y-2">
               {meals.map((m, i) => (
@@ -472,24 +458,56 @@ function HealthPlanPage() {
           </div>
         </section>
 
-        {/* 商城 BANNER */}
-        <Link
-          to="/parent/shop"
-          className="mt-4 block overflow-hidden rounded-2xl bg-gradient-to-r from-rose/20 via-warm/15 to-teal/20 p-4 ring-1 ring-rose/25"
-        >
-          <div className="flex items-center gap-3">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-surface/80 text-2xl">
-              {<EIcon e="🛒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-[13px] font-bold text-foreground">方案配套优选商城</p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                除螨床罩 · 低 GI 主食 · 亲子跳绳，方案同款一站备齐
-              </p>
-            </div>
-            <span className="text-rose">›</span>
+        {/* 配套健康服务包 */}
+        <section className="mt-4 rounded-3xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="h-4 w-1 rounded-full bg-warm" />
+            <h2 className="text-sm font-bold">配套健康服务包</h2>
+            <span className="rounded-full bg-warm/10 px-2 py-0.5 text-[10px] text-warm">按需选配</span>
           </div>
-        </Link>
+          <div className="space-y-2">
+            {[
+              {
+                icon: "🥗",
+                title: "营养师 1v1 随行指导",
+                desc: "每周一次线上复盘，按打卡数据动态调整食谱",
+                meta: "4 周 · 含 4 次咨询",
+              },
+              {
+                icon: "🏃",
+                title: "体重管理陪跑包",
+                desc: "运动处方 + 阶段目标追踪，帮助 12 周内改善 BMI",
+                meta: "12 周 · 医师团队跟进",
+              },
+              {
+                icon: "🏠",
+                title: "过敏居家护理包",
+                desc: "上门除螨评估 + 环境整改方案 + 复评随访",
+                meta: "单次 · 含 1 次复评",
+              },
+            ].map((p) => (
+              <div key={p.title} className="flex items-center gap-3 rounded-2xl bg-surface-2 p-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-surface text-lg">
+                  {<EIcon e={p.icon} className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13px] font-semibold">{p.title}</p>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground text-pretty">{p.desc}</p>
+                  <p className="mt-1 text-[10px] text-warm">{p.meta}</p>
+                </div>
+                <Link
+                  to="/parent/comm"
+                  className="shrink-0 rounded-full bg-warm/15 px-3 py-1.5 text-[11px] font-semibold text-warm"
+                >
+                  了解详情
+                </Link>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[10px] leading-relaxed text-muted-foreground">
+            服务包由儿童医院医生团队提供，可咨询健管师后按需开通，不含任何商品销售。
+          </p>
+        </section>
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 backdrop-blur">

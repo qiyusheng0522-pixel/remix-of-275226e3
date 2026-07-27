@@ -13,7 +13,7 @@ import {
   Droplets, Bike, PersonStanding, Dumbbell, Music, MapPin, Truck, Wrench,
   Bandage, Thermometer, Syringe, Microscope, ScanEye, Glasses, Shirt, Layers,
   MessageSquare, PenLine, FilePenLine, Info, Star, ChevronRight,
-  Milk, CupSoda, Watch, ChevronLeft, Camera,
+  Milk, CupSoda, Watch, ChevronLeft, Camera, Smartphone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -46,7 +46,7 @@ const MAP: Record<string, LucideIcon> = {
   "☎️": Phone, "☎": Phone, "✍️": FilePenLine, "✍": FilePenLine,
   "🧸": PawPrint, "⭐": Star,
   "🥛": Milk, "🥤": CupSoda, "⌚": Watch, "‹": ChevronLeft, "›": ChevronRight,
-  "📷": Camera, "🚶": PersonStanding, "🚲": Bike,
+  "📷": Camera, "🚶": PersonStanding, "🚲": Bike, "📲": Smartphone, "📱": Smartphone,
 };
 
 /**

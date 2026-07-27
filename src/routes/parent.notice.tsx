@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { toast } from "sonner";
 import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 import { useState } from "react";
@@ -315,7 +316,10 @@ function NoticePage() {
                             </div>
                           </ActionSheet>
                         ) : (
-                          <button className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
+                          <button
+                            onClick={() => toast.success(`已${it.cta}`, { description: it.title })}
+                            className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground"
+                          >
                             {it.cta}
                           </button>
                         )}

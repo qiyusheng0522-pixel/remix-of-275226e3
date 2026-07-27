@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
 import { child } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
 
@@ -80,6 +81,7 @@ function HealthPlanPage() {
   const [tab, setTab] = useState<"ai" | "custom" | "nearby">("ai");
   const [joined, setJoined] = useState<Record<string, boolean>>({});
   const [customTitle, setCustomTitle] = useState("");
+  const [dayIdx, setDayIdx] = useState(0);
   const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
   const doneCount = Object.values(checked).filter(Boolean).length;
   const total = exercises.length;
@@ -260,19 +262,26 @@ function HealthPlanPage() {
               {days.map((d, i) => (
                 <button
                   key={d}
-                  className={`relative pb-1 ${i === 0 ? "font-semibold text-teal" : "text-muted-foreground"}`}
+                  onClick={() => setDayIdx(i)}
+                  className={`relative pb-1 ${i === dayIdx ? "font-semibold text-teal" : "text-muted-foreground"}`}
                 >
                   {d}
-                  {i === 0 && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded bg-teal" />}
+                  {i === dayIdx && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded bg-teal" />}
                 </button>
               ))}
             </div>
 
             <div className="mt-3 flex gap-2">
-              <button className="flex-1 rounded-xl bg-teal/10 py-2.5 text-[12px] font-medium text-teal">
+              <button
+                onClick={() => toast.success("已为您更换今日食谱", { description: `${days[dayIdx]} · 已按同等热量重新搭配` })}
+                className="flex-1 rounded-xl bg-teal/10 py-2.5 text-[12px] font-medium text-teal"
+              >
                 ↻ 不想吃全部换
               </button>
-              <button className="flex-1 rounded-xl bg-warm/15 py-2.5 text-center text-[12px] font-semibold text-warm">
+              <button
+                onClick={() => toast.success("食材清单已生成", { description: `已按 ${days[dayIdx]} 三餐汇总，可在"我的-购物清单"查看` })}
+                className="flex-1 rounded-xl bg-warm/15 py-2.5 text-center text-[12px] font-semibold text-warm"
+              >
                 生成食材清单 ›
               </button>
             </div>

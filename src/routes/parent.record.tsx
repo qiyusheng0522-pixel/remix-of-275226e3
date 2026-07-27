@@ -88,10 +88,13 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 function Chip({ children, active }: { children: React.ReactNode; active?: boolean }) {
+  // 让每个选项可点选，点击切换选中态提供即时反馈
+  const [on, setOn] = useState(!!active);
   return (
     <button
+      onClick={() => setOn((v) => !v)}
       className={`rounded-full px-3 py-1.5 text-xs ring-1 transition ${
-        active
+        on
           ? "bg-warm text-warm-foreground ring-warm"
           : "bg-surface-2 text-foreground ring-border/60"
       }`}

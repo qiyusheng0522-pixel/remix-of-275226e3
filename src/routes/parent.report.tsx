@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import child3d from "@/assets/child-3d.png";
 
 import { EIcon } from "@/components/EIcon";
@@ -254,9 +256,18 @@ function ReportPage() {
                       {v.reason}
                     </p>
                   </div>
-                  <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
-                    预约挂号
-                  </button>
+                  <ActionSheet
+                    trigger={
+                      <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
+                        预约挂号
+                      </button>
+                    }
+                    title={`预约 ${v.dept}`}
+                    description={`${v.hospital} · ${v.reason}。确认后将为您匹配最近号源并短信通知。`}
+                    confirmText="确认预约"
+                    toastMessage="挂号申请已提交"
+                    toastDescription={`${v.hospital} ${v.dept} · 号源确认后短信通知`}
+                  />
                 </div>
               ))}
             </div>
@@ -425,7 +436,27 @@ function ReportPage() {
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
             <span className="text-sm font-semibold">报告档案</span>
             <div className="flex items-center gap-2">
-              <button className="text-xs font-medium text-teal">+ 添加</button>
+              <ActionSheet
+                trigger={<button onClick={(e) => e.stopPropagation()} className="text-xs font-medium text-teal">+ 添加</button>}
+                title="上传报告到档案"
+                description="支持医院复查报告、既往体检单，上传后同步至学校健康档案。"
+                confirmText="上传"
+                toastMessage="报告已上传"
+                toastDescription="已同步至学校健康档案"
+              >
+                <div className="space-y-2 text-xs">
+                  <label className="block">
+                    <span className="text-muted-foreground">报告类型</span>
+                    <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                      <option>医院复查报告</option><option>既往体检单</option><option>就诊记录</option>
+                    </select>
+                  </label>
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-border py-6 text-muted-foreground">
+                    <EIcon e="📷" /> 点击拍照或从相册选择
+                    <input type="file" accept="image/*" className="hidden" />
+                  </label>
+                </div>
+              </ActionSheet>
               <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
             </div>
           </summary>
@@ -460,6 +491,7 @@ function ReportPage() {
                             {e.tags.map((t) => (
                               <button
                                 key={t}
+                                onClick={() => toast(`${e.date} · ${t}`, { description: e.note ?? "查看该次记录详情" })}
                                 className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] text-foreground ring-1 ring-border/60"
                               >
                                 {t}

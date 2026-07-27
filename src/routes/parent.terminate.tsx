@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/terminate")({
@@ -23,6 +24,7 @@ const keeps = [
 function TerminatePage() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [signed, setSigned] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -135,6 +137,10 @@ function TerminatePage() {
             </section>
             <button
               disabled={!signed}
+              onClick={() => {
+                toast.success("终止申请已提交", { description: "终止凭证已生成，可在消息中查看" });
+                navigate({ to: "/parent/me" });
+              }}
               className="w-full rounded-xl bg-warm py-3 text-sm font-semibold text-warm-foreground disabled:bg-muted disabled:text-muted-foreground"
             >
               生成终止凭证并提交

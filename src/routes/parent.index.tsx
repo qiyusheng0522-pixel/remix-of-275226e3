@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { ChevronRight } from "lucide-react";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
@@ -205,7 +206,7 @@ function ParentHome() {
               <p>• 基础信息（姓名 / 年龄 / 学校班级）</p>
               <p>• 体检数据（身高体重 / 视力 / 血压 / 过敏筛查等）</p>
               <p>• 家庭健康打卡与咨询记录</p>
-              <p>以上数据由承检机构与合作儿童医院加密存储，仅用于服务您的孩子，不会用于商业用途。您可随时在"我的-授权管理"中撤回。</p>
+              <p>以上数据���承检机构与合作儿童医院加密存储，仅用于服务您的孩子，不会用于商业用途。您可随时在"我的-授权管理"中撤回。</p>
             </div>
             <div className="mt-3">
               <div className="mb-1.5 flex items-center justify-between">
@@ -742,7 +743,12 @@ function ParentHome() {
             <h3 className="text-sm font-bold">健康百科</h3>
             <span className="rounded-full bg-rose/10 px-2 py-0.5 text-[10px] text-rose">医生甄选内容</span>
           </div>
-          <button className="text-[11px] font-medium text-rose">进入百科 ›</button>
+          <button
+            onClick={() => toast("健康百科", { description: "已为您展开医生甄选的全部百科内容" })}
+            className="text-[11px] font-medium text-rose"
+          >
+            进入百科 ›
+          </button>
         </div>
 
         <div className="mb-3 flex gap-2 overflow-x-auto">

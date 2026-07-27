@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/review")({
@@ -55,9 +56,38 @@ function ReviewPage() {
           <p className="text-xs text-muted-foreground">下一次复评</p>
           <p className="mt-1 text-lg font-bold">1 月复评 · 5 月 15 日</p>
           <p className="mt-1 text-xs text-foreground/80">本周会推送 3 题问卷，1 分钟即可完成 {<EIcon e="✍️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</p>
-          <button className="mt-3 rounded-full bg-warm px-4 py-1.5 text-xs font-medium text-warm-foreground">
-            提前填写
-          </button>
+          <ActionSheet
+            trigger={
+              <button className="mt-3 rounded-full bg-warm px-4 py-1.5 text-xs font-medium text-warm-foreground">
+                提前填写
+              </button>
+            }
+            title="1 月复评问卷（3 题）"
+            description="根据孩子近一个月的情况如实填写，医生将据此调整方案。"
+            confirmText="提交问卷"
+            toastMessage="问卷已提交"
+            toastDescription="感谢反馈，医生将在复评时参考"
+          >
+            <div className="space-y-3 text-xs">
+              {[
+                "家庭饮食/运动任务的执行情况如何？",
+                "孩子近一个月夜间咳嗽/睡眠是否改善？",
+                "体重变化是否符合预期？",
+              ].map((q, i) => (
+                <div key={i}>
+                  <p className="mb-1 font-medium text-foreground">{i + 1}. {q}</p>
+                  <div className="flex gap-2">
+                    {["较好", "一般", "欠佳"].map((o) => (
+                      <label key={o} className="flex-1">
+                        <input type="radio" name={`q${i}`} className="peer hidden" defaultChecked={o === "一般"} />
+                        <span className="block rounded-lg bg-surface-2 py-1.5 text-center peer-checked:bg-warm peer-checked:text-warm-foreground">{o}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ActionSheet>
         </div>
 
         <ol className="relative space-y-4 border-l-2 border-dashed border-teal/40 pl-5">

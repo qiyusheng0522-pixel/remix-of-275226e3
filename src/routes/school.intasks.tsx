@@ -76,7 +76,14 @@ function InTasksPage() {
             <p className="text-xs font-semibold">AI 已完成本轮任务分派</p>
             <p className="text-[11px] text-muted-foreground">按角色、班级、历史负荷智能匹配责任人</p>
           </div>
-          <button className="rounded-full bg-teal px-3 py-1 text-[11px] text-teal-foreground">重新分派</button>
+          <ActionSheet
+            trigger={<button className="rounded-full bg-teal px-3 py-1 text-[11px] text-teal-foreground">重新分派</button>}
+            title="重新分派全部任务？"
+            description="AI 将按最新角色、班级与负荷重新匹配责任人，已完成任务不受影响。"
+            confirmText="重新分派"
+            toastMessage="已重新分派任务"
+            toastDescription="按最新负荷完成智能匹配"
+          />
         </div>
 
         <Link

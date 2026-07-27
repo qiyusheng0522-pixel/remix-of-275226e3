@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 export const Route = createFileRoute("/doctor/followup")({
   component: FollowUpPage,
@@ -66,10 +67,18 @@ function FollowUpPage() {
         </ol>
 
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <button className="rounded-xl bg-surface-2 py-3 text-sm">调整方案</button>
-          <button className="rounded-xl bg-deep py-3 text-sm font-semibold text-deep-foreground">
-            关闭阶段管理
-          </button>
+          <Link to="/doctor/plan" className="rounded-xl bg-surface-2 py-3 text-center text-sm">调整方案</Link>
+          <ActionSheet
+            trigger={
+              <button className="rounded-xl bg-deep py-3 text-sm font-semibold text-deep-foreground">
+                关闭阶段管理
+              </button>
+            }
+            title="关闭本阶段管理？"
+            description="关闭后本阶段任务将归档，如需继续管理可重新开启。"
+            confirmText="确认关闭"
+            toastMessage="已关闭阶段管理"
+          />
         </div>
       </div>
     </div>

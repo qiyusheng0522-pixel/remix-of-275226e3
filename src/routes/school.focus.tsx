@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { focusStudents, riskColorMap } from "@/lib/mock-data";
 import { useState } from "react";
+import { ActionSheet } from "@/components/ActionSheet";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/focus")({
@@ -89,12 +90,35 @@ function FocusPage() {
                   {s.type} · {s.note}
                 </p>
                 <div className="mt-2 flex gap-2">
-                  <button className="rounded-full bg-teal/15 px-3 py-1 text-[11px] text-teal">
-                    查看配合事项
-                  </button>
-                  <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
-                    升级健管师
-                  </button>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-teal/15 px-3 py-1 text-[11px] text-teal">
+                        查看配合事项
+                      </button>
+                    }
+                    title={`${s.name} · 学校配合事项`}
+                    description={`风险类型：${s.type}\n${s.note}`}
+                    confirmText="标记已知悉"
+                    toastMessage={`已确认 ${s.name} 的配合事项`}
+                  >
+                    <ul className="space-y-1.5 text-xs text-muted-foreground">
+                      <li>· 体育课运动量按医嘱适当调整，避免剧烈运动</li>
+                      <li>· 关注课间状态，发现不适及时联系校医与家长</li>
+                      <li>· 每周向健管师反馈一次在校表现</li>
+                    </ul>
+                  </ActionSheet>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
+                        升级健管师
+                      </button>
+                    }
+                    title={`将 ${s.name} 升级至健管师？`}
+                    description="升级后由社区健管师接管跟进，学校侧仍可查看进度。"
+                    confirmText="确认升级"
+                    toastMessage={`已升级 ${s.name} 至健管师`}
+                    toastDescription="社区健管师将在 1 个工作日内接管"
+                  />
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/absent")({
@@ -87,7 +88,10 @@ function AbsentPage() {
                       >
                         安排补检
                       </button>
-                      <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
+                      <button
+                        onClick={() => toast.success(`已通知 ${a.name} 家长`, { description: `${a.class} · 补检安排将短信告知` })}
+                        className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground"
+                      >
                         通知家长
                       </button>
                     </>

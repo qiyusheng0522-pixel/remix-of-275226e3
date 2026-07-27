@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/notify")({
@@ -23,6 +24,7 @@ const tabs = ["未授权", "未问卷", "未读报告", "已终止"] as const;
 
 function NotifyPage() {
   const [t, setT] = useState<(typeof tabs)[number]>("未授权");
+  const [contacted, setContacted] = useState<Record<string, boolean>>({});
   const list = parents.filter((p) => p.state === t);
 
   return (
@@ -63,7 +65,12 @@ function NotifyPage() {
               toastMessage="通知已发送 442 位家长"
               toastType="success"
             />
-            <button className="rounded-xl bg-surface px-3 py-2 text-xs ring-1 ring-border/60">查看已通知 442</button>
+            <button
+              onClick={() => toast("已通知 442 位家长", { description: "微信送达 398 · 短信送达 44 · 已读 383" })}
+              className="rounded-xl bg-surface px-3 py-2 text-xs ring-1 ring-border/60"
+            >
+              查看已通知 442
+            </button>
           </div>
         </div>
 
@@ -122,7 +129,17 @@ function NotifyPage() {
                   toastMessage={`已提醒 ${p.name}`}
                 />
 
-                <button className="rounded-full bg-surface-2 px-3 py-1 text-[10px] text-muted-foreground">已联系</button>
+                <button
+                  onClick={() => {
+                    setContacted((c) => ({ ...c, [p.name]: true }));
+                    toast.success(`已标记「${p.name}」为已联系`);
+                  }}
+                  className={`rounded-full px-3 py-1 text-[10px] ${
+                    contacted[p.name] ? "bg-success/15 text-success" : "bg-surface-2 text-muted-foreground"
+                  }`}
+                >
+                  {contacted[p.name] ? "已联系 ✓" : "标记已联系"}
+                </button>
               </div>
             </div>
           </li>

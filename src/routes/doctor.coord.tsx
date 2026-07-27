@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 export const Route = createFileRoute("/doctor/coord")({
   component: CoordPage,
@@ -52,14 +53,44 @@ function CoordPage() {
               <p className="mt-2 text-sm font-semibold">{e.child}</p>
               <p className="mt-1 rounded-xl bg-surface-2 p-3 text-xs leading-relaxed">{e.msg}</p>
               <div className="mt-3 flex gap-2">
-                <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">查看档案</button>
-                <button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">回复健管师</button>
-                <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
-                  升级复核
-                </button>
+                <Link to="/doctor/child" className="flex-1 rounded-xl bg-surface-2 py-2 text-center text-xs">查看档案</Link>
+                <ActionSheet
+                  trigger={<button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">回复健管师</button>}
+                  title={`回复 ${e.who}`}
+                  description={`关于 ${e.child}：${e.msg}`}
+                  confirmText="发送回复"
+                  toastMessage="回复已发送健管师"
+                >
+                  <label className="block text-xs">
+                    <span className="text-muted-foreground">回复内容</span>
+                    <textarea
+                      rows={3}
+                      placeholder="如：建议先安排一次呼吸科门诊复核"
+                      className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none"
+                    />
+                  </label>
+                </ActionSheet>
+                <ActionSheet
+                  trigger={
+                    <button className="flex-1 rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+                      升级复核
+                    </button>
+                  }
+                  title={`升级复核 ${e.child}？`}
+                  description="升级后将进入医生复核队列，优先安排专科评估。"
+                  confirmText="确认升级"
+                  toastMessage="已升级至医生复核"
+                  toastType="info"
+                />
               </div>
               <div className="mt-2 flex justify-end">
-                <button className="text-[11px] text-muted-foreground underline">降级为健管师跟进</button>
+                <ActionSheet
+                  trigger={<button className="text-[11px] text-muted-foreground underline">降级为健管师跟进</button>}
+                  title={`降级 ${e.child} 为健管师跟进？`}
+                  description="降级后由健管师日常跟进，医生不再直接介入本条事项。"
+                  confirmText="确认降级"
+                  toastMessage="已降级为健管师跟进"
+                />
               </div>
             </li>
           ))}

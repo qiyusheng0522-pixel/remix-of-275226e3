@@ -792,28 +792,28 @@ function ParentHome() {
         </ul>
       </section>
 
-      {/* 服务商城 */}
+      {/* 健康服务包 */}
       <section className="mx-5 mt-3">
         <div className="mb-2 flex items-center gap-2">
-          <h3 className="text-sm font-bold">童护佳健康服务商城</h3>
-          <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">医生甄选</span>
+          <h3 className="text-sm font-bold">配套健康服务包</h3>
+          <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">医生团队提供</span>
         </div>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose/90 to-rose/70 p-4 text-white shadow-lg shadow-rose/30">
-          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 儿科呼吸科医生 & 营养师联合甄选</p>
-          <p className="mt-0.5 text-base font-bold">童护佳健康服务商城</p>
-          <p className="mt-1 text-[12px] text-white/90">营养餐 · 专病服务包 · 健康商品 · 三大专区</p>
+        <Link
+          to="/parent/health-plan"
+          className="relative block overflow-hidden rounded-2xl bg-gradient-to-r from-teal/90 to-teal/70 p-4 text-white shadow-lg shadow-teal/25"
+        >
+          <p className="text-[11px] text-white/85">{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 儿科呼吸科医生 & 营养师联合制定</p>
+          <p className="mt-0.5 text-base font-bold">1v1 营养随行 · 体重陪跑 · 居家护理</p>
+          <p className="mt-1 text-[12px] text-white/90">按孩子打卡数据动态调整，按需选配、不含商品销售</p>
           <div className="mt-3 flex items-center justify-between">
             <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] backdrop-blur">
-              已为 12,488 位小朋友服务
+              已服务 12,488 个家庭
             </span>
-            <Link
-              to="/parent/shop"
-              className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-rose"
-            >
-              进入商城 ›
-            </Link>
+            <span className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-teal">
+              查看服务包 ›
+            </span>
           </div>
-        </div>
+        </Link>
       </section>
 
       {/* Terminate soft entry */}

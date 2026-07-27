@@ -27,11 +27,30 @@ const kids: Kid[] = [
   { id: "yu", short: "雨", name: "小雨", age: 9, tag: "哮喘风险", tagColor: "rose" },
 ];
 
+/**
+ * 快捷入口。前 3 项跳到健康助手并通过 `?q=` 直接带入问题、立即作答；
+ * 「报告解读」跳到报告页，因此没有 q。
+ */
 const quickAsk = [
-  { icon: <EIcon e="🥗" />, label: "饮食建议", to: "/parent/comm" },
-  { icon: <EIcon e="🏃" />, label: "运动咨询", to: "/parent/comm" },
-  { icon: <EIcon e="😴" />, label: "睡眠咨询", to: "/parent/comm" },
-  { icon: <EIcon e="📋" />, label: "报告解读", to: "/parent/report" },
+  {
+    icon: <EIcon e="🥗" />,
+    label: "饮食建议",
+    to: "/parent/comm",
+    q: "小阳这次体检 BMI 偏高，日常饮食怎么安排？",
+  },
+  {
+    icon: <EIcon e="🏃" />,
+    label: "运动咨询",
+    to: "/parent/comm",
+    q: "怎么安排一周的运动计划？",
+  },
+  {
+    icon: <EIcon e="😴" />,
+    label: "睡眠咨询",
+    to: "/parent/comm",
+    q: "孩子每天睡眠时间多少算达标？",
+  },
+  { icon: <EIcon e="📋" />, label: "报告解读", to: "/parent/report", q: undefined },
 ] as const;
 
 // 与 /parent/care 保持一致的示例数据
@@ -53,9 +72,19 @@ const homeCare = [
   { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", tagClass: "bg-warm/15 text-warm", cycleDays: 1, lastDone: daysAgo(1) },
 ];
 
+/** 今日任务折叠时展示的条数 */
+const VISIBLE_TASKS = 2;
+
+/**
+ * 今日任务。默认只展示 2 条，超出部分由「查看全部」展开，
+ * 因此这里保留完整的当日清单（含已过时段的漏打卡项）。
+ */
 const todayTasks = [
-  { icon: <EIcon e="🤸" />, text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const },
-  { icon: <EIcon e="🥦" />, text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const },
+  { id: "rope", icon: <EIcon e="🤸" />, text: "亲子跳绳 · 20 分钟", done: false, tone: "warning" as const, slot: "19:00" },
+  { id: "dinner", icon: <EIcon e="🥦" />, text: "晚餐 · 建议摄入 500-600 kcal", done: true, tone: "success" as const, slot: "18:00" },
+  { id: "vitd", icon: <EIcon e="☀️" />, text: "维生素 D 补充 · 1 粒", done: false, tone: "teal" as const, slot: "08:00" },
+  { id: "vent", icon: <EIcon e="🪟" />, text: "开窗通风换气 · 30 分钟", done: true, tone: "teal" as const, slot: "10:00" },
+  { id: "screen", icon: <EIcon e="📵" />, text: "屏幕时间 ≤ 1 小时", done: false, tone: "deep" as const, slot: "21:00" },
 ];
 
 const encyclopedia = [
@@ -91,6 +120,10 @@ function ParentHome() {
   const kid = kids.find((k) => k.id === activeKid) ?? kids[0];
   const [catTab, setCatTab] = useState("全部");
   const [showAllTasks, setShowAllTasks] = useState(false);
+  // 首页可直接打卡，勾选结果覆盖示例数据里的 done
+  const [punched, setPunched] = useState<Record<string, boolean>>({});
+  const doneCount = todayTasks.filter((t) => punched[t.id] ?? t.done).length;
+  const missedCount = todayTasks.length - doneCount;
   const [consent, setConsent] = useState<"pending" | "agreed" | "declined">("pending");
   const [signed, setSigned] = useState(false);
   const [hasReport, setHasReport] = useState<boolean>(() => {
@@ -230,14 +263,8 @@ function ParentHome() {
         >
           {hasReport ? "报告后" : "检前"} ⇄
         </button>
-        <Link
-          to="/parent/me"
-          aria-label="消息通知"
-          className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface text-[16px] shadow-sm ring-1 ring-border"
-        >
-          <EIcon e="🔔" />
-          <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-rose ring-2 ring-surface" />
-        </Link>
+        {/* 这里原有一个铃铛入口，与下方「咨询医生」旁的消息入口重复（且未带未读数），
+            已移除，消息统一从下方带角标的入口进入。 */}
       </div>
 
 
@@ -324,6 +351,7 @@ function ParentHome() {
               <Link
                 key={q.label}
                 to={q.to}
+                search={q.q ? { q: q.q } : undefined}
                 className="flex flex-col items-center gap-0.5 rounded-2xl bg-white/95 py-2 text-foreground"
               >
                 <span className="text-lg leading-none">{q.icon}</span>
@@ -464,49 +492,53 @@ function ParentHome() {
       {/* Today tasks — 需已生成体检报告后才展示 */}
       {hasReport && (
       <section className="mx-5 mt-3 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <h3 className="min-w-0 flex-1 truncate text-sm font-bold">
             今天给 {kid.name} 做 {todayTasks.length} 件事
           </h3>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground">
-              {todayTasks.filter((t) => t.done).length}/{todayTasks.length}
-            </span>
+          <span className="shrink-0 text-[11px] text-muted-foreground">
+            {doneCount}/{todayTasks.length}
+          </span>
+          {/* 仅当确有折叠内容时才出现，避免 2 条任务全展示还挂一个「查看全部」 */}
+          {todayTasks.length > VISIBLE_TASKS && (
             <button
               onClick={() => setShowAllTasks((v) => !v)}
-              className="text-[11px] font-medium text-rose"
+              className="shrink-0 text-[11px] font-medium text-rose"
             >
-              {showAllTasks ? "收起" : "查看全部"} ›
+              {showAllTasks ? "收起" : `查看全部 ${todayTasks.length}`} ›
             </button>
-          </div>
+          )}
         </div>
         <ul className="space-y-2">
-          {(showAllTasks ? todayTasks : todayTasks.slice(0, 2)).map((t) => {
+          {(showAllTasks ? todayTasks : todayTasks.slice(0, VISIBLE_TASKS)).map((t) => {
             const toneBg = {
               warning: "bg-warning/10 ring-warning/25",
               success: "bg-success/10 ring-success/25",
               teal: "bg-teal/10 ring-teal/25",
               deep: "bg-deep/10 ring-deep/25",
             }[t.tone];
+            const done = punched[t.id] ?? t.done;
             return (
               <li
-                key={t.text}
+                key={t.id}
                 className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${toneBg}`}
               >
                 <span className="text-xl">{t.icon}</span>
-                <p
-                  className={`min-w-0 flex-1 truncate text-sm ${
-                    t.done ? "text-muted-foreground line-through" : ""
-                  }`}
-                >
-                  {t.text}
-                </p>
-                {t.done ? (
-                  <span className="rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
+                <div className="min-w-0 flex-1">
+                  <p className={`truncate text-sm ${done ? "text-muted-foreground line-through" : ""}`}>
+                    {t.text}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">建议时段 {t.slot}</p>
+                </div>
+                {done ? (
+                  <span className="shrink-0 rounded-full bg-success px-3 py-1 text-[11px] font-medium text-success-foreground">
                     已打卡 {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
                   </span>
                 ) : (
-                  <button className="rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose">
+                  <button
+                    onClick={() => setPunched((p) => ({ ...p, [t.id]: true }))}
+                    className="shrink-0 rounded-full border border-rose bg-white px-3 py-1 text-[11px] font-medium text-rose"
+                  >
                     打卡
                   </button>
                 )}
@@ -514,6 +546,28 @@ function ParentHome() {
             );
           })}
         </ul>
+
+        {/* 漏打卡的补记入口 */}
+        <Link
+          to="/parent/punch"
+          className="mt-2.5 flex items-center gap-2 rounded-2xl bg-surface-2 px-3 py-2.5"
+        >
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-[13px] shadow-sm">
+            <EIcon e="🗓️" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[12px] font-semibold">补充打卡</p>
+            <p className="truncate text-[10px] text-muted-foreground">
+              漏打卡了？可补记最近 7 天
+            </p>
+          </div>
+          {missedCount > 0 && (
+            <span className="shrink-0 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-medium text-warning-foreground">
+              {missedCount} 项待补
+            </span>
+          )}
+          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+        </Link>
       </section>
       )}
 

@@ -36,6 +36,7 @@ import { Route as ParentShopRouteImport } from './routes/parent.shop'
 import { Route as ParentReviewRouteImport } from './routes/parent.review'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
 import { Route as ParentRecordRouteImport } from './routes/parent.record'
+import { Route as ParentPunchRouteImport } from './routes/parent.punch'
 import { Route as ParentNoticeRouteImport } from './routes/parent.notice'
 import { Route as ParentMydataRouteImport } from './routes/parent.mydata'
 import { Route as ParentMeRouteImport } from './routes/parent.me'
@@ -198,6 +199,11 @@ const ParentReportRoute = ParentReportRouteImport.update({
 const ParentRecordRoute = ParentRecordRouteImport.update({
   id: '/record',
   path: '/record',
+  getParentRoute: () => ParentRoute,
+} as any)
+const ParentPunchRoute = ParentPunchRouteImport.update({
+  id: '/punch',
+  path: '/punch',
   getParentRoute: () => ParentRoute,
 } as any)
 const ParentNoticeRoute = ParentNoticeRouteImport.update({
@@ -375,6 +381,7 @@ export interface FileRoutesByFullPath {
   '/parent/me': typeof ParentMeRoute
   '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
+  '/parent/punch': typeof ParentPunchRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
@@ -428,6 +435,7 @@ export interface FileRoutesByTo {
   '/parent/me': typeof ParentMeRoute
   '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
+  '/parent/punch': typeof ParentPunchRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
@@ -486,6 +494,7 @@ export interface FileRoutesById {
   '/parent/me': typeof ParentMeRoute
   '/parent/mydata': typeof ParentMydataRoute
   '/parent/notice': typeof ParentNoticeRoute
+  '/parent/punch': typeof ParentPunchRoute
   '/parent/record': typeof ParentRecordRoute
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
@@ -545,6 +554,7 @@ export interface FileRouteTypes {
     | '/parent/me'
     | '/parent/mydata'
     | '/parent/notice'
+    | '/parent/punch'
     | '/parent/record'
     | '/parent/report'
     | '/parent/review'
@@ -598,6 +608,7 @@ export interface FileRouteTypes {
     | '/parent/me'
     | '/parent/mydata'
     | '/parent/notice'
+    | '/parent/punch'
     | '/parent/record'
     | '/parent/report'
     | '/parent/review'
@@ -655,6 +666,7 @@ export interface FileRouteTypes {
     | '/parent/me'
     | '/parent/mydata'
     | '/parent/notice'
+    | '/parent/punch'
     | '/parent/record'
     | '/parent/report'
     | '/parent/review'
@@ -878,6 +890,13 @@ declare module '@tanstack/react-router' {
       path: '/record'
       fullPath: '/parent/record'
       preLoaderRoute: typeof ParentRecordRouteImport
+      parentRoute: typeof ParentRoute
+    }
+    '/parent/punch': {
+      id: '/parent/punch'
+      path: '/punch'
+      fullPath: '/parent/punch'
+      preLoaderRoute: typeof ParentPunchRouteImport
       parentRoute: typeof ParentRoute
     }
     '/parent/notice': {
@@ -1149,6 +1168,7 @@ interface ParentRouteChildren {
   ParentMeRoute: typeof ParentMeRoute
   ParentMydataRoute: typeof ParentMydataRoute
   ParentNoticeRoute: typeof ParentNoticeRoute
+  ParentPunchRoute: typeof ParentPunchRoute
   ParentRecordRoute: typeof ParentRecordRoute
   ParentReportRoute: typeof ParentReportRoute
   ParentReviewRoute: typeof ParentReviewRoute
@@ -1166,6 +1186,7 @@ const ParentRouteChildren: ParentRouteChildren = {
   ParentMeRoute: ParentMeRoute,
   ParentMydataRoute: ParentMydataRoute,
   ParentNoticeRoute: ParentNoticeRoute,
+  ParentPunchRoute: ParentPunchRoute,
   ParentRecordRoute: ParentRecordRoute,
   ParentReportRoute: ParentReportRoute,
   ParentReviewRoute: ParentReviewRoute,

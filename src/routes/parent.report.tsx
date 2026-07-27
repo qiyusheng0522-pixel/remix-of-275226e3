@@ -491,7 +491,7 @@ function ReportPage() {
           </Link>
           <Link
             to="/parent/comm"
-            search={{ topic: "ai-report", from: "report", auto: "1" }}
+            search={{ topic: "ai-report", from: "report" }}
             className="flex items-center justify-center gap-1 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-[11px] font-semibold text-white shadow-sm"
           >
             <span className="text-sm">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> AI 解读

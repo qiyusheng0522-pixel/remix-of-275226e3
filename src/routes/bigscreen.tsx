@@ -412,8 +412,11 @@ function Panel({
   className?: string;
   bodyClassName?: string;
 }) {
+  // min-h-0 is required on the root: without it a panel's flex-basis floors at
+  // its content height, so a tall panel (e.g. the alert feed) refuses to shrink
+  // and squeezes its siblings to zero height / past the footer.
   return (
-    <div className={`relative flex flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur ${className}`}>
+    <div className={`relative flex min-h-0 flex-col rounded-lg border border-cyan-500/20 bg-white/[0.02] p-3 backdrop-blur ${className}`}>
       <div className="pointer-events-none absolute -left-px -top-px h-3 w-8 border-l-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -right-px -top-px h-3 w-8 border-r-2 border-t-2 border-cyan-400" />
       <div className="pointer-events-none absolute -bottom-px -left-px h-3 w-8 border-b-2 border-l-2 border-cyan-400" />
@@ -432,7 +435,13 @@ function Panel({
           </span>
         )}
       </div>
-      <div className={`min-h-0 flex-1 ${bodyClassName}`}>{children}</div>
+      <div className={`no-scrollbar min-h-0 flex-1 ${bodyClassName}`}>{children}</div>
+      {/* Scroll affordance: a short fade at the bottom edge so a row clipped by
+          overflow reads as "more content below" instead of looking broken.
+          Only drawn for scrollable panels. */}
+      {bodyClassName.includes("overflow-auto") && (
+        <div className="pointer-events-none absolute inset-x-3 bottom-px h-6 rounded-b-lg bg-gradient-to-t from-[#0a1428] to-transparent" />
+      )}
     </div>
   );
 }
@@ -575,8 +584,9 @@ function JiangsuMapPanel() {
           })}
         </svg>
 
-        {/* Legend */}
-        <div className="absolute bottom-2 left-2 flex flex-col gap-1 rounded bg-slate-950/70 px-2 py-1.5 text-[10px] text-slate-300 ring-1 ring-cyan-500/20">
+        {/* Legend — compact, so it takes the narrow top-left corner and leaves
+            the wider bottom-left corner for the radar. */}
+        <div className="absolute left-2 top-2 flex flex-col gap-1 rounded bg-slate-950/70 px-2 py-1.5 text-[10px] text-slate-300 ring-1 ring-cyan-500/20">
           <span className="tracking-widest text-cyan-300/80">完成率图例</span>
           <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-emerald-400" />≥92%</span>
           <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-cyan-400" />88–92%</span>

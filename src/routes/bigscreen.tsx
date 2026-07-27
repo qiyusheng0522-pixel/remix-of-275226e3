@@ -474,7 +474,8 @@ function JiangsuMapPanel() {
         </div>
       </div>
 
-      {/* Map */}
+      {/* Map. Overlays are placed in the map's empty corners (see below) so the
+          province keeps its full width and no city label is covered. */}
       <div className="relative min-h-0 flex-1">
         <svg viewBox="0 0 500 560" preserveAspectRatio="xMidYMid meet" className="h-full w-full">
           <defs>
@@ -583,8 +584,10 @@ function JiangsuMapPanel() {
           <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-400" />&lt;84%</span>
         </div>
 
-        {/* Right stats */}
-        <div className="absolute right-2 top-2 w-[150px] rounded bg-slate-950/70 p-2 text-[10px] text-slate-300 ring-1 ring-cyan-500/20">
+        {/* Dimension radar — bottom-left is the only corner wide enough for it
+            without covering a city label (top-right has 连云港, bottom-right has
+            苏州). The compact legend takes the tighter top-left corner instead. */}
+        <div className="absolute bottom-2 left-2 w-[150px] rounded bg-slate-950/70 p-2 text-[10px] text-slate-300 ring-1 ring-cyan-500/20">
           <p className="mb-1 tracking-widest text-cyan-300/80">健康维度综合指数</p>
           <ResponsiveContainer width="100%" height={120}>
             <RadarChart data={dimensions}>
@@ -595,8 +598,8 @@ function JiangsuMapPanel() {
           </ResponsiveContainer>
         </div>
 
-        {/* Compass */}
-        <div className="absolute bottom-2 right-2 rounded-full border border-cyan-400/40 bg-slate-950/60 p-1.5 text-[10px] text-cyan-300">
+        {/* Compass — moved to the top-right corner vacated by the radar panel. */}
+        <div className="absolute right-2 top-2 rounded-full border border-cyan-400/40 bg-slate-950/60 p-1.5 text-[10px] text-cyan-300">
           <svg viewBox="0 0 24 24" className="h-6 w-6">
             <circle r="10" cx="12" cy="12" fill="none" stroke="#22d3ee" strokeOpacity="0.6" />
             <path d="M12,3 L14,12 L12,10 L10,12 Z" fill="#22d3ee" />

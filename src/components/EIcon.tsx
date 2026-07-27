@@ -42,6 +42,8 @@ const MAP: Record<string, LucideIcon> = {
   "🪟": Layers, "🕳": Circle, "🖥️": Monitor, "🖼": ImageIcon, "🗂️": FolderOpen,
   "🟡": Circle, "😴": Moon, "👋": Hand, "👍": ThumbsUp, "🌊": Waves,
   "➕": Plus, "➤": ChevronRight, "➔": ArrowRight, "★": Star, "ℹ": Info, "ℹ️": Info,
+  "☎️": Phone, "☎": Phone, "✍️": FilePenLine, "✍": FilePenLine,
+  "🧸": PawPrint, "⭐": Star,
 };
 
 /**

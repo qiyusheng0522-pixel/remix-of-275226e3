@@ -495,7 +495,7 @@ function ParentHome() {
               >
                 <span className="text-xl">{t.icon}</span>
                 <p
-                  className={`min-w-0 flex-1 text-sm ${
+                  className={`min-w-0 flex-1 truncate text-sm ${
                     t.done ? "text-muted-foreground line-through" : ""
                   }`}
                 >
@@ -554,14 +554,17 @@ function ParentHome() {
                         {c.tag}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">
-                      每 {c.cycleDays} 天 · 上次 {c.lastDone}
-                      {isDue ? (
-                        <span className="ml-1 font-medium text-warm">· 今日到期</span>
-                      ) : (
-                        <span className="ml-1">· {daysLeft} 天后</span>
-                      )}
-                    </p>
+                        {/* Kept to one line: the full last-done date lives on
+                            /parent/care, so the summary row only carries the
+                            cycle and the next-due status. */}
+                        <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+                          每 {c.cycleDays} 天 ·{" "}
+                          {isDue ? (
+                            <span className="font-medium text-warm">今日到期</span>
+                          ) : (
+                            <span>{daysLeft} 天后</span>
+                          )}
+                        </p>
                   </div>
                   {isDue ? (
                     <ActionSheet

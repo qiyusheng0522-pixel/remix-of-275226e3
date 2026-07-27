@@ -193,18 +193,18 @@ function DoctorChildDataPage() {
 
         {/* 医生操作 */}
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            className="rounded-2xl bg-teal py-3 text-sm font-semibold text-teal-foreground shadow-sm"
+          <Link
+            to="/doctor/plan"
+            className="rounded-2xl bg-teal py-3 text-center text-sm font-semibold text-teal-foreground shadow-sm"
           >
             下发健康方案
-          </button>
-          <button
-            type="button"
-            className="rounded-2xl bg-surface py-3 text-sm font-semibold text-teal ring-1 ring-teal/40"
+          </Link>
+          <Link
+            to="/doctor/referral"
+            className="rounded-2xl bg-surface py-3 text-center text-sm font-semibold text-teal ring-1 ring-teal/40"
           >
             发起转诊 / 复核
-          </button>
+          </Link>
         </div>
       </div>
     </div>

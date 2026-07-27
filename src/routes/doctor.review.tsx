@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { ActionSheet } from "@/components/ActionSheet";
@@ -203,7 +203,7 @@ function ReviewPage() {
               </div>
 
               {/* 查看患者详情 */}
-              <button className="flex w-full items-center justify-between gap-3 rounded-2xl bg-surface p-4 text-left shadow-sm ring-1 ring-border/60">
+              <Link to="/doctor/child" className="flex w-full items-center justify-between gap-3 rounded-2xl bg-surface p-4 text-left shadow-sm ring-1 ring-border/60">
                 <div className="flex items-center gap-3">
                   <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal/10 text-base text-teal">
                     {<EIcon e="📈" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
@@ -214,7 +214,7 @@ function ReviewPage() {
                   </div>
                 </div>
                 <span className="text-muted-foreground">›</span>
-              </button>
+              </Link>
 
               {/* 审核动作 */}
               <div className="flex gap-2 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">

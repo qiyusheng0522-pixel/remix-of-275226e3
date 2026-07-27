@@ -59,6 +59,7 @@ function CommPage() {
   const [aiOn, setAiOn] = useState(true);
   const [autoAi, setAutoAi] = useState(false);
   const [input, setInput] = useState("");
+  const [roleFilter, setRoleFilter] = useState<"全部" | Role>("全部");
 
   const active = useMemo(() => threads.find((t) => t.id === activeId), [threads, activeId]);
   const unreadTotal = threads.reduce((s, t) => s + t.unread, 0);
@@ -225,11 +226,12 @@ function CommPage() {
 
         {/* 角色 tab */}
         <div className="mt-4 flex gap-1.5">
-          {(["全部", "家长", "健管师"] as const).map((r, i) => (
+          {(["全部", "家长", "健管师"] as const).map((r) => (
             <button
               key={r}
+              onClick={() => setRoleFilter(r)}
               className={`rounded-full px-3 py-1 text-[11px] ${
-                i === 0
+                roleFilter === r
                   ? "bg-deep text-deep-foreground font-medium"
                   : "bg-surface text-muted-foreground ring-1 ring-border/60"
               }`}
@@ -240,7 +242,7 @@ function CommPage() {
         </div>
 
         <ul className="mt-3 space-y-2">
-          {threads.map((t) => (
+          {threads.filter((t) => roleFilter === "全部" || t.role === roleFilter).map((t) => (
             <li key={t.id}>
               <button
                 onClick={() => openThread(t.id)}

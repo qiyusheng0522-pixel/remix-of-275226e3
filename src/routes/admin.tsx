@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
 import { EIcon } from "@/components/EIcon";
 
 export const Route = createFileRoute("/admin")({
@@ -244,10 +245,16 @@ function Students() {
             </p>
           </div>
           <div className="flex gap-2">
-            <button className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs hover:bg-slate-50">
+            <button
+              onClick={() => toast("请选择要导入的 Excel 文件", { description: "支持教育局学籍系统导出的名单格式" })}
+              className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs hover:bg-slate-50"
+            >
               导入 Excel
             </button>
-            <button className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white hover:opacity-90">
+            <button
+              onClick={() => toast.success("已发起学籍同步", { description: "正在对接教育局系统，预计 1 分钟完成" })}
+              className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white hover:opacity-90"
+            >
               一键同步学籍
             </button>
           </div>
@@ -272,8 +279,18 @@ function Students() {
                   <StatusBadge s={s.status} />
                 </td>
                 <td>
-                  <button className="text-xs text-teal hover:underline">同步 ›</button>
-                  <button className="ml-3 text-xs text-slate-500 hover:underline">查看名单</button>
+                  <button
+                    onClick={() => toast.success(`已同步 ${s.name}`, { description: `在册学生 ${s.students.toLocaleString()} 人` })}
+                    className="text-xs text-teal hover:underline"
+                  >
+                    同步 ›
+                  </button>
+                  <button
+                    onClick={() => toast(`${s.name} · 在册名单`, { description: `共 ${s.students.toLocaleString()} 名学生` })}
+                    className="ml-3 text-xs text-slate-500 hover:underline"
+                  >
+                    查看名单
+                  </button>
                 </td>
               </tr>
             ))}
@@ -359,7 +376,12 @@ function Plan() {
               <option>青苗小学</option>
               <option>海棠中学</option>
             </select>
-            <button className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white">下发批次</button>
+            <button
+              onClick={() => toast.success(`已向 ${schoolName} 下发体检批次`, { description: "各班级安排已同步至学校端" })}
+              className="rounded-lg bg-teal px-3 py-1.5 text-xs text-white"
+            >
+              下发批次
+            </button>
           </div>
         </div>
 
@@ -413,7 +435,12 @@ function Plan() {
               <option>09-19</option>
               <option>09-20</option>
             </select>
-            <button className="rounded-lg bg-slate-50 px-2 py-1 text-slate-600">+ 新增班级安排</button>
+            <button
+              onClick={() => toast("新增班级安排", { description: "请填写班级、日期、时段与主检医护" })}
+              className="rounded-lg bg-slate-50 px-2 py-1 text-slate-600"
+            >
+              + 新增班级安排
+            </button>
           </div>
         </div>
         <table className="w-full text-sm">
@@ -460,8 +487,18 @@ function Plan() {
                   <StatusBadge s={c.status} />
                 </td>
                 <td>
-                  <button className="text-xs text-teal hover:underline">调整</button>
-                  <button className="ml-2 text-xs text-slate-500 hover:underline">通知</button>
+                  <button
+                    onClick={() => toast(`调整 ${c.name} 的体检安排`, { description: `当前：${c.date} ${c.time} · ${c.location}` })}
+                    className="text-xs text-teal hover:underline"
+                  >
+                    调整
+                  </button>
+                  <button
+                    onClick={() => toast.success(`已通知 ${c.name}`, { description: `带队老师 ${c.teacher} · 体检时间 ${c.date} ${c.time}` })}
+                    className="ml-2 text-xs text-slate-500 hover:underline"
+                  >
+                    通知
+                  </button>
                 </td>
               </tr>
             ))}
@@ -529,7 +566,10 @@ function Stats() {
               <b className="text-amber-600">96</b>
             </li>
           </ul>
-          <button className="mt-3 w-full rounded-lg bg-deep py-2 text-xs text-white">
+          <button
+            onClick={() => toast.success("统计报表已导出", { description: "已生成 Excel，可在下载中心查看" })}
+            className="mt-3 w-full rounded-lg bg-deep py-2 text-xs text-white"
+          >
             导出统计报表
           </button>
         </Card>

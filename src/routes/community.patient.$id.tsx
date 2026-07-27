@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { EIcon } from "@/components/EIcon";
+import { ActionSheet } from "@/components/ActionSheet";
+import { toast } from "sonner";
 import { findPatient, type Level } from "@/lib/community-patients";
 import {
   User2,
@@ -256,14 +258,36 @@ function PatientProfilePage() {
 
         {/* 社区端操作 */}
         <div className="grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            className="flex items-center justify-center gap-1.5 rounded-2xl bg-teal py-3 text-sm font-semibold text-teal-foreground shadow-sm"
+          <ActionSheet
+            trigger={
+              <button
+                type="button"
+                className="flex w-full items-center justify-center gap-1.5 rounded-2xl bg-teal py-3 text-sm font-semibold text-teal-foreground shadow-sm"
+              >
+                <ClipboardList className="h-4 w-4" /> 记录随访
+              </button>
+            }
+            title={`记录 ${p.name} 的随访`}
+            description="填写本次随访情况，保存后同步至患者档案与医生端。"
+            confirmText="保存随访"
+            toastMessage="随访记录已保存"
           >
-            <ClipboardList className="h-4 w-4" /> 记录随访
-          </button>
+            <div className="space-y-2 text-xs">
+              <label className="block">
+                <span className="text-muted-foreground">随访方式</span>
+                <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                  <option>电话随访</option><option>上门访视</option><option>线上咨询</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-muted-foreground">随访记录</span>
+                <textarea rows={3} placeholder="如：家长反馈打卡执行良好，体重较上周下降 0.3kg" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+              </label>
+            </div>
+          </ActionSheet>
           <button
             type="button"
+            onClick={() => toast(`正在联系 ${p.name} 家长`, { description: "已发起电话呼叫" })}
             className="flex items-center justify-center gap-1.5 rounded-2xl bg-surface py-3 text-sm font-semibold text-warm ring-1 ring-warm/40"
           >
             <Phone className="h-4 w-4" /> 联系家长

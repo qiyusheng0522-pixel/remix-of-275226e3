@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
 import { StatusBar } from "@/components/MobileFrame";
 import { patients } from "@/lib/community-patients";
 
@@ -102,10 +103,17 @@ function PatientsPage() {
                 >
                   查看档案
                 </Link>
-                <button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">
+                <Link
+                  to="/community/patient/$id"
+                  params={{ id: p.id }}
+                  className="flex-1 rounded-xl bg-teal/15 py-2 text-center text-xs text-teal"
+                >
                   记录随访
-                </button>
-                <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">
+                </Link>
+                <button
+                  onClick={() => toast(`正在联系 ${p.name} 家长`, { description: "已发起电话呼叫" })}
+                  className="flex-1 rounded-xl bg-surface-2 py-2 text-xs"
+                >
                   联系家长
                 </button>
               </div>

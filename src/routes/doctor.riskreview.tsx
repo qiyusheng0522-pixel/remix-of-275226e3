@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/doctor/riskreview")({
   component: RiskReviewPage,
@@ -111,7 +112,10 @@ function RiskReviewPage() {
                 </div>
               </div>
 
-              <button className="mt-3 w-full rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground">
+              <button
+                onClick={() => toast.success(`已确认 ${c.name} 的复核结果`, { description: "分级与分流标记已保存" })}
+                className="mt-3 w-full rounded-xl bg-deep py-2 text-xs font-medium text-deep-foreground"
+              >
                 确认复核结果
               </button>
             </li>

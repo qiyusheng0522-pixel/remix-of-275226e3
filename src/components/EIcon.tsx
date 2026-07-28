@@ -39,6 +39,7 @@ const MAP: Record<string, LucideIcon> = {
   "👓": Glasses, "👕": Shirt, "🦷": Bone, "🫁": Wind, "🧠": Brain,
   "💓": HeartPulse, "💗": Heart, "💕": Heart, "♥": Heart, "💫": Sparkles,
   "💧": Droplets, "🚱": Droplets, "🤖": ScanEye, "🤔": HelpCircle, "🤧": Wind,
+  "🩸": Droplets, "🫀": HeartPulse, "🩹": Bandage, "🌡": Thermometer, "🌡️": Thermometer,
   "🎉": PartyPopper, "🚑": Ambulance, "🧪": TestTube, "🧺": FolderOpen,
   "🪟": Layers, "🕳": Circle, "🖥️": Monitor, "🖼": ImageIcon, "🗂️": FolderOpen,
   "🟡": Circle, "😴": Moon, "👋": Hand, "👍": ThumbsUp, "🌊": Waves,

@@ -31,6 +31,7 @@ import { Route as SchoolFocusRouteImport } from './routes/school.focus'
 import { Route as SchoolEscalatedRouteImport } from './routes/school.escalated'
 import { Route as SchoolAbsentRouteImport } from './routes/school.absent'
 import { Route as SchoolAbnormalRouteImport } from './routes/school.abnormal'
+import { Route as RecordIdRouteImport } from './routes/record.$id'
 import { Route as ParentTerminateRouteImport } from './routes/parent.terminate'
 import { Route as ParentReviewRouteImport } from './routes/parent.review'
 import { Route as ParentReportRouteImport } from './routes/parent.report'
@@ -174,6 +175,11 @@ const SchoolAbnormalRoute = SchoolAbnormalRouteImport.update({
   id: '/abnormal',
   path: '/abnormal',
   getParentRoute: () => SchoolRoute,
+} as any)
+const RecordIdRoute = RecordIdRouteImport.update({
+  id: '/record/$id',
+  path: '/record/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ParentTerminateRoute = ParentTerminateRouteImport.update({
   id: '/terminate',
@@ -379,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/record/$id': typeof RecordIdRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
   '/school/escalated': typeof SchoolEscalatedRoute
@@ -432,6 +439,7 @@ export interface FileRoutesByTo {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/record/$id': typeof RecordIdRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
   '/school/escalated': typeof SchoolEscalatedRoute
@@ -490,6 +498,7 @@ export interface FileRoutesById {
   '/parent/report': typeof ParentReportRoute
   '/parent/review': typeof ParentReviewRoute
   '/parent/terminate': typeof ParentTerminateRoute
+  '/record/$id': typeof RecordIdRoute
   '/school/abnormal': typeof SchoolAbnormalRoute
   '/school/absent': typeof SchoolAbsentRoute
   '/school/escalated': typeof SchoolEscalatedRoute
@@ -549,6 +558,7 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/record/$id'
     | '/school/abnormal'
     | '/school/absent'
     | '/school/escalated'
@@ -602,6 +612,7 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/record/$id'
     | '/school/abnormal'
     | '/school/absent'
     | '/school/escalated'
@@ -659,6 +670,7 @@ export interface FileRouteTypes {
     | '/parent/report'
     | '/parent/review'
     | '/parent/terminate'
+    | '/record/$id'
     | '/school/abnormal'
     | '/school/absent'
     | '/school/escalated'
@@ -687,6 +699,7 @@ export interface RootRouteChildren {
   DoctorRoute: typeof DoctorRouteWithChildren
   ParentRoute: typeof ParentRouteWithChildren
   SchoolRoute: typeof SchoolRouteWithChildren
+  RecordIdRoute: typeof RecordIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -844,6 +857,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/school/abnormal'
       preLoaderRoute: typeof SchoolAbnormalRouteImport
       parentRoute: typeof SchoolRoute
+    }
+    '/record/$id': {
+      id: '/record/$id'
+      path: '/record/$id'
+      fullPath: '/record/$id'
+      preLoaderRoute: typeof RecordIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/parent/terminate': {
       id: '/parent/terminate'
@@ -1220,6 +1240,7 @@ const rootRouteChildren: RootRouteChildren = {
   DoctorRoute: DoctorRouteWithChildren,
   ParentRoute: ParentRouteWithChildren,
   SchoolRoute: SchoolRouteWithChildren,
+  RecordIdRoute: RecordIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

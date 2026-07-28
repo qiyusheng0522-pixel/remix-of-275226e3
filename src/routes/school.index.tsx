@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 import { StatusBar } from "@/components/MobileFrame";
 import { schoolStats, classSchedule } from "@/lib/mock-data";
+import { teacherClass, recheckList, liveNotices, escort, type RecheckItem } from "@/lib/teacher-class";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/")({
@@ -47,10 +50,35 @@ const quick = [
 
 function SchoolHome() {
   const pct = Math.round((schoolStats.examined / schoolStats.totalStudents) * 100);
+  const [view, setView] = useState<"health" | "teacher">("health");
   return (
     <div>
       <StatusBar />
 
+      {/* 视角切换：卫生保健老师 / 班主任 */}
+      <div className="px-5 pt-1">
+        <div className="flex gap-1 rounded-full bg-surface-2 p-1 ring-1 ring-border/60">
+          {([
+            { k: "health", label: "保健老师", icon: "🏫" },
+            { k: "teacher", label: "班主任", icon: "👩‍🏫" },
+          ] as const).map((r) => (
+            <button
+              key={r.k}
+              onClick={() => setView(r.k)}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-1.5 text-[12px] font-medium transition ${
+                view === r.k ? "bg-teal text-teal-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+            >
+              <EIcon e={r.icon} /> {r.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {view === "teacher" ? (
+        <TeacherView />
+      ) : (
+      <>
       <div className="relative overflow-hidden px-5 pb-5 pt-2">
         <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-teal/20 blur-3xl" />
         <div className="relative flex items-center gap-3">
@@ -196,6 +224,177 @@ function SchoolHome() {
           ))}
         </div>
       </div>
+      </>
+      )}
+    </div>
+  );
+}
+
+function TeacherView() {
+  const pct = Math.round((teacherClass.examined / teacherClass.total) * 100);
+  const recheck = recheckList.filter((r) => r.kind === "超范围重测").length;
+  const makeup = recheckList.filter((r) => r.kind === "漏检补检").length;
+  const [notified, setNotified] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(recheckList.filter((r) => r.notified).map((r) => [r.id, true])),
+  );
+
+  const notify = (r: RecheckItem) => {
+    setNotified((s) => ({ ...s, [r.id]: true }));
+    toast.success(`已通知 ${r.name} 家长`, {
+      description: r.kind === "超范围重测" ? "请家长带孩子返场重测" : "请家长带孩子尽快补检",
+    });
+  };
+
+  return (
+    <div className="px-5 pb-6 pt-3">
+      {/* 我班体检进度 */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal to-deep p-4 text-white shadow-lg shadow-teal/20">
+        <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+        <p className="text-[11px] opacity-90">{teacherClass.name} · 班主任 {teacherClass.teacher}</p>
+        <p className="mt-1 flex items-baseline gap-1 text-[28px] font-extrabold leading-none">
+          {teacherClass.examined}
+          <span className="text-[13px] font-medium opacity-80">/ {teacherClass.total} 人已检</span>
+        </p>
+        <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/25">
+          <div className="h-full rounded-full bg-white transition-all duration-500" style={{ width: `${pct}%` }} />
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          {[
+            { k: "正常", v: teacherClass.normal },
+            { k: "待重测", v: recheck },
+            { k: "待补检", v: makeup },
+          ].map((s) => (
+            <div key={s.k} className="rounded-xl bg-white/15 py-1.5 backdrop-blur">
+              <p className="text-base font-extrabold">{s.v}</p>
+              <p className="text-[10px] opacity-85">{s.k}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 医生实时重检通知 */}
+      <section className="mt-4">
+        <div className="mb-2 flex items-center gap-1.5">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-danger" />
+          </span>
+          <h2 className="text-sm font-semibold">医生实时重检通知</h2>
+        </div>
+        <div className="space-y-2">
+          {liveNotices.map((n) => (
+            <div
+              key={n.id}
+              className={`flex items-center gap-3 rounded-2xl p-3 ring-1 ${
+                n.isNew ? "bg-danger/10 ring-danger/25" : "bg-surface ring-border/60"
+              }`}
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-danger/15 text-base text-danger">
+                {<EIcon e="🩺" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] font-semibold">
+                  {n.name}
+                  <span className="ml-2 text-[10px] font-normal text-muted-foreground">{n.time}</span>
+                </p>
+                <p className="truncate text-[11px] text-muted-foreground">{n.item}</p>
+              </div>
+              {n.isNew && (
+                <span className="shrink-0 rounded-full bg-danger px-2 py-0.5 text-[10px] font-medium text-danger-foreground">
+                  待处理
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 重检待办：漏检补检 + 超范围重测 */}
+      <section className="mt-4">
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-sm font-semibold">重检 / 补检待办</h2>
+          <span className="text-[11px] text-muted-foreground">共 {recheckList.length} 人</span>
+        </div>
+        <ul className="space-y-2">
+          {recheckList.map((r) => {
+            const done = notified[r.id];
+            const retest = r.kind === "超范围重测";
+            return (
+              <li key={r.id} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+                <div className="flex items-start gap-2.5">
+                  <span
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl text-sm font-bold ${
+                      retest ? "bg-warm/15 text-warm" : "bg-teal/15 text-teal"
+                    }`}
+                  >
+                    {r.name.slice(-1)}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-semibold">{r.name}</p>
+                      <span
+                        className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${
+                          retest ? "bg-warm/15 text-warm" : "bg-teal/15 text-teal"
+                        }`}
+                      >
+                        {r.kind}
+                      </span>
+                      {r.urgent && (
+                        <span className="rounded-full bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger">
+                          紧急
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{r.reason}</p>
+                    <p className="mt-0.5 text-[10px] text-muted-foreground/70">{r.from} · {r.time}</p>
+                  </div>
+                </div>
+                <div className="mt-2.5 flex gap-2">
+                  <button
+                    onClick={() => notify(r)}
+                    disabled={done}
+                    className={`flex-1 rounded-xl py-2 text-[12px] font-medium transition active:scale-[0.98] ${
+                      done
+                        ? "bg-success/15 text-success"
+                        : retest
+                          ? "bg-warm text-warm-foreground"
+                          : "bg-teal text-teal-foreground"
+                    }`}
+                  >
+                    {done ? "已通知家长 ✓" : retest ? "通知家长带孩子返场重测" : "通知家长带孩子补检"}
+                  </button>
+                  <Link
+                    to="/school/students"
+                    className="grid place-items-center rounded-xl bg-surface-2 px-3 text-[12px] text-muted-foreground"
+                  >
+                    档案
+                  </Link>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* 带队提醒 */}
+      <section className="mt-4">
+        <h2 className="mb-2 text-sm font-semibold">带队提醒</h2>
+        <div className="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-warm/12 to-teal/10 p-3.5 ring-1 ring-warm/20">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-warm/20 text-sm font-bold text-warm">
+            {escort.time}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[13px] font-semibold">{escort.cls} · {escort.location}</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">{escort.note}</p>
+          </div>
+          <button
+            onClick={() => toast.success("已设置带队提醒", { description: `${escort.time} 前 10 分钟提醒您` })}
+            className="shrink-0 rounded-full bg-warm px-3 py-1.5 text-[11px] font-medium text-warm-foreground active:scale-95"
+          >
+            提醒我
+          </button>
+        </div>
+      </section>
     </div>
   );
 }

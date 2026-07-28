@@ -34,6 +34,9 @@ function UsersPage() {
     return true;
   });
 
+  // 待检 / 进行中 学生走沉浸式录入
+  const firstPending = users.find((u) => u.status === "待检" || u.status === "进行中");
+
   const stats = [
     { label: "待检", value: counts["待检"] ?? 0, cls: "text-muted-foreground" },
     { label: "进行中", value: counts["进行中"] ?? 0, cls: "text-teal" },
@@ -53,6 +56,24 @@ function UsersPage() {
             阳光小学 · 三年级 3 班 · 共 {users.length} 人
           </p>
         </div>
+
+        {/* 沉浸式录入入口 */}
+        {firstPending && (
+          <Link
+            to="/record/$id"
+            params={{ id: firstPending.id }}
+            className="mb-3 flex items-center gap-3 rounded-2xl bg-gradient-to-br from-deep to-teal p-3.5 text-white shadow-lg shadow-teal/20 active:scale-[0.99]"
+          >
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white/20 text-[22px] backdrop-blur">
+              {<EIcon e="⚡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-bold">沉浸式体检录入</p>
+              <p className="mt-0.5 text-[11px] opacity-90">上下滑动逐项确认 · 超范围自动标记 · 从 {firstPending.name} 开始</p>
+            </div>
+            <span className="shrink-0 text-lg">›</span>
+          </Link>
+        )}
 
         {/* 数据来源说明 */}
         <div className="mb-3 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
@@ -174,7 +195,7 @@ function UsersPage() {
                   </Link>
                 ) : (
                   <Link
-                    to="/doctor/entry/$id"
+                    to="/record/$id"
                     params={{ id: u.id }}
                     className="block"
                   >

@@ -312,31 +312,29 @@ function HealthPlanPage() {
               </p>
             </div>
           ) : (
-            <div className="mt-3 rounded-2xl border border-dashed border-teal/40 bg-surface-2 p-4 text-center">
-              <p className="text-[12px] font-semibold text-foreground">请选择一个干预周期</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-                选择后将展示对应的目标 BMI、预计减重与风险改善预测，并生成饮食·运动·护理方案。
+            <div className="mt-3 flex items-center gap-2 rounded-2xl border border-dashed border-teal/40 bg-surface-2 p-3.5 text-left">
+              <span className="text-base">{<EIcon e="👆" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
+                请先在上方选择 <b className="text-foreground">3 / 5 / 7 周</b> 干预周期，即可查看目标 BMI、预计减重与风险改善预测，并生成饮食·运动·护理方案。
               </p>
             </div>
           )}
 
+          {cycle && (
           <button
-            disabled={!cycle}
             onClick={() => {
-              if (!cycle) return;
               setCycleConfirmed(true);
               toast.success(`已按 ${cycle.weeks} 周方案生成`, { description: `目标 BMI ${cycle.bmi} · 每周 ${cycle.weekly} 项任务 · ${cycle.review} 复查` });
             }}
             className={`mt-3 w-full rounded-full py-2.5 text-[13px] font-semibold transition ${
-              !cycle
-                ? "bg-surface-2 text-muted-foreground"
-                : cycleConfirmed
-                  ? "bg-success/15 text-success ring-1 ring-success/30"
-                  : "bg-teal text-teal-foreground shadow-sm"
+              cycleConfirmed
+                ? "bg-success/15 text-success ring-1 ring-success/30"
+                : "bg-teal text-teal-foreground shadow-sm"
             }`}
           >
-            {!cycle ? "请先选择干预周期" : cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
+            {cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
           </button>
+          )}
         </section>
 
         {!cycleConfirmed ? (

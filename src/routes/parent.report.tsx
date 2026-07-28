@@ -113,6 +113,36 @@ const valueColor: Record<Level, string> = {
   bad: "text-danger",
 };
 
+const nextSteps = [
+  {
+    to: "/parent/comm",
+    search: { topic: "ai-report", from: "report" },
+    icon: "🤖",
+    title: "先让 AI 解读报告",
+    desc: "用大白话说清 3 项异常的原因与轻重，1 分钟看懂",
+    tag: "1 分钟",
+    tagClass: "bg-teal/15 text-teal",
+  },
+  {
+    to: "/parent/comm",
+    search: { topic: "report", from: "report" },
+    icon: "👨‍⚕️",
+    title: "就异常项咨询医生",
+    desc: "体重管理 + 过敏咳嗽，一对一确认就诊与用药建议",
+    tag: "推荐",
+    tagClass: "bg-warm/15 text-warm",
+  },
+  {
+    to: "/parent/health-plan",
+    search: undefined,
+    icon: "📋",
+    title: "生成专属健康方案",
+    desc: "自选 3 / 5 / 7 周干预周期，获取饮食·运动·复查计划",
+    tag: "有参与感",
+    tagClass: "bg-rose/15 text-rose",
+  },
+] as const;
+
 function ReportPage() {
   return (
     <div>
@@ -508,6 +538,43 @@ function ReportPage() {
           </div>
         </details>
 
+        {/* 看完报告，下一步该做什么 */}
+        <section className="mb-3 rounded-3xl bg-gradient-to-br from-teal/12 to-warm/10 p-4 ring-1 ring-teal/25">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">
+              {<EIcon e="🧭" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+            </span>
+            <div>
+              <p className="text-sm font-bold">看完报告，接下来做什么？</p>
+              <p className="text-[11px] text-muted-foreground">
+                本次发现 <b className="text-danger">3 项需关注</b>，建议按以下 3 步跟进
+              </p>
+            </div>
+          </div>
+          <ol className="space-y-2">
+            {nextSteps.map((s, i) => (
+              <Link
+                key={s.title}
+                to={s.to}
+                search={s.search as never}
+                className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60 transition active:scale-[0.98]"
+              >
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-teal text-[13px] font-bold text-teal-foreground">
+                  {i + 1}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{<EIcon e={s.icon} className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+                    <p className="text-[13px] font-semibold">{s.title}</p>
+                    <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-medium ${s.tagClass}`}>{s.tag}</span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{s.desc}</p>
+                </div>
+                <span className="shrink-0 text-muted-foreground">›</span>
+              </Link>
+            ))}
+          </ol>
+        </section>
 
       </div>
 

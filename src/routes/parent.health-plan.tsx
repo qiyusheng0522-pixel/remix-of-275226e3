@@ -22,6 +22,24 @@ export const Route = createFileRoute("/parent/health-plan")({
 
 const days = ["06/11", "06/12", "06/13", "06/14", "06/15"];
 
+type PlanCycle = {
+  weeks: 3 | 5 | 7;
+  name: string;
+  intensity: string;
+  bmi: string;
+  lose: string;
+  weekly: number;
+  review: string;
+  improve: number;
+  hint: string;
+};
+
+const cycles: PlanCycle[] = [
+  { weeks: 3, name: "快速起步", intensity: "强度较高", bmi: "16.8", lose: "1.0", weekly: 5, review: "07/02", improve: 55, hint: "想尽快看到变化，任务较密集，需家长多陪伴" },
+  { weeks: 5, name: "稳步推荐", intensity: "中等强度", bmi: "16.5", lose: "1.5", weekly: 4, review: "07/16", improve: 72, hint: "医生推荐节奏，效果与可坚持性兼顾" },
+  { weeks: 7, name: "温和长效", intensity: "温和渐进", bmi: "16.2", lose: "2.0", weekly: 3, review: "07/30", improve: 85, hint: "以习惯养成为主，不易反弹，孩子压力最小" },
+];
+
 const meals = [
   {
     name: "早餐",
@@ -82,6 +100,9 @@ function HealthPlanPage() {
   const [joined, setJoined] = useState<Record<string, boolean>>({});
   const [customTitle, setCustomTitle] = useState("");
   const [dayIdx, setDayIdx] = useState(0);
+  const [cycleWeeks, setCycleWeeks] = useState<3 | 5 | 7>(5);
+  const [cycleConfirmed, setCycleConfirmed] = useState(false);
+  const cycle = cycles.find((c) => c.weeks === cycleWeeks)!;
   const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
   const doneCount = Object.values(checked).filter(Boolean).length;
   const total = exercises.length;
@@ -208,6 +229,101 @@ function HealthPlanPage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        {/* 选择干预周期 - 让家长参与决策 */}
+        <section className="mb-4 rounded-3xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="h-4 w-1 rounded-full bg-teal" />
+              <h2 className="text-sm font-bold">选择干预周期</h2>
+            </div>
+            <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] text-teal">你来决定节奏</span>
+          </div>
+          <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
+            针对 <b className="text-foreground">体重/BMI 偏高</b> 的核心目标，选择适合 {child.name} 与家庭的干预节奏，方案强度与目标会自动调整。
+          </p>
+
+          {/* 周期选择器 */}
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {cycles.map((c) => {
+              const active = c.weeks === cycleWeeks;
+              return (
+                <button
+                  key={c.weeks}
+                  onClick={() => {
+                    setCycleWeeks(c.weeks);
+                    setCycleConfirmed(false);
+                  }}
+                  className={`relative rounded-2xl p-3 text-center transition ${
+                    active
+                      ? "bg-teal text-teal-foreground shadow-sm ring-2 ring-teal"
+                      : "bg-surface-2 text-foreground ring-1 ring-border/60"
+                  }`}
+                >
+                  {c.weeks === 5 && (
+                    <span className={`absolute -top-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-0.5 text-[8px] font-bold ${active ? "bg-warm text-warm-foreground" : "bg-warm/20 text-warm"}`}>
+                      推荐
+                    </span>
+                  )}
+                  <p className="text-lg font-bold leading-none">{c.weeks}<span className="text-[11px] font-medium"> 周</span></p>
+                  <p className={`mt-1 text-[10px] ${active ? "text-teal-foreground/85" : "text-muted-foreground"}`}>{c.name}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 动态目标面板 */}
+          <div className="mt-3 rounded-2xl bg-gradient-to-br from-teal/10 to-warm/8 p-3 ring-1 ring-teal/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-semibold text-teal">{cycle.weeks} 周 · {cycle.name}</p>
+              <span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border/60">{cycle.intensity}</span>
+            </div>
+            <div className="mt-2.5 grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-xl bg-surface p-2">
+                <p className="text-sm font-bold text-foreground">{cycle.bmi}</p>
+                <p className="mt-0.5 text-[9px] text-muted-foreground">目标 BMI</p>
+              </div>
+              <div className="rounded-xl bg-surface p-2">
+                <p className="text-sm font-bold text-warm">-{cycle.lose}<span className="text-[10px]">kg</span></p>
+                <p className="mt-0.5 text-[9px] text-muted-foreground">预计减重</p>
+              </div>
+              <div className="rounded-xl bg-surface p-2">
+                <p className="text-sm font-bold text-foreground">{cycle.weekly}<span className="text-[10px]"> 项</span></p>
+                <p className="mt-0.5 text-[9px] text-muted-foreground">每周任务</p>
+              </div>
+            </div>
+
+            {/* 风险改善预测 */}
+            <div className="mt-2.5">
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-muted-foreground">风险改善预测</span>
+                <span className="font-semibold text-teal">{cycle.improve}%</span>
+              </div>
+              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-surface-2">
+                <div className="h-full rounded-full bg-gradient-to-r from-warm to-teal transition-all duration-500" style={{ width: `${cycle.improve}%` }} />
+              </div>
+            </div>
+
+            <p className="mt-2 flex items-start gap-1 text-[10px] leading-relaxed text-foreground/70">
+              <span>{<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+              <span>{cycle.hint}，预计 <b className="text-foreground">{cycle.review}</b> 安排复查评估。</span>
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              setCycleConfirmed(true);
+              toast.success(`已按 ${cycle.weeks} 周方案生成`, { description: `目标 BMI ${cycle.bmi} · 每周 ${cycle.weekly} 项任务 · ${cycle.review} 复查` });
+            }}
+            className={`mt-3 w-full rounded-full py-2.5 text-[13px] font-semibold transition ${
+              cycleConfirmed
+                ? "bg-success/15 text-success ring-1 ring-success/30"
+                : "bg-teal text-teal-foreground shadow-sm"
+            }`}
+          >
+            {cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
+          </button>
         </section>
 
         {/* 饮食方案 - 图片同款样式 */}
@@ -580,7 +696,7 @@ function HealthPlanPage() {
                   className="w-full rounded-2xl bg-surface-2 px-3 py-2.5 text-[13px] outline-none"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <select className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px]"><option>入门</option><option>进阶</option></select>
+                  <select className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px]"><option>���门</option><option>进阶</option></select>
                   <input placeholder="时长 (分钟)" className="rounded-2xl bg-surface-2 px-3 py-2.5 text-[12px] outline-none" />
                 </div>
                 <label className="flex items-center gap-2 text-[12px] text-muted-foreground">

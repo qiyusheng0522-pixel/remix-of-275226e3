@@ -104,22 +104,33 @@ function Recorder() {
     toast.success(`${emptyManual.length} 项手动检查已标记正常`);
   }
 
-  // 切换到下一位学生时，滚动容器会沿用上一位的位置（停在复核页）。
-  // 布局提交后同步回到第 1 项，保证每位学生都从头开始录。
-  // 浏览器会在挂载后异步恢复上一位学生的滚动位置，因此除同步置零外，
-  // 还要在下一帧再压一次，确保停在第 1 项。
+  // 换到下一位学生时，路由的滚动恢复会在挂载后把容器拉回上一位的位置（复核页）。
+  // 因此在挂载后的短窗口内持续压回第 1 项，一旦医生自己滑动就立即停止干预。
   useLayoutEffect(() => {
     const el = scrollRef.current;
-    console.log("[v0] reset effect run", { id, hasEl: !!el, top: el?.scrollTop });
     if (!el) return;
+    let stopped = false;
+    const stop = () => {
+      stopped = true;
+    };
+    el.addEventListener("wheel", stop, { passive: true });
+    el.addEventListener("touchstart", stop, { passive: true });
+
+    const deadline = performance.now() + 400;
+    const pin = () => {
+      if (stopped || !scrollRef.current) return;
+      if (scrollRef.current.scrollTop !== 0) scrollRef.current.scrollTop = 0;
+      if (performance.now() < deadline) requestAnimationFrame(pin);
+    };
     el.scrollTop = 0;
     setActive(0);
-    const raf = requestAnimationFrame(() => {
-      el.scrollTop = 0;
-      setActive(0);
-      console.log("[v0] reset raf", { id, top: el.scrollTop });
-    });
-    return () => cancelAnimationFrame(raf);
+    requestAnimationFrame(pin);
+
+    return () => {
+      stopped = true;
+      el.removeEventListener("wheel", stop);
+      el.removeEventListener("touchstart", stop);
+    };
   }, [id]);
 
   function scrollTo(index: number) {

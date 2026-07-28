@@ -100,9 +100,9 @@ function HealthPlanPage() {
   const [joined, setJoined] = useState<Record<string, boolean>>({});
   const [customTitle, setCustomTitle] = useState("");
   const [dayIdx, setDayIdx] = useState(0);
-  const [cycleWeeks, setCycleWeeks] = useState<3 | 5 | 7>(5);
+  const [cycleWeeks, setCycleWeeks] = useState<3 | 5 | 7 | null>(null);
   const [cycleConfirmed, setCycleConfirmed] = useState(false);
-  const cycle = cycles.find((c) => c.weeks === cycleWeeks)!;
+  const cycle = cycleWeeks ? cycles.find((c) => c.weeks === cycleWeeks)! : null;
   const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
   const doneCount = Object.values(checked).filter(Boolean).length;
   const total = exercises.length;
@@ -273,58 +273,85 @@ function HealthPlanPage() {
             })}
           </div>
 
-          {/* 动态目标面板 */}
-          <div className="mt-3 rounded-2xl bg-gradient-to-br from-teal/10 to-warm/8 p-3 ring-1 ring-teal/20">
-            <div className="flex items-center justify-between">
-              <p className="text-[11px] font-semibold text-teal">{cycle.weeks} 周 · {cycle.name}</p>
-              <span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border/60">{cycle.intensity}</span>
-            </div>
-            <div className="mt-2.5 grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-xl bg-surface p-2">
-                <p className="text-sm font-bold text-foreground">{cycle.bmi}</p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground">目标 BMI</p>
+          {/* 动态目标面板 · 选择周期后出现 */}
+          {cycle ? (
+            <div className="mt-3 rounded-2xl bg-gradient-to-br from-teal/10 to-warm/8 p-3 ring-1 ring-teal/20">
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] font-semibold text-teal">{cycle.weeks} 周 · {cycle.name}</p>
+                <span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border/60">{cycle.intensity}</span>
               </div>
-              <div className="rounded-xl bg-surface p-2">
-                <p className="text-sm font-bold text-warm">-{cycle.lose}<span className="text-[10px]">kg</span></p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground">预计减重</p>
+              <div className="mt-2.5 grid grid-cols-3 gap-2 text-center">
+                <div className="rounded-xl bg-surface p-2">
+                  <p className="text-sm font-bold text-foreground">{cycle.bmi}</p>
+                  <p className="mt-0.5 text-[9px] text-muted-foreground">目标 BMI</p>
+                </div>
+                <div className="rounded-xl bg-surface p-2">
+                  <p className="text-sm font-bold text-warm">-{cycle.lose}<span className="text-[10px]">kg</span></p>
+                  <p className="mt-0.5 text-[9px] text-muted-foreground">预计减重</p>
+                </div>
+                <div className="rounded-xl bg-surface p-2">
+                  <p className="text-sm font-bold text-foreground">{cycle.weekly}<span className="text-[10px]"> 项</span></p>
+                  <p className="mt-0.5 text-[9px] text-muted-foreground">每周任务</p>
+                </div>
               </div>
-              <div className="rounded-xl bg-surface p-2">
-                <p className="text-sm font-bold text-foreground">{cycle.weekly}<span className="text-[10px]"> 项</span></p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground">每周任务</p>
-              </div>
-            </div>
 
-            {/* 风险改善预测 */}
-            <div className="mt-2.5">
-              <div className="flex items-center justify-between text-[10px]">
-                <span className="text-muted-foreground">风险改善预测</span>
-                <span className="font-semibold text-teal">{cycle.improve}%</span>
+              {/* 风险改善预测 */}
+              <div className="mt-2.5">
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className="text-muted-foreground">风险改善预测</span>
+                  <span className="font-semibold text-teal">{cycle.improve}%</span>
+                </div>
+                <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-surface-2">
+                  <div className="h-full rounded-full bg-gradient-to-r from-warm to-teal transition-all duration-500" style={{ width: `${cycle.improve}%` }} />
+                </div>
               </div>
-              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-surface-2">
-                <div className="h-full rounded-full bg-gradient-to-r from-warm to-teal transition-all duration-500" style={{ width: `${cycle.improve}%` }} />
-              </div>
-            </div>
 
-            <p className="mt-2 flex items-start gap-1 text-[10px] leading-relaxed text-foreground/70">
-              <span>{<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
-              <span>{cycle.hint}，预计 <b className="text-foreground">{cycle.review}</b> 安排复查评估。</span>
-            </p>
-          </div>
+              <p className="mt-2 flex items-start gap-1 text-[10px] leading-relaxed text-foreground/70">
+                <span>{<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+                <span>{cycle.hint}，预计 <b className="text-foreground">{cycle.review}</b> 安排复查评估。</span>
+              </p>
+            </div>
+          ) : (
+            <div className="mt-3 rounded-2xl border border-dashed border-teal/40 bg-surface-2 p-4 text-center">
+              <p className="text-[12px] font-semibold text-foreground">请选择一个干预周期</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                选择后将展示对应的目标 BMI、预计减重与风险改善预测，并生成饮食·运动·护理方案。
+              </p>
+            </div>
+          )}
 
           <button
+            disabled={!cycle}
             onClick={() => {
+              if (!cycle) return;
               setCycleConfirmed(true);
               toast.success(`已按 ${cycle.weeks} 周方案生成`, { description: `目标 BMI ${cycle.bmi} · 每周 ${cycle.weekly} 项任务 · ${cycle.review} 复查` });
             }}
             className={`mt-3 w-full rounded-full py-2.5 text-[13px] font-semibold transition ${
-              cycleConfirmed
-                ? "bg-success/15 text-success ring-1 ring-success/30"
-                : "bg-teal text-teal-foreground shadow-sm"
+              !cycle
+                ? "bg-surface-2 text-muted-foreground"
+                : cycleConfirmed
+                  ? "bg-success/15 text-success ring-1 ring-success/30"
+                  : "bg-teal text-teal-foreground shadow-sm"
             }`}
           >
-            {cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
+            {!cycle ? "请先选择干预周期" : cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
           </button>
         </section>
+
+        {!cycleConfirmed ? (
+          <div className="mb-4 flex flex-col items-center rounded-3xl border border-dashed border-border bg-surface px-6 py-10 text-center shadow-sm">
+            <div className="grid h-16 w-16 place-items-center rounded-full bg-surface-2 text-3xl">
+              {<EIcon e="🔒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+            </div>
+            <p className="mt-3 text-[14px] font-bold">方案待生成</p>
+            <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground">
+              请在上方 <b className="text-foreground">选择干预周期</b> 并点击「生成方案」，
+              系统会据此为 {child.name} 定制饮食、运动、家庭护理与配套服务方案。
+            </p>
+          </div>
+        ) : (
+        <>
 
         {/* 饮食方案 - 图片同款样式 */}
         <section className="mb-4 overflow-hidden rounded-3xl bg-teal/10 shadow-sm">
@@ -633,6 +660,8 @@ function HealthPlanPage() {
             服务包由儿童医院医生团队提供，可咨询健管师后按需开通，不含任何商品销售。
           </p>
         </section>
+        </>
+        )}
       </div>
 
       <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 backdrop-blur">
@@ -656,7 +685,7 @@ function HealthPlanPage() {
             <div className="mb-3 flex gap-2 rounded-full bg-surface-2 p-1 text-[12px]">
               {[
                 { k: "ai", l: "AI 推荐" },
-                { k: "custom", l: "自定义发布" },
+                { k: "custom", l: "活动发布" },
                 { k: "nearby", l: "周边活动" },
               ].map((t) => (
                 <button

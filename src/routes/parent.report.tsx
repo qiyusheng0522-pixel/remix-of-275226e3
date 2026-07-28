@@ -138,7 +138,7 @@ const nextSteps = [
     icon: "📋",
     title: "生成专属健康方案",
     desc: "自选 3 / 5 / 7 周干预周期，获取饮食·运动·复查计划",
-    tag: "有参与感",
+    tag: "自定义周期",
     tagClass: "bg-rose/15 text-rose",
   },
 ] as const;
@@ -547,7 +547,7 @@ function ReportPage() {
             <div>
               <p className="text-sm font-bold">看完报告，接下来做什么？</p>
               <p className="text-[11px] text-muted-foreground">
-                本次发现 <b className="text-danger">3 项需关注</b>，建议按以下 3 步跟进
+                本次发现 <b className="text-danger">3 项需关注</b>，建议按 ①→②→③ 顺序跟进
               </p>
             </div>
           </div>
@@ -578,30 +578,16 @@ function ReportPage() {
 
       </div>
 
-      {/* 冻结咨询栏 */}
+      {/* 冻结操作栏 · 仅保留第一步主行动，完整路径见上方三步走 */}
       <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
-        <div className="grid grid-cols-3 gap-1.5">
-          <Link
-            to="/parent/comm"
-            search={{ topic: "report", from: "report" }}
-            className="flex items-center justify-center gap-1 rounded-full bg-surface-2 py-2.5 text-[11px] font-semibold text-foreground ring-1 ring-border/60"
-          >
-            <span className="text-sm">{<EIcon e="👨‍⚕️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> 咨询医生
-          </Link>
-          <Link
-            to="/parent/comm"
-            search={{ topic: "ai-report", from: "report" }}
-            className="flex items-center justify-center gap-1 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-[11px] font-semibold text-white shadow-sm"
-          >
-            <span className="text-sm">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> AI 解读
-          </Link>
-          <Link
-            to="/parent/health-plan"
-            className="flex items-center justify-center gap-1 rounded-full bg-teal py-2.5 text-[11px] font-semibold text-teal-foreground shadow-sm"
-          >
-            <span className="text-sm">{<EIcon e="📋" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span> 健康方案
-          </Link>
-        </div>
+        <Link
+          to="/parent/comm"
+          search={{ topic: "ai-report", from: "report" }}
+          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-warm to-teal py-3 text-[13px] font-semibold text-white shadow-sm active:scale-[0.99]"
+        >
+          <span className="text-base">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+          第一步 · 先让 AI 解读报告
+        </Link>
       </div>
     </div>
   );

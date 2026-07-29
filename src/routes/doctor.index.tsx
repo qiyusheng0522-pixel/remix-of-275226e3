@@ -12,9 +12,15 @@ import {
 } from "@/components/Workbench";
 
 import { EIcon } from "@/components/EIcon";
+import { EXAM_USERS } from "@/lib/exam-users";
 export const Route = createFileRoute("/doctor/")({
   component: DoctorHome,
 });
+
+/** 待检学生 = 尚未完成体检（待检 + 进行中），与待检清单及录入队列口径一致。 */
+const PENDING_EXAM_COUNT = EXAM_USERS.filter(
+  (u) => u.status === "待检" || u.status === "进行中",
+).length;
 
 type Stat = {
   icon: import("react").ReactNode;
@@ -25,6 +31,7 @@ type Stat = {
   unit: string;
   valueColor: string;
   to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan" | "/doctor/exam" | "/doctor/comm";
+  search?: Record<string, unknown>;
 };
 
 const stats: Stat[] = [
@@ -33,10 +40,11 @@ const stats: Stat[] = [
     iconBg: "bg-teal/15 text-teal",
     label: "待检学生",
     sub: "阳光小学 · 三年级 3 班",
-    value: 4,
+    value: PENDING_EXAM_COUNT,
     unit: "人待检",
     valueColor: "text-teal",
     to: "/doctor/exam",
+    search: { view: "queue" },
   },
   {
     icon: <EIcon e="🔍" />,
@@ -76,6 +84,7 @@ type Todo = {
   tags: { text: string; cls: string }[];
   desc: string;
   to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep" | "/doctor/exam";
+  search?: Record<string, unknown>;
 };
 
 const todos: Todo[] = [
@@ -83,8 +92,9 @@ const todos: Todo[] = [
     id: "E0",
     name: "待检学生",
     tags: [{ text: "待检学生", cls: "bg-teal/15 text-teal" }],
-    desc: "阳光小学 · 三年级 3 班 · 4 人待检 · 点击进入待检清单",
+    desc: `阳光小学 · 三年级 3 班 · ${PENDING_EXAM_COUNT} 人待检 · 点击进入待检清单`,
     to: "/doctor/exam",
+    search: { view: "queue" },
   },
   {
     id: "0423",
@@ -214,6 +224,7 @@ function DoctorHome() {
               key={t.id}
               index={i + 1}
               to={t.to}
+              search={t.search}
               tags={t.tags}
               title={`${t.id} ${t.name}`}
               desc={t.desc}

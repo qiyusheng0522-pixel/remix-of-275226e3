@@ -146,6 +146,7 @@ export type WorkbenchStat = {
   unit: string;
   valueColor: string;
   to: string;
+  search?: Record<string, unknown>;
 };
 
 /**
@@ -157,6 +158,7 @@ export function StatCard({ stat }: { stat: WorkbenchStat }) {
   return (
     <Link
       to={stat.to}
+      search={stat.search}
       className="flex flex-col rounded-2xl bg-surface p-3.5 shadow-sm ring-1 ring-border/60 transition hover:shadow-md active:scale-[0.98]"
     >
       <div className="flex items-center gap-2">
@@ -219,12 +221,14 @@ export function FilterChips<T extends { key: string; label: string }>({
 export function TodoRow({
   index,
   to,
+  search,
   tags,
   title,
   desc,
 }: {
   index: number;
   to: string;
+  search?: Record<string, unknown>;
   tags: { text: string; cls: string }[];
   title: string;
   desc: string;
@@ -233,6 +237,7 @@ export function TodoRow({
     <li>
       <Link
         to={to}
+        search={search}
         className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60 transition hover:shadow-md"
       >
         <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface-2 text-[12px] font-bold text-muted-foreground">

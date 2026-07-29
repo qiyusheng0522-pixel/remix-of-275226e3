@@ -115,8 +115,8 @@ const valueColor: Record<Level, string> = {
 
 const nextSteps = [
   {
-    to: "/parent/report",
-    search: undefined,
+    to: "/parent/comm",
+    search: { topic: "ai-report", from: "report" },
     icon: "🤖",
     title: "先让 AI 解读报告",
     desc: "用大白话说清 3 项异常的原因与轻重，1 分钟看懂",
@@ -124,8 +124,8 @@ const nextSteps = [
     tagClass: "bg-teal/15 text-teal",
   },
   {
-    to: "/parent/report",
-    search: undefined,
+    to: "/parent/comm",
+    search: { topic: "report", from: "report" },
     icon: "👨‍⚕️",
     title: "就异常项咨询医生",
     desc: "体重管理 + 过敏咳嗽，一对一确认就诊与用药建议",
@@ -133,8 +133,8 @@ const nextSteps = [
     tagClass: "bg-warm/15 text-warm",
   },
   {
-    to: "/parent/report",
-    search: undefined,
+    to: "/parent/health-plan",
+    search: { from: "report" },
     icon: "📋",
     title: "生成专属健康方案",
     desc: "自选 3 / 5 / 7 周干预周期，获取饮食·运动·复查计划",

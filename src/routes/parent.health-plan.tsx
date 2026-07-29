@@ -17,6 +17,9 @@ const nearby = [
 ];
 
 export const Route = createFileRoute("/parent/health-plan")({
+  validateSearch: (s: Record<string, unknown>): { from?: string } => ({
+    from: typeof s.from === "string" && s.from.trim() ? s.from.trim() : undefined,
+  }),
   component: HealthPlanPage,
 });
 
@@ -94,6 +97,9 @@ const exercises = [
 ];
 
 function HealthPlanPage() {
+  const { from } = Route.useSearch();
+  // 从体检报告页进入时，这是首页 Tab 根路由，默认不显示返回箭头，需强制显示以便返回报告页
+  const backToReport = from === "report" ? true : undefined;
   const [checked, setChecked] = useState<Record<string, boolean>>(() => ({ [exercises[0].title]: true }));
   const [sheet, setSheet] = useState<null | "more" | "publish">(null);
   const [tab, setTab] = useState<"ai" | "custom" | "nearby">("ai");
@@ -116,7 +122,7 @@ function HealthPlanPage() {
   if (!hasReport) {
     return (
       <div className="bg-surface-2">
-        <StatusBar title="健康管理方案" />
+        <StatusBar title="健康管理方案" back={backToReport} />
         <div className="flex flex-col items-center px-6 pb-16 pt-10 text-center">
           <div className="grid h-24 w-24 place-items-center rounded-full bg-warm/15 text-4xl">
             {<EIcon e="🗓️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
@@ -172,7 +178,7 @@ function HealthPlanPage() {
 
   return (
     <div className="bg-surface-2">
-      <StatusBar title="健康管理方案" />
+      <StatusBar title="健康管理方案" back={backToReport} />
       <div className="px-4 pb-28 pt-2">
         <header className="mb-3 px-1">
           <h1 className="text-xl font-bold">{child.name} 的健康方案</h1>
@@ -570,7 +576,7 @@ function HealthPlanPage() {
             onClick={() => { setSheet("more"); setTab("ai"); }}
             className="mt-3 flex w-full items-center justify-center gap-1 rounded-2xl border border-dashed border-teal/50 bg-surface py-2.5 text-[12px] font-semibold text-teal"
           >
-            {<EIcon e="➕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 更多运动 / 发布运动 / 参与周边活动
+            {<EIcon e="➕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 更多运动 / ��布运动 / 参与周边活动
           </button>
         </section>
 

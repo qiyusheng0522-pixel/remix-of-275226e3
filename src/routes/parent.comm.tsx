@@ -406,7 +406,7 @@ function CommPage() {
   // behind the tab bar.
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gradient-to-b from-rose/25 via-rose/10 to-rose/5">
-      <StatusBar title="健康咨询" />
+      <StatusBar title="健康咨询" back={search.from === "report" ? true : undefined} />
 
       {/* Header — 对话开始后收成一行，把空间让给回答内容 */}
       {empty ? (

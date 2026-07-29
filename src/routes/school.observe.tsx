@@ -65,7 +65,7 @@ function ObservePage() {
         <ul className="space-y-2 pb-8">
           {upcoming.map((u) => (
             <li key={u.who + u.type} className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/15 text-lg">{<EIcon e="🔁" className="inline h-3.5 w-3.5" />}</div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-deep/15 text-lg">{<EIcon e="🔁" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">{u.type}</p>
                 <p className="text-[11px] text-muted-foreground">{u.time} · {u.who}</p>

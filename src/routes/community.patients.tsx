@@ -1,69 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
 import { StatusBar } from "@/components/MobileFrame";
+import { patients } from "@/lib/community-patients";
 
 export const Route = createFileRoute("/community/patients")({
   component: PatientsPage,
 });
 
-type Src = "全部" | "服务包" | "复诊转入";
-
-type Patient = {
-  name: string;
-  age: string;
-  src: Exclude<Src, "全部">;
-  plan: string;
-  from: string;
-  next: string;
-  adherence: number;
-  tags: string[];
-};
-
-const patients: Patient[] = [
-  {
-    name: "刘小强",
-    age: "10 岁 · 男",
-    src: "服务包",
-    plan: "儿童体重管理季度包（第 3 周）",
-    from: "家长于 04-01 商城购买",
-    next: "04-15 上门随访 · 测体重腰围",
-    adherence: 82,
-    tags: ["BMI 24.6", "运动打卡 ↑"],
-  },
-  {
-    name: "陈小美",
-    age: "9 岁 · 女",
-    src: "复诊转入",
-    plan: "哮喘长期维持 · 家庭雾化指导",
-    from: "市儿童医院 呼吸科 李主任 04-10 转入",
-    next: "04-24 家庭访视",
-    adherence: 65,
-    tags: ["峰流速稳定", "夜咳↓"],
-  },
-  {
-    name: "王小美",
-    age: "8 岁 · 女",
-    src: "服务包",
-    plan: "近视防控半年包（第 2 月）",
-    from: "家长于 03-05 商城购买",
-    next: "04-18 屈光复查",
-    adherence: 90,
-    tags: ["裸眼 4.8", "户外 ≥2h/日"],
-  },
-  {
-    name: "张小乐",
-    age: "6 岁 · 男",
-    src: "复诊转入",
-    plan: "过敏性鼻炎季节维持",
-    from: "区妇幼保健院 04-08 转入",
-    next: "04-20 电话随访",
-    adherence: 48,
-    tags: ["用药依从↓", "需家长强化"],
-  },
-];
+type Filter = "全部" | "服务包" | "复诊转入";
 
 function PatientsPage() {
-  const [src, setSrc] = useState<Src>("全部");
+  const [src, setSrc] = useState<Filter>("全部");
   const list = patients.filter((p) => src === "全部" || p.src === src);
   return (
     <div>
@@ -75,7 +23,7 @@ function PatientsPage() {
         </p>
 
         <div className="mb-3 flex gap-2">
-          {(["全部", "服务包", "复诊转入"] as Src[]).map((k) => (
+          {(["全部", "服务包", "复诊转入"] as Filter[]).map((k) => (
             <button
               key={k}
               onClick={() => setSrc(k)}
@@ -93,7 +41,7 @@ function PatientsPage() {
         <ul className="space-y-3">
           {list.map((p) => (
             <li
-              key={p.name}
+              key={p.id}
               className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
             >
               <div className="flex items-start justify-between">
@@ -101,7 +49,7 @@ function PatientsPage() {
                   <p className="text-sm font-semibold">
                     {p.name}
                     <span className="ml-2 text-[11px] text-muted-foreground">
-                      {p.age}
+                      {p.age} 岁 · {p.gender}
                     </span>
                   </p>
                   <p className="mt-0.5 text-[11px] text-muted-foreground">{p.from}</p>
@@ -118,7 +66,7 @@ function PatientsPage() {
               </div>
 
               <p className="mt-2 rounded-xl bg-surface-2 p-2 text-[12px]">
-                 {p.plan}
+                {p.plan} · {p.planStage}
               </p>
 
               <div className="mt-2 flex items-center justify-between text-[11px]">
@@ -148,13 +96,24 @@ function PatientsPage() {
               </div>
 
               <div className="mt-3 flex gap-2">
-                <button className="flex-1 rounded-xl bg-surface-2 py-2 text-xs">
+                <Link
+                  to="/community/patient/$id"
+                  params={{ id: p.id }}
+                  className="flex-1 rounded-xl bg-warm py-2 text-center text-xs font-medium text-warm-foreground"
+                >
                   查看档案
-                </button>
-                <button className="flex-1 rounded-xl bg-teal/15 py-2 text-xs text-teal">
+                </Link>
+                <Link
+                  to="/community/patient/$id"
+                  params={{ id: p.id }}
+                  className="flex-1 rounded-xl bg-teal/15 py-2 text-center text-xs text-teal"
+                >
                   记录随访
-                </button>
-                <button className="flex-1 rounded-xl bg-warm py-2 text-xs font-medium text-warm-foreground">
+                </Link>
+                <button
+                  onClick={() => toast(`正在联系 ${p.name} 家长`, { description: "已发起电话呼叫" })}
+                  className="flex-1 rounded-xl bg-surface-2 py-2 text-xs"
+                >
                   联系家长
                 </button>
               </div>

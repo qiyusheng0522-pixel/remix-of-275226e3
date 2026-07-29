@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { SubNav, reviewSubNav } from "@/components/DoctorSubNav";
 import { focusPool, riskColorMap } from "@/lib/mock-data";
@@ -76,15 +76,15 @@ function FocusPoolPage() {
                   {s.school} · {s.class} · BMI {s.bmi}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button className="rounded-full bg-deep/10 px-3 py-1 text-[11px] text-deep">
+                  <Link to="/doctor/child" className="rounded-full bg-deep/10 px-3 py-1 text-[11px] text-deep">
                     查看档案
-                  </button>
-                  <button className="rounded-full bg-warm/10 px-3 py-1 text-[11px] text-warm">
+                  </Link>
+                  <Link to="/doctor/plan" className="rounded-full bg-warm/10 px-3 py-1 text-[11px] text-warm">
                     编辑方案
-                  </button>
-                  <button className="rounded-full bg-teal/10 px-3 py-1 text-[11px] text-teal">
+                  </Link>
+                  <Link to="/doctor/referral" className="rounded-full bg-teal/10 px-3 py-1 text-[11px] text-teal">
                     转诊
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

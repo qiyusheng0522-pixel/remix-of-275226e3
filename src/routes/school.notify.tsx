@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { ActionSheet } from "@/components/ActionSheet";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/notify")({
@@ -23,6 +24,7 @@ const tabs = ["未授权", "未问卷", "未读报告", "已终止"] as const;
 
 function NotifyPage() {
   const [t, setT] = useState<(typeof tabs)[number]>("未授权");
+  const [contacted, setContacted] = useState<Record<string, boolean>>({});
   const list = parents.filter((p) => p.state === t);
 
   return (
@@ -52,7 +54,7 @@ function NotifyPage() {
 
         {/* 一键提醒 */}
         <div className="mb-4 rounded-2xl bg-gradient-to-br from-teal/15 to-deep/15 p-4 ring-1 ring-teal/20">
-          <p className="text-sm font-semibold">{<EIcon e="📣" className="inline h-3.5 w-3.5" />} 一键发送体检通知</p>
+          <p className="text-sm font-semibold">{<EIcon e="📣" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 一键发送体检通知</p>
           <p className="mt-1 text-[11px] text-muted-foreground">通过微信 / 短信推送体检时间、地点、注意事项</p>
           <div className="mt-3 flex gap-2">
             <ActionSheet
@@ -63,7 +65,12 @@ function NotifyPage() {
               toastMessage="通知已发送 442 位家长"
               toastType="success"
             />
-            <button className="rounded-xl bg-surface px-3 py-2 text-xs ring-1 ring-border/60">查看已通知 442</button>
+            <button
+              onClick={() => toast("已通知 442 位家长", { description: "微信送达 398 · 短信送达 44 · 已读 383" })}
+              className="rounded-xl bg-surface px-3 py-2 text-xs ring-1 ring-border/60"
+            >
+              查看已通知 442
+            </button>
           </div>
         </div>
 
@@ -102,7 +109,7 @@ function NotifyPage() {
         {list.map((p) => (
           <li key={p.name} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-lg">{<EIcon e="👨‍👩‍👧" className="inline h-3.5 w-3.5" />}</div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-lg">{<EIcon e="👨‍👩‍👧" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <p className="truncate text-sm font-semibold">{p.name}</p>
@@ -122,7 +129,17 @@ function NotifyPage() {
                   toastMessage={`已提醒 ${p.name}`}
                 />
 
-                <button className="rounded-full bg-surface-2 px-3 py-1 text-[10px] text-muted-foreground">已联系</button>
+                <button
+                  onClick={() => {
+                    setContacted((c) => ({ ...c, [p.name]: true }));
+                    toast.success(`已标记「${p.name}」为已联系`);
+                  }}
+                  className={`rounded-full px-3 py-1 text-[10px] ${
+                    contacted[p.name] ? "bg-success/15 text-success" : "bg-surface-2 text-muted-foreground"
+                  }`}
+                >
+                  {contacted[p.name] ? "已联系 ✓" : "标记已联系"}
+                </button>
               </div>
             </div>
           </li>

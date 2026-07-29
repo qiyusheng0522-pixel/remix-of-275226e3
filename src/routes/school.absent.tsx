@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/absent")({
@@ -55,7 +56,7 @@ function AbsentPage() {
         {list.map((a, idx) => (
           <li key={a.name} className="rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-lg">{<EIcon e="🚫" className="inline h-3.5 w-3.5" />}</div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-warm/15 text-lg">{<EIcon e="🚫" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <p className="truncate text-sm font-semibold">{a.name}</p>
@@ -87,7 +88,10 @@ function AbsentPage() {
                       >
                         安排补检
                       </button>
-                      <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
+                      <button
+                        onClick={() => toast.success(`已通知 ${a.name} 家长`, { description: `${a.class} · 补检安排将短信告知` })}
+                        className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground"
+                      >
                         通知家长
                       </button>
                     </>

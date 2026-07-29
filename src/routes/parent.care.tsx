@@ -18,6 +18,7 @@ type Reminder = {
   lastDone: string; // 上次完成日期 YYYY-MM-DD
   needsInput?: "weight"; // 到期需要用户输入
   unit?: string;
+  passive?: boolean; // 仅提醒、无需标记完成（如通风、补剂等日常习惯）
 };
 
 // 今天固定用一个基准日，示例中"晨起体重记录"恰好当天到期
@@ -31,10 +32,10 @@ const daysAgo = (n: number) => {
 const initialReminders: Reminder[] = [
   { id: "weight", icon: <EIcon e="⚖️" />, title: "晨起体重记录", tag: "体重管理", cycleDays: 7, lastDone: daysAgo(7), needsInput: "weight", unit: "kg" },
   { id: "bed", icon: <EIcon e="🛏️" />, title: "床品除螨清洗", tag: "过敏防护", cycleDays: 14, lastDone: daysAgo(9) },
-  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "vent", icon: <EIcon e="🪟" />, title: "开窗通风换气", tag: "通风湿度", cycleDays: 1, lastDone: daysAgo(1), passive: true },
   { id: "humid", icon: <EIcon e="💧" />, title: "空气加湿器换水", tag: "呼吸道", cycleDays: 3, lastDone: daysAgo(1) },
   { id: "brush", icon: <EIcon e="🦷" />, title: "儿童牙刷更换", tag: "口腔", cycleDays: 90, lastDone: daysAgo(46) },
-  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", cycleDays: 1, lastDone: daysAgo(1) },
+  { id: "vitd", icon: <EIcon e="☀️" />, title: "维生素 D 补充", tag: "营养", cycleDays: 1, lastDone: daysAgo(1), passive: true },
 ];
 
 const dayDiff = (a: string, b: string) => {
@@ -47,8 +48,9 @@ function CarePage() {
   const [reminders, setReminders] = useState(initialReminders);
   const done = todayTasks.filter((t) => t.done).length;
 
+  // 仅统计"需要操作"的到期任务，纯提醒项不计入
   const dueToday = useMemo(
-    () => reminders.filter((r) => dayDiff(r.lastDone, TODAY) >= r.cycleDays),
+    () => reminders.filter((r) => !r.passive && dayDiff(r.lastDone, TODAY) >= r.cycleDays),
     [reminders],
   );
 
@@ -66,7 +68,7 @@ function CarePage() {
               连续执行 12 天 · 本周完成率 78%
             </p>
           </div>
-          <span className="text-3xl">{<EIcon e="💗" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-3xl">{<EIcon e="💗" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
         </header>
 
         {/* Tabs */}
@@ -104,14 +106,14 @@ function CarePage() {
           <div className="mb-2">
             <h2 className="text-sm font-semibold">居家健康提醒</h2>
             <p className="mt-0.5 text-[11px] text-muted-foreground">
-              可自定义周期与上次完成时间 · 今日到期 {dueToday.length} 项
+              带“待完成”的为需操作事项，今日到期 {dueToday.length} 项；其余仅作日常提醒
             </p>
           </div>
           <ul className="space-y-2">
             {reminders.map((r) => {
               const daysSince = dayDiff(r.lastDone, TODAY);
               const daysLeft = r.cycleDays - daysSince;
-              const isDue = daysLeft <= 0;
+              const isDue = !r.passive && daysLeft <= 0;
               return (
                 <li
                   key={r.id}
@@ -131,38 +133,55 @@ function CarePage() {
                         </span>
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted-foreground">
-                        每 {r.cycleDays} 天 · 上次 {r.lastDone}
-                        {isDue ? (
-                          <span className="ml-1 font-medium text-warm">· 今日到期</span>
+                        {r.passive ? (
+                          <span>
+                            {r.cycleDays <= 1 ? "每日" : `每 ${r.cycleDays} 天`}提醒 · 养成习惯即可，无需打卡
+                          </span>
                         ) : (
-                          <span className="ml-1">· {daysLeft} 天后</span>
+                          <>
+                            每 {r.cycleDays} 天 · 上次 {r.lastDone}
+                            {isDue ? (
+                              <span className="ml-1 font-medium text-warm">· 今日到期</span>
+                            ) : (
+                              <span className="ml-1">· {daysLeft} 天后</span>
+                            )}
+                          </>
                         )}
                       </p>
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1">
-                      {r.needsInput === "weight" && isDue ? (
-                        <WeightSheet
-                          onSave={(w) => {
-                            updateReminder(r.id, { lastDone: TODAY });
-                            console.log("weight", w);
-                          }}
-                        />
+                      {r.passive ? (
+                        // 纯提醒项：不需要"标为完成"，只给一个提示标记
+                        <span className="rounded-full bg-surface px-2.5 py-1 text-[11px] text-muted-foreground ring-1 ring-border">
+                          仅提醒
+                        </span>
                       ) : (
-                        <button
-                          onClick={() => updateReminder(r.id, { lastDone: TODAY })}
-                          className={`rounded-full px-2.5 py-1 text-[11px] ${
-                            isDue
-                              ? "bg-warm text-warm-foreground"
-                              : "bg-surface text-muted-foreground ring-1 ring-border"
-                          }`}
-                        >
-                          {isDue ? "标为完成" : "已完成"}
-                        </button>
+                        <>
+                          {r.needsInput === "weight" && isDue ? (
+                            <WeightSheet
+                              onSave={(w) => {
+                                updateReminder(r.id, { lastDone: TODAY });
+                                console.log("weight", w);
+                              }}
+                            />
+                          ) : (
+                            <button
+                              onClick={() => updateReminder(r.id, { lastDone: TODAY })}
+                              className={`rounded-full px-2.5 py-1 text-[11px] ${
+                                isDue
+                                  ? "bg-warm text-warm-foreground"
+                                  : "bg-surface text-muted-foreground ring-1 ring-border"
+                              }`}
+                            >
+                              {isDue ? "标为完成" : "已完成"}
+                            </button>
+                          )}
+                          <EditSheet
+                            reminder={r}
+                            onSave={(patch) => updateReminder(r.id, patch)}
+                          />
+                        </>
                       )}
-                      <EditSheet
-                        reminder={r}
-                        onSave={(patch) => updateReminder(r.id, patch)}
-                      />
                     </div>
                   </div>
                 </li>

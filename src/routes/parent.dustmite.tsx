@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 import { StatusBar } from "@/components/MobileFrame";
 
 import { EIcon } from "@/components/EIcon";
@@ -22,14 +24,17 @@ const longTerm = [
 ];
 
 function DustMitePage() {
-  const done = weekly.filter((w) => w.done).length;
+  // 记录额外打卡的任务（在示例已完成基础上叠加）
+  const [punched, setPunched] = useState<Record<string, boolean>>({});
+  const isDone = (w: (typeof weekly)[number]) => w.done || punched[w.title];
+  const done = weekly.filter(isDone).length;
   return (
     <div>
       <StatusBar title="卧室除螨" />
       <div className="px-5 pb-8 pt-2">
         <div className="mb-4 overflow-hidden rounded-3xl bg-gradient-to-br from-teal to-teal/70 p-5 text-white shadow-lg shadow-teal/20">
           <p className="text-xs opacity-90">尘螨是过敏与夜间咳嗽的常见诱因</p>
-          <h1 className="mt-1 text-lg font-bold">给{" "}{"小雨"} 一个干净的睡眠环境 {<EIcon e="🛏️" className="inline h-3.5 w-3.5" />}</h1>
+          <h1 className="mt-1 text-lg font-bold">给{" "}{"小雨"} 一个干净的睡眠环境 {<EIcon e="🛏️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</h1>
           <div className="mt-3 flex items-center gap-3">
             <div className="flex-1">
               <div className="h-2 overflow-hidden rounded-full bg-white/25">
@@ -40,7 +45,10 @@ function DustMitePage() {
               </div>
               <p className="mt-1 text-[11px] opacity-90">本周完成 {done}/{weekly.length}</p>
             </div>
-            <button className="rounded-full bg-white/25 px-3 py-1.5 text-xs backdrop-blur">
+            <button
+              onClick={() => toast.success("已开启本周除螨提醒", { description: `将按计划提醒 ${weekly.length - done} 项未完成任务` })}
+              className="rounded-full bg-white/25 px-3 py-1.5 text-xs backdrop-blur"
+            >
               全部提醒
             </button>
           </div>
@@ -57,15 +65,21 @@ function DustMitePage() {
                 {w.icon}
               </div>
               <div className="min-w-0 flex-1">
-                <p className={`text-sm font-medium ${w.done ? "text-muted-foreground line-through" : ""}`}>
+                <p className={`text-sm font-medium ${isDone(w) ? "text-muted-foreground line-through" : ""}`}>
                   {w.title}
                 </p>
                 <p className="text-[11px] text-muted-foreground" dangerouslySetInnerHTML={{__html: w.note}} />
               </div>
-              {w.done ? (
-                <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />}</span>
+              {isDone(w) ? (
+                <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] text-success">{<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
               ) : (
-                <button className="rounded-full bg-teal px-3 py-1 text-[11px] font-medium text-teal-foreground">
+                <button
+                  onClick={() => {
+                    setPunched((p) => ({ ...p, [w.title]: true }));
+                    toast.success(`已打卡：${w.title}`);
+                  }}
+                  className="rounded-full bg-teal px-3 py-1 text-[11px] font-medium text-teal-foreground"
+                >
                   打卡
                 </button>
               )}
@@ -89,7 +103,7 @@ function DustMitePage() {
         </ul>
 
         <div className="rounded-2xl bg-teal/10 p-4 text-xs leading-relaxed text-deep ring-1 ring-teal/20">
-          {<EIcon e="💡" className="inline h-3.5 w-3.5" />} 卧室尽量减少地毯、厚窗帘和大量毛绒玩具；保持通风与干爽是最简单有效的除螨方式。
+          {<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 卧室尽量减少地毯、厚窗帘和大量毛绒玩具；保持通风与干爽是最简单有效的除螨方式。
         </div>
       </div>
     </div>

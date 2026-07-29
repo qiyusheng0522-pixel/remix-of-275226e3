@@ -47,7 +47,7 @@ function MePage() {
         <div className="rounded-3xl bg-gradient-to-br from-warm/30 to-teal/15 p-4 ring-1 ring-warm/20">
           <div className="flex items-center gap-3">
             <div className="grid h-14 w-14 place-items-center rounded-full bg-warm text-2xl text-warm-foreground">
-              {<EIcon e="🩺" className="inline h-3.5 w-3.5" />}
+              {<EIcon e="🩺" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
             </div>
             <div>
               <p className="text-base font-bold">张医生</p>

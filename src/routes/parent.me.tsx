@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { child } from "@/lib/mock-data";
 
 import { EIcon } from "@/components/EIcon";
@@ -47,15 +48,34 @@ function MePage() {
         <div className="absolute inset-0 -z-0 bg-gradient-to-br from-warm via-warm/70 to-teal" />
         <div className="relative flex items-center gap-4 text-white">
           <div className="grid h-16 w-16 place-items-center rounded-3xl bg-white/25 text-3xl backdrop-blur">
-            {<EIcon e="👩" className="inline h-3.5 w-3.5" />}
+            {<EIcon e="👩" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-lg font-bold">李妈妈</p>
             <p className="text-xs text-white/80">监护人 · 138****2201</p>
           </div>
-          <button className="rounded-full bg-white/25 px-3 py-1.5 text-xs text-white backdrop-blur">
-            编辑
-          </button>
+          <ActionSheet
+            trigger={
+              <button className="rounded-full bg-white/25 px-3 py-1.5 text-xs text-white backdrop-blur">
+                编辑
+              </button>
+            }
+            title="编辑个人资料"
+            description="修改昵称与联系电话，用于接收体检与随访通知。"
+            confirmText="保存"
+            toastMessage="资料已保存"
+          >
+            <div className="space-y-2 text-xs">
+              <label className="block">
+                <span className="text-muted-foreground">昵称</span>
+                <input defaultValue="李妈妈" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+              </label>
+              <label className="block">
+                <span className="text-muted-foreground">手机号</span>
+                <input defaultValue="138****2201" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+              </label>
+            </div>
+          </ActionSheet>
         </div>
       </div>
 

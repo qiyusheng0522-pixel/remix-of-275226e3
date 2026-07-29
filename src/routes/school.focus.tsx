@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { focusStudents, riskColorMap } from "@/lib/mock-data";
 import { useState } from "react";
+import { ActionSheet } from "@/components/ActionSheet";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/school/focus")({
@@ -32,7 +33,7 @@ function FocusPage() {
         <div className="mb-4 rounded-2xl bg-gradient-to-br from-warm/20 to-danger/10 p-4 ring-1 ring-warm/30">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-lg">{<EIcon e="🚨" className="inline h-3.5 w-3.5" />}</span>
+              <span className="text-lg">{<EIcon e="🚨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
               <span className="text-sm font-semibold">现场异常上报</span>
             </div>
             <Link to="/school/abnormal" className="rounded-full bg-warm px-3 py-1 text-[11px] font-medium text-warm-foreground">
@@ -75,7 +76,7 @@ function FocusPage() {
           <li key={s.name} className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60">
             <div className="flex items-start gap-3">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-surface-2 text-lg">
-                {<EIcon e="🧒" className="inline h-3.5 w-3.5" />}
+                {<EIcon e="🧒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
@@ -89,12 +90,35 @@ function FocusPage() {
                   {s.type} · {s.note}
                 </p>
                 <div className="mt-2 flex gap-2">
-                  <button className="rounded-full bg-teal/15 px-3 py-1 text-[11px] text-teal">
-                    查看配合事项
-                  </button>
-                  <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
-                    升级健管师
-                  </button>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-teal/15 px-3 py-1 text-[11px] text-teal">
+                        查看配合事项
+                      </button>
+                    }
+                    title={`${s.name} · 学校配合事项`}
+                    description={`风险类型：${s.type}\n${s.note}`}
+                    confirmText="标记已知悉"
+                    toastMessage={`已确认 ${s.name} 的配合事项`}
+                  >
+                    <ul className="space-y-1.5 text-xs text-muted-foreground">
+                      <li>· 体育课运动量按医嘱适当调整，避免剧烈运动</li>
+                      <li>· 关注课间状态，发现不适及时联系校医与家长</li>
+                      <li>· 每周向健管师反馈一次在校表现</li>
+                    </ul>
+                  </ActionSheet>
+                  <ActionSheet
+                    trigger={
+                      <button className="rounded-full bg-surface-2 px-3 py-1 text-[11px] text-muted-foreground">
+                        升级健管师
+                      </button>
+                    }
+                    title={`将 ${s.name} 升级至健管师？`}
+                    description="升级后由社区健管师接管跟进，学校侧仍可查看进度。"
+                    confirmText="确认升级"
+                    toastMessage={`已升级 ${s.name} 至健管师`}
+                    toastDescription="社区健管师将在 1 个工作日内接管"
+                  />
                 </div>
               </div>
             </div>

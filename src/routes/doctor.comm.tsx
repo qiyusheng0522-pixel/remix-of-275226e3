@@ -59,6 +59,7 @@ function CommPage() {
   const [aiOn, setAiOn] = useState(true);
   const [autoAi, setAutoAi] = useState(false);
   const [input, setInput] = useState("");
+  const [roleFilter, setRoleFilter] = useState<"全部" | Role>("全部");
 
   const active = useMemo(() => threads.find((t) => t.id === activeId), [threads, activeId]);
   const unreadTotal = threads.reduce((s, t) => s + t.unread, 0);
@@ -107,7 +108,7 @@ function CommPage() {
               <span className={roleTag(active.role)}>{active.role}</span> · {active.sub}
             </p>
           </div>
-          <span className="text-lg">{<EIcon e="☎️" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-lg">{<EIcon e="☎️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto bg-surface-2 px-4 py-4">
@@ -122,7 +123,7 @@ function CommPage() {
               >
                 {m.ai && (
                   <p className="mb-1 flex items-center gap-1 text-[10px] font-medium opacity-80">
-                    {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 生成 · 已由医生确认
+                    {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 生成 · 已由医生确认
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.text}</p>
@@ -140,7 +141,7 @@ function CommPage() {
             <div className="border-b border-border/60 bg-teal/5 px-4 py-2">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-1 text-[11px] text-teal">
-                  {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 助手已就绪 · 按角色/病史生成回复
+                  {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 助手已就绪 · 按角色/病史生成回复
                 </p>
                 <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                   自动
@@ -209,7 +210,7 @@ function CommPage() {
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">
-            <span>{<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 回复</span>
+            <span>{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 回复</span>
             <button
               onClick={() => setAiOn((v) => !v)}
               className={`relative h-4 w-7 rounded-full transition ${aiOn ? "bg-teal" : "bg-surface-2"}`}
@@ -225,11 +226,12 @@ function CommPage() {
 
         {/* 角色 tab */}
         <div className="mt-4 flex gap-1.5">
-          {(["全部", "家长", "健管师"] as const).map((r, i) => (
+          {(["全部", "家长", "健管师"] as const).map((r) => (
             <button
               key={r}
+              onClick={() => setRoleFilter(r)}
               className={`rounded-full px-3 py-1 text-[11px] ${
-                i === 0
+                roleFilter === r
                   ? "bg-deep text-deep-foreground font-medium"
                   : "bg-surface text-muted-foreground ring-1 ring-border/60"
               }`}
@@ -240,7 +242,7 @@ function CommPage() {
         </div>
 
         <ul className="mt-3 space-y-2">
-          {threads.map((t) => (
+          {threads.filter((t) => roleFilter === "全部" || t.role === roleFilter).map((t) => (
             <li key={t.id}>
               <button
                 onClick={() => openThread(t.id)}

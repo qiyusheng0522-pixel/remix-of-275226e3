@@ -1,11 +1,26 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StatusBar } from "@/components/MobileFrame";
+import {
+  FilterChips,
+  GreetingCard,
+  SectionCount,
+  SectionTitle,
+  StatCard,
+  TodoRow,
+  WorkbenchHeader,
+} from "@/components/Workbench";
 
 import { EIcon } from "@/components/EIcon";
+import { EXAM_USERS } from "@/lib/exam-users";
 export const Route = createFileRoute("/doctor/")({
   component: DoctorHome,
 });
+
+/** 待检学生 = 尚未完成体检（待检 + 进行中），与待检清单及录入队列口径一致。 */
+const PENDING_EXAM_COUNT = EXAM_USERS.filter(
+  (u) => u.status === "待检" || u.status === "进行中",
+).length;
 
 type Stat = {
   icon: import("react").ReactNode;
@@ -16,6 +31,7 @@ type Stat = {
   unit: string;
   valueColor: string;
   to: "/doctor/referral" | "/doctor/qc" | "/doctor/messages" | "/doctor/plan" | "/doctor/exam" | "/doctor/comm";
+  search?: Record<string, unknown>;
 };
 
 const stats: Stat[] = [
@@ -24,10 +40,11 @@ const stats: Stat[] = [
     iconBg: "bg-teal/15 text-teal",
     label: "待检学生",
     sub: "阳光小学 · 三年级 3 班",
-    value: 4,
+    value: PENDING_EXAM_COUNT,
     unit: "人待检",
     valueColor: "text-teal",
     to: "/doctor/exam",
+    search: { view: "queue" },
   },
   {
     icon: <EIcon e="🔍" />,
@@ -67,6 +84,7 @@ type Todo = {
   tags: { text: string; cls: string }[];
   desc: string;
   to: "/doctor/qc" | "/doctor/plan" | "/doctor/messages" | "/doctor/comm" | "/doctor/prep" | "/doctor/exam";
+  search?: Record<string, unknown>;
 };
 
 const todos: Todo[] = [
@@ -74,8 +92,9 @@ const todos: Todo[] = [
     id: "E0",
     name: "待检学生",
     tags: [{ text: "待检学生", cls: "bg-teal/15 text-teal" }],
-    desc: "阳光小学 · 三年级 3 班 · 4 人待检 · 点击进入待检清单",
+    desc: `阳光小学 · 三年级 3 班 · ${PENDING_EXAM_COUNT} 人待检 · 点击进入待检清单`,
     to: "/doctor/exam",
+    search: { view: "queue" },
   },
   {
     id: "0423",
@@ -145,129 +164,71 @@ function DoctorHome() {
 
   return (
     <div className="pb-4">
-      <StatusBar title="童护佳 · 医生端" />
+      <StatusBar />
 
-      {/* Top bar: 工作台 */}
-      <div className="flex items-center justify-between bg-surface px-5 py-3">
-        <span className="text-xl text-muted-foreground">‹</span>
-        <h1 className="text-base font-bold">工作台</h1>
-        <div className="flex items-center gap-3">
-          <Link to="/doctor/messages" className="relative text-lg">
-            {<EIcon e="🔔" className="inline h-3.5 w-3.5" />}
-            <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-danger" />
-          </Link>
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-teal text-sm font-bold text-teal-foreground">
-            陈
-          </span>
-        </div>
-      </div>
+      <WorkbenchHeader
+        title="工作台"
+        accent="teal"
+        notifyTo="/doctor/messages"
+        avatar="陈"
+        unread
+      />
 
-      {/* Greeting card */}
-      <div className="px-5 pt-3">
-        <div className="rounded-2xl bg-gradient-to-r from-teal to-teal/80 p-5 text-teal-foreground shadow-lg shadow-teal/25">
-          <p className="text-lg font-bold">陈医生，早上好 {<EIcon e="👋" className="inline h-3.5 w-3.5" />}</p>
-          <p className="mt-1 text-[13px] text-white/85">
-            儿童保健科 · 今日 {totalTodo} 项待处理
-          </p>
-        </div>
-      </div>
+      <GreetingCard
+        accent="teal"
+        greeting={
+          <>
+            陈医生，早上好
+            <EIcon e="👋" />
+          </>
+        }
+        meta={`儿童保健科 · 今日 ${totalTodo} 项待处理`}
+      />
 
       {/* 今日待办 stats */}
       <section className="px-5 pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-teal">〰</span> 今日待办
-          </h3>
-          <span className="rounded-full bg-teal/10 px-2.5 py-0.5 text-[11px] text-teal">
-            共 {totalTodo} 项
-          </span>
-        </div>
+        <SectionTitle accent="teal" right={<SectionCount accent="teal">共 {totalTodo} 项</SectionCount>}>
+          今日待办
+        </SectionTitle>
         <div className="grid grid-cols-2 gap-3">
           {stats.map((s) => (
-            <Link
-              key={s.label}
-              to={s.to}
-              className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-border/60"
-            >
-              <div className="flex items-start justify-between">
-                <span className={`grid h-10 w-10 place-items-center rounded-xl text-lg ${s.iconBg}`}>
-                  {s.icon}
-                </span>
-                <div className="text-right">
-                  <p className={`text-2xl font-bold leading-none ${s.valueColor}`}>{s.value}</p>
-                </div>
-              </div>
-              <div className="mt-3 flex items-end justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="text-[15px] font-semibold">{s.label}</p>
-                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{s.sub}</p>
-                </div>
-                <p className="shrink-0 text-[11px] text-muted-foreground">{s.unit}</p>
-              </div>
-            </Link>
+            <StatCard key={s.label} stat={s} />
           ))}
         </div>
       </section>
 
-
-
-
-
       {/* 今日待办清单 */}
       <section className="px-5 pt-5">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-bold">
-            <span className="text-teal">{<EIcon e="📋" className="inline h-3.5 w-3.5" />}</span> 今日待办清单
-          </h3>
-          <span className="text-[11px] text-muted-foreground">共 {filtered.length}/{todos.length} 项</span>
-        </div>
-        {/* 快捷筛选 */}
-        <div className="mb-3 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-          {filters.map((f) => {
-            const count = f.key === "all" ? todos.length : todos.filter(f.match).length;
-            const on = active === f.key;
-            return (
-              <button
-                key={f.key}
-                type="button"
-                onClick={() => setActive(f.key)}
-                className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-medium ring-1 transition ${
-                  on
-                    ? "bg-teal text-teal-foreground ring-teal"
-                    : "bg-surface text-muted-foreground ring-border/60"
-                }`}
-              >
-                {f.label} <span className={on ? "opacity-80" : "opacity-60"}>{count}</span>
-              </button>
-            );
-          })}
-        </div>
+        <SectionTitle
+          accent="teal"
+          right={
+            <span className="shrink-0 text-[11px] text-muted-foreground">
+              共 {filtered.length}/{todos.length} 项
+            </span>
+          }
+        >
+          今日待办清单
+        </SectionTitle>
+
+        <FilterChips
+          accent="teal"
+          filters={filters}
+          active={active}
+          onChange={setActive}
+          countOf={(f) => (f.key === "all" ? todos.length : todos.filter(f.match).length)}
+        />
+
         <ul className="space-y-2.5">
           {filtered.map((t, i) => (
-
-            <Link
+            <TodoRow
               key={t.id}
+              index={i + 1}
               to={t.to}
-              className="flex items-center gap-3 rounded-2xl bg-surface p-3.5 shadow-sm ring-1 ring-border/60"
-            >
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-2 text-[13px] font-bold text-muted-foreground">
-                {i + 1}
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5">
-                  {t.tags.map((tag) => (
-                    <span key={tag.text} className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${tag.cls}`}>
-                      {tag.text}
-                    </span>
-                  ))}
-                  <span className="truncate text-[14px] font-semibold">
-                    {t.id} {t.name}
-                  </span>
-                </div>
-                <p className="mt-1 truncate text-[12px] text-muted-foreground">{t.desc}</p>
-              </div>
-              <span className="text-muted-foreground">›</span>
-            </Link>
+              search={t.search}
+              tags={t.tags}
+              title={`${t.id} ${t.name}`}
+              desc={t.desc}
+            />
           ))}
         </ul>
       </section>

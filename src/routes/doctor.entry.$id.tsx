@@ -162,7 +162,7 @@ function TextFieldVoice({
         }`}
         title={listening ? "停止录音" : "语音输入"}
       >
-        {<EIcon e="🎤" className="inline h-3.5 w-3.5" />}
+        {<EIcon e="🎤" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
       </button>
     </div>
   );
@@ -366,7 +366,7 @@ function EntryPage() {
         {progress.done === progress.total && (
           <div className="mt-4 rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-success/30">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[14px] font-bold text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} 本次体检已全部完成</p>
+              <p className="text-[14px] font-bold text-success">{<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 本次体检已全部完成</p>
               <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] text-success">{NODES.length} 项</span>
             </div>
             <p className="mb-3 text-[11px] text-muted-foreground">
@@ -377,7 +377,7 @@ function EntryPage() {
                 <div key={n.key} className="rounded-xl bg-surface-2 p-3">
                   <div className="mb-1.5 flex items-center justify-between">
                     <p className="text-[12px] font-semibold">{n.icon} {n.name}</p>
-                    <span className="text-[10px] text-success">{<EIcon e="✓" className="inline h-3.5 w-3.5" />} 已核对</span>
+                    <span className="text-[10px] text-success">{<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 已核对</span>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     {n.fields.map((f) => {
@@ -410,7 +410,7 @@ function EntryPage() {
             ) : (
               <div className="mt-4 space-y-2">
                 <p className="rounded-xl bg-success/10 px-3 py-2 text-center text-[12px] text-success">
-                  {<EIcon e="✓" className="inline h-3.5 w-3.5" />} 报告已提交，等待复核
+                  {<EIcon e="✓" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 报告已提交，等待复核
                 </p>
                 {nextUser ? (
                   <button

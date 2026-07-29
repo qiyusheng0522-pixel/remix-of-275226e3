@@ -60,34 +60,38 @@
 :root {
   --radius: 1rem;
 
-  /* Warm medical palette */
-  --background: oklch(0.985 0.012 80);          /* #FFF8F0 warm cream */
+  /* Warm-neutral medical palette. Canvas chroma is deliberately near zero:
+     at the previous 0.012-0.015 the page read as peach and fought the teal
+     and deep-petrol role accents. */
+  --background: oklch(0.99 0.004 80);
   --foreground: oklch(0.25 0.02 220);
   --surface: oklch(1 0 0);
-  --surface-2: oklch(0.965 0.015 75);
+  --surface-2: oklch(0.972 0.005 80);
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.25 0.02 220);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.02 220);
 
-  --primary: oklch(0.72 0.16 40);               /* #FF8A65 coral */
+  --primary: oklch(0.68 0.145 40);              /* warm coral */
   --primary-foreground: oklch(1 0 0);
 
-  --warm: oklch(0.72 0.16 40);
+  --warm: oklch(0.68 0.145 40);
   --warm-foreground: oklch(1 0 0);
-  --teal: oklch(0.78 0.11 190);                 /* #4ECDC4 */
-  --teal-foreground: oklch(0.2 0.03 200);
-  --deep: oklch(0.48 0.06 195);                 /* #2C7A7B */
+  --teal: oklch(0.72 0.095 192);                /* muted aqua */
+  --teal-foreground: oklch(1 0 0);
+  --deep: oklch(0.46 0.06 195);                 /* deep petrol */
   --deep-foreground: oklch(1 0 0);
-  --rose: oklch(0.68 0.22 5);                   /* vivid rose/pink */
+  /* Coral-rose: desaturated from the original vivid magenta so large filled
+     surfaces (hero cards, role tiles) read as warm clinical pink, not neon. */
+  --rose: oklch(0.63 0.14 12);
   --rose-foreground: oklch(1 0 0);
-  --rose-soft: oklch(0.93 0.06 10);             /* soft pink surface */
+  --rose-soft: oklch(0.95 0.032 14);            /* soft pink surface */
 
   --secondary: oklch(0.95 0.03 190);
   --secondary-foreground: oklch(0.35 0.05 200);
 
-  --muted: oklch(0.955 0.01 80);
+  --muted: oklch(0.958 0.004 80);
   --muted-foreground: oklch(0.5 0.02 220);
   --accent: oklch(0.94 0.04 40);
   --accent-foreground: oklch(0.4 0.08 40);
@@ -101,9 +105,9 @@
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.92 0.015 75);
-  --input: oklch(0.92 0.015 75);
-  --ring: oklch(0.72 0.16 40);
+  --border: oklch(0.918 0.005 80);
+  --input: oklch(0.918 0.005 80);
+  --ring: oklch(0.68 0.145 40);
 }
 
 @layer base {
@@ -115,4 +119,12 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+  /* Chinese text has no descender-light rhythm like Latin; a slightly looser
+     default leading keeps dense card copy readable at small sizes. */
+  p, li { line-height: 1.6; }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
 }

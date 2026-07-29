@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { child, reviewPlan } from "@/lib/mock-data";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import child3d from "@/assets/child-3d.png";
 
 import { EIcon } from "@/components/EIcon";
@@ -111,11 +113,41 @@ const valueColor: Record<Level, string> = {
   bad: "text-danger",
 };
 
+const nextSteps = [
+  {
+    to: "/parent/comm",
+    search: { topic: "ai-report", from: "report" },
+    icon: "🤖",
+    title: "先让 AI 解读报告",
+    desc: "用大白话说清 3 项异常的原因与轻重，1 分钟看懂",
+    tag: "1 分钟",
+    tagClass: "bg-teal/15 text-teal",
+  },
+  {
+    to: "/parent/comm",
+    search: { mode: "doctors", from: "report" },
+    icon: "👨‍⚕️",
+    title: "就异常项咨询医生",
+    desc: "按异常项推荐对应科室医生，自主选择并在线预约挂号",
+    tag: "推荐",
+    tagClass: "bg-warm/15 text-warm",
+  },
+  {
+    to: "/parent/health-plan",
+    search: { from: "report" },
+    icon: "📋",
+    title: "生成专属健康方案",
+    desc: "自选 3 / 5 / 7 周干预周期，获取饮食·运动·复查计划",
+    tag: "自定义周期",
+    tagClass: "bg-rose/15 text-rose",
+  },
+] as const;
+
 function ReportPage() {
   return (
     <div>
       <StatusBar title="体检报告" />
-      <div className="px-5 pb-28 pt-2">
+      <div className="px-5 pb-10 pt-2">
         <header className="mb-4">
           <h1 className="text-xl font-bold">{child.name} 的体检报告</h1>
           <p className="text-xs text-muted-foreground">
@@ -127,7 +159,7 @@ function ReportPage() {
         <section className="mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/20 via-warm/10 to-rose/15 p-4 ring-1 ring-warning/30">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-warning/40 text-sm">{<EIcon e="🟡" className="inline h-3.5 w-3.5" />}</span>
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-warning/40 text-sm">{<EIcon e="🟡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
               <div>
                 <p className="text-[10px] leading-none text-muted-foreground">整体风险等级</p>
                 <p className="text-sm font-bold text-warning-foreground">{child.riskLevel} · 需关注 3 项</p>
@@ -161,14 +193,14 @@ function ReportPage() {
             {/* 左侧标注：视力 / 呼吸 */}
             <div className="absolute left-0 top-16 max-w-[38%]">
               <div className="rounded-xl bg-success/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-success/30 backdrop-blur">
-                <p className="font-semibold text-success">{<EIcon e="👁" className="inline h-3.5 w-3.5" />} 视力正常</p>
+                <p className="font-semibold text-success">{<EIcon e="👁" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 视力正常</p>
                 <p className="text-foreground/70">5.0 / 5.0</p>
               </div>
               <div className="ml-auto mt-0.5 h-px w-10 bg-success/50" />
             </div>
             <div className="absolute left-0 top-[42%] max-w-[42%]">
               <div className="rounded-xl bg-warning/15 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-warning/40 backdrop-blur">
-                <p className="font-semibold text-warning-foreground">{<EIcon e="🫁" className="inline h-3.5 w-3.5" />} 运动后咳嗽</p>
+                <p className="font-semibold text-warning-foreground">{<EIcon e="🫁" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 运动后咳嗽</p>
                 <p className="text-foreground/70">偶发 · 需关注</p>
               </div>
               <div className="ml-auto mt-0.5 h-px w-8 bg-warning/60" />
@@ -177,21 +209,21 @@ function ReportPage() {
             {/* 右侧标注：过敏 / 体重 / 口腔 */}
             <div className="absolute right-0 top-14 max-w-[38%]">
               <div className="rounded-xl bg-rose/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-rose/30 backdrop-blur">
-                <p className="font-semibold text-rose">{<EIcon e="🌿" className="inline h-3.5 w-3.5" />} 尘螨过敏 ++</p>
+                <p className="font-semibold text-rose">{<EIcon e="🌿" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 尘螨过敏 ++</p>
                 <p className="text-foreground/70">需家庭除螨</p>
               </div>
               <div className="mt-0.5 h-px w-10 bg-rose/50" />
             </div>
             <div className="absolute right-0 top-[34%] max-w-[42%]">
               <div className="rounded-xl bg-warm/15 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-warm/40 backdrop-blur">
-                <p className="font-semibold text-warm">{<EIcon e="⚖️" className="inline h-3.5 w-3.5" />} 体重偏高</p>
+                <p className="font-semibold text-warm">{<EIcon e="⚖️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 体重偏高</p>
                 <p className="text-foreground/70">BMI 17.1 · P85</p>
               </div>
               <div className="mt-0.5 h-px w-8 bg-warm/60" />
             </div>
             <div className="absolute right-0 top-[60%] max-w-[38%]">
               <div className="rounded-xl bg-success/10 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-success/30 backdrop-blur">
-                <p className="font-semibold text-success">{<EIcon e="🦷" className="inline h-3.5 w-3.5" />} 口腔健康</p>
+                <p className="font-semibold text-success">{<EIcon e="🦷" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 口腔健康</p>
                 <p className="text-foreground/70">无龋齿</p>
               </div>
               <div className="mt-0.5 h-px w-10 bg-success/50" />
@@ -203,7 +235,7 @@ function ReportPage() {
 
         {/* 参考值来源说明 */}
         <div className="mb-3 flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 text-[11px] text-muted-foreground ring-1 ring-border/60">
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">{<EIcon e="🏥" className="inline h-3.5 w-3.5" />}</span>
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-teal/15 text-[12px]">{<EIcon e="🏥" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           <p>
             本报告所有指标 <b className="text-foreground">参考值来源：南京市儿童医院体检中心</b>（2024 版学龄儿童参考区间）
           </p>
@@ -214,7 +246,7 @@ function ReportPage() {
         <details className="group mb-3 overflow-hidden rounded-3xl bg-gradient-to-br from-warning/25 to-warm/15 ring-1 ring-warning/30">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4">
             <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">{<EIcon e="🤖" className="inline h-3.5 w-3.5" />}</span>
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-warning/40 text-base">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
               <div>
                 <p className="text-[11px] text-warning-foreground/80">AI 解读与就诊建议</p>
                 <p className="text-sm font-bold text-warning-foreground">展开查看详情</p>
@@ -224,7 +256,7 @@ function ReportPage() {
           </summary>
           <div className="px-4 pb-4">
             <div className="space-y-2 rounded-2xl bg-surface/70 p-3 backdrop-blur">
-              <p className="text-[11px] font-semibold text-warm">{<EIcon e="🤖" className="inline h-3.5 w-3.5" />} AI 解读</p>
+              <p className="text-[11px] font-semibold text-warm">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 解读</p>
               <ul className="space-y-1.5 text-xs leading-relaxed text-foreground/85">
                 <li>• <b>体重/BMI 偏高（肥胖倾向）</b>：控糖减重，每周 3 次中等强度运动 30 分钟。</li>
                 <li>• <b>尘螨过敏 (++) · 运动后偶发咳嗽</b>：警惕哮喘倾向，做好家庭除螨与运动前热身。</li>
@@ -234,7 +266,7 @@ function ReportPage() {
 
             {/* 需就诊事项 · 快速预约 */}
             <div className="mt-3 space-y-2">
-              <p className="text-[11px] font-semibold text-danger">{<EIcon e="⚠️" className="inline h-3.5 w-3.5" />} 建议尽快就诊</p>
+              <p className="text-[11px] font-semibold text-danger">{<EIcon e="⚠️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 建议尽快就诊</p>
               {[
                 { dept: "儿童保健科", reason: "体重管理评估与营养指导", hospital: "市儿童医院" },
                 { dept: "呼吸/过敏科", reason: "尘螨过敏 + 运动后咳嗽评估", hospital: "市儿童医院" },
@@ -254,9 +286,18 @@ function ReportPage() {
                       {v.reason}
                     </p>
                   </div>
-                  <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
-                    预约挂号
-                  </button>
+                  <ActionSheet
+                    trigger={
+                      <button className="shrink-0 rounded-full bg-danger px-3 py-1.5 text-[11px] font-semibold text-danger-foreground">
+                        预约挂号
+                      </button>
+                    }
+                    title={`预约 ${v.dept}`}
+                    description={`${v.hospital} · ${v.reason}。确认后将为您匹配最近号源并短信通知。`}
+                    confirmText="确认预约"
+                    toastMessage="挂号申请已提交"
+                    toastDescription={`${v.hospital} ${v.dept} · 号源确认后短信通知`}
+                  />
                 </div>
               ))}
             </div>
@@ -319,7 +360,7 @@ function ReportPage() {
                         </div>
                       </div>
                       <div className="mt-1 flex items-center gap-1 pl-4 text-[10px] text-muted-foreground">
-                        <span className="grid h-3 w-3 place-items-center rounded-full bg-teal/15 text-[8px]">{<EIcon e="🏥" className="inline h-3.5 w-3.5" />}</span>
+                        <span className="grid h-3 w-3 place-items-center rounded-full bg-teal/15 text-[8px]">{<EIcon e="🏥" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
                         <span>参考值来源：{it.refSource ?? REF_SRC}</span>
                       </div>
                       {it.level !== "ok" && it.recDept && (
@@ -330,7 +371,7 @@ function ReportPage() {
                           </div>
                           <Link
                             to="/parent/comm"
-                            search={{ topic: it.name, from: "report" }}
+                            search={{ topic: it.name, dept: it.recDept, doctor: it.recDoctor, from: "report" }}
                             className="shrink-0 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold text-danger-foreground"
                           >
                             立即咨询
@@ -371,19 +412,19 @@ function ReportPage() {
             </div>
             <ul className="mt-3 space-y-2 text-[11px] leading-relaxed">
               <li className="rounded-xl bg-teal/10 p-2.5 ring-1 ring-teal/20">
-                <p className="font-semibold text-teal">{<EIcon e="📈" className="inline h-3.5 w-3.5" />} 身高：138 cm · 半年增长 3 cm</p>
+                <p className="font-semibold text-teal">{<EIcon e="📈" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 身高：138 cm · 半年增长 3 cm</p>
                 <p className="mt-0.5 text-foreground/80">
                   增速处于 P75 参考区间，符合学龄期正常发育曲线。
                 </p>
               </li>
               <li className="rounded-xl bg-warm/10 p-2.5 ring-1 ring-warm/25">
-                <p className="font-semibold text-warm">{<EIcon e="⚠️" className="inline h-3.5 w-3.5" />} 体重：27.5 kg → 32.5 kg · 半年增长 5 kg</p>
+                <p className="font-semibold text-warm">{<EIcon e="⚠️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 体重：27.5 kg → 32.5 kg · 半年增长 5 kg</p>
                 <p className="mt-0.5 text-foreground/80">
                   增速偏快，BMI 由 16.5 上升至 17.1，已高于同龄参考上限，建议控制增速。
                 </p>
               </li>
               <li className="rounded-xl bg-surface-2 p-2.5 ring-1 ring-border/60">
-                <p className="font-semibold">{<EIcon e="💡" className="inline h-3.5 w-3.5" />} 综合结论</p>
+                <p className="font-semibold">{<EIcon e="💡" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 综合结论</p>
                 <p className="mt-0.5 text-foreground/80">
                   身高稳步增长但体重增速超身高增速，呈"体重追赶型"趋势，建议减少高糖零食、增加户外活动，3 个月后复评。
                 </p>
@@ -425,7 +466,27 @@ function ReportPage() {
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
             <span className="text-sm font-semibold">报告档案</span>
             <div className="flex items-center gap-2">
-              <button className="text-xs font-medium text-teal">+ 添加</button>
+              <ActionSheet
+                trigger={<button onClick={(e) => e.stopPropagation()} className="text-xs font-medium text-teal">+ 添加</button>}
+                title="上传报告到档案"
+                description="支持医院复查报告、既往体检单，上传后同步至学校健康档案。"
+                confirmText="上传"
+                toastMessage="报告已上传"
+                toastDescription="已同步至学校健康档案"
+              >
+                <div className="space-y-2 text-xs">
+                  <label className="block">
+                    <span className="text-muted-foreground">报告类型</span>
+                    <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                      <option>医院复查报告</option><option>既往体检单</option><option>就诊记录</option>
+                    </select>
+                  </label>
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-border py-6 text-muted-foreground">
+                    <EIcon e="📷" /> 点击拍照或从相册选择
+                    <input type="file" accept="image/*" className="hidden" />
+                  </label>
+                </div>
+              </ActionSheet>
               <span className="text-xs text-muted-foreground transition group-open:rotate-180">▾</span>
             </div>
           </summary>
@@ -460,6 +521,7 @@ function ReportPage() {
                             {e.tags.map((t) => (
                               <button
                                 key={t}
+                                onClick={() => toast(`${e.date} · ${t}`, { description: e.note ?? "查看该次记录详情" })}
                                 className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] text-foreground ring-1 ring-border/60"
                               >
                                 {t}
@@ -476,33 +538,44 @@ function ReportPage() {
           </div>
         </details>
 
+        {/* 看完报告，下一步该做什么 */}
+        <section className="mb-3 rounded-3xl bg-gradient-to-br from-teal/12 to-warm/10 p-4 ring-1 ring-teal/25">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-teal/20 text-base">
+              {<EIcon e="🧭" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}
+            </span>
+            <div>
+              <p className="text-sm font-bold">看完报告，接下来做什么？</p>
+              <p className="text-[11px] text-muted-foreground">
+                本次发现 <b className="text-danger">3 项需关注</b>，建议按 ①→②→③ 顺序跟进
+              </p>
+            </div>
+          </div>
+          <ol className="space-y-2">
+            {nextSteps.map((s, i) => (
+              <Link
+                key={s.title}
+                to={s.to}
+                search={s.search as never}
+                className="flex items-center gap-3 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60 transition active:scale-[0.98]"
+              >
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-teal text-[13px] font-bold text-teal-foreground">
+                  {i + 1}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{<EIcon e={s.icon} className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
+                    <p className="text-[13px] font-semibold">{s.title}</p>
+                    <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-medium ${s.tagClass}`}>{s.tag}</span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{s.desc}</p>
+                </div>
+                <span className="shrink-0 text-muted-foreground">›</span>
+              </Link>
+            ))}
+          </ol>
+        </section>
 
-      </div>
-
-      {/* 冻结咨询栏 */}
-      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
-        <div className="grid grid-cols-3 gap-1.5">
-          <Link
-            to="/parent/comm"
-            search={{ topic: "report", from: "report" }}
-            className="flex items-center justify-center gap-1 rounded-full bg-surface-2 py-2.5 text-[11px] font-semibold text-foreground ring-1 ring-border/60"
-          >
-            <span className="text-sm">{<EIcon e="👨‍⚕️" className="inline h-3.5 w-3.5" />}</span> 咨询医生
-          </Link>
-          <Link
-            to="/parent/comm"
-            search={{ topic: "ai-report", from: "report", auto: "1" }}
-            className="flex items-center justify-center gap-1 rounded-full bg-gradient-to-r from-warm to-teal py-2.5 text-[11px] font-semibold text-white shadow-sm"
-          >
-            <span className="text-sm">{<EIcon e="🤖" className="inline h-3.5 w-3.5" />}</span> AI 解读
-          </Link>
-          <Link
-            to="/parent/health-plan"
-            className="flex items-center justify-center gap-1 rounded-full bg-teal py-2.5 text-[11px] font-semibold text-teal-foreground shadow-sm"
-          >
-            <span className="text-sm">{<EIcon e="📋" className="inline h-3.5 w-3.5" />}</span> 健康方案
-          </Link>
-        </div>
       </div>
     </div>
   );

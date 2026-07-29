@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 
 export const Route = createFileRoute("/school/report")({
   component: ReportCenter,
@@ -50,9 +51,18 @@ function ReportCenter() {
           ))}
         </div>
 
-        <button className="mb-5 w-full rounded-xl bg-warm py-2.5 text-xs font-medium text-warm-foreground">
-          一键提醒 89 位未读家长
-        </button>
+        <ActionSheet
+          trigger={
+            <button className="mb-5 w-full rounded-xl bg-warm py-2.5 text-xs font-medium text-warm-foreground">
+              一键提醒 89 位未读家长
+            </button>
+          }
+          title="提醒 89 位未读家长？"
+          description="将向尚未查看体检报告的家长推送微信 + 短信提醒。"
+          confirmText="确认提醒"
+          toastMessage="已提醒 89 位未读家长"
+          toastDescription="预计 5 分钟内送达"
+        />
 
         {/* 学校趋势 */}
         <h2 className="mb-2 text-sm font-semibold">学校报告摘要</h2>

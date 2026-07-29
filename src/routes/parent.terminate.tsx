@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/parent/terminate")({
@@ -23,6 +24,7 @@ const keeps = [
 function TerminatePage() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [signed, setSigned] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -97,7 +99,7 @@ function TerminatePage() {
         {step === 2 && (
           <>
             <div className="mb-4 rounded-3xl bg-warm/10 p-5 text-center ring-1 ring-warm/30">
-              <div className="text-3xl">{<EIcon e="🤔" className="inline h-3.5 w-3.5" />}</div>
+              <div className="text-3xl">{<EIcon e="🤔" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</div>
               <p className="mt-2 text-base font-semibold">确认终止后续健康管理？</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 之后可随时重新授权，历史体检记录不会丢失。
@@ -135,6 +137,10 @@ function TerminatePage() {
             </section>
             <button
               disabled={!signed}
+              onClick={() => {
+                toast.success("终止申请已提交", { description: "终止凭证已生成，可在消息中查看" });
+                navigate({ to: "/parent/me" });
+              }}
               className="w-full rounded-xl bg-warm py-3 text-sm font-semibold text-warm-foreground disabled:bg-muted disabled:text-muted-foreground"
             >
               生成终止凭证并提交

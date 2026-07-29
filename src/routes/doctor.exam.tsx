@@ -5,6 +5,9 @@ import { EXAM_USERS as users, type ExamStatus as Status } from "@/lib/exam-users
 
 import { EIcon } from "@/components/EIcon";
 export const Route = createFileRoute("/doctor/exam")({
+  validateSearch: (search: Record<string, unknown>): { view?: "queue" } => ({
+    view: search.view === "queue" ? "queue" : undefined,
+  }),
   component: UsersPage,
 });
 
@@ -20,6 +23,8 @@ const statusStyle: Record<Status, string> = {
 const filters: (Status | "全部")[] = ["全部", "待检", "进行中", "已检-正常", "已检-异常", "需复核", "方案确认"];
 
 function UsersPage() {
+  const { view } = Route.useSearch();
+  const queueView = view === "queue";
   const [filter, setFilter] = useState<Status | "全部">("全部");
   const [q, setQ] = useState("");
 
@@ -28,11 +33,21 @@ function UsersPage() {
     return acc;
   }, {});
 
+  // 待检学生清单口径：待检 + 进行中（尚未完成体检）
+  const pendingCount = (counts["待检"] ?? 0) + (counts["进行中"] ?? 0);
+  const isPending = (s: Status) => s === "待检" || s === "进行中";
+
   const list = users.filter((u) => {
+    if (queueView && !isPending(u.status)) return false;
     if (filter !== "全部" && u.status !== filter) return false;
     if (q && !(`${u.id}${u.name}`.includes(q))) return false;
     return true;
   });
+
+  // 清单视图只保留与"待检"相关的筛选项
+  const filterTabs: (Status | "全部")[] = queueView
+    ? ["全部", "待检", "进行中"]
+    : filters;
 
   const stats = [
     { label: "待检", value: counts["待检"] ?? 0, cls: "text-muted-foreground" },
@@ -45,41 +60,36 @@ function UsersPage() {
 
   return (
     <div>
-      <StatusBar title="用户" />
+      <StatusBar title={queueView ? "待检学生清单" : "用户"} />
       <div className="px-5 pb-8 pt-2">
         <div className="mb-3">
-          <h1 className="text-xl font-bold">用户</h1>
+          <h1 className="text-xl font-bold">{queueView ? "待检学生清单" : "用户"}</h1>
           <p className="text-xs text-muted-foreground">
-            阳光小学 · 三年级 3 班 · 共 {users.length} 人
+            {queueView
+              ? `阳光小学 · 三年级 3 班 · ${pendingCount} 人待检`
+              : `阳光小学 · 三年级 3 班 · 共 ${users.length} 人`}
           </p>
         </div>
 
-        {/* 数据来源说明 */}
-        <div className="mb-3 rounded-2xl bg-gradient-to-br from-teal/10 to-deep/10 p-3 ring-1 ring-teal/20">
-          <p className="text-[11px] font-semibold text-deep">数据采集方式</p>
-          <div className="mt-1.5 grid grid-cols-2 gap-2 text-[10.5px] text-muted-foreground">
-            <p><span className="mr-1 rounded bg-teal/15 px-1 py-0.5 text-teal">{<EIcon e="📡" className="inline h-3.5 w-3.5" />} 自动</span>身高体重 / 视力 / 血压 / 血糖 / 血红蛋白</p>
-            <p><span className="mr-1 rounded bg-warm/15 px-1 py-0.5 text-warm">{<EIcon e="✍️" className="inline h-3.5 w-3.5" />} 手动</span>口腔 · 龋齿 / 内科心肺 / 腹部 / 备注</p>
+        {/* 状态概览（完整用户视图） */}
+        {!queueView && (
+          <div className="mb-3 grid grid-cols-6 gap-1 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
+            {stats.map((s) => (
+              <button
+                key={s.label}
+                onClick={() => setFilter(s.label as Status)}
+                className="text-center"
+              >
+                <p className={`text-base font-bold ${s.cls}`}>{s.value}</p>
+                <p className="mt-0.5 text-[9px] text-muted-foreground">{s.label}</p>
+              </button>
+            ))}
           </div>
-        </div>
-
-        {/* 状态概览 */}
-        <div className="mb-3 grid grid-cols-6 gap-1 rounded-2xl bg-surface p-3 shadow-sm ring-1 ring-border/60">
-          {stats.map((s) => (
-            <button
-              key={s.label}
-              onClick={() => setFilter(s.label as Status)}
-              className="text-center"
-            >
-              <p className={`text-base font-bold ${s.cls}`}>{s.value}</p>
-              <p className="mt-0.5 text-[9px] text-muted-foreground">{s.label}</p>
-            </button>
-          ))}
-        </div>
+        )}
 
         {/* 搜索 */}
         <div className="mb-3 flex items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-sm ring-1 ring-border/60">
-          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-muted-foreground">{<EIcon e="🔍" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -90,7 +100,7 @@ function UsersPage() {
 
         {/* 筛选 tab */}
         <div className="mb-3 -mx-1 flex gap-1.5 overflow-x-auto px-1">
-          {filters.map((f) => {
+          {filterTabs.map((f) => {
             const on = f === filter;
             return (
               <button
@@ -174,7 +184,7 @@ function UsersPage() {
                   </Link>
                 ) : (
                   <Link
-                    to="/doctor/entry/$id"
+                    to="/record/$id"
                     params={{ id: u.id }}
                     className="block"
                   >

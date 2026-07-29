@@ -35,17 +35,16 @@ const metrics: Metric[] = [
     ],
   },
   {
-    id: "bp",
-    icon: <EIcon e="🩺" />,
-    label: "血压 / 心率",
-    unit: "mmHg / bpm",
-    latest: "108/68 · 82",
-    updated: "3 天前",
+    id: "bmi",
+    icon: <EIcon e="📈" />,
+    label: "BMI / 体脂率",
+    unit: "kg/m² / %",
+    latest: "17.4 · 18%",
+    updated: "今晨",
     tint: "teal",
     fields: [
-      { name: "收缩压 (高压)", type: "number" },
-      { name: "舒张压 (低压)", type: "number" },
-      { name: "心率 (bpm)", type: "number" },
+      { name: "BMI", type: "number", placeholder: "如 17.4" },
+      { name: "体脂率 (%)", type: "number", placeholder: "如 18" },
     ],
   },
   {
@@ -117,8 +116,7 @@ type Device = {
 
 const initialDevices: Device[] = [
   { id: "scale", icon: <EIcon e="⚖️" />, name: "智能体脂秤", brand: "小米 · S400", connected: true, data: "自动同步体重 / BMI / 体脂率" },
-  { id: "band", icon: "⌚", name: "儿童手表 / 手环", brand: "华为 Watch Kids 5", connected: true, data: "自动同步心率 / 睡眠 / 步数" },
-  { id: "bp", icon: <EIcon e="🩺" />, name: "电子血压计", brand: "欧姆龙 · U32", connected: false, data: "支持蓝牙同步血压 / 心率" },
+  { id: "band", icon: "⌚", name: "儿童手表 / 手环", brand: "华为 Watch Kids 5", connected: true, data: "自动同步心率 / 睡眠 / 步数 / 运动" },
   { id: "vision", icon: <EIcon e="👓" />, name: "视力自测仪", brand: "护眼宝 · V1", connected: false, data: "在家自测视力并生成趋势" },
 ];
 
@@ -142,7 +140,7 @@ function MyDataPage() {
         <div className="mb-4 grid grid-cols-3 gap-2">
           <div className="rounded-2xl bg-surface p-3 ring-1 ring-border/60">
             <p className="text-[11px] text-muted-foreground">已记录项</p>
-            <p className="mt-0.5 text-lg font-bold text-warm">6</p>
+            <p className="mt-0.5 text-lg font-bold text-warm">{metrics.length}</p>
           </div>
           <div className="rounded-2xl bg-surface p-3 ring-1 ring-border/60">
             <p className="text-[11px] text-muted-foreground">连接设备</p>
@@ -244,7 +242,7 @@ function MyDataPage() {
                 <div className="rounded-xl bg-surface-2 p-3">
                   <p className="font-medium">支持类型</p>
                   <p className="mt-1 text-[11px] text-muted-foreground">
-                    体脂秤 / 电子血压计 / 儿童手表 / 视力自测仪 / 血糖仪
+                    体脂秤 / 儿童手表 / 儿童手环 / 视力自测仪 / 身高测量仪
                   </p>
                 </div>
                 <p className="text-[11px] text-muted-foreground">
@@ -293,7 +291,7 @@ function MyDataPage() {
             ))}
           </ul>
           <p className="mt-3 rounded-xl bg-surface-2 px-3 py-2 text-[11px] text-muted-foreground">
-            {<EIcon e="🔒" className="inline h-3.5 w-3.5" />} 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
+            {<EIcon e="🔒" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 智能设备数据经家长授权后同步至孩子健康档案，未授权不会外发。
           </p>
         </section>
       </div>

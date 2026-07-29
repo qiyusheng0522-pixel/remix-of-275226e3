@@ -99,15 +99,60 @@ function BindPage() {
                   </p>
                   <p className="text-[11px] text-muted-foreground">{g.relation} · {g.phone}</p>
                 </div>
-                <button className="text-xs text-muted-foreground">修改</button>
+                <ActionSheet
+                  trigger={<button className="text-xs text-muted-foreground">修改</button>}
+                  title={`修改 ${g.name} 的信息`}
+                  description="修改监护人关系或联系电话，保存后其他监护人可见。"
+                  confirmText="保存"
+                  toastMessage="监护人信息已更新"
+                >
+                  <div className="space-y-2 text-xs">
+                    <label className="block">
+                      <span className="text-muted-foreground">关系</span>
+                      <select defaultValue={g.relation} className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                        <option>父亲</option><option>母亲</option><option>祖辈</option><option>其他</option>
+                      </select>
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">手机号</span>
+                      <input defaultValue={g.phone} className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+                    </label>
+                  </div>
+                </ActionSheet>
               </li>
             ))}
           </ul>
         </section>
 
-        <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
-          {<EIcon e="➕" className="inline h-3.5 w-3.5" />} 绑定另一个孩子
-        </button>
+        <ActionSheet
+          trigger={
+            <button className="w-full rounded-2xl bg-surface p-3 text-sm shadow-sm ring-1 ring-border/60">
+              {<EIcon e="➕" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} 绑定另一个孩子
+            </button>
+          }
+          title="绑定另一个孩子"
+          description="请输入孩子的学号与姓名，系统将校验学籍信息后完成绑定。"
+          confirmText="提交绑定"
+          toastMessage="绑定申请已提交"
+          toastDescription="学籍核验通过后即可查看该孩子的体检报告"
+        >
+          <div className="space-y-2 text-xs">
+            <label className="block">
+              <span className="text-muted-foreground">孩子姓名</span>
+              <input placeholder="请输入姓名" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+            </label>
+            <label className="block">
+              <span className="text-muted-foreground">学号</span>
+              <input placeholder="请输入学号" className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none" />
+            </label>
+            <label className="block">
+              <span className="text-muted-foreground">与孩子关系</span>
+              <select className="mt-1 w-full rounded-xl bg-surface-2 px-3 py-2 outline-none">
+                <option>父亲</option><option>母亲</option><option>祖辈</option><option>其他</option>
+              </select>
+            </label>
+          </div>
+        </ActionSheet>
 
         <Link
           to="/parent/me"

@@ -99,6 +99,7 @@ function ConsultPage() {
   const [aiOn, setAiOn] = useState(true);
   const [autoAi, setAutoAi] = useState(false);
   const [input, setInput] = useState("");
+  const [srcFilter, setSrcFilter] = useState<"全部" | Src>("全部");
 
   const active = useMemo(() => threads.find((t) => t.id === activeId), [threads, activeId]);
   const unreadTotal = threads.reduce((s, t) => s + t.unread, 0);
@@ -147,7 +148,7 @@ function ConsultPage() {
               <span className={srcTag(active.src)}>{active.src}</span> · {active.sub}
             </p>
           </div>
-          <span className="text-lg">{<EIcon e="☎️" className="inline h-3.5 w-3.5" />}</span>
+          <span className="text-lg">{<EIcon e="☎️" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto bg-surface-2 px-4 py-4">
@@ -162,7 +163,7 @@ function ConsultPage() {
               >
                 {m.ai && (
                   <p className="mb-1 flex items-center gap-1 text-[10px] font-medium opacity-80">
-                    {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 生成 · 已由医生确认
+                    {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 生成 · 已由医生确认
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.text}</p>
@@ -180,7 +181,7 @@ function ConsultPage() {
             <div className="border-b border-border/60 bg-warm/5 px-4 py-2">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-1 text-[11px] text-warm">
-                  {<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 助手已就绪 · 按人群/病史生成回复
+                  {<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 助手已就绪 · 按人群/病史生成回复
                 </p>
                 <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                   自动
@@ -249,7 +250,7 @@ function ConsultPage() {
             </p>
           </div>
           <label className="mt-1 flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-[11px] ring-1 ring-border/60">
-            <span>{<EIcon e="✨" className="inline h-3.5 w-3.5" />} AI 回复</span>
+            <span>{<EIcon e="✨" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />} AI 回复</span>
             <button
               onClick={() => setAiOn((v) => !v)}
               className={`relative h-4 w-7 rounded-full transition ${aiOn ? "bg-warm" : "bg-surface-2"}`}
@@ -265,11 +266,12 @@ function ConsultPage() {
 
         {/* 来源 tab */}
         <div className="mt-4 flex gap-1.5">
-          {(["全部", "服务包", "转社区", "一般咨询"] as const).map((r, i) => (
+          {(["全部", "服务包", "转社区", "一般咨询"] as const).map((r) => (
             <button
               key={r}
+              onClick={() => setSrcFilter(r)}
               className={`rounded-full px-3 py-1 text-[11px] ${
-                i === 0
+                srcFilter === r
                   ? "bg-warm text-warm-foreground font-medium"
                   : "bg-surface text-muted-foreground ring-1 ring-border/60"
               }`}
@@ -280,7 +282,7 @@ function ConsultPage() {
         </div>
 
         <ul className="mt-3 space-y-2">
-          {threads.map((t) => (
+          {threads.filter((t) => srcFilter === "全部" || t.src === srcFilter).map((t) => (
             <li key={t.id}>
               <button
                 onClick={() => openThread(t.id)}

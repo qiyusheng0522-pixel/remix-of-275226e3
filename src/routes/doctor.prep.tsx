@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/doctor/prep")({
   component: PrepPage,
@@ -242,9 +243,15 @@ function PrepPage() {
 
         <div className="fixed inset-x-0 bottom-16 z-10 mx-auto max-w-[430px] px-5 pb-3">
           <div className="grid grid-cols-2 gap-2 rounded-2xl bg-surface/95 p-2 shadow-lg ring-1 ring-border/60 backdrop-blur">
-            <button className="rounded-xl bg-surface-2 py-2.5 text-sm">导出核对单</button>
+            <button
+              onClick={() => toast.success("核对单已导出", { description: "已生成 PDF，可在消息中下载" })}
+              className="rounded-xl bg-surface-2 py-2.5 text-sm"
+            >
+              导出核对单
+            </button>
             <button
               disabled={pct < 100}
+              onClick={() => toast.success("已确认体检就绪", { description: "所有准备项已完成核对" })}
               className="rounded-xl bg-deep py-2.5 text-sm font-semibold text-deep-foreground disabled:opacity-40"
             >
               {pct < 100 ? `还差 ${allKeys.length - doneAll} 项` : "确认已就绪"}

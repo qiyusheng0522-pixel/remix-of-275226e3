@@ -125,10 +125,10 @@ const nextSteps = [
   },
   {
     to: "/parent/comm",
-    search: { topic: "report", from: "report" },
+    search: { mode: "doctors", from: "report" },
     icon: "👨‍⚕️",
     title: "就异常项咨询医生",
-    desc: "体重管理 + 过敏咳嗽，一对一确认就诊与用药建议",
+    desc: "按异常项推荐对应科室医生，自主选择并在线预约挂号",
     tag: "推荐",
     tagClass: "bg-warm/15 text-warm",
   },
@@ -371,7 +371,7 @@ function ReportPage() {
                           </div>
                           <Link
                             to="/parent/comm"
-                            search={{ topic: it.name, from: "report" }}
+                            search={{ topic: it.name, dept: it.recDept, doctor: it.recDoctor, from: "report" }}
                             className="shrink-0 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold text-danger-foreground"
                           >
                             立即咨询

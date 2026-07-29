@@ -1,16 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StatusBar } from "@/components/MobileFrame";
+import { ActionSheet } from "@/components/ActionSheet";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { EIcon } from "@/components/EIcon";
 /**
  * 进入咨询页时可携带的检索参数（全部可选）：
- * - `q`     直接提问的问题原文（首页「饮食建议」等快捷入口使用）
- * - `topic` 报告页传入的主题关键字，会映射为一句问题
- * - `from`  来源标记，用于在页头展示上下文
+ * - `q`      直接提问的问题原文（首页「饮食建议」等快捷入口使用）
+ * - `topic`  报告页传入的主题关键字，会映射为一句问题
+ * - `from`   来源标记，用于在页头展示上下文
+ * - `dept`   报告页「立即咨询」带入的推荐科室，用于置顶该医生的互联网挂号卡片
+ * - `doctor` 报告页「立即咨询」带入的推荐医生
+ * - `mode`   `doctors` 时展示推荐医生清单，供家长自主选择并预约挂号
  * 说明：键均为可选，Link 才可以不传 search。
  */
-type CommSearch = { q?: string; topic?: string; from?: string };
+type CommSearch = { q?: string; topic?: string; from?: string; dept?: string; doctor?: string; mode?: "doctors" };
 
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
 
@@ -19,9 +23,43 @@ export const Route = createFileRoute("/parent/comm")({
     q: str(s.q),
     topic: str(s.topic),
     from: str(s.from),
+    dept: str(s.dept),
+    doctor: str(s.doctor),
+    mode: s.mode === "doctors" ? "doctors" : undefined,
   }),
   component: CommPage,
 });
+
+/** 推荐医生库 —— 与体检报告异常项一一对应，支持互联网预约挂号 */
+type Doctor = {
+  dept: string;
+  name: string;
+  hospital: string;
+  focus: string;
+  forItem: string;
+  slot: string;
+  fee: string;
+  avatar: string;
+};
+
+const doctorDirectory: Doctor[] = [
+  { dept: "儿童保健科", name: "王丽 主任医师", hospital: "南京市儿童医院", focus: "儿童肥胖 · 生长发育评估", forItem: "体重 / BMI 偏高", slot: "明日 09:30", fee: "图文问诊 ¥30", avatar: "👩\u200d⚕️" },
+  { dept: "营养科", name: "陈静 副主任医师", hospital: "南京市儿童医院", focus: "儿童营养 · 体重管理配餐", forItem: "BMI 偏高", slot: "明日 14:00", fee: "图文问诊 ¥25", avatar: "🥗" },
+  { dept: "过敏反应科", name: "刘敏 主任医师", hospital: "南京市儿童医院", focus: "尘螨过敏 · 过敏性鼻炎", forItem: "尘螨过敏 (++)", slot: "后天 10:15", fee: "图文问诊 ¥35", avatar: "🌿" },
+  { dept: "呼吸科", name: "张伟 副主任医师", hospital: "南京市儿童医院", focus: "儿童哮喘 · 运动后咳嗽", forItem: "运动后咳嗽", slot: "今日 16:40", fee: "图文问诊 ¥30", avatar: "🫁" },
+];
+
+/** 根据「立即咨询」带入的科室 / 医生匹配医生库 */
+function matchDoctor(s: CommSearch): Doctor | undefined {
+  if (s.dept) {
+    const byDept = doctorDirectory.find((d) => d.dept === s.dept);
+    if (byDept) return byDept;
+  }
+  if (s.doctor) {
+    return doctorDirectory.find((d) => d.name === s.doctor || s.doctor!.includes(d.name.split(" ")[0]));
+  }
+  return undefined;
+}
 
 // 报告页只给 topic，这里翻译成自然语言问题后走同一套问答逻辑
 const topicToQuestion: Record<string, string> = {
@@ -83,6 +121,45 @@ const quickChips = [
 
 // 模拟 AI 答案库 —— 关键词命中后返回结构化建议
 const answerBank: { keys: string[]; answer: Answer }[] = [
+  {
+    keys: ["解读", "整体解读", "体检报告", "这次的报告", "看懂报告"],
+    answer: {
+      title: "小阳 本次体检整体解读",
+      summary:
+        "整体发育良好：身高 138cm 处于 P75，视力、口腔、内科指标均正常。本次共发现 3 项需关注，集中在「体重/BMI 偏高」与「尘螨过敏 + 运动后咳嗽」两方面。",
+      tags: ["整体风险 · 中", "需关注 3 项", "南京市儿童医院参考区间"],
+      sections: [
+        {
+          icon: "⚖️",
+          heading: "体格发育 · 需干预",
+          items: [
+            "身高 138cm（P75）正常，符合学龄发育曲线",
+            "体重 32.5kg、BMI 17.1（P85）偏高，近半年增重 5kg",
+            "建议 12 周内通过饮食 + 运动将 BMI 降到 16.5 以下",
+          ],
+        },
+        {
+          icon: "🌿",
+          heading: "过敏与呼吸 · 需关注",
+          items: [
+            "尘螨过敏原 (++) 阳性，需做好家庭除螨",
+            "运动后偶发咳嗽，警惕气道高反应 / 哮喘倾向",
+            "肺功能 FEV1 98% 正常，暂无需用药",
+          ],
+        },
+        {
+          icon: "✅",
+          heading: "正常项目 · 继续保持",
+          items: [
+            "裸眼视力 5.0 / 5.0，眼位正位",
+            "口腔无龋齿、牙列整齐",
+            "血压 102/66、心率 88、肺部听诊清",
+          ],
+        },
+      ],
+      tip: "下一步可点「就异常项咨询医生」按科室在线预约儿保科 / 过敏科医生，或到「健康方案」生成饮食·运动干预计划。",
+    },
+  },
   {
     keys: ["饮食", "食谱", "怎么吃", "营养", "早餐", "三餐"],
     answer: {
@@ -350,9 +427,88 @@ function AnswerCard({ a }: { a: Answer }) {
   );
 }
 
+/** 互联网预约挂号卡片 —— 展示医生信息 + 就诊入口 */
+function DoctorCard({ d, highlight, onAsk }: { d: Doctor; highlight?: boolean; onAsk?: (q: string) => void }) {
+  return (
+    <div
+      className={`rounded-2xl p-3 ${
+        highlight ? "bg-white shadow-sm ring-1 ring-rose/30" : "bg-surface-2 ring-1 ring-border/60"
+      }`}
+    >
+      <div className="flex items-start gap-3">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rose/10 text-xl">
+          <EIcon e={d.avatar} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <p className="truncate text-[13px] font-bold">{d.name}</p>
+            <span className="shrink-0 rounded-full bg-rose/10 px-1.5 py-0.5 text-[10px] font-medium text-rose">
+              {d.dept}
+            </span>
+          </div>
+          <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+            {d.hospital} · {d.focus}
+          </p>
+          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10.5px] text-muted-foreground">
+            <span className="text-teal">对应异常：{d.forItem}</span>
+            <span>· 最近号源 <b className="text-foreground">{d.slot}</b></span>
+            <span>· {d.fee}</span>
+          </p>
+        </div>
+      </div>
+      <div className="mt-2.5 flex gap-2">
+        {onAsk && (
+          <button
+            onClick={() => onAsk(`我想咨询${d.dept}的${d.name}，关于${d.forItem}的情况`)}
+            className="flex-1 rounded-full bg-rose/10 py-2 text-[12px] font-semibold text-rose"
+          >
+            先问 AI
+          </button>
+        )}
+        <ActionSheet
+          trigger={
+            <button className="flex-1 rounded-full bg-rose py-2 text-[12px] font-semibold text-rose-foreground">
+              互联网预约挂号
+            </button>
+          }
+          title={`互联网预约 · ${d.name}`}
+          description={`${d.hospital} ${d.dept} · ${d.focus}。确认后将为您锁定最近号源「${d.slot}」，支持线上图文问诊，号源确认后短信通知。`}
+          confirmText="确认预约"
+          toastMessage="互联网挂号已提交"
+          toastDescription={`${d.hospital} ${d.dept} ${d.name} · ${d.slot}`}
+        />
+      </div>
+    </div>
+  );
+}
+
+/** 推荐医生清单面板 —— 家长自主选择科室医生进行互联网挂号 */
+function DoctorListPanel({ onAsk }: { onAsk: (q: string) => void }) {
+  return (
+    <div className="mb-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-white/60">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-rose to-rose/70 text-[15px] text-white">
+          <EIcon e="🐥" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-[13px] font-bold">按异常项为你推荐了 {doctorDirectory.length} 位医生</p>
+          <p className="text-[10.5px] text-muted-foreground">选择合适的科室医生，即可在线预约挂号</p>
+        </div>
+      </div>
+      <div className="mt-2 space-y-2">
+        {doctorDirectory.map((d) => (
+          <DoctorCard key={d.name} d={d} onAsk={onAsk} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CommPage() {
   const search = Route.useSearch();
   const presetQuestion = resolveQuestion(search);
+  const doctorMode = search.mode === "doctors";
+  const activeDoctor = matchDoctor(search);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [seed, setSeed] = useState(0);
@@ -438,7 +594,16 @@ function CommPage() {
 
       {/* Body */}
       <div ref={bodyRef} className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-5 pt-3">
-        {empty ? (
+        {activeDoctor && !doctorMode && (
+          <div className="mb-3">
+            <p className="mb-1.5 flex items-center gap-1 px-1 text-[11px] font-medium text-rose">
+              <EIcon e="👨‍⚕️" /> 为你推荐了对应科室医生 · 可直接预约挂号
+            </p>
+            <DoctorCard d={activeDoctor} highlight onAsk={ask} />
+          </div>
+        )}
+        {doctorMode && <DoctorListPanel onAsk={ask} />}
+        {empty && !doctorMode ? (
           <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-white/60">
             <div className="mb-3 flex items-center justify-between">
               <div>

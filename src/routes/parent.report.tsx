@@ -115,8 +115,8 @@ const valueColor: Record<Level, string> = {
 
 const nextSteps = [
   {
-    to: "/parent/comm",
-    search: { topic: "ai-report", from: "report" },
+    to: "/parent/report",
+    search: undefined,
     icon: "🤖",
     title: "先让 AI 解读报告",
     desc: "用大白话说清 3 项异常的原因与轻重，1 分钟看懂",
@@ -124,8 +124,8 @@ const nextSteps = [
     tagClass: "bg-teal/15 text-teal",
   },
   {
-    to: "/parent/comm",
-    search: { topic: "report", from: "report" },
+    to: "/parent/report",
+    search: undefined,
     icon: "👨‍⚕️",
     title: "就异常项咨询医生",
     desc: "体重管理 + 过敏咳嗽，一对一确认就诊与用药建议",
@@ -133,7 +133,7 @@ const nextSteps = [
     tagClass: "bg-warm/15 text-warm",
   },
   {
-    to: "/parent/health-plan",
+    to: "/parent/report",
     search: undefined,
     icon: "📋",
     title: "生成专属健康方案",
@@ -147,7 +147,7 @@ function ReportPage() {
   return (
     <div>
       <StatusBar title="体检报告" />
-      <div className="px-5 pb-28 pt-2">
+      <div className="px-5 pb-10 pt-2">
         <header className="mb-4">
           <h1 className="text-xl font-bold">{child.name} 的体检报告</h1>
           <p className="text-xs text-muted-foreground">
@@ -576,18 +576,6 @@ function ReportPage() {
           </ol>
         </section>
 
-      </div>
-
-      {/* 冻结操作栏 · 仅保留第一步主行动，完整路径见上方三步走 */}
-      <div className="sticky bottom-0 left-0 right-0 z-30 mx-auto max-w-md border-t border-border/60 bg-surface/95 px-3 py-3 shadow-[0_-6px_20px_-8px_rgba(0,0,0,0.15)] backdrop-blur">
-        <Link
-          to="/parent/comm"
-          search={{ topic: "ai-report", from: "report" }}
-          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-warm to-teal py-3 text-[13px] font-semibold text-white shadow-sm active:scale-[0.99]"
-        >
-          <span className="text-base">{<EIcon e="🤖" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" />}</span>
-          第一步 · 先让 AI 解读报告
-        </Link>
       </div>
     </div>
   );

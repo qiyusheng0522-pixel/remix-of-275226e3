@@ -108,7 +108,6 @@ function HealthPlanPage() {
   const [dayIdx, setDayIdx] = useState(0);
   const [cycleWeeks, setCycleWeeks] = useState<3 | 5 | 7 | null>(null);
   const [cycleConfirmed, setCycleConfirmed] = useState(false);
-  const [autoRenew, setAutoRenew] = useState(true);
   const cycle = cycleWeeks ? cycles.find((c) => c.weeks === cycleWeeks)! : null;
   const toggle = (t: string) => setChecked((s) => ({ ...s, [t]: !s[t] }));
   const doneCount = Object.values(checked).filter(Boolean).length;
@@ -341,46 +340,6 @@ function HealthPlanPage() {
           >
             {cycleConfirmed ? `已采用 ${cycle.weeks} 周方案 ✓` : `按 ${cycle.weeks} 周周期生成方案`}
           </button>
-          )}
-
-          {/* 到期自动续约 · 生成方案后出现 */}
-          {cycle && cycleConfirmed && (
-            <div className="mt-3 flex items-center gap-3 rounded-2xl bg-teal/8 p-3 ring-1 ring-teal/20">
-              <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-1 text-[12px] font-semibold">
-                  <EIcon e="🔄" className="inline-block h-[1.15em] w-[1.15em] align-[-0.15em]" /> 到期自动续约
-                </p>
-                <p className="mt-0.5 text-[10.5px] leading-relaxed text-muted-foreground text-pretty">
-                  方案将于 <b className="text-foreground">{cycle.review}</b> 到期，
-                  {autoRenew
-                    ? `届时自动按 ${cycle.weeks} 周周期续约，并结合最新打卡数据调整目标，可随时关闭。`
-                    : "到期后将暂停，需要你手动重新生成方案。"}
-                </p>
-              </div>
-              <button
-                role="switch"
-                aria-checked={autoRenew}
-                aria-label="到期自动续约"
-                onClick={() => {
-                  const next = !autoRenew;
-                  setAutoRenew(next);
-                  if (next) {
-                    toast.success("已开启到期自动续约", { description: `${cycle.review} 到期后自动续约 ${cycle.weeks} 周方案` });
-                  } else {
-                    toast("已关闭自动续约", { description: "方案到期后需手动重新生成" });
-                  }
-                }}
-                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
-                  autoRenew ? "bg-teal" : "bg-muted"
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
-                    autoRenew ? "left-[22px]" : "left-0.5"
-                  }`}
-                />
-              </button>
-            </div>
           )}
         </section>
 
